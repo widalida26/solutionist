@@ -4,16 +4,16 @@ import { users } from './entity/user';
 
 const app = express();
 
-createConnection({
-  type: 'mysql',
-  database: 'solutionist',
-  username: 'admin',
-  password: '20211229',
-  host: 'codestates-project.c4i369t7q8dg.ap-northeast-2.rds.amazonaws.com',
-  entities: [users],
-}).catch((err) => {
-  console.log(err);
-});
+createConnection()
+  .then(async (connection) => {
+    const user = new users();
+    user.userName = 'kimcoding';
+    user.email = 'kimcoding@naver.com';
+    user.password = '1234';
+    user.profileImage = 'http://image.com';
+    await connection.manager.save(user);
+  })
+  .catch((error) => console.log(error));
 
 app.get('/', (req, res) => {
   res.send('hello');

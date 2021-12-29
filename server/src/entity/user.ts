@@ -15,13 +15,13 @@ export class users {
   userName: string;
 
   @Column()
-  mail: string;
+  email: string;
 
   @Column()
   password: string;
 
   @Column()
-  profileImage: number;
+  profileImage: string;
 
   @CreateDateColumn()
   createdAt: Date;
