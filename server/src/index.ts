@@ -1,4 +1,5 @@
 import express from 'express';
+import { createConnection } from 'typeorm';
 
 const app = express();
 
