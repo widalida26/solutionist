@@ -6,11 +6,13 @@ const app = express();
 
 createConnection({
   type: 'mysql',
-  database: `${process.env.RDS_HOST}`,
-  username: `${process.env.RDS_USERNAME}`,
-  password: `${process.env.RDS_PASSWORD}`,
-  host: `${process.env.RDS_HOST}`,
+  database: 'solutionist',
+  username: 'admin',
+  password: '20211229',
+  host: 'codestates-project.c4i369t7q8dg.ap-northeast-2.rds.amazonaws.com',
   entities: [users],
+}).catch((err) => {
+  console.log(err);
 });
 
 app.get('/', (req, res) => {
