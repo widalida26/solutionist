@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "start": "tsc-watch --onSuccess \"nodemon dist/src/index.js\"",
+    "start": "ts-node src/index.ts",
+    "dev": "tsc-watch --onSuccess \"nodemon dist/src/index.js\"",
+    "build": "tsc -p .",
     "typeorm": "ts-node ./node_modules/typeorm/cli.js",
     "migration": "npm run typeorm migration:run",
     "migration:create": "npm run typeorm migration:create -n",
