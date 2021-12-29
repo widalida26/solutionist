@@ -1,7 +1,7 @@
 ---
 name: DevLog
 about: DevLog Template
-title: "[:writing_hand: DevLog] "
+title: "[:writing_hand: DevLog] 이름 / 2022-01-00"
 labels: DevLog
 assignees: ''
 
