@@ -22,6 +22,6 @@ solutionist는 객관식, OX 문제와 정답이 없는 설문조사 폼을 공�
 <summary>solutionist로 이동하기</summary>
 <div markdown="1">
   
-  <a href="/" target="_blank">업데이트 예정</a>  
+  <p>업데이트 예정</p>
 </div>
 </details>
