@@ -14,14 +14,18 @@ export class users {
   @Column()
   userName: string;
 
-  @Column()
-  mail: string;
+  @Column({
+    unique: true,
+  })
+  email: string;
 
   @Column()
   password: string;
 
-  @Column()
-  profileImage: number;
+  @Column({
+    nullable: true,
+  })
+  profileImage: string;
 
   @CreateDateColumn()
   createdAt: Date;
