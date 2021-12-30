@@ -1,0 +1,69 @@
+.flex {
+  display: flex;
+}
+
+.flex_end {
+  justify-content: flex-end;
+}
+
+.flex_dir_col {
+  flex-direction: column;
+}
+
+.flex_center {
+  justify-content: center;
+  align-items: center;
+}
+
+.flex_around {
+  justify-content: space-around;
+}
+
+.flex_between {
+  justify-content: space-between;
+}
+
+.bg_col {
+  background-color: #ffeecc;
+}
+
+.border {
+  border-top: 4px solid #d0ccc4;
+  border-bottom: 4px solid #d0ccc4;
+}
+
+.mar_le10 {
+  margin-left: 10px;
+}
+
+.mar_ri10 {
+  margin-right: 10px;
+}
+
+.wid150 {
+  width: 150px;
+}
+
+.wid300 {
+  width: 300px;
+}
+
+.hei600 {
+  height: 600px;
+}
+
+.hei432 {
+  height: 432px;
+}
+
+.pad_5rem_2rem {
+  padding: 5rem 2rem;
+}
+
+.info_box > * {
+  margin-bottom: 40px;
+}
+
+.gap1 {
+  gap: 1rem;
+}

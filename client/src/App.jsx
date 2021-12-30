@@ -1,13 +1,14 @@
 import * as React from 'react';
 import './reset.css';
 import './App.css';
-import Nav from './components/Nav.jsx';
+import LoginModal from './components/LoginModal';
 
 const App = () => {
   return (
     <>
       <div>
-        <Nav></Nav>
+        <LoginModal />
+        <br />
         <p>Hello, dev aws!</p>
         <p>Hello, AWS!!!!!</p>
       </div>
