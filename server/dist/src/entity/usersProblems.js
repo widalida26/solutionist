@@ -9,32 +9,31 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.usersProblems = void 0;
 const typeorm_1 = require("typeorm");
 let usersProblems = class usersProblems {
 };
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)(),
+    typeorm_1.PrimaryGeneratedColumn(),
     __metadata("design:type", Number)
 ], usersProblems.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    typeorm_1.Column(),
     __metadata("design:type", Number)
 ], usersProblems.prototype, "userId", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    typeorm_1.Column(),
     __metadata("design:type", Number)
 ], usersProblems.prototype, "setId", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    typeorm_1.Column(),
     __metadata("design:type", Number)
 ], usersProblems.prototype, "problemId", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    typeorm_1.Column(),
     __metadata("design:type", Number)
 ], usersProblems.prototype, "chocie", void 0);
 usersProblems = __decorate([
-    (0, typeorm_1.Entity)()
+    typeorm_1.Entity()
 ], usersProblems);
 exports.usersProblems = usersProblems;
 //# sourceMappingURL=usersProblems.js.map

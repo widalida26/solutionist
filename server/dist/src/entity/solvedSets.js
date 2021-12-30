@@ -9,30 +9,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.solvedSets = void 0;
 const typeorm_1 = require("typeorm");
 let solvedSets = class solvedSets {
 };
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)(),
+    typeorm_1.PrimaryGeneratedColumn(),
     __metadata("design:type", Number)
 ], solvedSets.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    typeorm_1.Column(),
     __metadata("design:type", Number)
 ], solvedSets.prototype, "userId", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    typeorm_1.Column(),
     __metadata("design:type", Number)
 ], solvedSets.prototype, "setId", void 0);
 __decorate([
-    (0, typeorm_1.Column)({
+    typeorm_1.Column({
         default: 0,
     }),
     __metadata("design:type", Number)
 ], solvedSets.prototype, "answerRate", void 0);
 solvedSets = __decorate([
-    (0, typeorm_1.Entity)()
+    typeorm_1.Entity()
 ], solvedSets);
 exports.solvedSets = solvedSets;
 //# sourceMappingURL=solvedSets.js.map
