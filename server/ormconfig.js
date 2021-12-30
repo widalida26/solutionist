@@ -6,7 +6,7 @@ module.exports = {
   password: process.env.RDS_PASSWORD,
   database: process.env.RDS_DATABASE,
   synchronize: true,
-  logging: true,
+  logging: false,
   autoLoadEntities: true,
   entities: ['dist/src/entity/*{.ts,.js}'],
   migrations: ['dist/src/migration/*{.ts,.js}'],
