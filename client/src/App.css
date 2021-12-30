@@ -1,69 +1,104 @@
+:root {
+  --main-color: #ffeecc;
+  --light-color: #fffaf0;
+  --dark-color: #353532;
+}
+* {
+  color: var(--dark-color);
+  font-family: 'Hahmlet', sans-serif;
+  font-weight: 400;
+}
 .flex {
   display: flex;
-}
-
-.flex_end {
-  justify-content: flex-end;
-}
-
-.flex_dir_col {
-  flex-direction: column;
-}
-
-.flex_center {
-  justify-content: center;
   align-items: center;
-}
-
-.flex_around {
-  justify-content: space-around;
-}
-
-.flex_between {
   justify-content: space-between;
 }
-
-.bg_col {
-  background-color: #ffeecc;
+.flex_col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 }
-
-.border {
-  border-top: 4px solid #d0ccc4;
-  border-bottom: 4px solid #d0ccc4;
+.w_full {
+  width: 100%;
 }
-
-.mar_le10 {
-  margin-left: 10px;
+.vw_full {
+  width: 100vw;
 }
-
-.mar_ri10 {
-  margin-right: 10px;
+.w_40 {
+  width: 40px;
 }
-
-.wid150 {
-  width: 150px;
+.h_full {
+  height: 100%;
 }
-
-.wid300 {
-  width: 300px;
+.vh_full {
+  height: 100vh;
 }
-
-.hei600 {
-  height: 600px;
+.h_70 {
+  height: 70px;
 }
-
-.hei432 {
-  height: 432px;
+.h_30 {
+  height: 30px;
 }
-
-.pad_5rem_2rem {
-  padding: 5rem 2rem;
+.bg_light {
+  background-color: var(--light-color);
 }
-
-.info_box > * {
-  margin-bottom: 40px;
+.bg_main {
+  background-color: var(--main-color);
 }
-
-.gap1 {
-  gap: 1rem;
+.bg_dark {
+  background-color: var(--dark-color);
+}
+.font_36 {
+  font-size: 36px;
+  font-weight: 100;
+}
+.font_24 {
+  font-size: 24px;
+}
+.font_18 {
+  font-size: 18px;
+}
+.font_14 {
+  font-size: 14px;
+}
+.mar_0_30 {
+  margin: 0 30px;
+}
+.mar_r_15 {
+  margin-right: 15px;
+}
+.flex_1 {
+  flex: 1;
+}
+.flex_2 {
+  flex: 2;
+}
+.border_top {
+  border-top: 2px solid var(--dark-color);
+}
+.border_bottom {
+  border-bottom: 2px solid var(--dark-color);
+}
+.border_top_half {
+  border-top: 1px solid var(--dark-color);
+}
+.border_bottom_half {
+  border-bottom: 1px solid var(--dark-color);
+}
+.search_input {
+  width: 80px;
+  transition: 0.5s ease-in-out;
+}
+.search_input:hover {
+  width: 250px;
+}
+.search_input:focus {
+  width: 250px;
+}
+.drop_shadow {
+  box-shadow: 0 5px 10px 0 rgba(208, 204, 196, 1);
+}
+::placeholder {
+  color: var(--dark-color);
 }

@@ -7,7 +7,7 @@ const LoginModal = () => {
   return (
     <>
       <div className="flex">
-        <div className="flex flex_dir_col wid150 hei600 bg_col flex_center">
+        <div className="flex flex_dir_col wid150 hei600 bg_main flex_center">
           <span>Solutionist</span>
         </div>
         <div className="flex flex_dir_col wid300 hei432 pad_5rem_2rem border mar_le10 flex_around">
@@ -43,7 +43,7 @@ const LoginModal = () => {
             <button>회원가입</button>
           </div>
         </div>
-        <div className="flex flex_dir_col wid150 hei600 bg_col flex_center">
+        <div className="flex flex_dir_col wid150 hei600 bg_main flex_center">
           <span>Solutionist</span>
         </div>
       </div>
