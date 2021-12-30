@@ -6,7 +6,7 @@ const App = () => {
     <div>
       <Nav></Nav>
       <p>Hello, World!</p>
-      <p>Hello, React!</p>
+      <p>Hello, AWS!!!!!</p>
     </div>
   );
 };
