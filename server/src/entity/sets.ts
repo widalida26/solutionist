@@ -4,14 +4,18 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
 } from 'typeorm';
+import { users } from './user';
 
 @Entity()
 export class sets {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({
+    nullable: true,
+  })
   userId: number;
 
   @Column()
@@ -27,4 +31,7 @@ export class sets {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @ManyToOne(() => users, (user) => user.id)
+  user: users;
 }

@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sets = void 0;
 const typeorm_1 = require("typeorm");
+const user_1 = require("./user");
 let sets = class sets {
 };
 __decorate([
@@ -18,7 +19,9 @@ __decorate([
     __metadata("design:type", Number)
 ], sets.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({
+        nullable: true,
+    }),
     __metadata("design:type", Number)
 ], sets.prototype, "userId", void 0);
 __decorate([
@@ -39,6 +42,10 @@ __decorate([
     (0, typeorm_1.UpdateDateColumn)(),
     __metadata("design:type", Date)
 ], sets.prototype, "updatedAt", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => user_1.users, (user) => user.id),
+    __metadata("design:type", user_1.users)
+], sets.prototype, "user", void 0);
 sets = __decorate([
     (0, typeorm_1.Entity)()
 ], sets);

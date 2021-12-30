@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  OneToMany,
+} from 'typeorm';
+import { sets } from './sets';
 
 @Entity()
 export class users {
@@ -26,4 +33,7 @@ export class users {
 
   @CreateDateColumn()
   createdAt: Date;
+
+  @OneToMany(() => sets, (set) => set.userId)
+  set: sets;
 }
