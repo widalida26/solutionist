@@ -21,6 +21,14 @@ module.exports = {
         loader: 'babel-loader',
         exclude: ['/node_modules/'],
       },
+      {
+        test: /\.p?css$/, //css 파일을 선택하는 정규표현식
+        use: [
+          { loader: 'style-loader' },
+          { loader: 'css-loader' },
+          { loader: 'postcss-loader' }, // postcss 적용하기
+        ],
+      },
     ],
   },
 
