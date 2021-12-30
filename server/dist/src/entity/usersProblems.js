@@ -9,44 +9,32 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.users = void 0;
+exports.usersProblems = void 0;
 const typeorm_1 = require("typeorm");
-let users = class users {
+let usersProblems = class usersProblems {
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
-], users.prototype, "id", void 0);
+], usersProblems.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], users.prototype, "userName", void 0);
-__decorate([
-    (0, typeorm_1.Column)({
-        unique: true,
-    }),
-    __metadata("design:type", String)
-], users.prototype, "email", void 0);
+    __metadata("design:type", Number)
+], usersProblems.prototype, "userId", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], users.prototype, "password", void 0);
+    __metadata("design:type", Number)
+], usersProblems.prototype, "setId", void 0);
 __decorate([
-    (0, typeorm_1.Column)({
-        nullable: true,
-    }),
-    __metadata("design:type", String)
-], users.prototype, "profileImage", void 0);
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Number)
+], usersProblems.prototype, "problemId", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ default: 'user' }),
-    __metadata("design:type", String)
-], users.prototype, "type", void 0);
-__decorate([
-    (0, typeorm_1.CreateDateColumn)(),
-    __metadata("design:type", Date)
-], users.prototype, "createdAt", void 0);
-users = __decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Number)
+], usersProblems.prototype, "chocie", void 0);
+usersProblems = __decorate([
     (0, typeorm_1.Entity)()
-], users);
-exports.users = users;
-//# sourceMappingURL=user.js.map
+], usersProblems);
+exports.usersProblems = usersProblems;
+//# sourceMappingURL=usersProblems.js.map
