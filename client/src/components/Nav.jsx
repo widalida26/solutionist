@@ -2,13 +2,13 @@ import * as React from 'react';
 
 const Nav = () => {
   return (
-    <div className="vw_full h_70 flex bg_light drop_shadow">
+    <div className="vw_full h_70 flex flex_center flex_between bg_light drop_shadow">
       <div className="font_36 mar_0_30">Solutionist</div>
       <div className="font_24 mar_0_30">만들기</div>
       <div className="font_24 mar_0_30">풀기</div>
       <div className="flex_1" />
       <div>
-        <div className="flex border_bottom_half" onSubmit={() => false}>
+        <div onSubmit={() => false}>
           <input className="search_input font_18 " placeholder="Search..." />
         </div>
       </div>
