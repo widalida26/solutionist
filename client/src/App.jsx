@@ -1,4 +1,6 @@
 import * as React from 'react';
+import './reset.css';
+import './App.css';
 import Nav from './components/Nav.jsx';
 
 const App = () => {
