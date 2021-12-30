@@ -26,7 +26,9 @@ __decorate([
     __metadata("design:type", Number)
 ], solvedSets.prototype, "setId", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({
+        default: 0,
+    }),
     __metadata("design:type", Number)
 ], solvedSets.prototype, "answerRate", void 0);
 solvedSets = __decorate([

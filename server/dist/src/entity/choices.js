@@ -30,7 +30,9 @@ __decorate([
     __metadata("design:type", String)
 ], choices.prototype, "content", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({
+        default: 0,
+    }),
     __metadata("design:type", Number)
 ], choices.prototype, "selectionRate", void 0);
 choices = __decorate([

@@ -20,6 +20,8 @@ export class choices {
   @Column()
   content: string;
 
-  @Column()
+  @Column({
+    default: 0,
+  })
   selectionRate: number;
 }

@@ -11,6 +11,8 @@ export class solvedSets {
   @Column()
   setId: number;
 
-  @Column()
+  @Column({
+    default: 0,
+  })
   answerRate: number;
 }
