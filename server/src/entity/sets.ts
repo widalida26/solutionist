@@ -6,7 +6,7 @@ import {
   UpdateDateColumn,
   ManyToOne,
 } from 'typeorm';
-import { users } from './user';
+import { users } from './users';
 
 @Entity()
 export class sets {
