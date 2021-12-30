@@ -5,8 +5,11 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
+  OneToMany,
 } from 'typeorm';
 import { users } from './users';
+import { problems } from './problems';
+import { usersProblems } from './usersProblems';
 
 @Entity()
 export class sets {
@@ -34,4 +37,12 @@ export class sets {
 
   @ManyToOne(() => users, (user) => user.id)
   user: users;
+
+  @OneToMany(() => problems, (problem) => problem.setId, {
+    cascade: true,
+  })
+  problem: problems;
+
+  @OneToMany(() => usersProblems, (uProblem) => uProblem.setId)
+  uProblem: usersProblems;
 }

@@ -6,6 +6,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { sets } from './sets';
+import { solvedSets } from './solvedSets';
 
 @Entity()
 export class users {
@@ -36,4 +37,7 @@ export class users {
 
   @OneToMany(() => sets, (set) => set.userId)
   set: sets;
+
+  @OneToMany(() => solvedSets, (solved) => solved.userId)
+  solved: solvedSets;
 }

@@ -12,6 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.sets = void 0;
 const typeorm_1 = require("typeorm");
 const users_1 = require("./users");
+const problems_1 = require("./problems");
+const usersProblems_1 = require("./usersProblems");
 let sets = class sets {
 };
 __decorate([
@@ -46,6 +48,16 @@ __decorate([
     (0, typeorm_1.ManyToOne)(() => users_1.users, (user) => user.id),
     __metadata("design:type", users_1.users)
 ], sets.prototype, "user", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => problems_1.problems, (problem) => problem.setId, {
+        cascade: true,
+    }),
+    __metadata("design:type", problems_1.problems)
+], sets.prototype, "problem", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => usersProblems_1.usersProblems, (uProblem) => uProblem.setId),
+    __metadata("design:type", usersProblems_1.usersProblems)
+], sets.prototype, "uProblem", void 0);
 sets = __decorate([
     (0, typeorm_1.Entity)()
 ], sets);

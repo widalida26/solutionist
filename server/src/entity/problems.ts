@@ -1,4 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
+import { sets } from './sets';
+import { choices } from './choices';
+import { usersProblems } from './usersProblems';
 
 @Entity()
 export class problems {
@@ -11,15 +14,13 @@ export class problems {
   @Column()
   index: number;
 
-  @Column({
-    nullable: true,
-  })
+  @Column()
   question: string;
 
   @Column({
     nullable: true,
   })
-  answer: string;
+  answer: number;
 
   @Column({
     nullable: true,
@@ -28,4 +29,17 @@ export class problems {
 
   @Column()
   isOX: boolean;
+
+  @ManyToOne(() => sets, (set) => set.id, {
+    onDelete: 'CASCADE',
+  })
+  set: sets;
+
+  @OneToMany(() => choices, (choice) => choice.problemId, {
+    cascade: true,
+  })
+  choice: choices;
+
+  @OneToMany(() => usersProblems, (uProblem) => uProblem.problemId)
+  uProblem: usersProblems;
 }

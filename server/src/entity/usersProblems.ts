@@ -1,4 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { sets } from './sets';
+import { problems } from './problems';
 
 @Entity()
 export class usersProblems {
@@ -16,4 +18,10 @@ export class usersProblems {
 
   @Column()
   chocie: number;
+
+  @ManyToOne(() => sets, (set) => set.id)
+  set: sets;
+
+  @ManyToOne(() => problems, (problem) => problem.id)
+  problem: problems;
 }

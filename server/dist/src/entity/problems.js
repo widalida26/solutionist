@@ -11,6 +11,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.problems = void 0;
 const typeorm_1 = require("typeorm");
+const sets_1 = require("./sets");
+const choices_1 = require("./choices");
+const usersProblems_1 = require("./usersProblems");
 let problems = class problems {
 };
 __decorate([
@@ -26,16 +29,14 @@ __decorate([
     __metadata("design:type", Number)
 ], problems.prototype, "index", void 0);
 __decorate([
-    (0, typeorm_1.Column)({
-        nullable: true,
-    }),
+    (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], problems.prototype, "question", void 0);
 __decorate([
     (0, typeorm_1.Column)({
         nullable: true,
     }),
-    __metadata("design:type", String)
+    __metadata("design:type", Number)
 ], problems.prototype, "answer", void 0);
 __decorate([
     (0, typeorm_1.Column)({
@@ -47,6 +48,22 @@ __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", Boolean)
 ], problems.prototype, "isOX", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => sets_1.sets, (set) => set.id, {
+        onDelete: 'CASCADE',
+    }),
+    __metadata("design:type", sets_1.sets)
+], problems.prototype, "set", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => choices_1.choices, (choice) => choice.problemId, {
+        cascade: true,
+    }),
+    __metadata("design:type", choices_1.choices)
+], problems.prototype, "choice", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => usersProblems_1.usersProblems, (uProblem) => uProblem.problemId),
+    __metadata("design:type", usersProblems_1.usersProblems)
+], problems.prototype, "uProblem", void 0);
 problems = __decorate([
     (0, typeorm_1.Entity)()
 ], problems);
