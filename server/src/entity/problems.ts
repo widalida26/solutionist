@@ -11,15 +11,13 @@ export class problems {
   @Column()
   index: number;
 
-  @Column({
-    nullable: true,
-  })
+  @Column()
   question: string;
 
   @Column({
     nullable: true,
   })
-  answer: string;
+  answer: number;
 
   @Column({
     nullable: true,

@@ -1,6 +1,5 @@
 import express from 'express';
 import { createConnection, Connection } from 'typeorm';
-import { users } from './entity/user';
 
 const app = express();
 

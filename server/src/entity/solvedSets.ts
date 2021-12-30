@@ -5,7 +5,9 @@ export class solvedSets {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({
+    nullable: true,
+  })
   userId: number;
 
   @Column()
