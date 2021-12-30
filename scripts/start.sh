@@ -1,3 +1,3 @@
 #!/bin/bash
 cd /home/ubuntu/solutionist/server/src
-authbind --deep pm2 start index.js
+authbind --deep ./node_modules/.bin/pm2 start src/index.ts --watch
