@@ -1256,7 +1256,7 @@
   dependencies:
     "picomatch" "^2.2.1"
 
-"reflect-metadata@^0.1.10", "reflect-metadata@^0.1.13":
+"reflect-metadata@^0.1.13":
   "integrity" "sha512-Ts1Y/anZELhSsjMcU605fU9RE4Oi3p5ORujwbIKXfWa+0Zxs510Qrmrce5/Jowq3cHSZSJqBjypxmHarc+vEWg=="
   "resolved" "https://registry.npmjs.org/reflect-metadata/-/reflect-metadata-0.1.13.tgz"
   "version" "0.1.13"
@@ -1564,7 +1564,7 @@
   dependencies:
     "is-typedarray" "^1.0.0"
 
-"typeorm@0.2.41":
+"typeorm@^0.2.41":
   "integrity" "sha512-/d8CLJJxKPgsnrZWiMyPI0rz2MFZnBQrnQ5XP3Vu3mswv2WPexb58QM6BEtmRmlTMYN5KFWUz8SKluze+wS9xw=="
   "resolved" "https://registry.npmjs.org/typeorm/-/typeorm-0.2.41.tgz"
   "version" "0.2.41"

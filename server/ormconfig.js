@@ -7,9 +7,10 @@ module.exports = {
   database: process.env.RDS_DATABASE,
   synchronize: true,
   logging: true,
-  entities: ['src/entity/**/*.ts'],
-  migrations: ['src/migration/**/*.ts'],
-  subscribers: ['src/subscriber/**/*.ts'],
+  autoLoadEntities: true,
+  entities: ['dist/src/entity/*{.ts,.js}'],
+  migrations: ['dist/src/migration/*{.ts,.js}'],
+  subscribers: ['dist/src/subscriber/*{.ts,.js}'],
   cli: {
     entitiesDir: 'src/entity',
     migrationsDir: 'src/migration',
