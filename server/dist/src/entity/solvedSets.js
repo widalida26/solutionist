@@ -17,7 +17,9 @@ __decorate([
     __metadata("design:type", Number)
 ], solvedSets.prototype, "id", void 0);
 __decorate([
-    typeorm_1.Column(),
+    typeorm_1.Column({
+        nullable: true,
+    }),
     __metadata("design:type", Number)
 ], solvedSets.prototype, "userId", void 0);
 __decorate([
