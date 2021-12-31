@@ -49,9 +49,11 @@
 .bg_dark {
   background-color: var(--dark-color);
 }
+.font_weight_100 {
+  font-weight: 100;
+}
 .font_36 {
   font-size: 36px;
-  font-weight: 100;
 }
 .font_24 {
   font-size: 24px;
@@ -99,6 +101,7 @@
 .drop_shadow {
   box-shadow: 0 5px 10px 0 rgba(208, 204, 196, 1);
 }
-::placeholder {
-  color: var(--dark-color);
+.sticky {
+  position: sticky;
+  top: 0;
 }
