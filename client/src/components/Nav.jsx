@@ -1,9 +1,10 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 
 const Nav = () => {
   return (
     <div className="vw_full h_70 flex bg_light drop_shadow">
-      <div className="font_36 mar_0_30">Solutionist</div>
+      <div className="font_36 font_weight_100 mar_0_30">Solutionist</div>
       <div className="font_24 mar_0_30">만들기</div>
       <div className="font_24 mar_0_30">풀기</div>
       <div className="flex_1" />
