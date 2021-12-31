@@ -4,6 +4,13 @@ import MenuDropDown from './MenuDropDown';
 
 const Nav = () => {
   const [keyword, setKeyword] = useState('');
+  const [isDropDown, setIsDropDown] = useState(false);
+
+  const handleDropDown = () => {
+    console.log('sss');
+    if (isDropDown) setIsDropDown(false);
+    else setIsDropDown(true);
+  };
 
   return (
     <div className="vw_full h_70 flex bg_light drop_shadow sticky">
@@ -35,12 +42,15 @@ const Nav = () => {
           </div>
         </Link>
       ) : (
-        <div className="w_40 h_30 flex_col mar_0_30">
+        <div
+          className="drop_down_icon w_40 h_30 flex_col mar_0_30"
+          onClick={handleDropDown}
+        >
           <div className="flex_1 w_full border_top border_bottom_half" />
           <div className="flex_1 w_full border_top_half border_bottom" />
         </div>
       )}
-      <MenuDropDown />
+      {isDropDown ? <MenuDropDown /> : ''}
     </div>
   );
 };
