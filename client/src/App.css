@@ -101,3 +101,7 @@
 .drop_shadow {
   box-shadow: 0 5px 10px 0 rgba(208, 204, 196, 1);
 }
+.sticky {
+  position: sticky;
+  top: 0;
+}
