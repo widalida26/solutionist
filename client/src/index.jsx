@@ -1,5 +1,6 @@
 import * as React from 'react';
 import ReactDom from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
@@ -10,7 +11,9 @@ const store = createStore(rootReducer, composeWithDevTools()); // 스토어를 �
 
 ReactDom.render(
   <Provider store={store}>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </Provider>,
   document.querySelector('#root')
 );
