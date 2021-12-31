@@ -1,5 +1,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
+import './reset.css';
 import './App.css';
 import LoginModal from './components/LoginModal';
 import Nav from './components/Nav';
@@ -21,7 +22,7 @@ const App = () => {
         <Route path="/solve" element={<Solve />} />
         <Route path="/setting" element={<Setting />} />
       </Routes>
-      <LoginModal />
+      {/* <LoginModal /> */}-
     </>
   );
 };
