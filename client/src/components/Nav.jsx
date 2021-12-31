@@ -7,7 +7,6 @@ const Nav = () => {
   const [isDropDown, setIsDropDown] = useState(false);
 
   const handleDropDown = () => {
-    console.log('sss');
     if (isDropDown) setIsDropDown(false);
     else setIsDropDown(true);
   };
@@ -35,13 +34,7 @@ const Nav = () => {
           />
         </div>
       </div>
-      {0 ? (
-        <Link to="/myset">
-          <div className="font_24 mar_0_30">
-            로그인 <span className="font_14">또는 회원가입</span>
-          </div>
-        </Link>
-      ) : (
+      {1 ? ( // 리덕스를 사용한다면 isLogin이 올 자리
         <div
           className="drop_down_icon w_40 h_30 flex_col mar_0_30"
           onClick={handleDropDown}
@@ -49,8 +42,14 @@ const Nav = () => {
           <div className="flex_1 w_full border_top border_bottom_half" />
           <div className="flex_1 w_full border_top_half border_bottom" />
         </div>
+      ) : (
+        <Link to="/myset">
+          <div className="font_24 mar_0_30">
+            로그인 <span className="font_14">또는 회원가입</span>
+          </div>
+        </Link>
       )}
-      {isDropDown ? <MenuDropDown /> : ''}
+      {isDropDown ? <MenuDropDown handleDropDown={handleDropDown} /> : ''}
     </div>
   );
 };
