@@ -176,8 +176,3 @@
     opacity: 1;
   }
 }
-
-.drop_down_icon:hover > .menu_drop_down {
-  display: block;
-  animation: dropdown 0.05s normal;
-}

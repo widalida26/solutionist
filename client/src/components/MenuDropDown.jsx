@@ -1,6 +1,7 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 
-const MenuDropDown = () => {
+const MenuDropDown = ({ handleDropDown }) => {
   return (
     <div className="menu_drop_down w_180 absolute flex_col">
       <div className="flex w_full mar_b_10">
@@ -11,9 +12,17 @@ const MenuDropDown = () => {
         </div>
       </div>
       <ul className="menu_list w_full flex_col">
-        <li className="menu">나의 세트</li>
-        <li className="menu">프로필 설정</li>
-        <li className="menu">로그아웃</li>
+        <Link to="/myset" onClick={handleDropDown}>
+          <li className="menu">나의 세트</li>
+        </Link>
+        <Link to="/settings" onClick={handleDropDown}>
+          <li className="menu">프로필 설정</li>
+        </Link>
+        <Link to="/">
+          <li className="menu" onClick={handleDropDown}>
+            로그아웃
+          </li>
+        </Link>
       </ul>
     </div>
   );
