@@ -1,6 +1,6 @@
 import React from 'react';
 import '../App.css';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { FcGoogle } from 'react-icons/fc';
 import { RiKakaoTalkFill } from 'react-icons/ri';
 import { FaTimesCircle } from 'react-icons/fa';
@@ -117,6 +117,31 @@ const ModalView = styled.div`
   padding: 1rem;
 `;
 
+// keyframes 애니메이션
+
+const boxFade = keyframes`
+  /* 0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  } */
+  from {
+    opacity: 0;
+    /* transform: translateY(-5px); */
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+const StyledWrapper = styled.div`
+  animation: ${boxFade} 1s normal;
+`;
+
 const LoginModal = ({ isLoginModalOn, onLoginModalOnAction, onModalOffAction }) => {
   const [toggle, setToggle] = useState(true);
   const handleToggle = () => {
@@ -128,64 +153,66 @@ const LoginModal = ({ isLoginModalOn, onLoginModalOnAction, onModalOffAction }) 
       <br />
       <StyledButton onClick={onLoginModalOnAction}>임시 모달ON 버튼</StyledButton>
       {isLoginModalOn ? (
-        <ModalBackdrop onClick={onModalOffAction}>
-          <ModalView onClick={(e) => e.stopPropagation()}>
-            {toggle ? (
-              <LoginContainer>
-                <TitleBox>
-                  <span>Solutionist</span>
-                </TitleBox>
-                <FormBox marginLeft={'10px'}>
-                  <FlexEndGroup>
-                    <FaTimesCircle onClick={onModalOffAction} fontSize="32px" />
-                  </FlexEndGroup>
-                  <InputBox>
-                    <label>이메일</label>
-                    <input></input>
-                    <label>비밀번호</label>
-                    <input></input>
-                  </InputBox>
-                  <ButtonContainer>
-                    <ButtonGroup>
-                      <FcGoogle fontSize="32px" />
-                      <RiKakaoTalkFill fontSize="32px" />
-                    </ButtonGroup>
-                    <StyledButton>로그인</StyledButton>
-                  </ButtonContainer>
-                  <FlexEndGroup>
-                    <span>아직 계정이 없으신가요?</span>
-                    <StyledButton onClick={handleToggle}>회원가입 이동</StyledButton>
-                  </FlexEndGroup>
-                </FormBox>
-              </LoginContainer>
-            ) : (
-              <LoginContainer>
-                <FormBox marginRight={'10px'}>
-                  <FlexEndGroup>
-                    <FaTimesCircle onClick={onModalOffAction} fontSize="32px" />
-                  </FlexEndGroup>
-                  <InputBox>
-                    <label>이메일</label>
-                    <input></input>
-                    <label>닉네임</label>
-                    <input></input>
-                    <label>비밀번호</label>
-                    <input></input>
-                    <label>비밀번호 확인</label>
-                    <input></input>
-                  </InputBox>
-                  <FlexEndGroup>
-                    <StyledButton>회원가입</StyledButton>
-                    <StyledButton onClick={handleToggle}>로그인 이동</StyledButton>
-                  </FlexEndGroup>
-                </FormBox>
-                <TitleBox>
-                  <span>Solutionist</span>
-                </TitleBox>
-              </LoginContainer>
-            )}
-          </ModalView>
-        </ModalBackdrop>
+        <StyledWrapper>
+          <ModalBackdrop onClick={onModalOffAction}>
+            <ModalView onClick={(e) => e.stopPropagation()}>
+              {toggle ? (
+                <LoginContainer>
+                  <TitleBox>
+                    <span>Solutionist</span>
+                  </TitleBox>
+                  <FormBox marginLeft={'10px'}>
+                    <FlexEndGroup>
+                      <FaTimesCircle onClick={onModalOffAction} fontSize="32px" />
+                    </FlexEndGroup>
+                    <InputBox>
+                      <label>이메일</label>
+                      <input></input>
+                      <label>비밀번호</label>
+                      <input></input>
+                    </InputBox>
+                    <ButtonContainer>
+                      <ButtonGroup>
+                        <FcGoogle fontSize="32px" />
+                        <RiKakaoTalkFill fontSize="32px" />
+                      </ButtonGroup>
+                      <StyledButton>로그인</StyledButton>
+                    </ButtonContainer>
+                    <FlexEndGroup>
+                      <span>아직 계정이 없으신가요?</span>
+                      <StyledButton onClick={handleToggle}>회원가입 이동</StyledButton>
+                    </FlexEndGroup>
+                  </FormBox>
+                </LoginContainer>
+              ) : (
+                <LoginContainer>
+                  <FormBox marginRight={'10px'}>
+                    <FlexEndGroup>
+                      <FaTimesCircle onClick={onModalOffAction} fontSize="32px" />
+                    </FlexEndGroup>
+                    <InputBox>
+                      <label>이메일</label>
+                      <input></input>
+                      <label>닉네임</label>
+                      <input></input>
+                      <label>비밀번호</label>
+                      <input></input>
+                      <label>비밀번호 확인</label>
+                      <input></input>
+                    </InputBox>
+                    <FlexEndGroup>
+                      <StyledButton>회원가입</StyledButton>
+                      <StyledButton onClick={handleToggle}>로그인 이동</StyledButton>
+                    </FlexEndGroup>
+                  </FormBox>
+                  <TitleBox>
+                    <span>Solutionist</span>
+                  </TitleBox>
+                </LoginContainer>
+              )}
+            </ModalView>
+          </ModalBackdrop>
+        </StyledWrapper>
       ) : (
         ''
       )}
