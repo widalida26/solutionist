@@ -4,12 +4,18 @@ import styled, { keyframes } from 'styled-components';
 import { FcGoogle } from 'react-icons/fc';
 import { RiKakaoTalkFill } from 'react-icons/ri';
 import { FaTimesCircle } from 'react-icons/fa';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 // * 프리젠테이셔널 컴포넌트
 
-const LoginContainer = styled.div`
+const ModalContainer = styled.div`
   display: flex;
+  width: 42.3vw;
+  height: 59.4vh;
+  padding: 7.2vh 5.3vw;
+  border-radius: 10px;
+  border: solid 1px #707070;
+  background-color: #fff;
   svg {
     cursor: pointer;
   }
@@ -18,35 +24,40 @@ const LoginContainer = styled.div`
 const TitleBox = styled.div`
   display: flex;
   flex-direction: column;
-  width: 150px;
-  height: 80vh;
-  background-color: var(--main-color);
+  width: 23.4%;
   justify-content: center;
   align-items: center;
   span {
-    font-size: x-large;
+    font-family: SegoeUI;
+    font-size: 1.5rem;
   }
 `;
 
 const FormBox = styled.form`
   display: flex;
   flex-direction: column;
-  width: 300px;
-  height: 80vh - 4;
-  padding: 0 2rem;
-  border-top: 2px solid var(--dark-color);
-  border-bottom: 2px solid var(--dark-color);
+  width: 66%;
+  padding-left: 5.3%;
+  border-left: 2px solid var(--dark-color);
   margin-left: ${(props) => (props.marginLeft ? props.marginLeft : '0px')};
   margin-right: ${(props) => (props.marginRight ? props.marginRight : '0px')};
-  justify-content: space-around;
 `;
 
 const InputBox = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  margin-bottom: 10.7%;
   * {
-    margin-bottom: 30px;
+    margin-bottom: 10px;
+  }
+  label {
+    font-family: Righteous;
+    font-size: 1.5rem;
+  }
+  input {
+    font-family: GowunDodum;
+    font-size: 1.66rem;
   }
 `;
 
@@ -66,11 +77,22 @@ const FlexEndGroup = styled.div`
   flex-direction: column;
   align-items: flex-end;
   span {
-    margin-bottom: 20px;
+    font-family: esamanru;
+    font-size: 1.5rem;
+    font-weight: 500;
   }
-  button {
-    margin-bottom: 20px;
-  }
+`;
+
+const IconBorder = styled.div`
+  border-radius: 10px;
+  border: solid 2px #000;
+`;
+
+const BetweenDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
 `;
 
 const StyledButton = styled.button`
@@ -83,14 +105,18 @@ const StyledButton = styled.button`
   background: none;
   cursor: pointer;
   padding: 0.5rem 1rem;
+  border-radius: 10px;
 
   /* 크기 */
   font-size: 1rem;
   width: fit-content;
-  height: 2rem;
+  height: 100%;
 
-  /* 색상 */
-  background-color: var(--main-color);
+  /* 색상 & 폰트 */
+  background-color: #000;
+  font-family: Righteous;
+  font-size: 1.5rem;
+  color: #fbb74a;
 
   &:hover {
     opacity: 0.75;
@@ -106,7 +132,9 @@ const ModalBackdrop = styled.div`
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.75);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  background-color: rgba(0, 0, 0, 0.3);
   display: grid;
   place-items: center;
 `;
@@ -114,24 +142,14 @@ const ModalBackdrop = styled.div`
 const ModalView = styled.div`
   background-color: white;
   width: fit-content;
-  padding: 1rem;
+  border-radius: 10px;
 `;
 
 // keyframes 애니메이션
 
 const boxFade = keyframes`
-  /* 0% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  } */
   from {
     opacity: 0;
-    /* transform: translateY(-5px); */
   }
   to {
     opacity: 1;
@@ -148,6 +166,15 @@ const LoginModal = ({ isLoginModalOn, onLoginModalOnAction, onModalOffAction }) 
     setToggle(!toggle);
   };
 
+  // * 임시 코드 : 새로고침 모달 켜기
+  useEffect(() => {
+    onLoginModalOnAction();
+  }, [isLoginModalOn]);
+
+  // 사라지는 애니메이션
+  // react-transition-group의 <Transition> 실패 https://velog.io/@sae1013/REACT-%EB%AA%A8%EB%8B%AC-%EC%95%A0%EB%8B%88%EB%A9%94%EC%9D%B4%EC%85%98CSS
+  // setTimeout 실패 https://agal.tistory.com/170
+
   return (
     <>
       <br />
@@ -157,35 +184,42 @@ const LoginModal = ({ isLoginModalOn, onLoginModalOnAction, onModalOffAction }) 
           <ModalBackdrop onClick={onModalOffAction}>
             <ModalView onClick={(e) => e.stopPropagation()}>
               {toggle ? (
-                <LoginContainer>
+                <ModalContainer>
                   <TitleBox>
                     <span>Solutionist</span>
                   </TitleBox>
-                  <FormBox marginLeft={'10px'}>
+                  <FormBox marginLeft={'5.3%'}>
                     <FlexEndGroup>
-                      <FaTimesCircle onClick={onModalOffAction} fontSize="32px" />
+                      <FaTimesCircle onClick={onModalOffAction} fontSize="1.75rem" />
                     </FlexEndGroup>
                     <InputBox>
-                      <label>이메일</label>
-                      <input></input>
-                      <label>비밀번호</label>
-                      <input></input>
+                      <label>Email</label>
+                      <input placeholder="kimcoding@gmail.com"></input>
                     </InputBox>
-                    <ButtonContainer>
-                      <ButtonGroup>
-                        <FcGoogle fontSize="32px" />
-                        <RiKakaoTalkFill fontSize="32px" />
-                      </ButtonGroup>
-                      <StyledButton>로그인</StyledButton>
-                    </ButtonContainer>
-                    <FlexEndGroup>
-                      <span>아직 계정이 없으신가요?</span>
-                      <StyledButton onClick={handleToggle}>회원가입 이동</StyledButton>
-                    </FlexEndGroup>
+                    <InputBox>
+                      <label>Password</label>
+                      <input type={'password'} placeholder="**********"></input>
+                    </InputBox>
+                    <BetweenDiv>
+                      <ButtonContainer>
+                        <ButtonGroup>
+                          <IconBorder>
+                            <FcGoogle fontSize="3rem" />
+                          </IconBorder>
+                          <IconBorder>
+                            <RiKakaoTalkFill fontSize="3rem" />
+                          </IconBorder>
+                        </ButtonGroup>
+                        <StyledButton>LOGIN</StyledButton>
+                      </ButtonContainer>
+                      <FlexEndGroup onClick={handleToggle}>
+                        <span>아직 계정이 없으신가요?</span>
+                      </FlexEndGroup>
+                    </BetweenDiv>
                   </FormBox>
-                </LoginContainer>
+                </ModalContainer>
               ) : (
-                <LoginContainer>
+                <ModalContainer>
                   <FormBox marginRight={'10px'}>
                     <FlexEndGroup>
                       <FaTimesCircle onClick={onModalOffAction} fontSize="32px" />
@@ -208,7 +242,7 @@ const LoginModal = ({ isLoginModalOn, onLoginModalOnAction, onModalOffAction }) 
                   <TitleBox>
                     <span>Solutionist</span>
                   </TitleBox>
-                </LoginContainer>
+                </ModalContainer>
               )}
             </ModalView>
           </ModalBackdrop>
