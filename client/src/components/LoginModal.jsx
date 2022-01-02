@@ -5,6 +5,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { RiKakaoTalkFill } from 'react-icons/ri';
 import { FaTimesCircle } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
+import { device } from '../styles/Breakpoints';
 
 // * 프리젠테이셔널 컴포넌트
 
@@ -30,6 +31,10 @@ const TitleBox = styled.div`
   span {
     font-family: SegoeUI;
     font-size: 1.5rem;
+
+    @media ${device.tablet} {
+      font-size: 1rem;
+    }
   }
 `;
 
@@ -37,17 +42,19 @@ const FormBox = styled.form`
   display: flex;
   flex-direction: column;
   width: 66%;
-  padding-left: 5.3%;
-  border-left: 2px solid var(--dark-color);
+  padding-left: ${(props) => (props.paddingLeft ? props.paddingLeft : '0px')};
+  border-left: ${(props) => (props.borderLeft ? props.borderLeft : '0px')};
   margin-left: ${(props) => (props.marginLeft ? props.marginLeft : '0px')};
   margin-right: ${(props) => (props.marginRight ? props.marginRight : '0px')};
+  padding-right: ${(props) => (props.paddingRight ? props.paddingRight : '0px')};
+  border-right: ${(props) => (props.borderRight ? props.borderRight : '0px')};
 `;
 
 const InputBox = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-bottom: 10.7%;
+  margin-bottom: ${(props) => (props.marginBottom ? props.marginBottom : '0px')};
   * {
     margin-bottom: 10px;
   }
@@ -70,22 +77,56 @@ const ButtonContainer = styled.div`
 const ButtonGroup = styled.div`
   display: flex;
   gap: 2rem;
+
+  @media ${device.tablet} {
+    gap: 1rem;
+  }
+`;
+
+const SignupGroup = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: flex-end;
+  span {
+    font-family: esamanru;
+    font-size: 1.5rem;
+    font-weight: 500;
+    cursor: pointer;
+
+    @media ${device.tablet} {
+      font-size: 1rem;
+    }
+  }
 `;
 
 const FlexEndGroup = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  font-size: 1.75rem; // 삭제 아이콘 크기
   span {
     font-family: esamanru;
     font-size: 1.5rem;
     font-weight: 500;
+    cursor: pointer;
+
+    @media ${device.tablet} {
+      font-size: 1rem;
+    }
   }
 `;
 
 const IconBorder = styled.div`
   border-radius: 10px;
   border: solid 2px #000;
+  font-size: 3rem;
+
+  @media ${device.tablet} {
+    width: fit-content;
+    height: fit-content;
+    font-size: 2rem;
+  }
 `;
 
 const BetweenDiv = styled.div`
@@ -104,11 +145,10 @@ const StyledButton = styled.button`
   border: none;
   background: none;
   cursor: pointer;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 1.5rem;
   border-radius: 10px;
 
   /* 크기 */
-  font-size: 1rem;
   width: fit-content;
   height: 100%;
 
@@ -120,6 +160,9 @@ const StyledButton = styled.button`
 
   &:hover {
     opacity: 0.75;
+  }
+  @media ${device.tablet} {
+    font-size: 1rem;
   }
 `;
 
@@ -167,9 +210,10 @@ const LoginModal = ({ isLoginModalOn, onLoginModalOnAction, onModalOffAction }) 
   };
 
   // * 임시 코드 : 새로고침 모달 켜기
-  useEffect(() => {
-    onLoginModalOnAction();
-  }, [isLoginModalOn]);
+  // useEffect(() => {
+  //   onLoginModalOnAction();
+  //   handleToggle();
+  // }, []);
 
   // 사라지는 애니메이션
   // react-transition-group의 <Transition> 실패 https://velog.io/@sae1013/REACT-%EB%AA%A8%EB%8B%AC-%EC%95%A0%EB%8B%88%EB%A9%94%EC%9D%B4%EC%85%98CSS
@@ -188,15 +232,19 @@ const LoginModal = ({ isLoginModalOn, onLoginModalOnAction, onModalOffAction }) 
                   <TitleBox>
                     <span>Solutionist</span>
                   </TitleBox>
-                  <FormBox marginLeft={'5.3%'}>
+                  <FormBox
+                    marginLeft={'5.3%'}
+                    paddingLeft={'5.3%'}
+                    borderLeft={'2px solid var(--dark-color);'}
+                  >
                     <FlexEndGroup>
-                      <FaTimesCircle onClick={onModalOffAction} fontSize="1.75rem" />
+                      <FaTimesCircle onClick={onModalOffAction} />
                     </FlexEndGroup>
-                    <InputBox>
+                    <InputBox marginBottom={'10.7%'}>
                       <label>Email</label>
                       <input placeholder="kimcoding@gmail.com"></input>
                     </InputBox>
-                    <InputBox>
+                    <InputBox marginBottom={'10.7%'}>
                       <label>Password</label>
                       <input type={'password'} placeholder="**********"></input>
                     </InputBox>
@@ -204,10 +252,10 @@ const LoginModal = ({ isLoginModalOn, onLoginModalOnAction, onModalOffAction }) 
                       <ButtonContainer>
                         <ButtonGroup>
                           <IconBorder>
-                            <FcGoogle fontSize="3rem" />
+                            <FcGoogle />
                           </IconBorder>
                           <IconBorder>
-                            <RiKakaoTalkFill fontSize="3rem" />
+                            <RiKakaoTalkFill />
                           </IconBorder>
                         </ButtonGroup>
                         <StyledButton>LOGIN</StyledButton>
@@ -220,24 +268,34 @@ const LoginModal = ({ isLoginModalOn, onLoginModalOnAction, onModalOffAction }) 
                 </ModalContainer>
               ) : (
                 <ModalContainer>
-                  <FormBox marginRight={'10px'}>
+                  <FormBox
+                    marginRight={'5.3%'}
+                    paddingRight={'5.3%'}
+                    borderRight={'2px solid var(--dark-color);'}
+                  >
                     <FlexEndGroup>
                       <FaTimesCircle onClick={onModalOffAction} fontSize="32px" />
                     </FlexEndGroup>
-                    <InputBox>
-                      <label>이메일</label>
-                      <input></input>
-                      <label>닉네임</label>
-                      <input></input>
-                      <label>비밀번호</label>
-                      <input></input>
-                      <label>비밀번호 확인</label>
-                      <input></input>
+                    <InputBox marginBottom={'5.7%'}>
+                      <label>Email</label>
+                      <input placeholder="kimcoding@gmail.com"></input>
                     </InputBox>
-                    <FlexEndGroup>
-                      <StyledButton>회원가입</StyledButton>
-                      <StyledButton onClick={handleToggle}>로그인 이동</StyledButton>
-                    </FlexEndGroup>
+                    <InputBox marginBottom={'5.7%'}>
+                      <label>Username</label>
+                      <input placeholder="김코딩"></input>
+                    </InputBox>
+                    <InputBox marginBottom={'5.7%'}>
+                      <label>Password</label>
+                      <input type={'password'} placeholder="**********"></input>
+                    </InputBox>
+                    <InputBox marginBottom={'5.7%'}>
+                      <label>Password Check</label>
+                      <input type={'password'} placeholder="**********"></input>
+                    </InputBox>
+                    <SignupGroup>
+                      <span onClick={handleToggle}>로그인 화면으로 돌아가기</span>
+                      <StyledButton>SIGNUP</StyledButton>
+                    </SignupGroup>
                   </FormBox>
                   <TitleBox>
                     <span>Solutionist</span>
