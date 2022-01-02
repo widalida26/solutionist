@@ -36,6 +36,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'build'), // 빌드되는 파일들이 만들어지는 위치, __dirname: 현재 디렉토리
     filename: 'bundle.js', // 번들파일 이름
+    publicPath: '/',
   },
 
   // webpack 서버 설정
@@ -45,6 +46,7 @@ module.exports = {
     },
     compress: true,
     port: 9000,
+    historyApiFallback: true,
   },
 
   plugins: [
