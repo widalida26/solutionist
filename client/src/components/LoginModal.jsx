@@ -6,7 +6,7 @@ import { RiKakaoTalkFill } from 'react-icons/ri';
 import { FaTimesCircle } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
 import { device } from '../styles/Breakpoints';
-import logo from '../assets/LOGO.png';
+import { postLogin } from '../api/LoginModalAPI';
 
 // * 프리젠테이셔널 컴포넌트
 
@@ -171,7 +171,6 @@ const StyledButton = styled.button`
 `;
 
 // 모달 컴포넌트
-
 const ModalBackdrop = styled.div`
   position: fixed;
   z-index: 999;
@@ -193,7 +192,6 @@ const ModalView = styled.div`
 `;
 
 // keyframes 애니메이션
-
 const boxFade = keyframes`
   from {
     opacity: 0;
@@ -207,34 +205,64 @@ const StyledWrapper = styled.div`
   animation: ${boxFade} 1s normal;
 `;
 
-const LoginModal = ({ isLoginModalOn, onLoginModalOnAction, onModalOffAction }) => {
+// 사라지는 애니메이션
+// react-transition-group의 <Transition> 실패 https://velog.io/@sae1013/REACT-%EB%AA%A8%EB%8B%AC-%EC%95%A0%EB%8B%88%EB%A9%94%EC%9D%B4%EC%85%98CSS
+// setTimeout 실패 https://agal.tistory.com/170
+
+const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }) => {
   const [toggle, setToggle] = useState(true);
   const handleToggle = () => {
     setToggle(!toggle);
   };
 
+  // * 로그인
+  const [loginInfo, setLoginInfo] = useState({
+    userName: '',
+    password: '',
+  });
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleInputValue = (target) => (e) => {
+    setLoginInfo({ ...loginInfo, [target]: e.target.value });
+    console.log(loginInfo);
+  };
+
+  const handleLogin = () => {
+    if (!loginInfo.userName || !loginInfo.password) {
+      setErrorMessage('아이디와 비밀번호를 입력하세요');
+    } else {
+      postLogin(loginInfo).catch((err) => {
+        const errCode = err.response.status;
+        if (errCode === 401) {
+          setErrorMessage('유효하지 않은 아이디 입니다!');
+        } else if (errCode === 404) {
+          setErrorMessage('유효하지 않은 비밀번호 입니다!');
+        } else {
+          setErrorMessage('로그인을 실패했습니다!');
+        }
+      });
+    }
+  };
+
   // * 임시 코드 : 새로고침 모달 켜기
   // useEffect(() => {
   //   onLoginModalOnAction();
-  //   handleToggle();
+  //   // handleToggle();
   // }, []);
 
-  // 사라지는 애니메이션
-  // react-transition-group의 <Transition> 실패 https://velog.io/@sae1013/REACT-%EB%AA%A8%EB%8B%AC-%EC%95%A0%EB%8B%88%EB%A9%94%EC%9D%B4%EC%85%98CSS
-  // setTimeout 실패 https://agal.tistory.com/170
+  console.log('이즈로그인 트루되나', isLogin);
 
   return (
     <>
       <br />
-      <StyledButton onClick={onLoginModalOnAction}>임시 모달ON 버튼</StyledButton>
       {isLoginModalOn ? (
         <StyledWrapper>
           <ModalBackdrop onClick={onModalOffAction}>
             <ModalView onClick={(e) => e.stopPropagation()}>
               {toggle ? (
-                <ModalContainer>
+                <ModalContainer onSubmit={(e) => e.preventDefault()}>
                   <TitleBox>
-                    <img src={logo} />
+                    <img src="./assets/images/LOGO.png" />
                     <span>SOLUTIONIST</span>
                   </TitleBox>
                   <FormBox
@@ -247,11 +275,18 @@ const LoginModal = ({ isLoginModalOn, onLoginModalOnAction, onModalOffAction }) 
                     </FlexEndGroup>
                     <InputBox marginBottom={'10.7%'}>
                       <label>Email</label>
-                      <input placeholder="kimcoding@gmail.com"></input>
+                      <input
+                        onChange={handleInputValue(Object.keys(loginInfo)[0])}
+                        placeholder="kimcoding@gmail.com"
+                      ></input>
                     </InputBox>
                     <InputBox marginBottom={'10.7%'}>
                       <label>Password</label>
-                      <input type={'password'} placeholder="**********"></input>
+                      <input
+                        onChange={handleInputValue(Object.keys(loginInfo)[1])}
+                        type={'password'}
+                        placeholder="**********"
+                      ></input>
                     </InputBox>
                     <BetweenDiv>
                       <ButtonContainer>
@@ -263,8 +298,17 @@ const LoginModal = ({ isLoginModalOn, onLoginModalOnAction, onModalOffAction }) 
                             <RiKakaoTalkFill />
                           </IconBorder>
                         </ButtonGroup>
-                        <StyledButton>LOGIN</StyledButton>
+                        <StyledButton onClick={handleLogin}>LOGIN</StyledButton>
+                        <StyledButton
+                          onClick={() => {
+                            onModalOffAction();
+                            onloginAction();
+                          }}
+                        >
+                          FAKE
+                        </StyledButton>
                       </ButtonContainer>
+                      {errorMessage ? <div>{errorMessage}</div> : ''}
                       <FlexEndGroup onClick={handleToggle}>
                         <span>아직 계정이 없으신가요?</span>
                       </FlexEndGroup>
@@ -302,7 +346,7 @@ const LoginModal = ({ isLoginModalOn, onLoginModalOnAction, onModalOffAction }) 
                     </BetweenDiv>
                   </FormBox>
                   <TitleBox>
-                    <img src={logo} />
+                    <img src="./assets/images/LOGO.png" />
                     <span>SOLUTIONIST</span>
                   </TitleBox>
                 </ModalContainer>
