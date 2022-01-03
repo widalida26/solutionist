@@ -1,45 +1,24 @@
 import { Request, Response } from 'express';
+const { encrypt } = require('./crypto');
+import { users } from '../../../dist/src/entity/user';
 
-export const signup = async (req: Request, res: Response) => {
-    try{
-        const { userName, email, password } = req.body;
+const signup = async (req: Request, res: Response) => {
+  try {
+    const { userName, email, password } = req.body;
+
+    if (!userName || !email || !password) {
+      return res.status(422).send('insufficient parameters supplied');
     }
+    // encrypt(password); 다 만들고 나서 적용 시작
+    const createUser = await users.create({
+      username: userName,
+      password: password,
+      email: email,
+    });
+    return res.status(200).send('ok');
+  } catch (err) {
+    return res.status(400).send('internal server error');
+  }
 };
 
-// const { Users } = require('../../models');
-// const { encrypt, decrypt } = require('./crypto');
-
-// module.exports = async (req, res) => {
-//   const { userId, email, password } = req.body;
-
-//   if (!req.body.email || !req.body.password || !req.body.userId) {
-//     return res.status(422).send('insufficient parameters supplied');
-//   }
-
-//   const pw = encrypt(password);
-
-//   const userDb = await Users.findOne({
-//     where: {
-//       userId,
-//     },
-//   });
-//   if (userDb) {
-//     return res.status(409).json({ message: 'already existed userId' });
-//   }
-
-//   const emailDb = await Users.findOne({
-//     where: {
-//       email,
-//     },
-//   });
-//   if (emailDb) {
-//     return res.status(409).send({ message: 'already existed email' });
-//   }
-
-//   Users.create({
-//     userId: userId,
-//     password: pw,
-//     email: email,
-//   });
-//   return res.status(200).send('ok');
-// };
+export default signup;

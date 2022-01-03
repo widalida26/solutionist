@@ -8,46 +8,25 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const { encrypt, decrypt } = require('./crypto');
+const { encrypt } = require('./crypto');
+const user_1 = require("../../../dist/src/entity/user");
 const signup = (req, res) => __awaiter(this, void 0, void 0, function* () {
     try {
-        const { userId, email, password } = req.body;
-        if (!userId || !email || !password) {
+        const { userName, email, password } = req.body;
+        if (!userName || !email || !password) {
             return res.status(422).send('insufficient parameters supplied');
         }
+        // encrypt(password); 다 만들고 나서 적용 시작
+        const createUser = yield user_1.users.create({
+            username: userName,
+            password: password,
+            email: email,
+        });
+        return res.status(200).send('ok');
     }
-    finally {
+    catch (err) {
+        return res.status(400).send('internal server error');
     }
 });
-// const { Users } = require('../../models');
-// const { encrypt, decrypt } = require('./crypto');
-// module.exports = async (req, res) => {
-//   const { userId, email, password } = req.body;
-//   if (!req.body.email || !req.body.password || !req.body.userId) {
-//     return res.status(422).send('insufficient parameters supplied');
-//   }
-//   const pw = encrypt(password);
-//   const userDb = await Users.findOne({
-//     where: {
-//       userId,
-//     },
-//   });
-//   if (userDb) {
-//     return res.status(409).json({ message: 'already existed userId' });
-//   }
-//   const emailDb = await Users.findOne({
-//     where: {
-//       email,
-//     },
-//   });
-//   if (emailDb) {
-//     return res.status(409).send({ message: 'already existed email' });
-//   }
-//   Users.create({
-//     userId: userId,
-//     password: pw,
-//     email: email,
-//   });
-//   return res.status(200).send('ok');
-// };
+exports.default = signup;
 //# sourceMappingURL=signup.js.map
