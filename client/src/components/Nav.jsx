@@ -104,6 +104,9 @@ const LoginContainer = styled.div`
   /* border: 2px solid black; */
   background-color: black;
   border-radius: 10px;
+  &:hover {
+    opacity: 0.75;
+  }
   > a {
     width: 100%;
     height: 100%;
