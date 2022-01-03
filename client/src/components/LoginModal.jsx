@@ -6,7 +6,6 @@ import { RiKakaoTalkFill } from 'react-icons/ri';
 import { FaTimesCircle } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
 import { device } from '../styles/Breakpoints';
-import logo from '../assets/LOGO.png';
 import { postLogin } from '../api/LoginModalAPI';
 
 // * 프리젠테이셔널 컴포넌트
@@ -210,7 +209,7 @@ const StyledWrapper = styled.div`
 // react-transition-group의 <Transition> 실패 https://velog.io/@sae1013/REACT-%EB%AA%A8%EB%8B%AC-%EC%95%A0%EB%8B%88%EB%A9%94%EC%9D%B4%EC%85%98CSS
 // setTimeout 실패 https://agal.tistory.com/170
 
-const LoginModal = ({ isLoginModalOn, onLoginModalOnAction, onModalOffAction }) => {
+const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }) => {
   const [toggle, setToggle] = useState(true);
   const handleToggle = () => {
     setToggle(!toggle);
@@ -246,15 +245,16 @@ const LoginModal = ({ isLoginModalOn, onLoginModalOnAction, onModalOffAction }) 
   };
 
   // * 임시 코드 : 새로고침 모달 켜기
-  useEffect(() => {
-    onLoginModalOnAction();
-    // handleToggle();
-  }, []);
+  // useEffect(() => {
+  //   onLoginModalOnAction();
+  //   // handleToggle();
+  // }, []);
+
+  console.log('이즈로그인 트루되나', isLogin);
 
   return (
     <>
       <br />
-      <StyledButton onClick={onLoginModalOnAction}>임시 모달ON 버튼</StyledButton>
       {isLoginModalOn ? (
         <StyledWrapper>
           <ModalBackdrop onClick={onModalOffAction}>
@@ -262,7 +262,7 @@ const LoginModal = ({ isLoginModalOn, onLoginModalOnAction, onModalOffAction }) 
               {toggle ? (
                 <ModalContainer onSubmit={(e) => e.preventDefault()}>
                   <TitleBox>
-                    <img src={logo} />
+                    <img src="./assets/images/LOGO.png" />
                     <span>SOLUTIONIST</span>
                   </TitleBox>
                   <FormBox
@@ -299,6 +299,14 @@ const LoginModal = ({ isLoginModalOn, onLoginModalOnAction, onModalOffAction }) 
                           </IconBorder>
                         </ButtonGroup>
                         <StyledButton onClick={handleLogin}>LOGIN</StyledButton>
+                        <StyledButton
+                          onClick={() => {
+                            onModalOffAction();
+                            onloginAction();
+                          }}
+                        >
+                          FAKE
+                        </StyledButton>
                       </ButtonContainer>
                       {errorMessage ? <div>{errorMessage}</div> : ''}
                       <FlexEndGroup onClick={handleToggle}>
@@ -338,7 +346,7 @@ const LoginModal = ({ isLoginModalOn, onLoginModalOnAction, onModalOffAction }) 
                     </BetweenDiv>
                   </FormBox>
                   <TitleBox>
-                    <img src={logo} />
+                    <img src="./assets/images/LOGO.png" />
                     <span>SOLUTIONIST</span>
                   </TitleBox>
                 </ModalContainer>

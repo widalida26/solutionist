@@ -107,7 +107,7 @@ const LoginContainer = styled.div`
   &:hover {
     opacity: 0.75;
   }
-  > a {
+  > span {
     width: 100%;
     height: 100%;
     display: flex;
@@ -120,7 +120,7 @@ const MenuIconContainer = styled.div`
   grid-area: login;
 `;
 
-const Nav = () => {
+const Nav = ({ onLoginModalOnAction, isLogin }) => {
   const [keyword, setKeyword] = useState('');
   const [isDropDown, setIsDropDown] = useState(false);
 
@@ -154,14 +154,14 @@ const Nav = () => {
             </Link>
           </SearchIconContainer>
         </SearchContainer>
-        {0 ? (
+        {isLogin ? (
           // 리덕스를 사용한다면 isLogin이 올 자리
           <MenuIconContainer>
             <img src="./assets/icons/menu.svg" alt="menu-icon" onClick={handleDropDown} />
           </MenuIconContainer>
         ) : (
-          <LoginContainer>
-            <Link to="/myset">LOGIN</Link>
+          <LoginContainer onClick={onLoginModalOnAction}>
+            <span>LOGIN</span>
           </LoginContainer>
         )}
         {isDropDown ? <MenuDropDown handleDropDown={handleDropDown} /> : ''}
