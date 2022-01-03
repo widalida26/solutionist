@@ -273,9 +273,6 @@ const LoginModal = ({ isLoginModalOn, onLoginModalOnAction, onModalOffAction }) 
                     paddingRight={'5.3%'}
                     borderRight={'2px solid var(--dark-color);'}
                   >
-                    <FlexEndGroup>
-                      <FaTimesCircle onClick={onModalOffAction} fontSize="32px" />
-                    </FlexEndGroup>
                     <InputBox marginBottom={'5.7%'}>
                       <label>Email</label>
                       <input placeholder="kimcoding@gmail.com"></input>
@@ -288,14 +285,16 @@ const LoginModal = ({ isLoginModalOn, onLoginModalOnAction, onModalOffAction }) 
                       <label>Password</label>
                       <input type={'password'} placeholder="**********"></input>
                     </InputBox>
-                    <InputBox marginBottom={'5.7%'}>
-                      <label>Password Check</label>
-                      <input type={'password'} placeholder="**********"></input>
-                    </InputBox>
-                    <SignupGroup>
-                      <span onClick={handleToggle}>로그인 화면으로 돌아가기</span>
-                      <StyledButton>SIGNUP</StyledButton>
-                    </SignupGroup>
+                    <BetweenDiv>
+                      <InputBox marginBottom={'5.7%'}>
+                        <label>Password Check</label>
+                        <input type={'password'} placeholder="**********"></input>
+                      </InputBox>
+                      <SignupGroup>
+                        <span onClick={handleToggle}>로그인 화면으로 돌아가기</span>
+                        <StyledButton>SIGNUP</StyledButton>
+                      </SignupGroup>
+                    </BetweenDiv>
                   </FormBox>
                   <TitleBox>
                     <span>Solutionist</span>
