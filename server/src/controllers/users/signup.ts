@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 const { encrypt } = require('./crypto');
-import { users } from '../../../dist/src/entity/user';
+import { users } from '../../../dist/src';
 
 const signup = async (req: Request, res: Response) => {
   try {

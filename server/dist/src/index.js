@@ -20,7 +20,8 @@ typeorm_1.createConnection()
 app.get('/', (req, res) => {
     res.send('hello');
 });
-app.listen('8000', () => {
-    console.log('hello');
+app.use(errorHandler);
+app.listen(port, () => {
+    console.log(`server is listening on ${port}`);
 });
 //# sourceMappingURL=index.js.map

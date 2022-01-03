@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const { encrypt } = require('./crypto');
-const user_1 = require("../../../dist/src/entity/user");
+const src_1 = require("../../../dist/src");
 const signup = (req, res) => __awaiter(this, void 0, void 0, function* () {
     try {
         const { userName, email, password } = req.body;
@@ -17,7 +17,7 @@ const signup = (req, res) => __awaiter(this, void 0, void 0, function* () {
             return res.status(422).send('insufficient parameters supplied');
         }
         // encrypt(password); 다 만들고 나서 적용 시작
-        const createUser = yield user_1.users.create({
+        const createUser = yield src_1.users.create({
             username: userName,
             password: password,
             email: email,

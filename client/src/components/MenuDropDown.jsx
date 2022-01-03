@@ -1,30 +1,82 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+import styled, { keyframes } from 'styled-components';
+
+const FadeIn = keyframes`
+from {
+  opacity: 0;
+  transform: translateY(-5px);
+}
+to {
+  opacity: 1;
+}`;
+
+const DropDownContainer = styled.div`
+  position: absolute;
+  top: 80px;
+  right: 10px;
+  padding: 25px;
+  background-color: white;
+  border-radius: 10px;
+  border: 1px solid var(--warm-grey);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: ${FadeIn} 0.5s ease;
+  div {
+    font-family: 'GowunDodum-Regular', sans-serif;
+  }
+`;
+
+const ImageContainer = styled.div`
+  width: 120px;
+  height: 120px;
+  background-color: var(--warm-grey);
+  border-radius: 60px;
+`;
+const Username = styled.div`
+  font-size: 1.25rem;
+  margin-top: 20px;
+`;
+const Email = styled.div`
+  width: 208px;
+  font-size: 1rem;
+  margin-top: 5px;
+  padding-bottom: 15px;
+  text-align: center;
+  border-bottom: 1px solid var(--warm-grey);
+`;
+
+const MySetMenu = styled.div`
+  margin-top: 25px;
+  font-size: 1.5rem;
+`;
+const SettingMenu = styled.div`
+  margin-top: 25px;
+  font-size: 1.5rem;
+`;
+const LogoutMenu = styled.div`
+  margin-top: 25px;
+  font-size: 1.5rem;
+`;
 
 const MenuDropDown = ({ handleDropDown }) => {
   return (
-    <div className="menu_drop_down w_180 absolute flex_col">
-      <div className="flex w_full mar_b_10">
-        <div className="bg_dark w_40 h_40 circle"></div>
-        <div className="flex_1 h_full mar_l_10">
-          <div className="font_14 mar_b_5">김코딩</div>
-          <div className="font_10">kimcoding@gmail.com</div>
-        </div>
-      </div>
-      <ul className="menu_list w_full flex_col">
-        <Link to="/myset" onClick={handleDropDown}>
-          <li className="menu">나의 세트</li>
-        </Link>
-        <Link to="/settings" onClick={handleDropDown}>
-          <li className="menu">프로필 설정</li>
-        </Link>
-        <Link to="/">
-          <li className="menu" onClick={handleDropDown}>
-            로그아웃
-          </li>
-        </Link>
-      </ul>
-    </div>
+    <DropDownContainer>
+      <ImageContainer />
+      <Username>김코딩</Username>
+      <Email>kimcoding@gmail.com</Email>
+      <Link to="/myset" onClick={handleDropDown}>
+        <MySetMenu>나의 세트</MySetMenu>
+      </Link>
+      <Link to="/setting" onClick={handleDropDown}>
+        <SettingMenu>프로필 설정</SettingMenu>
+      </Link>
+      <Link to="/">
+        <LogoutMenu onCLogoutMenuck={handleDropDown}>로그아웃</LogoutMenu>
+      </Link>
+    </DropDownContainer>
   );
 };
 
