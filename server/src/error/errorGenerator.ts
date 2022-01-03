@@ -5,7 +5,6 @@ const HTTP_STATUS_MESSAGES = {
   500: 'internal Server Error',
 };
 
-//interface 이용해 Error 객체에 statusCode key 추가
 export interface ErrorWithStatusCode extends Error {
   statusCode?: number;
 }
@@ -17,7 +16,6 @@ const errorGenerator = ({
   msg?: string;
   statusCode: number;
 }): void => {
-  //인자로 들어오는 메세지와 상태 코드를 매핑
   const err: ErrorWithStatusCode = new Error(msg || HTTP_STATUS_MESSAGES[statusCode]);
   err.statusCode = statusCode;
   throw err;
