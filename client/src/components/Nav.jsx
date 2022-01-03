@@ -10,7 +10,6 @@ const NavContainer = styled.div`
   background-color: white;
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
 `;
-
 const NavGrid = styled.div`
   width: calc(100% - 12.8%);
   height: 100%;
@@ -22,23 +21,49 @@ const NavGrid = styled.div`
   margin: 0 6.4%;
   grid-gap: 1rem;
 `;
-
 const LogoContainer = styled.div`
   grid-area: logo;
+  width: 100%;
+  height: 100%;
+  font-size: 1.75rem;
+  > a {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
 `;
 const MakeContainer = styled.div`
   grid-area: make;
-  display: flex;
   width: 100%;
+  height: 100%;
   font-size: 1.75rem;
-  justify-content: center;
+  > a {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &:hover {
+      box-shadow: 0 -5px 0 0px inset var(--butterscotch);
+    }
+  }
 `;
 const SolveContainer = styled.div`
   grid-area: solve;
-  display: flex;
   width: 100%;
+  height: 100%;
   font-size: 1.75rem;
-  justify-content: center;
+  > a {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &:hover {
+      box-shadow: 0 -5px 0 0px inset var(--butterscotch);
+    }
+  }
 `;
 const SearchContainer = styled.div`
   grid-area: search;
@@ -54,19 +79,22 @@ const SearchInput = styled.input`
   font-size: 1.5rem;
   font-family: 'GowunDodum-Regular', sans-serif;
 `;
-
 const SearchIconContainer = styled.div`
   width: 46px;
   height: 46px;
   background-color: var(--butterscotch);
   border: 2px solid black;
   border-radius: 10px 10px 10px 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  > a {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `;
-
 const LoginContainer = styled.div`
+  width: 100%;
   height: 50px;
   grid-area: login;
   font-size: 1.75rem;
@@ -76,8 +104,12 @@ const LoginContainer = styled.div`
   /* border: 2px solid black; */
   background-color: black;
   border-radius: 10px;
-
   > a {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     color: var(--butterscotch);
   }
 `;
@@ -114,7 +146,9 @@ const Nav = () => {
             placeholder="Search..."
           />
           <SearchIconContainer>
-            <img src="./assets/icons/search.svg" alt="search-icon" />
+            <Link to="/search">
+              <img src="./assets/icons/search.svg" alt="search-icon" />
+            </Link>
           </SearchIconContainer>
         </SearchContainer>
         {0 ? (
