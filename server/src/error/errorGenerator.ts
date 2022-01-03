@@ -1,6 +1,6 @@
-const DEFAULT_HTTP_STATUS_MESSAGES = {
-  400: 'insufficient information'',
-  401: 'invalid user,
+const HTTP_STATUS_MESSAGES = {
+  400: 'insufficient information',
+  401: 'invalid user',
   409: 'duplicate information',
   500: 'internal Server Error',
 };
@@ -18,9 +18,7 @@ const errorGenerator = ({
   statusCode: number;
 }): void => {
   //인자로 들어오는 메세지와 상태 코드를 매핑
-  const err: ErrorWithStatusCode = new Error(
-    msg || DEFAULT_HTTP_STATUS_MESSAGES[statusCode]
-  );
+  const err: ErrorWithStatusCode = new Error(msg || HTTP_STATUS_MESSAGES[statusCode]);
   err.statusCode = statusCode;
   throw err;
 };

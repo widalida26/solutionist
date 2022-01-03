@@ -3,6 +3,8 @@ import { createConnection, Connection } from 'typeorm';
 import errorGenerator from './error/errorGenerator';
 import generalErrorHandler from './error/errorHandler';
 
+const port = 4000;
+
 const app = express();
 
 createConnection()
@@ -18,6 +20,6 @@ app.get('/login', (req, res) => {
 });
 
 app.use(generalErrorHandler);
-app.listen('4000', () => {
-  console.log('hello');
+app.listen(port, () => {
+  console.log(`server is listening on ${port}`);
 });
