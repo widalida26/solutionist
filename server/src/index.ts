@@ -1,7 +1,6 @@
 import express from 'express';
 import { createConnection, Connection } from 'typeorm';
-import errorGenerator from './error/errorGenerator';
-import generalErrorHandler from './error/errorHandler';
+import errorHandler from './error/errorHandler';
 
 const port = 4000;
 
@@ -15,11 +14,7 @@ app.get('/', (req, res) => {
   res.send('hello');
 });
 
-app.get('/login', (req, res) => {
-  errorGenerator({ statusCode: 500 });
-});
-
-app.use(generalErrorHandler);
+app.use(errorHandler);
 app.listen(port, () => {
   console.log(`server is listening on ${port}`);
 });

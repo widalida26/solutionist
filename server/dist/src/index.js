@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const typeorm_1 = require("typeorm");
-const errorGenerator_1 = __importDefault(require("./error/errorGenerator"));
 const errorHandler_1 = __importDefault(require("./error/errorHandler"));
 const port = 4000;
 const app = (0, express_1.default)();
@@ -23,9 +22,6 @@ const app = (0, express_1.default)();
     .catch((error) => console.log(error));
 app.get('/', (req, res) => {
     res.send('hello');
-});
-app.get('/login', (req, res) => {
-    (0, errorGenerator_1.default)({ statusCode: 500 });
 });
 app.use(errorHandler_1.default);
 app.listen(port, () => {
