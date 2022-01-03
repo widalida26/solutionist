@@ -1,11 +1,8 @@
 import express from 'express';
 import { createConnection, Connection } from 'typeorm';
-<<<<<<< HEAD
-=======
 import errorHandler from './error/errorHandler';
 
 const port = 4000;
->>>>>>> 424479d3c629ef00be645e9f7c096f3fbb8b9f67
 
 const app = express();
 

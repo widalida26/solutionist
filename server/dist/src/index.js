@@ -13,6 +13,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const typeorm_1 = require("typeorm");
+const errorHandler_1 = __importDefault(require("./error/errorHandler"));
+const port = 4000;
 const app = express_1.default();
 typeorm_1.createConnection()
     .then((connection) => __awaiter(this, void 0, void 0, function* () { }))
@@ -20,7 +22,7 @@ typeorm_1.createConnection()
 app.get('/', (req, res) => {
     res.send('hello');
 });
-app.use(errorHandler);
+app.use(errorHandler_1.default);
 app.listen(port, () => {
     console.log(`server is listening on ${port}`);
 });
