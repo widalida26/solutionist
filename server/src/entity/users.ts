@@ -30,6 +30,9 @@ export class users {
   profileImage: string;
 
   @Column({ default: 'user' })
+  role: string;
+
+  @Column({ default: 'normal' })
   type: string;
 
   @CreateDateColumn()
