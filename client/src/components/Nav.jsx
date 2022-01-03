@@ -125,6 +125,7 @@ const Nav = () => {
   const [isDropDown, setIsDropDown] = useState(false);
 
   const handleDropDown = () => {
+    //리덕스 사용 해야함
     if (isDropDown) setIsDropDown(false);
     else setIsDropDown(true);
   };
@@ -154,7 +155,7 @@ const Nav = () => {
             </Link>
           </SearchIconContainer>
         </SearchContainer>
-        {0 ? (
+        {1 ? (
           // 리덕스를 사용한다면 isLogin이 올 자리
           <MenuIconContainer>
             <img src="./assets/icons/menu.svg" alt="menu-icon" onClick={handleDropDown} />
@@ -164,8 +165,8 @@ const Nav = () => {
             <Link to="/myset">LOGIN</Link>
           </LoginContainer>
         )}
-        {isDropDown ? <MenuDropDown handleDropDown={handleDropDown} /> : ''}
       </NavGrid>
+      {isDropDown ? <MenuDropDown handleDropDown={handleDropDown} /> : ''}
     </NavContainer>
   );
 };
