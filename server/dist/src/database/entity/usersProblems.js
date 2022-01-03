@@ -9,30 +9,42 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.solvedSets = void 0;
+exports.usersProblems = void 0;
 const typeorm_1 = require("typeorm");
-let solvedSets = class solvedSets {
+const sets_1 = require("./sets");
+const problems_1 = require("./problems");
+let usersProblems = class usersProblems {
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
-], solvedSets.prototype, "id", void 0);
+], usersProblems.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", Number)
-], solvedSets.prototype, "userId", void 0);
+], usersProblems.prototype, "userId", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", Number)
-], solvedSets.prototype, "setId", void 0);
+], usersProblems.prototype, "setId", void 0);
 __decorate([
-    (0, typeorm_1.Column)({
-        default: 0,
-    }),
+    (0, typeorm_1.Column)(),
     __metadata("design:type", Number)
-], solvedSets.prototype, "answerRate", void 0);
-solvedSets = __decorate([
+], usersProblems.prototype, "problemId", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Number)
+], usersProblems.prototype, "chocie", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => sets_1.sets, (set) => set.id),
+    __metadata("design:type", sets_1.sets)
+], usersProblems.prototype, "set", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => problems_1.problems, (problem) => problem.id),
+    __metadata("design:type", problems_1.problems)
+], usersProblems.prototype, "problem", void 0);
+usersProblems = __decorate([
     (0, typeorm_1.Entity)()
-], solvedSets);
-exports.solvedSets = solvedSets;
-//# sourceMappingURL=solvedSets.js.map
+], usersProblems);
+exports.usersProblems = usersProblems;
+//# sourceMappingURL=usersProblems.js.map

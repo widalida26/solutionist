@@ -9,38 +9,44 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sets = void 0;
+exports.solvedSets = void 0;
 const typeorm_1 = require("typeorm");
-let sets = class sets {
+const users_1 = require("./users");
+const sets_1 = require("./sets");
+let solvedSets = class solvedSets {
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
-], sets.prototype, "id", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
-], sets.prototype, "userId", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], sets.prototype, "title", void 0);
+], solvedSets.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)({
         nullable: true,
     }),
-    __metadata("design:type", String)
-], sets.prototype, "description", void 0);
+    __metadata("design:type", Number)
+], solvedSets.prototype, "userId", void 0);
 __decorate([
-    (0, typeorm_1.CreateDateColumn)(),
-    __metadata("design:type", Date)
-], sets.prototype, "createdAt", void 0);
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Number)
+], solvedSets.prototype, "setId", void 0);
 __decorate([
-    (0, typeorm_1.UpdateDateColumn)(),
-    __metadata("design:type", Date)
-], sets.prototype, "updatedAt", void 0);
-sets = __decorate([
+    (0, typeorm_1.Column)({
+        default: 0,
+    }),
+    __metadata("design:type", Number)
+], solvedSets.prototype, "answerRate", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => users_1.users, (user) => user.id),
+    __metadata("design:type", users_1.users)
+], solvedSets.prototype, "user", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => sets_1.sets, (set) => set.userId, {
+        onDelete: 'CASCADE',
+    }),
+    __metadata("design:type", sets_1.sets)
+], solvedSets.prototype, "set", void 0);
+solvedSets = __decorate([
     (0, typeorm_1.Entity)()
-], sets);
-exports.sets = sets;
-//# sourceMappingURL=sets.js.map
+], solvedSets);
+exports.solvedSets = solvedSets;
+//# sourceMappingURL=solvedSets.js.map
