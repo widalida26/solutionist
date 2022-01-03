@@ -6,6 +6,7 @@ import { RiKakaoTalkFill } from 'react-icons/ri';
 import { FaTimesCircle } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
 import { device } from '../styles/Breakpoints';
+import logo from '../assets/LOGO.png';
 
 // * 프리젠테이셔널 컴포넌트
 
@@ -13,7 +14,7 @@ const ModalContainer = styled.div`
   display: flex;
   width: 42.3vw;
   height: 59.4vh;
-  padding: 7.2vh 5.3vw;
+  padding: 7.2% 5.3%;
   border-radius: 10px;
   border: solid 1px #707070;
   background-color: #fff;
@@ -26,14 +27,16 @@ const TitleBox = styled.div`
   display: flex;
   flex-direction: column;
   width: 23.4%;
-  justify-content: center;
-  align-items: center;
+  img {
+    margin-top: 5.6vh;
+    margin-bottom: 12.3vh;
+  }
   span {
-    font-family: SegoeUI;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
+    text-align: center;
 
     @media ${device.tablet} {
-      font-size: 1rem;
+      font-size: 0.8rem;
     }
   }
 `;
@@ -63,8 +66,12 @@ const InputBox = styled.div`
     font-size: 1.5rem;
   }
   input {
-    font-family: GowunDodum;
+    font-family: GowunDodum-Regular;
     font-size: 1.66rem;
+    border-bottom: 1px solid var(--warm-grey);
+    ::placeholder {
+      font-family: GowunDodum-Regular;
+    }
   }
 `;
 
@@ -88,8 +95,8 @@ const SignupGroup = styled.div`
   justify-content: space-between;
   width: 100%;
   align-items: flex-end;
+  font-family: GongGothicMedium;
   span {
-    font-family: esamanru;
     font-size: 1.5rem;
     font-weight: 500;
     cursor: pointer;
@@ -104,9 +111,9 @@ const FlexEndGroup = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  font-family: GongGothicMedium;
   font-size: 1.75rem; // 삭제 아이콘 크기
   span {
-    font-family: esamanru;
     font-size: 1.5rem;
     font-weight: 500;
     cursor: pointer;
@@ -121,6 +128,8 @@ const IconBorder = styled.div`
   border-radius: 10px;
   border: solid 2px #000;
   font-size: 3rem;
+  width: fit-content;
+  height: 3rem;
 
   @media ${device.tablet} {
     width: fit-content;
@@ -145,16 +154,11 @@ const StyledButton = styled.button`
   border: none;
   background: none;
   cursor: pointer;
-  padding: 0.5rem 1.5rem;
+  padding: 0.5rem 1rem;
   border-radius: 10px;
-
-  /* 크기 */
-  width: fit-content;
-  height: 100%;
 
   /* 색상 & 폰트 */
   background-color: #000;
-  font-family: Righteous;
   font-size: 1.5rem;
   color: #fbb74a;
 
@@ -230,12 +234,13 @@ const LoginModal = ({ isLoginModalOn, onLoginModalOnAction, onModalOffAction }) 
               {toggle ? (
                 <ModalContainer>
                   <TitleBox>
-                    <span>Solutionist</span>
+                    <img src={logo} />
+                    <span>SOLUTIONIST</span>
                   </TitleBox>
                   <FormBox
                     marginLeft={'5.3%'}
                     paddingLeft={'5.3%'}
-                    borderLeft={'2px solid var(--dark-color);'}
+                    borderLeft={'2px solid black;'}
                   >
                     <FlexEndGroup>
                       <FaTimesCircle onClick={onModalOffAction} />
@@ -271,7 +276,7 @@ const LoginModal = ({ isLoginModalOn, onLoginModalOnAction, onModalOffAction }) 
                   <FormBox
                     marginRight={'5.3%'}
                     paddingRight={'5.3%'}
-                    borderRight={'2px solid var(--dark-color);'}
+                    borderRight={'2px solid black;'}
                   >
                     <InputBox marginBottom={'5.7%'}>
                       <label>Email</label>
@@ -297,7 +302,8 @@ const LoginModal = ({ isLoginModalOn, onLoginModalOnAction, onModalOffAction }) 
                     </BetweenDiv>
                   </FormBox>
                   <TitleBox>
-                    <span>Solutionist</span>
+                    <img src={logo} />
+                    <span>SOLUTIONIST</span>
                   </TitleBox>
                 </ModalContainer>
               )}

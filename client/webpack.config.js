@@ -29,6 +29,10 @@ module.exports = {
           { loader: 'postcss-loader' }, // postcss 적용하기
         ],
       },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/,
+        use: ['file-loader?name=src/assets/[name].[ext]?[hash]', 'image-webpack-loader'],
+      },
     ],
   },
 
