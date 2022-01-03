@@ -10,7 +10,8 @@
     "typeorm": "ts-node ./node_modules/typeorm/cli.js",
     "migration": "npm run typeorm migration:run",
     "migration:create": "npm run typeorm migration:create -n",
-    "migration:revert": "npm run typeorm migration:revert"
+    "migration:revert": "npm run typeorm migration:revert",
+    "seed": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed"
   },
   "repository": {
     "type": "git",
@@ -38,6 +39,7 @@
     "tsconfig-paths": "^3.12.0",
     "typedi": "^0.10.0",
     "typeorm": "^0.2.41",
+    "typeorm-seeding": "^1.6.1",
     "upgrade": "^1.1.0"
   },
   "compilerOptions": {
