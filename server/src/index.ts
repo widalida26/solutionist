@@ -1,5 +1,7 @@
 import express from 'express';
 import { createConnection, Connection } from 'typeorm';
+import errorGenerator from './error/errorGenerator';
+import generalErrorHandler from './error/errorHandler';
 
 const app = express();
 
@@ -11,6 +13,11 @@ app.get('/', (req, res) => {
   res.send('hello');
 });
 
+app.get('/login', (req, res) => {
+  errorGenerator({ statusCode: 500 });
+});
+
+app.use(generalErrorHandler);
 app.listen('4000', () => {
   console.log('hello');
 });

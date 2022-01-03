@@ -14,6 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const typeorm_1 = require("typeorm");
+const errorGenerator_1 = __importDefault(require("./error/errorGenerator"));
+const errorHandler_1 = __importDefault(require("./error/errorHandler"));
 const app = (0, express_1.default)();
 (0, typeorm_1.createConnection)()
     .then((connection) => __awaiter(void 0, void 0, void 0, function* () { }))
@@ -21,7 +23,11 @@ const app = (0, express_1.default)();
 app.get('/', (req, res) => {
     res.send('hello');
 });
-app.listen('8000', () => {
+app.get('/login', (req, res) => {
+    (0, errorGenerator_1.default)({ statusCode: 500 });
+});
+app.use(errorHandler_1.default);
+app.listen('4000', () => {
     console.log('hello');
 });
 //# sourceMappingURL=index.js.map
