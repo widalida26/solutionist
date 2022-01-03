@@ -1,8 +1,15 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import LoginModal from './LoginModal';
+import styled, { keyframes } from 'styled-components';
 import MenuDropDown from './MenuDropDown';
+
+const UnderlineFadeIn = keyframes`
+from {
+  box-shadow: 0 0 0 0px inset var(--butterscotch);
+}
+to{
+  box-shadow: 0 -5px 0 0px inset var(--butterscotch);
+}`;
 
 const NavContainer = styled.div`
   width: 100vw;
@@ -45,6 +52,7 @@ const MakeContainer = styled.div`
     justify-content: center;
     align-items: center;
     &:hover {
+      animation: ${UnderlineFadeIn} 0.5s ease;
       box-shadow: 0 -5px 0 0px inset var(--butterscotch);
     }
   }
@@ -61,6 +69,7 @@ const SolveContainer = styled.div`
     justify-content: center;
     align-items: center;
     &:hover {
+      animation: ${UnderlineFadeIn} 0.5s ease;
       box-shadow: 0 -5px 0 0px inset var(--butterscotch);
     }
   }
