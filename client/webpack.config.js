@@ -1,4 +1,5 @@
 const path = require('path');
+const Dotenv = require('dotenv-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
@@ -58,5 +59,6 @@ module.exports = {
       // index.html에 output에서 만들어진 bundle.js를 적용하여, deploy에 새로운 html 파일 생성
       template: `./public/index.html`,
     }),
+    new Dotenv(),
   ],
 };
