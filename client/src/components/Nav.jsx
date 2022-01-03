@@ -125,6 +125,7 @@ const Nav = ({ onLoginModalOnAction, isLogin }) => {
   const [isDropDown, setIsDropDown] = useState(false);
 
   const handleDropDown = () => {
+    //리덕스 사용 해야함
     if (isDropDown) setIsDropDown(false);
     else setIsDropDown(true);
   };
@@ -164,8 +165,8 @@ const Nav = ({ onLoginModalOnAction, isLogin }) => {
             <span>LOGIN</span>
           </LoginContainer>
         )}
-        {isDropDown ? <MenuDropDown handleDropDown={handleDropDown} /> : ''}
       </NavGrid>
+      {isDropDown ? <MenuDropDown handleDropDown={handleDropDown} /> : ''}
     </NavContainer>
   );
 };
