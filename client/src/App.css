@@ -30,7 +30,6 @@
 input {
   background: none;
   border: none;
-  border-bottom: 1px solid var(--dark-color);
   padding: 0;
 }
 input:focus {

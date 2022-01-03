@@ -9,46 +9,58 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.problems = void 0;
+exports.users = void 0;
 const typeorm_1 = require("typeorm");
-let problems = class problems {
+const sets_1 = require("./sets");
+const solvedSets_1 = require("./solvedSets");
+let users = class users {
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
-], problems.prototype, "id", void 0);
+], users.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
-], problems.prototype, "setId", void 0);
+    __metadata("design:type", String)
+], users.prototype, "username", void 0);
+__decorate([
+    (0, typeorm_1.Column)({
+        unique: true,
+    }),
+    __metadata("design:type", String)
+], users.prototype, "email", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
-], problems.prototype, "index", void 0);
+    __metadata("design:type", String)
+], users.prototype, "password", void 0);
 __decorate([
     (0, typeorm_1.Column)({
         nullable: true,
     }),
     __metadata("design:type", String)
-], problems.prototype, "question", void 0);
+], users.prototype, "profileImage", void 0);
 __decorate([
-    (0, typeorm_1.Column)({
-        nullable: true,
-    }),
+    (0, typeorm_1.Column)({ default: 'user' }),
     __metadata("design:type", String)
-], problems.prototype, "answer", void 0);
+], users.prototype, "role", void 0);
 __decorate([
-    (0, typeorm_1.Column)({
-        nullable: true,
-    }),
+    (0, typeorm_1.Column)({ default: 'normal' }),
     __metadata("design:type", String)
-], problems.prototype, "explanation", void 0);
+], users.prototype, "type", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", Boolean)
-], problems.prototype, "isOX", void 0);
-problems = __decorate([
+    (0, typeorm_1.CreateDateColumn)(),
+    __metadata("design:type", Date)
+], users.prototype, "createdAt", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => sets_1.sets, (set) => set.userId),
+    __metadata("design:type", sets_1.sets)
+], users.prototype, "set", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => solvedSets_1.solvedSets, (solved) => solved.userId),
+    __metadata("design:type", solvedSets_1.solvedSets)
+], users.prototype, "solved", void 0);
+users = __decorate([
     (0, typeorm_1.Entity)()
-], problems);
-exports.problems = problems;
-//# sourceMappingURL=problems.js.map
+], users);
+exports.users = users;
+//# sourceMappingURL=users.js.map

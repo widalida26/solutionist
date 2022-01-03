@@ -1,10 +1,5 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { problems } from './problems';
 
 @Entity()
 export class choices {
@@ -24,4 +19,9 @@ export class choices {
     default: 0,
   })
   selectionRate: number;
+
+  @ManyToOne(() => problems, (problem) => problem.id, {
+    onDelete: 'CASCADE',
+  })
+  problem: problems;
 }

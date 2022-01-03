@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.choices = void 0;
 const typeorm_1 = require("typeorm");
+const problems_1 = require("./problems");
 let choices = class choices {
 };
 __decorate([
@@ -35,6 +36,12 @@ __decorate([
     }),
     __metadata("design:type", Number)
 ], choices.prototype, "selectionRate", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => problems_1.problems, (problem) => problem.id, {
+        onDelete: 'CASCADE',
+    }),
+    __metadata("design:type", problems_1.problems)
+], choices.prototype, "problem", void 0);
 choices = __decorate([
     (0, typeorm_1.Entity)()
 ], choices);
