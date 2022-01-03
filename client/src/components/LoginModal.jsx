@@ -245,10 +245,7 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
   };
 
   // * 임시 코드 : 새로고침 모달 켜기
-  // useEffect(() => {
-  //   onLoginModalOnAction();
-  //   // handleToggle();
-  // }, []);
+  // useEffect(() => {});
 
   console.log('이즈로그인 트루되나', isLogin);
 
