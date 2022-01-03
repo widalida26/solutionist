@@ -1,6 +1,7 @@
 const path = require('path');
 const Dotenv = require('dotenv-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   // 개발모드, development or production
@@ -31,27 +32,21 @@ module.exports = {
         ],
       },
       {
-        test: /\.(svg)$/,
-        use: [
-          'file-loader?name=public/assets/icons/[name].[ext]?[hash]',
-          'image-webpack-loader',
-        ],
+        test: /\.(png|jpe?g|gif)$/,
+        loader: 'file-loader',
       },
       {
-        test: /\.(jpe?g|png|gif)$/,
-        use: [
-          'file-loader?name=public/assets/images/[name].[ext]?[hash]',
-          'image-webpack-loader',
-        ],
+        test: /\.(svg)$/,
+        loader: 'file-loader',
       },
     ],
   },
 
   // 빌드 설정
   output: {
-    path: path.resolve(__dirname, 'build'), // 빌드되는 파일들이 만들어지는 위치, __dirname: 현재 디렉토리
     filename: 'bundle.js', // 번들파일 이름
-    publicPath: 'assets/',
+    path: path.resolve(__dirname, 'build'), // 빌드되는 파일들이 만들어지는 위치, __dirname: 현재 디렉토리
+    publicPath: '/',
   },
 
   // webpack 서버 설정
@@ -70,5 +65,11 @@ module.exports = {
       template: `./public/index.html`,
     }),
     new Dotenv(),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: './public/assets/images', to: './assets/images/' },
+        { from: './public/assets/icons', to: './assets/icons/' },
+      ],
+    }),
   ],
 };
