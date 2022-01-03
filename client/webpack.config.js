@@ -31,8 +31,18 @@ module.exports = {
         ],
       },
       {
-        test: /\.(jpe?g|png|gif|svg)$/,
-        use: ['file-loader?name=src/assets/[name].[ext]?[hash]', 'image-webpack-loader'],
+        test: /\.(svg)$/,
+        use: [
+          'file-loader?name=public/assets/icons/[name].[ext]?[hash]',
+          'image-webpack-loader',
+        ],
+      },
+      {
+        test: /\.(jpe?g|png|gif)$/,
+        use: [
+          'file-loader?name=public/assets/images/[name].[ext]?[hash]',
+          'image-webpack-loader',
+        ],
       },
     ],
   },
