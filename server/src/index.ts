@@ -9,21 +9,29 @@ const port = 4000;
 
 const app = express();
 
+// middlewares
 app.use(cors());
 app.use(cookieparser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// db connection
 createConnection()
   .then(async (connection) => {})
   .catch((error) => console.log(error));
 
+// basic routing
 app.get('/', (req, res) => {
   res.send('hello');
 });
+
+// routing to controllers
 app.use(setsRouter);
 
+// error handler
 app.use(errorHandler);
+
+// server listening
 app.listen(port, () => {
   console.log(`server is listening on ${port}`);
 });
