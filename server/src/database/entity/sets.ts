@@ -6,10 +6,12 @@ import {
   UpdateDateColumn,
   ManyToOne,
   OneToMany,
+  Timestamp,
 } from 'typeorm';
 import { users } from './users';
 import { problems } from './problems';
 import { usersProblems } from './usersProblems';
+import { JoinTableMultipleColumnsOptions } from 'typeorm/decorator/options/JoinTableMultipleColumnsOptions';
 
 @Entity()
 export class sets {
@@ -30,10 +32,10 @@ export class sets {
   description: string;
 
   @CreateDateColumn()
-  createdAt: Date;
+  createdAt: Timestamp;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updatedAt: Timestamp;
 
   @ManyToOne(() => users, (user) => user.id)
   user: users;

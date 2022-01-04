@@ -13,16 +13,11 @@ const add = (req: Request, res: Response) => {
   if (!setDTO || !problems) {
     errorGenerator({ statusCode: 400 });
   }
-
   let userId: number = 1;
-
-  console.log(Container.get(SetService));
-  //Container.set('set-servce', SetService);
   // sets 테이블 이용을 위한 setService 인스턴스
-  //const setServiceInstance: SetService = new SetService(sets);
+  const setServiceInstance: SetService = Container.get(SetService);
 
-  //console.log(setServiceInstance);
-  //setServiceInstance.setMaker(userId, setDTO);
+  setServiceInstance.setMaker(userId, setDTO);
 
   // const choices: IChoices[] = problems.map((problem) => {
   //   return {problem['choices']};c
