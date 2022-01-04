@@ -14,7 +14,6 @@ const login = async (req: Request, res: Response) => {
     }
 
     const dbpw = cryptos.encrypt(password);
-
     const user = await getRepository(users)
       .createQueryBuilder('user')
       .where('user.username = :username OR user.password = :password', {
@@ -27,14 +26,10 @@ const login = async (req: Request, res: Response) => {
     if (!user) {
       return res.status(401).send('"invalid user"');
     }
-    console.log(222);
     delete user.password;
     const userInfo = JSON.stringify(user);
     const accessToken = jwtToken.accessToken(userInfo);
-    const refreshToken = jwtToken.refreshToken(userInfo);
 
-    console.log(333);
-    jwtToken.sendRefreshToken(res, refreshToken);
     jwtToken.sendAccessToken(res, accessToken);
   } catch (err) {
     console.log(err);

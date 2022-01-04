@@ -7,7 +7,6 @@ const crypto_1 = __importDefault(require("crypto"));
 require("dotenv/config");
 const algorithm = 'aes-256-ctr';
 const secretKey = process.env.SECRET_KEY;
-// const iv = Buffer.alloc(16, 0);
 const iv = crypto_1.default.randomBytes(16);
 const cryptos = {
     encrypt: (text) => {

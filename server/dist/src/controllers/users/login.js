@@ -33,13 +33,9 @@ const login = (req, res) => __awaiter(this, void 0, void 0, function* () {
         if (!user) {
             return res.status(401).send('"invalid user"');
         }
-        console.log(222);
         delete user.password;
         const userInfo = JSON.stringify(user);
         const accessToken = index_1.default.accessToken(userInfo);
-        const refreshToken = index_1.default.refreshToken(userInfo);
-        console.log(333);
-        index_1.default.sendRefreshToken(res, refreshToken);
         index_1.default.sendAccessToken(res, accessToken);
     }
     catch (err) {
