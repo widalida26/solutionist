@@ -1,6 +1,5 @@
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
-import bodyParser from 'body-parser';
 import cookieparser from 'cookie-parser';
 import { createConnection } from 'typeorm';
 import setsRouter from './routes/sets';
@@ -9,6 +8,7 @@ import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 
 import usersRouter from './routes/users';
+//import errorGenerator, { ErrorWithStatusCode } from './error/errorGenerator';
 const swaggerDocument = YAML.load('./solutionist.yaml');
 
 const port = 4000;
@@ -17,8 +17,8 @@ const app = express();
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
+app.use(express.json());
 app.use(cors());
-app.use(bodyParser());
 app.use(cookieparser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -34,12 +34,26 @@ createConnection()
 app.get('/', (req, res) => {
   res.send('hello');
 });
+app.get('/hello', (req, res) => {
+  //errorGenerator({ statusCode: 500 });
+});
 
 // routing to controllers
 app.use(setsRouter);
 
 // error handler
+//app.use(errorHandler);
+
 app.use(errorHandler);
+// app.use(function (
+//   err: ErrorWithStatusCode,
+//   req: Request,
+//   res: Response,
+//   next: NextFunction
+// ) {
+//   console.log('에러발생');
+//   // logic
+// });
 
 // server listening
 app.listen(port, () => {

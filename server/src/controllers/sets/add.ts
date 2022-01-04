@@ -1,17 +1,21 @@
-import express, { Request, Response } from 'express';
-import { ISets, IProblems, IChoices } from '../../../interface/sets';
+import { Request, Response } from 'express';
+import errorGenerator from 'src/error/errorGenerator';
+import ErrorWithStatusCode from 'src/error/errorGenerator';
+//import { ErrorWithStatusCode } from 'src/error/errorHandler';
 
-const add = async (req: Request, res: Response) => {
-  //console.log(req.body);
+import { ISets, IProblems, IChoices } from '../../../interface/ISets';
 
-  console.log(typeof req.body['choices']);
-  const set: ISets = { title: req.body['title'], description: req.body['description'] };
-  const problems: IProblems[] = req.body['problems'];
-  const choices: IChoices[] = req.body['choices'];
+const add = (req: Request, res: Response) => {
+  const set: ISets = req.body;
+  const problems: IProblems[] = set['problems'];
+  const choices: IChoices[] = set['choices'];
 
-  console.log('set', set);
-  console.log('problems', problems[0].index);
-  console.log('choices', choices);
+  if (!set || !problems || !choices) {
+    errorGenerator({ statusCode: 400 });
+  }
+
+  //console.log('problems', problems[0]);
+  //console.log('choices', choices);
   res.send();
 };
 export default add;
