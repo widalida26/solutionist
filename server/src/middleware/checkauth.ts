@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import * as dotenv from 'dotenv';
+import 'dotenv/config';
 import jwtToken from '../controllers/tokenFunctions';
-dotenv.config();
 
 const accessToken = async (req: Request, res: Response, next: NextFunction) => {
   const auth = req.cookies;

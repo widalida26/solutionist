@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-require('dotenv').config();
-const { sign, verify, Secret } = require('jsonwebtoken');
+require("dotenv/config");
+const jsonwebtoken_1 = require("jsonwebtoken");
 const jwtToken = {
     accessToken: (data) => {
-        return sign(data, process.env.ACCESS_SECRET, { expiresIn: '10m' });
+        return jsonwebtoken_1.sign({ data: data }, process.env.SECRET_KEY, { expiresIn: '1h' });
     },
     refreshToken: (data) => {
-        return sign(data, process.env.REFRESH_SECRET, { expiresIn: '1d' });
+        return jsonwebtoken_1.sign({ data: data }, process.env.SECRET_KEY, { expiresIn: '1d' });
     },
     isAuthorized: (data) => {
         const authorization = data;
@@ -16,12 +16,20 @@ const jwtToken = {
         }
         const token = authorization.split(' ')[1];
         try {
-            return verify(token, process.env.ACCESS_SECRET);
+            return jsonwebtoken_1.verify(token, process.env.ACCESS_SECRET);
         }
         catch (err) {
             // return null if invalid token
             return null;
         }
+    },
+    sendRefreshToken: (res, refreshToken) => {
+        res.cookie('refreshToken', refreshToken, {
+            httpOnly: true,
+        });
+    },
+    sendAccessToken: (res, accessToken) => {
+        return res.status(200).json({ data: { accessToken }, message: 'ok' });
     },
 };
 exports.default = jwtToken;
