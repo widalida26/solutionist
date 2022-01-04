@@ -237,14 +237,15 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
       setErrorMessage('아이디와 비밀번호를 입력하세요');
     } else {
       postLogin(loginInfo, setUserInfoWithImage, onloginAction).catch((err) => {
-        const errCode = err.response.status;
-        if (errCode === 401) {
-          setErrorMessage('유효하지 않은 유저 입니다!');
-        } else if (errCode === 404) {
-          setErrorMessage('404 not found');
-        } else {
-          setErrorMessage('로그인을 실패했습니다!');
-        }
+        // const errCode = err.response.status;
+        // if (errCode === 401) {
+        //   setErrorMessage('유효하지 않은 유저 입니다!');
+        // } else if (errCode === 404) {
+        //   setErrorMessage('404 not found');
+        // } else {
+        //   setErrorMessage('로그인을 실패했습니다!');
+        // }
+        console.log('postLogin 에러캐치');
       });
     }
   };

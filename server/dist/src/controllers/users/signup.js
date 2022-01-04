@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const crypto_1 = __importDefault(require("../../crypto"));
-const users_1 = require("../database/entity/users");
+const users_1 = require("../../database/entity/users");
 const typeorm_1 = require("typeorm");
 const signup = (req, res) => __awaiter(this, void 0, void 0, function* () {
     try {
