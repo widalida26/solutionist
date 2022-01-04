@@ -25,7 +25,6 @@ const swaggerDocument = yamljs_1.default.load('./solutionist.yaml');
 const port = 4000;
 const app = express_1.default();
 app.use('/api-docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swaggerDocument));
-app.use(express_1.default.json());
 app.use(cors_1.default());
 app.use(cookie_parser_1.default());
 app.use(express_1.default.json());
@@ -39,23 +38,10 @@ typeorm_1.createConnection()
 app.get('/', (req, res) => {
     res.send('hello');
 });
-app.get('/hello', (req, res) => {
-    //errorGenerator({ statusCode: 500 });
-});
 // routing to controllers
 app.use(sets_1.default);
 // error handler
-//app.use(errorHandler);
 app.use(errorHandler_1.default);
-// app.use(function (
-//   err: ErrorWithStatusCode,
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) {
-//   console.log('에러발생');
-//   // logic
-// });
 // server listening
 app.listen(port, () => {
     console.log(`server is listening on ${port}`);

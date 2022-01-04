@@ -1,4 +1,4 @@
-export interface ISets {
+export interface ISetsDTO {
   title: string;
   description: string;
   problems: IProblems[];

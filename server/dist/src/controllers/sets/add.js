@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const errorGenerator_1 = __importDefault(require("src/error/errorGenerator"));
+const errorGenerator_1 = __importDefault(require("../../error/errorGenerator"));
 const add = (req, res) => {
     const set = req.body;
     const problems = set['problems'];
