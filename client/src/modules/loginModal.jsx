@@ -3,15 +3,18 @@
 // 이렇게 하면 다른 모듈과 액션 이름이 중복되는 것을 방지 할 수 있습니다.
 const LOGIN_MODAL_ON = 'loginModal/LOGIN_MODAL_ON';
 const MODAL_OFF = 'loginModal/MODAL_OFF';
+const LOGIN_SUCCESS = 'loginModal/LOGIN_SUCCESS';
 
 /* 액션 생성함수 만들기 */
 // 액션 생성함수를 만들고 export 키워드를 사용해서 내보내주세요.
 export const loginModalOnAction = () => ({ type: LOGIN_MODAL_ON });
 export const modalOffAction = () => ({ type: MODAL_OFF });
+export const loginAction = () => ({ type: LOGIN_SUCCESS });
 
 /* 초기 상태 선언 */
 const initialState = {
   isLoginModalOn: false,
+  isLogin: false,
 };
 
 /* 리듀서 선언 */
@@ -24,6 +27,9 @@ const loginModal = (prevState = initialState, action) => {
       break;
     case MODAL_OFF:
       state = { ...initialState };
+      break;
+    case LOGIN_SUCCESS:
+      state = { ...prevState, isLogin: true };
       break;
     default:
       state = { ...prevState };

@@ -3,7 +3,8 @@ import { Routes, Route } from 'react-router-dom';
 import './reset.css';
 import './App.css';
 import LoginModalContainer from './containers/LoginModalContainer';
-import Nav from './components/Nav';
+import NavContainer from './containers/NavContainer';
+// import Nav from './components/Nav';
 import Landing from './pages/Landing';
 import MySet from './pages/MySet';
 import Make from './pages/Make';
@@ -20,7 +21,7 @@ const BG = styled.div`
 const App = () => {
   return (
     <BG>
-      <Nav />
+      <NavContainer />
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/make" element={<Make />} />
