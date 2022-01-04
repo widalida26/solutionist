@@ -18,8 +18,8 @@
 .env.test.local
 .env.production.local
 .gitmessage.txt
-/dummy
-/dist/dummy
+/seeds/
+/dummy/
 
 npm-debug.log*
 yarn-debug.log*
