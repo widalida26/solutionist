@@ -215,7 +215,7 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
     setToggle(!toggle);
   };
 
-  // * 로그인
+  // * 로그인 기능
   const [loginInfo, setLoginInfo] = useState({
     userName: '',
     password: '',
@@ -227,16 +227,20 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
     console.log(loginInfo);
   };
 
+  const [userInfo, setUserInfo] = useState({});
+  // console.log("로그인 후 유저인포", userInfo);
+  // console.log("로그인 후 isLogin", isLogin);
+
   const handleLogin = () => {
     if (!loginInfo.userName || !loginInfo.password) {
       setErrorMessage('아이디와 비밀번호를 입력하세요');
     } else {
-      postLogin(loginInfo).catch((err) => {
+      postLogin(loginInfo, setUserInfo, onloginAction).catch((err) => {
         const errCode = err.response.status;
         if (errCode === 401) {
-          setErrorMessage('유효하지 않은 아이디 입니다!');
+          setErrorMessage('유효하지 않은 유저 입니다!');
         } else if (errCode === 404) {
-          setErrorMessage('유효하지 않은 비밀번호 입니다!');
+          setErrorMessage('404 not found');
         } else {
           setErrorMessage('로그인을 실패했습니다!');
         }
@@ -244,10 +248,10 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
     }
   };
 
+  // * 회원가입 기능
+
   // * 임시 코드 : 새로고침 모달 켜기
   // useEffect(() => {});
-
-  console.log('이즈로그인 트루되나', isLogin);
 
   return (
     <>
