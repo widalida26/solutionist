@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import bodyParser from 'body-parser';
 import cookieparser from 'cookie-parser';
 import { createConnection } from 'typeorm';
 import setsRouter from './routes/sets';
@@ -17,6 +18,7 @@ const app = express();
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(cors());
+app.use(bodyParser());
 app.use(cookieparser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

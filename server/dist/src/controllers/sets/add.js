@@ -10,12 +10,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const add = (req, res) => __awaiter(this, void 0, void 0, function* () {
     //console.log(req.body);
+    console.log(typeof req.body['choices']);
     const set = { title: req.body['title'], description: req.body['description'] };
     const problems = req.body['problems'];
     const choices = req.body['choices'];
     console.log('set', set);
     console.log('problems', problems[0].index);
-    console.log('choices', choices[0]);
+    console.log('choices', choices);
     res.send();
 });
 exports.default = add;
