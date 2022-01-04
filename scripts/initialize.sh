@@ -1,6 +1,7 @@
 #!/bin/bash
 cd /home/ubuntu/solutionist/server
 npm install
+tsc -p
 npm install pm2@latest -g
 sudo apt-get update
 sudo apt-get install authbind

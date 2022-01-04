@@ -1,16 +1,19 @@
-import express, { Request, Response } from 'express';
-import { ISets, IProblems, IChoices } from '../../../interface/sets';
+import { Request, Response } from 'express';
+import { ISetsDTO, IProblems, IChoices } from '../../../interface/ISets';
+import errorGenerator from '../../error/errorGenerator';
 
-const add = async (req: Request, res: Response) => {
-  //console.log(req.body);
+const add = (req: Request, res: Response) => {
+  const set: ISetsDTO = req.body;
+  const problems: IProblems[] = set['problems'];
+  // const choices: IChoices[] = problems.map((problem) => {
+  //   return {problem['choices']};
+  // });
 
-  const set: ISets = { title: req.body['title'], description: req.body['description'] };
-  const problems: IProblems[] = req.body['problems'];
-  const choices: IChoices[] = req.body['choices'];
+  // 누락된 데이터가 있을 경우 에러 리턴
+  // if (!set || !problems || !choices) {
+  //   errorGenerator({ statusCode: 400 });
+  // }
 
-  console.log('set', set);
-  console.log('problems', problems[0].index);
-  console.log('choices', choices[0]);
   res.send();
 };
 export default add;
