@@ -1,14 +1,14 @@
-require('dotenv').config();
-const { sign, verify, Secret } = require('jsonwebtoken');
+import 'dotenv/config';
+import { sign, verify, Secret } from 'jsonwebtoken';
 
 const jwtToken = {
-  accessToken: (data: string) => {
-    return sign(data, process.env.ACCESS_SECRET, { expiresIn: '10m' });
+  accessToken: (data: any) => {
+    return sign({ data: data }, process.env.SECRET_KEY, { expiresIn: '1h' });
   },
-  refreshToken: (data: string) => {
-    return sign(data, process.env.REFRESH_SECRET, { expiresIn: '1d' });
+  refreshToken: (data: any) => {
+    return sign({ data: data }, process.env.SECRET_KEY, { expiresIn: '1d' });
   },
-  isAuthorized: (data: string) => {
+  isAuthorized: (data: any) => {
     const authorization = data;
     if (!authorization) {
       return null;
@@ -20,6 +20,14 @@ const jwtToken = {
       // return null if invalid token
       return null;
     }
+  },
+  sendRefreshToken: (res, refreshToken) => {
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+    });
+  },
+  sendAccessToken: (res, accessToken) => {
+    return res.status(200).json({ data: { accessToken }, message: 'ok' });
   },
 };
 

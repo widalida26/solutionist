@@ -14,8 +14,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const typeorm_1 = require("typeorm");
 const errorHandler_1 = __importDefault(require("./error/errorHandler"));
+const cors_1 = __importDefault(require("cors"));
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
+const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
+const yamljs_1 = __importDefault(require("yamljs"));
+const users_1 = __importDefault(require("./routes/users"));
+const swaggerDocument = yamljs_1.default.load('./solutionist.yaml');
 const port = 4000;
 const app = express_1.default();
+app.use('/api-docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swaggerDocument));
+app.use(cors_1.default());
+app.use(cookie_parser_1.default());
+app.use(express_1.default.json());
+app.use(express_1.default.urlencoded({ extended: false }));
+app.use('/user', users_1.default);
 typeorm_1.createConnection()
     .then((connection) => __awaiter(this, void 0, void 0, function* () { }))
     .catch((error) => console.log(error));
