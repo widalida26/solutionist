@@ -49,6 +49,7 @@
     "typedi": "^0.10.0",
     "typeorm": "^0.2.41",
     "typeorm-seeding": "^1.6.1",
+    "typeorm-typedi-extensions": "^0.4.1",
     "upgrade": "^1.1.0"
   },
   "compilerOptions": {

@@ -1,17 +1,28 @@
+import Container from 'typedi';
 import { Request, Response } from 'express';
-import { ISetsDTO, IProblems, IChoices } from '../../interface/ISets';
 import errorGenerator from '../../error/errorGenerator';
+import { ISetsDTO, IProblems, IChoices } from '../../interface/ISets';
+import { sets } from '../../database/entity/sets';
+import { SetService } from '../../service/sets';
 
 const add = (req: Request, res: Response) => {
-  const set: ISetsDTO = req.body;
-  const problems: IProblems[] = set['problems'];
+  const setDTO: ISetsDTO = req.body;
+  const problems: IProblems[] = setDTO['problems'];
 
   // 누락된 데이터가 있을 경우 에러 리턴
-  if (!set || !problems) {
+  if (!setDTO || !problems) {
     errorGenerator({ statusCode: 400 });
   }
 
   let userId: number = 1;
+
+  console.log(Container.get(SetService));
+  //Container.set('set-servce', SetService);
+  // sets 테이블 이용을 위한 setService 인스턴스
+  //const setServiceInstance: SetService = new SetService(sets);
+
+  //console.log(setServiceInstance);
+  //setServiceInstance.setMaker(userId, setDTO);
 
   // const choices: IChoices[] = problems.map((problem) => {
   //   return {problem['choices']};c

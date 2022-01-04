@@ -1,13 +1,13 @@
-import { Repository } from 'typeorm';
+import 'reflect-metadata';
 import { Service } from 'typedi';
-import { sets } from '../database/entity/sets';
+import { InjectRepository } from 'typeorm-typedi-extensions';
+import { Repository } from 'typeorm';
 import { ISetsDTO } from '../interface/ISets';
+import { SetsRepository } from '../database/repository/sets';
 
 @Service()
 export class SetService {
-  constructor(private setsRepo: Repository<sets>) {
-    this.setsRepo = setsRepo;
-  }
+  constructor(@InjectRepository() private setsRepo: SetsRepository) {}
 
   // 세트 정보 삽입
   async setMaker(userId: number, set: ISetsDTO) {
