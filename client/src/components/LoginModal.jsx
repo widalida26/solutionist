@@ -4,9 +4,9 @@ import styled, { keyframes } from 'styled-components';
 import { FcGoogle } from 'react-icons/fc';
 import { RiKakaoTalkFill } from 'react-icons/ri';
 import { FaTimesCircle } from 'react-icons/fa';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { device } from '../styles/Breakpoints';
-import { postLogin } from '../api/LoginModalAPI';
+import { postLogin, signUp, dupliEmail } from '../api/LoginModalAPI';
 
 // * 프리젠테이셔널 컴포넌트
 
@@ -212,12 +212,13 @@ const StyledWrapper = styled.div`
 const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }) => {
   const [toggle, setToggle] = useState(true);
   const handleToggle = () => {
+    setErrorMessage('');
     setToggle(!toggle);
   };
 
-  // * 로그인
+  // * 로그인 기능
   const [loginInfo, setLoginInfo] = useState({
-    userName: '',
+    username: '',
     password: '',
   });
   const [errorMessage, setErrorMessage] = useState('');
@@ -227,16 +228,20 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
     console.log(loginInfo);
   };
 
+  const [userInfoWithImage, setUserInfoWithImage] = useState({});
+  // console.log("로그인 후 유저인포", userInfo);
+  // console.log("로그인 후 isLogin", isLogin);
+
   const handleLogin = () => {
-    if (!loginInfo.userName || !loginInfo.password) {
+    if (!loginInfo.username || !loginInfo.password) {
       setErrorMessage('아이디와 비밀번호를 입력하세요');
     } else {
-      postLogin(loginInfo).catch((err) => {
+      postLogin(loginInfo, setUserInfoWithImage, onloginAction).catch((err) => {
         const errCode = err.response.status;
         if (errCode === 401) {
-          setErrorMessage('유효하지 않은 아이디 입니다!');
+          setErrorMessage('유효하지 않은 유저 입니다!');
         } else if (errCode === 404) {
-          setErrorMessage('유효하지 않은 비밀번호 입니다!');
+          setErrorMessage('404 not found');
         } else {
           setErrorMessage('로그인을 실패했습니다!');
         }
@@ -244,10 +249,153 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
     }
   };
 
+  // * 회원가입 기능
+  const [signupInfo, setSignupInfo] = useState({
+    email: '',
+    username: '',
+    password: '',
+    passwordConfirm: '',
+  });
+
+  const handleSignup = () => {
+    signUp(signupInfo).catch((err) => {
+      const errMessage = err.response.data.message;
+      if (errMessage === 'insufficient parameters supplied') {
+        setErrorMessage('내용을 모두 입력해주세요!');
+      } else {
+        setErrorMessage('회원가입에 실패했습니다!');
+      }
+    });
+  };
+
+  // * 유효성 검사
+  const [valiInfo, setValiInfo] = useState({
+    isEmail: false,
+    isUsername: false,
+    isPassword: false,
+    isPasswordConfirm: false,
+  });
+
+  const { isEmail, isUsername, isPassword, isPasswordConfirm } = valiInfo;
+
+  const [valiErrMessage, setValiErrMessage] = useState({
+    ErrEmail: '',
+    ErrUsername: '',
+    ErrPassword: '',
+    ErrPasswordConfirm: '',
+    ErrDupliEmail: '',
+  });
+
+  // console.log('singup onchange', signupInfo);
+  // console.log('밸리인포 불린', valiInfo);
+
+  // * 이메일 중복 검사
+  // TODO : 인풋창 벗어날 때 API 요청(onBlur), 성공시 아무것도 안함, 실패시 에러메시지 빨갛게 표시
+  const [isDupli, setIsDupli] = useState(false);
+
+  const checkDupli = () => {
+    dupliEmail(signupInfo, setIsDupli).catch(() => {
+      setValiErrMessage({
+        ...valiErrMessage,
+        ErrDupliEmail: '중복된 이메일이에요. 다시 입력해주세요',
+      });
+      // setIsDupli(true); // ! 중복 아닐시 (200 OK) state 관리 다시 확인
+      // console.log(isDupli);
+    });
+  };
+
+  // 회원가입 onChange
+  // 이메일
+  const onChangeEmail = useCallback(
+    (e) => {
+      setSignupInfo({ ...signupInfo, email: e.target.value });
+      const emailRegex =
+        /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+      const emailCurrent = e.target.value;
+      if (!emailRegex.test(emailCurrent)) {
+        setValiErrMessage({
+          ...valiErrMessage,
+          ErrEmail: '이메일 형식이 틀렸어요! 다시 확인해주세요!',
+        });
+        setValiInfo({ ...valiInfo, isEmail: false });
+      } else {
+        setValiErrMessage({ ...valiErrMessage, ErrEmail: '올바른 이메일 형식이에요 :)' });
+        setValiInfo({ ...valiInfo, isEmail: true });
+      }
+    },
+    [signupInfo]
+  );
+
+  // 아이디
+  const onChangeUsername = useCallback(
+    (e) => {
+      setSignupInfo({ ...signupInfo, username: e.target.value });
+      if (e.target.value.length < 3 || e.target.value.length > 10) {
+        setValiErrMessage({
+          ...valiErrMessage,
+          ErrUsername: '이름을 3글자 이상 10글자 이하로 입력해주세요.',
+        });
+        setValiInfo({ ...valiInfo, isUsername: false });
+      } else {
+        setValiErrMessage({
+          ...valiErrMessage,
+          ErrUsername: '올바른 이름 형식입니다 :)',
+        });
+        setValiInfo({ ...valiInfo, isUsername: true });
+      }
+    },
+    [signupInfo]
+  );
+
+  // 비밀번호
+  const onChangePassword = useCallback(
+    (e) => {
+      setSignupInfo({ ...signupInfo, password: e.target.value });
+      const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+      const passwordCurrent = e.target.value;
+      if (!passwordRegex.test(passwordCurrent)) {
+        setValiErrMessage({
+          ...valiErrMessage,
+          ErrPassword: `숫자+영문자+특수문자 조합으로
+          8자리 이상 입력해주세요!
+          사용 가능한 특수문자는 !@#$%^*+=- 입니다.`,
+        });
+        setValiInfo({ ...valiInfo, isPassword: false });
+      } else {
+        setValiErrMessage({
+          ...valiErrMessage,
+          ErrPassword: '안전한 비밀번호에요 :)',
+        });
+        setValiInfo({ ...valiInfo, isPassword: true });
+      }
+    },
+    [signupInfo]
+  );
+
+  // 비밀번호 확인
+  const onChangePasswordConfirm = useCallback(
+    (e) => {
+      setSignupInfo({ ...signupInfo, passwordConfirm: e.target.value });
+      const passwordConfirmCurrent = e.target.value;
+      if (signupInfo.password === passwordConfirmCurrent) {
+        setValiErrMessage({
+          ...valiErrMessage,
+          ErrPasswordConfirm: '비밀번호를 똑같이 입력했어요 :)',
+        });
+        setValiInfo({ ...valiInfo, isPasswordConfirm: true });
+      } else {
+        setValiErrMessage({
+          ...valiErrMessage,
+          ErrPasswordConfirm: '비밀번호가 달라요. 다시 확인해주세요!',
+        });
+        setValiInfo({ ...valiInfo, isPasswordConfirm: false });
+      }
+    },
+    [signupInfo]
+  );
+
   // * 임시 코드 : 새로고침 모달 켜기
   // useEffect(() => {});
-
-  console.log('이즈로그인 트루되나', isLogin);
 
   return (
     <>
@@ -306,6 +454,7 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
                         </StyledButton>
                       </ButtonContainer>
                       {errorMessage ? <div>{errorMessage}</div> : ''}
+                      <br />
                       <FlexEndGroup onClick={handleToggle}>
                         <span>아직 계정이 없으신가요?</span>
                       </FlexEndGroup>
@@ -313,7 +462,7 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
                   </FormBox>
                 </ModalContainer>
               ) : (
-                <ModalContainer>
+                <ModalContainer onSubmit={(e) => e.preventDefault()}>
                   <FormBox
                     marginRight={'5.3%'}
                     paddingRight={'5.3%'}
@@ -321,24 +470,76 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
                   >
                     <InputBox marginBottom={'5.7%'}>
                       <label>Email</label>
-                      <input placeholder="kimcoding@gmail.com"></input>
+                      <input
+                        onBlur={checkDupli}
+                        onChange={onChangeEmail}
+                        placeholder="kimcoding@gmail.com"
+                      ></input>
                     </InputBox>
+                    {valiErrMessage.ErrEmail ? (
+                      isDupli ? (
+                        <div style={{ color: 'red' }}>{valiErrMessage.ErrDupliEmail}</div>
+                      ) : (
+                        <div>{valiErrMessage.ErrEmail}</div>
+                      )
+                    ) : (
+                      ''
+                    )}
+                    <br />
                     <InputBox marginBottom={'5.7%'}>
                       <label>Username</label>
-                      <input placeholder="김코딩"></input>
+                      <input onChange={onChangeUsername} placeholder="김코딩"></input>
                     </InputBox>
+                    {valiErrMessage.ErrUsername ? (
+                      <div>{valiErrMessage.ErrUsername}</div>
+                    ) : (
+                      ''
+                    )}
+                    <br />
                     <InputBox marginBottom={'5.7%'}>
                       <label>Password</label>
-                      <input type={'password'} placeholder="**********"></input>
+                      <input
+                        onChange={onChangePassword}
+                        type={'password'}
+                        placeholder="**********"
+                      ></input>
                     </InputBox>
+                    {valiErrMessage.ErrPassword ? (
+                      <div>{valiErrMessage.ErrPassword}</div>
+                    ) : (
+                      ''
+                    )}
+                    <br />
                     <BetweenDiv>
                       <InputBox marginBottom={'5.7%'}>
                         <label>Password Check</label>
-                        <input type={'password'} placeholder="**********"></input>
+                        <input
+                          onChange={onChangePasswordConfirm}
+                          type={'password'}
+                          placeholder="**********"
+                        ></input>
                       </InputBox>
+                      {valiErrMessage.ErrPasswordConfirm ? (
+                        <div>{valiErrMessage.ErrPasswordConfirm}</div>
+                      ) : (
+                        ''
+                      )}
+                      <br />
+                      {errorMessage ? <div>{errorMessage}</div> : ''}
+                      <br />
                       <SignupGroup>
                         <span onClick={handleToggle}>로그인 화면으로 돌아가기</span>
-                        <StyledButton>SIGNUP</StyledButton>
+                        <StyledButton
+                          onClick={() =>
+                            !(isEmail && isUsername && isPassword && isPasswordConfirm)
+                              ? setErrorMessage(
+                                  '채우지 않았거나 유효하지 않은 입력이 있어요.'
+                                )
+                              : handleSignup()
+                          }
+                        >
+                          SIGNUP
+                        </StyledButton>
                       </SignupGroup>
                     </BetweenDiv>
                   </FormBox>
