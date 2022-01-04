@@ -4,7 +4,6 @@ import './reset.css';
 import './App.css';
 import LoginModalContainer from './containers/LoginModalContainer';
 import NavContainer from './containers/NavContainer';
-// import Nav from './components/Nav';
 import Landing from './pages/Landing';
 import MySet from './pages/MySet';
 import Make from './pages/Make';
