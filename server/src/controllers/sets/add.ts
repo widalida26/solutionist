@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import errorGenerator from 'src/error/errorGenerator';
 import ErrorWithStatusCode from 'src/error/errorGenerator';
-//import { ErrorWithStatusCode } from 'src/error/errorHandler';
 
 import { ISets, IProblems, IChoices } from '../../../interface/ISets';
 

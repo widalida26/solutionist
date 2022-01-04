@@ -34,26 +34,12 @@ createConnection()
 app.get('/', (req, res) => {
   res.send('hello');
 });
-app.get('/hello', (req, res) => {
-  //errorGenerator({ statusCode: 500 });
-});
 
 // routing to controllers
 app.use(setsRouter);
 
 // error handler
-//app.use(errorHandler);
-
 app.use(errorHandler);
-// app.use(function (
-//   err: ErrorWithStatusCode,
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) {
-//   console.log('에러발생');
-//   // logic
-// });
 
 // server listening
 app.listen(port, () => {

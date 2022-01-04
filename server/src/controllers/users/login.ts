@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import cryptos from '../../crypto';
 import { users } from '../../database/entity/users';
-//import errorGenerator from '../../error/errorGenerator';
+import errorGenerator from '../../error/errorGenerator';
 import { getConnection, getRepository } from 'typeorm';
 import jwtToken from '../tokenFunctions/index';
 
