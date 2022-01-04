@@ -218,7 +218,7 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
 
   // * 로그인 기능
   const [loginInfo, setLoginInfo] = useState({
-    userName: '',
+    username: '',
     password: '',
   });
   const [errorMessage, setErrorMessage] = useState('');
@@ -233,7 +233,7 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
   // console.log("로그인 후 isLogin", isLogin);
 
   const handleLogin = () => {
-    if (!loginInfo.userName || !loginInfo.password) {
+    if (!loginInfo.username || !loginInfo.password) {
       setErrorMessage('아이디와 비밀번호를 입력하세요');
     } else {
       postLogin(loginInfo, setUserInfoWithImage, onloginAction).catch((err) => {
@@ -252,9 +252,9 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
   // * 회원가입 기능
   const [signupInfo, setSignupInfo] = useState({
     email: '',
-    userId: '',
+    username: '',
     password: '',
-    passwordConfirmation: '',
+    passwordConfirm: '',
   });
 
   const handleSignup = () => {
@@ -271,13 +271,13 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
   // * 유효성 검사
   const [valiInfo, setValiInfo] = useState({
     isEmail: false,
-    isUserId: false,
+    isUsername: false,
     isPassword: false,
     isPasswordConfirm: false,
   });
 
-  console.log('singup onchange 이메일', signupInfo.email);
-  console.log('밸리인포 이메일', valiInfo.isEmail);
+  // console.log('singup onchange', signupInfo);
+  // console.log('밸리인포 불린', valiInfo);
 
   // 회원가입 onChange
   // 이메일
@@ -287,12 +287,9 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
       const emailRegex =
         /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
       const emailCurrent = e.target.value;
-      // setEmail(emailCurrent);
 
       if (!emailRegex.test(emailCurrent)) {
-        // console.log('이메일 형식이 틀렸어요! 다시 확인해주세요!');
         setErrorMessage('이메일 형식이 틀렸어요! 다시 확인해주세요!');
-        // setValiInfo({ ...valiInfo, isEmail: false });
       } else {
         setErrorMessage('올바른 이메일 형식이에요 :)');
         setValiInfo({ ...valiInfo, isEmail: true });
@@ -301,62 +298,58 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
     [signupInfo]
   );
 
-  // // 아이디
-  // const onChangeUserId = useCallback(
-  //   (e) => {
-  //     setUserInfo({ ...userInfo, userId: e.target.value });
-  //     setUserId(e.target.value);
-  //     if (e.target.value.length < 3 || e.target.value.length > 10) {
-  //       setUserIdMessage('3글자 이상 10글자 이하로 입력해주세요.');
-  //       setIsEmail(false);
-  //     } else {
-  //       setUserIdMessage('올바른 이름 형식입니다 :)');
-  //       setIsEmail(true);
-  //     }
-  //   },
-  //   [userInfo]
-  // );
+  // 아이디
+  const onChangeUsername = useCallback(
+    (e) => {
+      setSignupInfo({ ...signupInfo, username: e.target.value });
+      // setUserId(e.target.value);
+      if (e.target.value.length < 3 || e.target.value.length > 10) {
+        setErrorMessage('이름을 3글자 이상 10글자 이하로 입력해주세요.');
+        // setIsEmail(false);
+      } else {
+        setErrorMessage('올바른 이름 형식입니다 :)');
+        setValiInfo({ ...valiInfo, isUsername: true });
+      }
+    },
+    [signupInfo]
+  );
 
-  // // 비밀번호
-  // const onChangePassword = useCallback(
-  //   (e) => {
-  //     setUserInfo({ ...userInfo, password: e.target.value });
-  //     const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
-  //     const passwordCurrent = e.target.value;
-  //     setPassword(passwordCurrent);
+  // 비밀번호
+  const onChangePassword = useCallback(
+    (e) => {
+      setSignupInfo({ ...signupInfo, password: e.target.value });
+      const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+      const passwordCurrent = e.target.value;
 
-  //     if (!passwordRegex.test(passwordCurrent)) {
-  //       setPasswordMessage(
-  //         `숫자+영문자+특수문자 조합으로
-  //         8자리 이상 입력해주세요!
-  //         사용 가능한 특수문자는 !@#$%^*+=- 입니다.`
-  //       );
-  //       setIsPassword(false);
-  //     } else {
-  //       setPasswordMessage('안전한 비밀번호에요 :)');
-  //       setIsPassword(true);
-  //     }
-  //   },
-  //   [userInfo]
-  // );
+      if (!passwordRegex.test(passwordCurrent)) {
+        setErrorMessage(
+          `숫자+영문자+특수문자 조합으로
+          8자리 이상 입력해주세요!
+          사용 가능한 특수문자는 !@#$%^*+=- 입니다.`
+        );
+      } else {
+        setErrorMessage('안전한 비밀번호에요 :)');
+        setValiInfo({ ...valiInfo, isPassword: true });
+      }
+    },
+    [signupInfo]
+  );
 
-  // // 비밀번호 확인
-  // const onChangePasswordConfirm = useCallback(
-  //   (e) => {
-  //     setUserInfo({ ...userInfo, passwordConfirmation: e.target.value });
-  //     const passwordConfirmCurrent = e.target.value;
-  //     setPasswordConfirm(passwordConfirmCurrent);
+  // 비밀번호 확인
+  const onChangePasswordConfirm = useCallback(
+    (e) => {
+      setSignupInfo({ ...signupInfo, passwordConfirm: e.target.value });
+      const passwordConfirmCurrent = e.target.value;
 
-  //     if (password === passwordConfirmCurrent) {
-  //       setPasswordConfirmMessage('비밀번호를 똑같이 입력했어요 :)');
-  //       setIsPasswordConfirm(true);
-  //     } else {
-  //       setPasswordConfirmMessage('비밀번호가 달라요. 다시 확인해주세요!');
-  //       setIsPasswordConfirm(false);
-  //     }
-  //   },
-  //   [userInfo, password]
-  // );
+      if (signupInfo.password === passwordConfirmCurrent) {
+        setErrorMessage('비밀번호를 똑같이 입력했어요 :)');
+      } else {
+        setErrorMessage('비밀번호가 달라요. 다시 확인해주세요!');
+        setValiInfo({ ...valiInfo, isPasswordConfirm: true });
+      }
+    },
+    [signupInfo]
+  );
 
   // * 임시 코드 : 새로고침 모달 켜기
   // useEffect(() => {});
@@ -440,16 +433,24 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
                     </InputBox>
                     <InputBox marginBottom={'5.7%'}>
                       <label>Username</label>
-                      <input placeholder="김코딩"></input>
+                      <input onChange={onChangeUsername} placeholder="김코딩"></input>
                     </InputBox>
                     <InputBox marginBottom={'5.7%'}>
                       <label>Password</label>
-                      <input type={'password'} placeholder="**********"></input>
+                      <input
+                        onChange={onChangePassword}
+                        type={'password'}
+                        placeholder="**********"
+                      ></input>
                     </InputBox>
                     <BetweenDiv>
                       <InputBox marginBottom={'5.7%'}>
                         <label>Password Check</label>
-                        <input type={'password'} placeholder="**********"></input>
+                        <input
+                          onChange={onChangePasswordConfirm}
+                          type={'password'}
+                          placeholder="**********"
+                        ></input>
                       </InputBox>
                       {errorMessage ? <div>{errorMessage}</div> : ''}
                       <br />

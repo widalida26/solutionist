@@ -5,7 +5,7 @@ export function postLogin(state, setUserInfoWithImage) {
     .post(
       `${process.env.REACT_APP_SERVER_URL}/login`,
       {
-        userName: state.userName,
+        username: state.username,
         password: state.password,
       },
       {
@@ -51,7 +51,7 @@ export function signUp(state) {
   return axios
     .post(`${process.env.REACT_APP_SERVER_URL}/signup`, {
       email: state.email,
-      userId: state.userId,
+      username: state.username,
       password: state.password,
     })
     .then(() => console.log('회원가입 성공')); // 회원가입 버튼 클릭시 모달 열기
