@@ -1,4 +1,5 @@
 const path = require('path');
+const Dotenv = require('dotenv-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
@@ -21,6 +22,18 @@ module.exports = {
         loader: 'babel-loader',
         exclude: ['/node_modules/'],
       },
+      {
+        test: /\.p?css$/, //css 파일을 선택하는 정규표현식
+        use: [
+          { loader: 'style-loader' },
+          { loader: 'css-loader' },
+          { loader: 'postcss-loader' }, // postcss 적용하기
+        ],
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/,
+        use: ['file-loader?name=src/assets/[name].[ext]?[hash]', 'image-webpack-loader'],
+      },
     ],
   },
 
@@ -28,6 +41,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'build'), // 빌드되는 파일들이 만들어지는 위치, __dirname: 현재 디렉토리
     filename: 'bundle.js', // 번들파일 이름
+    publicPath: '/',
   },
 
   // webpack 서버 설정
@@ -37,6 +51,7 @@ module.exports = {
     },
     compress: true,
     port: 9000,
+    historyApiFallback: true,
   },
 
   plugins: [
@@ -44,5 +59,6 @@ module.exports = {
       // index.html에 output에서 만들어진 bundle.js를 적용하여, deploy에 새로운 html 파일 생성
       template: `./public/index.html`,
     }),
+    new Dotenv(),
   ],
 };

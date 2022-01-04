@@ -1,5 +1,8 @@
 import express from 'express';
 import { createConnection, Connection } from 'typeorm';
+import errorHandler from './error/errorHandler';
+
+const port = 4000;
 
 const app = express();
 
@@ -11,6 +14,7 @@ app.get('/', (req, res) => {
   res.send('hello');
 });
 
-app.listen('4000', () => {
-  console.log('hello');
+app.use(errorHandler);
+app.listen(port, () => {
+  console.log(`server is listening on ${port}`);
 });
