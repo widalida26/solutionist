@@ -11,7 +11,8 @@
     "migration": "npm run typeorm migration:run",
     "migration:create": "npm run typeorm migration:create -n",
     "migration:revert": "npm run typeorm migration:revert",
-    "seed": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed"
+    "seed": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed",
+    "seed:config": "ts-node ./node_modules/typeorm-seeding/dist/cli.js config"
   },
   "repository": {
     "type": "git",
