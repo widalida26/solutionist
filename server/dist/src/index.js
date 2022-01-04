@@ -12,7 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const cors_1 = __importDefault(require("cors"));
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const typeorm_1 = require("typeorm");
+const sets_1 = __importDefault(require("./routes/sets"));
 const errorHandler_1 = __importDefault(require("./error/errorHandler"));
 const cors_1 = __importDefault(require("cors"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
@@ -22,19 +25,32 @@ const users_1 = __importDefault(require("./routes/users"));
 const swaggerDocument = yamljs_1.default.load('./solutionist.yaml');
 const port = 4000;
 const app = express_1.default();
+<<<<<<< HEAD
+// middlewares
+=======
 app.use('/api-docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swaggerDocument));
+>>>>>>> b9d124381a62feb6a4f67a2457acf425b7fd770a
 app.use(cors_1.default());
 app.use(cookie_parser_1.default());
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
+<<<<<<< HEAD
+// db connection
+=======
 app.use('/user', users_1.default);
+>>>>>>> b9d124381a62feb6a4f67a2457acf425b7fd770a
 typeorm_1.createConnection()
     .then((connection) => __awaiter(this, void 0, void 0, function* () { }))
     .catch((error) => console.log(error));
+// basic routing
 app.get('/', (req, res) => {
     res.send('hello');
 });
+// routing to controllers
+app.use(sets_1.default);
+// error handler
 app.use(errorHandler_1.default);
+// server listening
 app.listen(port, () => {
     console.log(`server is listening on ${port}`);
 });

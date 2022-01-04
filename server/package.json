@@ -5,13 +5,14 @@
   "main": "index.ts",
   "scripts": {
     "start": "ts-node src/index.ts",
-    "dev": "tsc-watch --onSuccess \"nodemon dist/src/index.js\"",
+    "dev": "tsc-watch --onSuccess \"nodemon -r tsconfig-paths/register src/index.ts\"",
     "build": "tsc -p .",
     "typeorm": "ts-node ./node_modules/typeorm/cli.js",
     "migration": "npm run typeorm migration:run",
     "migration:create": "npm run typeorm migration:create -n",
     "migration:revert": "npm run typeorm migration:revert",
-    "seed": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed"
+    "seed": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed",
+    "seed:config": "ts-node ./node_modules/typeorm-seeding/dist/cli.js config"
   },
   "repository": {
     "type": "git",
