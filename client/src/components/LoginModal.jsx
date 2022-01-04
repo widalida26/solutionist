@@ -6,7 +6,7 @@ import { RiKakaoTalkFill } from 'react-icons/ri';
 import { FaTimesCircle } from 'react-icons/fa';
 import { useState, useEffect, useCallback } from 'react';
 import { device } from '../styles/Breakpoints';
-import { postLogin, signUp } from '../api/LoginModalAPI';
+import { postLogin, signUp, dupliEmail } from '../api/LoginModalAPI';
 
 // * 프리젠테이셔널 컴포넌트
 
@@ -283,10 +283,26 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
     ErrUsername: '',
     ErrPassword: '',
     ErrPasswordConfirm: '',
+    ErrDupliEmail: '',
   });
 
   // console.log('singup onchange', signupInfo);
   // console.log('밸리인포 불린', valiInfo);
+
+  // * 이메일 중복 검사
+  // TODO : 인풋창 벗어날 때 API 요청(onBlur), 성공시 아무것도 안함, 실패시 에러메시지 빨갛게 표시
+  const [isDupli, setIsDupli] = useState(false);
+
+  const checkDupli = () => {
+    dupliEmail(signupInfo, setIsDupli).catch(() => {
+      setValiErrMessage({
+        ...valiErrMessage,
+        ErrDupliEmail: '중복된 이메일이에요. 다시 입력해주세요',
+      });
+      // setIsDupli(true); // ! 중복 아닐시 (200 OK) state 관리 다시 확인
+      // console.log(isDupli);
+    });
+  };
 
   // 회원가입 onChange
   // 이메일
@@ -455,11 +471,20 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
                     <InputBox marginBottom={'5.7%'}>
                       <label>Email</label>
                       <input
+                        onBlur={checkDupli}
                         onChange={onChangeEmail}
                         placeholder="kimcoding@gmail.com"
                       ></input>
                     </InputBox>
-                    {valiErrMessage.ErrEmail ? <div>{valiErrMessage.ErrEmail}</div> : ''}
+                    {valiErrMessage.ErrEmail ? (
+                      isDupli ? (
+                        <div style={{ color: 'red' }}>{valiErrMessage.ErrDupliEmail}</div>
+                      ) : (
+                        <div>{valiErrMessage.ErrEmail}</div>
+                      )
+                    ) : (
+                      ''
+                    )}
                     <br />
                     <InputBox marginBottom={'5.7%'}>
                       <label>Username</label>

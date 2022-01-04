@@ -54,5 +54,16 @@ export function signUp(state) {
       username: state.username,
       password: state.password,
     })
-    .then(() => console.log('회원가입 성공')); // 회원가입 버튼 클릭시 모달 열기
+    .then(() => console.log('회원가입 성공'));
+}
+
+export function dupliEmail(state, setIsDupli) {
+  return axios
+    .post(`${process.env.REACT_APP_SERVER_URL}/users/email/${state.email}`, {
+      email: state.email,
+    })
+    .then(() => {
+      // setIsDupli(false);
+      console.log('중복 이메일 아님 사용 가능 ㅊㅋㅊㅋ');
+    });
 }
