@@ -3,6 +3,7 @@ const HTTP_STATUS_MESSAGES = {
   401: 'invalid user',
   409: 'duplicate information',
   500: 'internal Server Error',
+  422: 'insufficient parameters supplied',
 };
 
 export interface ErrorWithStatusCode extends Error {

@@ -1,0 +1,125 @@
+openapi: 3.0.0
+info:
+  title: solutionist
+  description: solutionist desc
+  version: '1.0.0'
+servers:
+  - url: 'http://localhost:4000'
+tags:
+  - name: user
+    description: Operations about user
+  - name: search && sets
+    description: Operations about gathering
+  - name: myInfo
+paths:
+  /user/signup:
+    post:
+      tags:
+        - user
+      summary: signup
+      description: user signup
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+              required:
+                - username
+                - email
+                - password
+              example:
+                username: messi
+                email: messi@google.com
+                password: 'messi'
+        required: true
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    default: successfully signed in
+        '500':
+          description: internal Server Error
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: internal server error
+  /user/login:
+    post:
+      tags:
+        - user
+      summary: login
+      description: login
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+              required:
+                - username
+                - password
+              example:
+                username: messi
+                password: 'messi'
+        required: true
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  username:
+                    type: string
+                  email:
+                    type: string
+                  profileImage:
+                    type: string
+                example:
+                  id: 1
+                  username: 'messi'
+                  email: 'messi@google.com'
+                  profileImage: 'http://image.com'
+
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: invalid user
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: internal server error

@@ -1,23 +1,32 @@
 import { Request, Response } from 'express';
-const { encrypt } = require('./crypto');
-import { users } from '../../../dist/src';
+import cryptos from '../../crypto';
+import { users } from '../../database/entity/users';
+import errorGenerator from '../../error/errorGenerator';
+import { getConnection } from 'typeorm';
 
 const signup = async (req: Request, res: Response) => {
   try {
-    const { userName, email, password } = req.body;
+    const { username, email, password } = req.body;
 
-    if (!userName || !email || !password) {
-      return res.status(422).send('insufficient parameters supplied');
+    if (!username || !email || !password) {
+      return res.status(422).send('successfully signed in');
     }
-    // encrypt(password); 다 만들고 나서 적용 시작
-    const createUser = await users.create({
-      username: userName,
-      password: password,
-      email: email,
-    });
-    return res.status(200).send('ok');
+
+    console.log(username, email, password);
+    const dbpw = cryptos.encrypt(password);
+
+    console.log(dbpw);
+    const user = await getConnection()
+      .createQueryBuilder()
+      .insert()
+      .into(users)
+      .values([{ username: username, email: email, password: dbpw }])
+      .execute();
+    return res.status(200).send('successfully signed in');
   } catch (err) {
-    return res.status(400).send('internal server error');
+    console.log(err);
+    return res.status(500).send('internal server error');
+    // return res.status(500).send('internal server error');
   }
 };
 
