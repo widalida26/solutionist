@@ -7,25 +7,34 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const { encrypt } = require('./crypto');
-const src_1 = require("../../../dist/src");
+const crypto_1 = __importDefault(require("../../crypto"));
+const users_1 = require("../../database/entity/users");
+const typeorm_1 = require("typeorm");
 const signup = (req, res) => __awaiter(this, void 0, void 0, function* () {
     try {
-        const { userName, email, password } = req.body;
-        if (!userName || !email || !password) {
-            return res.status(422).send('insufficient parameters supplied');
+        const { username, email, password } = req.body;
+        if (!username || !email || !password) {
+            return res.status(422).send('successfully signed in');
         }
-        // encrypt(password); 다 만들고 나서 적용 시작
-        const createUser = yield src_1.users.create({
-            username: userName,
-            password: password,
-            email: email,
-        });
-        return res.status(200).send('ok');
+        console.log(username, email, password);
+        const dbpw = crypto_1.default.encrypt(password);
+        console.log(dbpw);
+        const user = yield typeorm_1.getConnection()
+            .createQueryBuilder()
+            .insert()
+            .into(users_1.users)
+            .values([{ username: username, email: email, password: dbpw }])
+            .execute();
+        return res.status(200).send('successfully signed in');
     }
     catch (err) {
-        return res.status(400).send('internal server error');
+        console.log(err);
+        return res.status(500).send('internal server error');
+        // return res.status(500).send('internal server error');
     }
 });
 exports.default = signup;

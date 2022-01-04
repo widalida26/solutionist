@@ -5,6 +5,7 @@ const HTTP_STATUS_MESSAGES = {
     401: 'invalid user',
     409: 'duplicate information',
     500: 'internal Server Error',
+    422: 'insufficient parameters supplied',
 };
 const errorGenerator = ({ msg = '', statusCode = 500, }) => {
     const err = new Error(msg || HTTP_STATUS_MESSAGES[statusCode]);

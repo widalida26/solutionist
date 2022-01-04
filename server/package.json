@@ -30,12 +30,15 @@
     "express": "^4.17.2",
     "nodemon": "^2.0.15",
     "pm2": "^5.1.2",
+    "swagger-jsdoc": "^6.1.0",
+    "swagger-ui-express": "^4.3.0",
     "ts-node": "3.3.0",
     "typescript": "3.3.3333"
   },
   "dependencies": {
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.14.1",
     "mysql2": "^2.3.3",
