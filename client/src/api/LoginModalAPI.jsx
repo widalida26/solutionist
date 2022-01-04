@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-export function postLogin(state, setUserInfo) {
+export function postLogin(state, setUserInfoWithImage) {
   return axios
     .post(
       `${process.env.REACT_APP_SERVER_URL}/login`,
@@ -19,7 +19,7 @@ export function postLogin(state, setUserInfo) {
     .then((res) => {
       // ! 수정 & 확인
       // handleResponseSuccess(data.data.data);
-      setUserInfo(res.data.data);
+      setUserInfoWithImage(res.data.data);
       getAuth();
       // return res.data.data;
     });
@@ -45,4 +45,14 @@ function getAuth() {
       onloginAction();
     })
     .catch(console.log('getAuth error'));
+}
+
+export function signUp(state) {
+  return axios
+    .post(`${process.env.REACT_APP_SERVER_URL}/signup`, {
+      email: state.email,
+      userId: state.userId,
+      password: state.password,
+    })
+    .then(() => console.log('회원가입 성공')); // 회원가입 버튼 클릭시 모달 열기
 }

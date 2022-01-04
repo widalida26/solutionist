@@ -4,9 +4,9 @@ import styled, { keyframes } from 'styled-components';
 import { FcGoogle } from 'react-icons/fc';
 import { RiKakaoTalkFill } from 'react-icons/ri';
 import { FaTimesCircle } from 'react-icons/fa';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { device } from '../styles/Breakpoints';
-import { postLogin } from '../api/LoginModalAPI';
+import { postLogin, signUp } from '../api/LoginModalAPI';
 
 // * 프리젠테이셔널 컴포넌트
 
@@ -212,6 +212,7 @@ const StyledWrapper = styled.div`
 const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }) => {
   const [toggle, setToggle] = useState(true);
   const handleToggle = () => {
+    setErrorMessage('');
     setToggle(!toggle);
   };
 
@@ -227,7 +228,7 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
     console.log(loginInfo);
   };
 
-  const [userInfo, setUserInfo] = useState({});
+  const [userInfoWithImage, setUserInfoWithImage] = useState({});
   // console.log("로그인 후 유저인포", userInfo);
   // console.log("로그인 후 isLogin", isLogin);
 
@@ -235,7 +236,7 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
     if (!loginInfo.userName || !loginInfo.password) {
       setErrorMessage('아이디와 비밀번호를 입력하세요');
     } else {
-      postLogin(loginInfo, setUserInfo, onloginAction).catch((err) => {
+      postLogin(loginInfo, setUserInfoWithImage, onloginAction).catch((err) => {
         const errCode = err.response.status;
         if (errCode === 401) {
           setErrorMessage('유효하지 않은 유저 입니다!');
@@ -249,6 +250,113 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
   };
 
   // * 회원가입 기능
+  const [signupInfo, setSignupInfo] = useState({
+    email: '',
+    userId: '',
+    password: '',
+    passwordConfirmation: '',
+  });
+
+  const handleSignup = () => {
+    signUp(signupInfo).catch((err) => {
+      const errMessage = err.response.data.message;
+      if (errMessage === 'insufficient parameters supplied') {
+        setErrorMessage('내용을 모두 입력해주세요!');
+      } else {
+        setErrorMessage('회원가입에 실패했습니다!');
+      }
+    });
+  };
+
+  // * 유효성 검사
+  const [valiInfo, setValiInfo] = useState({
+    isEmail: false,
+    isUserId: false,
+    isPassword: false,
+    isPasswordConfirm: false,
+  });
+
+  console.log('singup onchange 이메일', signupInfo.email);
+  console.log('밸리인포 이메일', valiInfo.isEmail);
+
+  // 회원가입 onChange
+  // 이메일
+  const onChangeEmail = useCallback(
+    (e) => {
+      setSignupInfo({ ...signupInfo, email: e.target.value });
+      const emailRegex =
+        /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+      const emailCurrent = e.target.value;
+      // setEmail(emailCurrent);
+
+      if (!emailRegex.test(emailCurrent)) {
+        // console.log('이메일 형식이 틀렸어요! 다시 확인해주세요!');
+        setErrorMessage('이메일 형식이 틀렸어요! 다시 확인해주세요!');
+        // setValiInfo({ ...valiInfo, isEmail: false });
+      } else {
+        setErrorMessage('올바른 이메일 형식이에요 :)');
+        setValiInfo({ ...valiInfo, isEmail: true });
+      }
+    },
+    [signupInfo]
+  );
+
+  // // 아이디
+  // const onChangeUserId = useCallback(
+  //   (e) => {
+  //     setUserInfo({ ...userInfo, userId: e.target.value });
+  //     setUserId(e.target.value);
+  //     if (e.target.value.length < 3 || e.target.value.length > 10) {
+  //       setUserIdMessage('3글자 이상 10글자 이하로 입력해주세요.');
+  //       setIsEmail(false);
+  //     } else {
+  //       setUserIdMessage('올바른 이름 형식입니다 :)');
+  //       setIsEmail(true);
+  //     }
+  //   },
+  //   [userInfo]
+  // );
+
+  // // 비밀번호
+  // const onChangePassword = useCallback(
+  //   (e) => {
+  //     setUserInfo({ ...userInfo, password: e.target.value });
+  //     const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+  //     const passwordCurrent = e.target.value;
+  //     setPassword(passwordCurrent);
+
+  //     if (!passwordRegex.test(passwordCurrent)) {
+  //       setPasswordMessage(
+  //         `숫자+영문자+특수문자 조합으로
+  //         8자리 이상 입력해주세요!
+  //         사용 가능한 특수문자는 !@#$%^*+=- 입니다.`
+  //       );
+  //       setIsPassword(false);
+  //     } else {
+  //       setPasswordMessage('안전한 비밀번호에요 :)');
+  //       setIsPassword(true);
+  //     }
+  //   },
+  //   [userInfo]
+  // );
+
+  // // 비밀번호 확인
+  // const onChangePasswordConfirm = useCallback(
+  //   (e) => {
+  //     setUserInfo({ ...userInfo, passwordConfirmation: e.target.value });
+  //     const passwordConfirmCurrent = e.target.value;
+  //     setPasswordConfirm(passwordConfirmCurrent);
+
+  //     if (password === passwordConfirmCurrent) {
+  //       setPasswordConfirmMessage('비밀번호를 똑같이 입력했어요 :)');
+  //       setIsPasswordConfirm(true);
+  //     } else {
+  //       setPasswordConfirmMessage('비밀번호가 달라요. 다시 확인해주세요!');
+  //       setIsPasswordConfirm(false);
+  //     }
+  //   },
+  //   [userInfo, password]
+  // );
 
   // * 임시 코드 : 새로고침 모달 켜기
   // useEffect(() => {});
@@ -317,7 +425,7 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
                   </FormBox>
                 </ModalContainer>
               ) : (
-                <ModalContainer>
+                <ModalContainer onSubmit={(e) => e.preventDefault()}>
                   <FormBox
                     marginRight={'5.3%'}
                     paddingRight={'5.3%'}
@@ -325,7 +433,10 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
                   >
                     <InputBox marginBottom={'5.7%'}>
                       <label>Email</label>
-                      <input placeholder="kimcoding@gmail.com"></input>
+                      <input
+                        onChange={onChangeEmail}
+                        placeholder="kimcoding@gmail.com"
+                      ></input>
                     </InputBox>
                     <InputBox marginBottom={'5.7%'}>
                       <label>Username</label>
@@ -340,9 +451,11 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
                         <label>Password Check</label>
                         <input type={'password'} placeholder="**********"></input>
                       </InputBox>
+                      {errorMessage ? <div>{errorMessage}</div> : ''}
+                      <br />
                       <SignupGroup>
                         <span onClick={handleToggle}>로그인 화면으로 돌아가기</span>
-                        <StyledButton>SIGNUP</StyledButton>
+                        <StyledButton onClick={handleSignup}>SIGNUP</StyledButton>
                       </SignupGroup>
                     </BetweenDiv>
                   </FormBox>
