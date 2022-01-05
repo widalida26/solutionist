@@ -4,26 +4,33 @@ import errorGenerator from '../../error/errorGenerator';
 import { ISetsDTO, IProblems, IChoices } from '../../interface/ISets';
 import { SetService } from '../../service/sets';
 
-const add = (req: Request, res: Response) => {
+const add = async (req: Request, res: Response) => {
   const setDTO: ISetsDTO = req.body;
   const problems: IProblems[] = setDTO['problems'];
 
-  // 누락된 데이터가 있을 경우 에러 리턴
+  // 누락된 데이터가 있을 경우
   if (!setDTO || !problems) {
     errorGenerator({ statusCode: 400 });
   }
 
-  let userId: number = 1;
   // sets 테이블 이용을 위한 setService 인스턴스
   const setServiceInstance: SetService = Container.get(SetService);
 
-  // 세트 제작
-  setServiceInstance.setMaker(userId, setDTO);
+  // 세트 id가 있을 때 => 문제 수정
+  if (setDTO.id) {
+    // 기존 세트 삭제
+    await setServiceInstance.setRemover(setDTO.id);
+  }
+
+  let userId: number = 1;
+
+  // // 세트 제작
+  await setServiceInstance.setMaker(userId, setDTO);
 
   // const choices: IChoices[] = problems.map((problem) => {
   //   return {problem['choices']};c
   // });
 
-  res.send();
+  res.end();
 };
 export default add;
