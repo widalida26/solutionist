@@ -1,20 +1,25 @@
-import express, { NextFunction, Request, Response } from 'express';
+import 'reflect-metadata';
+import express from 'express';
 import cors from 'cors';
 import cookieparser from 'cookie-parser';
-import { createConnection } from 'typeorm';
-import setsRouter from './routes/sets';
+import { createConnection, useContainer } from 'typeorm';
+import { Container } from 'typeorm-typedi-extensions';
 import errorHandler from './error/errorHandler';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
-
 import usersRouter from './routes/users';
-//import errorGenerator, { ErrorWithStatusCode } from './error/errorGenerator';
-const swaggerDocument = YAML.load('./solutionist.yaml');
+import setsRouter from './routes/sets';
+
+useContainer(Container);
+// db connection
+createConnection()
+  .then(async (connection) => {})
+  .catch((error) => console.log(error));
 
 const port = 4000;
-
 const app = express();
 
+const swaggerDocument = YAML.load('./solutionist.yaml');
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(cors());
@@ -22,18 +27,11 @@ app.use(cookieparser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// db connection
-app.use('/users', usersRouter);
-
-createConnection()
-  .then(async (connection) => {})
-  .catch((error) => console.log(error));
-
 // basic routing
 app.get('/', (req, res) => {
   res.send('hello');
 });
-
+app.use('/users', usersRouter);
 // routing to controllers
 app.use(setsRouter);
 
