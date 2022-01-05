@@ -72,15 +72,16 @@ paths:
             schema:
               type: object
               properties:
-                username:
-                  type: string
+                email:
+                  type: email
+                  format: email
                 password:
                   type: string
               required:
-                - username
+                - email
                 - password
               example:
-                username: messi
+                email: messi
                 password: 'messi'
         required: true
       responses:

@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import 'dotenv/config';
 import jwtToken from '../controllers/tokenFunctions';
-import { getConnection, getRepository } from 'typeorm';
+import { getRepository } from 'typeorm';
 import { users } from '../database/entity/users';
 
 const Token = async (req: Request, res: Response, next: NextFunction) => {

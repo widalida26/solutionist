@@ -20,6 +20,7 @@ const errorHandler_1 = __importDefault(require("./error/errorHandler"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const yamljs_1 = __importDefault(require("yamljs"));
 const users_1 = __importDefault(require("./routes/users"));
+//import errorGenerator, { ErrorWithStatusCode } from './error/errorGenerator';
 const swaggerDocument = yamljs_1.default.load('./solutionist.yaml');
 const port = 4000;
 const app = express_1.default();

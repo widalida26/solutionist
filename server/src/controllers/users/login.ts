@@ -2,22 +2,22 @@ import { Request, Response } from 'express';
 import cryptos from '../../crypto';
 import { users } from '../../database/entity/users';
 import errorGenerator from '../../error/errorGenerator';
-import { getConnection, getRepository } from 'typeorm';
+import { getRepository } from 'typeorm';
 import jwtToken from '../tokenFunctions/index';
 
 const login = async (req: Request, res: Response) => {
   try {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
-    if (!username || !password) {
+    if (!email || !password) {
       return res.status(422).send('ok');
     }
 
     const dbpw = cryptos.encrypt(password);
     const user = await getRepository(users)
       .createQueryBuilder('user')
-      .where('user.username = :username OR user.password = :password', {
-        username: username,
+      .where('user.email = :email OR user.password = :password', {
+        email: email,
         password: dbpw,
       })
       .getOneOrFail();

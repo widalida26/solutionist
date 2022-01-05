@@ -22,10 +22,20 @@ module.exports = {
         const googleClientId = process.env.GOOGLE_CLIENT_ID;
         const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
         try {
-            const axiosRes = yield axios_1.default({
-                method: 'post',
-                url: 'googleInfoURL',
+            const axiosRes = yield axios_1.default.post(googleInfoURL, {
+                client_id: process.env.GOOGLE_CLIENT_ID,
+                client_secret: process.env.GOOGLE_CLIENT_SECRET,
+                code: req.body.authorizationCode,
+                redirect_uri: process.env.CLIENT_URL,
+                grant_type: 'authorization_code',
             });
+            const { access_token: accessToken } = axiosRes.data;
+            const profileRes = yield axios_1.default.get(googleLoginURL, {
+                headers: {
+                    authorization: `Bearer ${accessToken}`,
+                },
+            });
+            const { name: nickname, email, picture: image } = profileRes.data;
         }
         catch (error) { }
     }),
