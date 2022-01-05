@@ -2,10 +2,12 @@ import Container from 'typedi';
 import { Request, Response } from 'express';
 import errorGenerator from '../../error/errorGenerator';
 import { ISetsDTO } from '../../interface/ISets';
+import { IUsersDTO } from '../../interface/IUsers';
 import { SetService } from '../../service/sets';
 
 const add = async (req: Request, res: Response) => {
-  const { id, username } = res.locals.userInfo;
+  console.log(res.locals.userInfo);
+  const userInfo: IUsersDTO = res.locals.userInfo ? res.locals.userInfo : {};
   const setDTO: ISetsDTO = req.body;
 
   // 누락된 데이터가 있을 경우
@@ -22,11 +24,17 @@ const add = async (req: Request, res: Response) => {
     await setServiceInstance.setRemover(setDTO.id);
   }
 
+  // 로그인된 유저가 아닌 경우 정보 null 처리
+  if (!userInfo) {
+    userInfo.id = null;
+    userInfo.username = null;
+  }
+
   // 세트 작성
-  const setInfo = await setServiceInstance.setMaker(id, setDTO); // id => userId
+  const setInfo = await setServiceInstance.setMaker(userInfo.id, setDTO);
 
   res.status(200).json({
-    username,
+    username: userInfo.username,
     ...setInfo,
   });
 };

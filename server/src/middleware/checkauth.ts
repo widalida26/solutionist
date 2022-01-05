@@ -29,11 +29,14 @@ export const blockUnauthorized = async (
 export const saveUserInfo = async (req: Request, res: Response, next: NextFunction) => {
   const auth = req.cookies.accessToken;
 
+  console.log(auth);
   if (auth) {
     const authorized = jwtToken.isAuthorized(auth);
 
+    console.log('authorized', authorized);
     if (authorized) {
       const decoded = JSON.parse(authorized.data);
+      console.log('decoded', decoded);
       res.locals.userInfo = decoded;
     }
   }
