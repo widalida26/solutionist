@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { useState } from 'react/cjs/react.development';
+import axios from 'axios';
 import styled from 'styled-components';
 import MakeProblem from '../components/MakeProblem';
-import { FaPlusSquare } from 'react-icons/fa';
+import { FaPlusSquare, FaSave } from 'react-icons/fa';
 
 const MakeContainer = styled.div`
   padding: 60px 0;
@@ -37,20 +38,21 @@ const Blank = styled.div`
   word-break: break-word;
   resize: none;
 `;
-const AddButton = styled.div`
+const Button = styled.div`
   display: grid;
   grid-template-columns: 1fr 56.6% 1fr;
   grid-template-rows: 1fr;
   font-size: 5rem;
   color: var(--warm-grey);
   opacity: 0.5;
-  justify-items: end;
-
   svg {
-    margin-right: 1.5rem;
-  }
-  svg:hover {
-    color: black;
+    margin: 1rem 1.5rem;
+    :hover {
+      color: black;
+    }
+    :first-child {
+      justify-self: end;
+    }
   }
 `;
 
@@ -72,15 +74,14 @@ const Make = () => {
       problems: [
         ...data.problems,
         {
-          id: data.problems.length + 1,
           index: data.problems.length + 1,
           question: '',
           answer: '',
           explanation: '',
           isOx: false,
           choices: [
-            { id: 1, index: 1, content: '' },
-            { id: 2, index: 2, content: '' },
+            { index: 1, content: '' },
+            { index: 2, content: '' },
           ],
         },
       ],
@@ -90,6 +91,16 @@ const Make = () => {
   const autoGrow = (e) => {
     e.target.style.height = '1px';
     e.target.style.height = e.target.scrollHeight + 'px';
+  };
+
+  const handleSave = () => {
+    for (let problem of data.problems) {
+      if (problem.question === '') {
+        console.log('please fill question');
+        return 0;
+      }
+    }
+    axios.post(`${process.env.SERVER_URL}choices`, data);
   };
 
   return (
@@ -109,24 +120,22 @@ const Make = () => {
         onInput={autoGrow}
       />
       <Blank />
-      {data.problems.length ? (
-        <>
-          {data.problems.map((problem, idx) => (
-            <MakeProblem
-              key={problem.id}
-              problem={problem}
-              data={data}
-              setData={setData}
-              idx={idx}
-              addProblem={addProblem}
-            />
-          ))}
-        </>
-      ) : (
-        <AddButton>
-          <FaPlusSquare onClick={addProblem} />
-        </AddButton>
-      )}
+      {data.problems.map((problem, idx) => (
+        <MakeProblem
+          key={problem.index}
+          problem={problem}
+          data={data}
+          setData={setData}
+          idx={idx}
+          addProblem={addProblem}
+        />
+      ))}
+
+      <Button>
+        <FaPlusSquare onClick={addProblem} />
+        <div></div>
+        <FaSave onClick={handleSave} />
+      </Button>
     </MakeContainer>
   );
 };

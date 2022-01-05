@@ -1,6 +1,5 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { FaPlusSquare } from 'react-icons/fa';
 import OxIcon from '../icons/Ox';
 import ListIcon from '../icons/List';
 import SurveyIcon from '../icons/Survey';
@@ -194,16 +193,6 @@ const CountController = styled.div`
   align-items: center;
 `;
 
-const AddButton = styled.div`
-  font-size: 5rem;
-  color: var(--warm-grey);
-  margin-right: 0.5rem;
-
-  svg:hover {
-    color: black;
-  }
-`;
-
 const MakeProblem = ({ problem, data, setData, idx, addProblem }) => {
   const autoGrow = (e) => {
     e.target.style.height = '1px';
@@ -215,7 +204,7 @@ const MakeProblem = ({ problem, data, setData, idx, addProblem }) => {
     const choices = [...problem.choices];
 
     if (e.target.id[0] === 'i' && choices.length < 10) {
-      choices.push({ id: choices.length + 1, index: choices.length + 1, content: '' });
+      choices.push({ index: choices.length + 1, content: '' });
     } else if (e.target.id[0] === 'd' && choices.length > 2) {
       choices.pop();
     }
@@ -267,13 +256,6 @@ const MakeProblem = ({ problem, data, setData, idx, addProblem }) => {
     <ProblemContainer>
       <ProblemNum>
         <p>{idx + 1}</p>
-        {data.problems.length === idx + 1 ? (
-          <AddButton>
-            <FaPlusSquare onClick={addProblem} />
-          </AddButton>
-        ) : (
-          ''
-        )}
       </ProblemNum>
       {problem.isOx ? (
         <ProblemOx>
