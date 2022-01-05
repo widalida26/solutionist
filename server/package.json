@@ -40,6 +40,7 @@
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
+    "express-asyncify": "^1.0.1",
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.14.1",
     "mysql2": "^2.3.3",
@@ -48,6 +49,7 @@
     "typedi": "^0.10.0",
     "typeorm": "^0.2.41",
     "typeorm-seeding": "^1.6.1",
+    "typeorm-typedi-extensions": "^0.4.1",
     "upgrade": "^1.1.0"
   },
   "compilerOptions": {
