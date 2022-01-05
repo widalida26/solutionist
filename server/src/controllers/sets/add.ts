@@ -6,10 +6,10 @@ import { SetService } from '../../service/sets';
 
 const add = async (req: Request, res: Response) => {
   const setDTO: ISetsDTO = req.body;
-  const problems: IProblems[] = setDTO['problems'];
+  //const problems: IProblems[] = setDTO['problems'];
 
   // 누락된 데이터가 있을 경우
-  if (!setDTO || !problems) {
+  if (!setDTO) {
     errorGenerator({ statusCode: 400 });
   }
 
@@ -27,7 +27,7 @@ const add = async (req: Request, res: Response) => {
   // // 세트 제작
   await setServiceInstance.setMaker(userId, setDTO);
 
-  // const choices: IChoices[] = problems.map((problem) => {
+  //const choices: IChoices[] = problems.map((problem) => {
   //   return {problem['choices']};c
   // });
 
