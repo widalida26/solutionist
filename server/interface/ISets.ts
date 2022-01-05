@@ -1,6 +1,7 @@
-export interface ISets {
+export interface ISetsDTO {
   title: string;
   description: string;
+  problems: IProblems[];
 }
 
 export interface IProblems {
@@ -10,6 +11,7 @@ export interface IProblems {
   answer: number;
   explanation: string;
   isOX: boolean;
+  choices: IChoices[];
 }
 
 export interface IChoices {
