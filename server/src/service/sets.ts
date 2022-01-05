@@ -15,19 +15,17 @@ export class SetService {
   ) {}
 
   // 세트 삽입
-  async setMaker(userId: number, set: ISetsDTO): Promise<void> {
+  async setMaker(userId: number, set: ISetsDTO): Promise<Object> {
     // 세트 타이틀이 누락된 경우
     if (!set.title) {
       errorGenerator({ statusCode: 400 });
     }
 
     // 세트 삽입 후 setId 값 저장
-    const setId = await this.setsRepo
-      .save({
-        userId,
-        ...set,
-      })
-      .then((result) => result.id);
+    const savedSets = await this.setsRepo.save({
+      userId,
+      ...set,
+    });
 
     const problems: IProblems[] = set['problems'];
 
@@ -36,7 +34,7 @@ export class SetService {
     if (Array.isArray(problems)) {
       // 문제 배열에 setId 값 삽입
       const problemsToSave = problems.map((problem) =>
-        this.insertIntoObject(problem, 'setId', setId)
+        this.insertIntoObject(problem, 'setId', savedSets.id)
       );
 
       // 문제 삽입
@@ -60,6 +58,13 @@ export class SetService {
       // 보기 삽입
       await this.choicesRepo.save(choicesToSave);
     }
+
+    // 응답에 필요한 객체 리턴
+    return {
+      id: savedSets.id,
+      createdAt: savedSets.createdAt,
+      updatedAt: savedSets.updatedAt,
+    };
   }
 
   // 세트 삭제

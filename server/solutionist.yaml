@@ -127,7 +127,7 @@ paths:
                       /user/login:
     post:
       tags:
-        - sets
+        - search && sets
       summary: make set
       description: make set
       requestBody:
@@ -151,19 +151,13 @@ paths:
                       question: string
                       answer: integer
                       explanation: integer
-                      isOX: boolean
-                    required:
-                      - index
-                      - question                      
+                      isOX: boolean                     
                       choices: 
                         type: array
                         itmes: object
                         properties:
                           index: integer
                           content: string
-                        required:
-                          - index
-                          - content
               required:
                 - title
               example:

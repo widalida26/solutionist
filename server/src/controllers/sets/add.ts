@@ -7,7 +7,6 @@ import { SetService } from '../../service/sets';
 const add = async (req: Request, res: Response) => {
   try {
     const setDTO: ISetsDTO = req.body;
-    //const problems: IProblems[] = setDTO['problems'];
 
     // 누락된 데이터가 있을 경우
     if (!setDTO) {
@@ -26,7 +25,7 @@ const add = async (req: Request, res: Response) => {
     let userId: number = 1;
 
     // 세트 작성
-    await setServiceInstance.setMaker(userId, setDTO);
+    const setInfo = await setServiceInstance.setMaker(userId, setDTO);
 
     res.end();
   } catch (err) {
