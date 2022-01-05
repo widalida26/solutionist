@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import cryptos from '../../crypto';
 import { users } from '../../database/entity/users';
-import errorGenerator from '../../error/errorGenerator';
 import { getRepository } from 'typeorm';
 import jwtToken from '../tokenFunctions/index';
 
@@ -27,12 +26,14 @@ const login = async (req: Request, res: Response) => {
     if (!userpw) {
       return res.status(401).send('password mismatch');
     }
+
     delete userpw.password;
-    const userInfo = JSON.stringify(user);
+    delete userpw.salt;
+    const userInfo = JSON.stringify(userpw);
     const accessToken = jwtToken.accessToken(userInfo);
 
     jwtToken.sendAccessToken(res, accessToken);
-    console.log(accessToken);
+    console.log(111, accessToken);
     return res.status(200).send('ok');
   } catch (err) {
     console.log(err);
