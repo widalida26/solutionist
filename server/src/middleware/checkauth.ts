@@ -4,7 +4,7 @@ import jwtToken from '../controllers/tokenFunctions';
 import { getRepository } from 'typeorm';
 import { users } from '../database/entity/users';
 
-const Token = async (req: Request, res: Response, next: NextFunction) => {
+export const Token = async (req: Request, res: Response, next: NextFunction) => {
   const auth = req.cookies.accessToken;
 
   if (!auth) {
@@ -17,7 +17,8 @@ const Token = async (req: Request, res: Response, next: NextFunction) => {
     return res.status(400).send('not authorization');
   }
 
-  const { email } = authorized.email;
+  let dt = JSON.parse(authorized.data);
+  const email = dt.email;
 
   const info = getRepository(users);
   const findUser = await info.findOne({ where: { email: email } });
@@ -27,6 +28,5 @@ const Token = async (req: Request, res: Response, next: NextFunction) => {
   }
 
   res.locals.userInfo = findUser;
-  res.locals.authtoken = auth;
   next();
 };
