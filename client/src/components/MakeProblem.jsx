@@ -1,6 +1,14 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { FaPlusSquare } from 'react-icons/fa';
+import OxIcon from '../icons/Ox';
+import ListIcon from '../icons/List';
+import SurveyIcon from '../icons/Survey';
+import TrashIcon from '../icons/Trash';
+import DecreaseIcon from '../icons/Decrease';
+import IncreaseIcon from '../icons/Increase';
+import CheckIcon from '../icons/Check';
+import CheckBoldIcon from '../icons/CheckBold';
 
 const ProblemContainer = styled.div`
   display: grid;
@@ -50,11 +58,16 @@ const IconContainer = styled.div`
   justify-content: flex-end;
 `;
 const Icon = styled.div`
-  margin-right: 1rem;
-  background-color: ${(props) => (props.answer ? 'black' : '')};
-  &:hover {
-    filter: invert(0%) sepia(0%) saturate(7465%) hue-rotate(338deg) brightness(91%)
-      contrast(109%);
+  margin: 0.5rem 1rem auto 0;
+  :hover {
+    svg {
+      fill: black;
+    }
+  }
+  :focus {
+    svg {
+      fill: var(--orangey-yellow);
+    }
   }
 `;
 const ListContainer = styled.ol`
@@ -80,7 +93,7 @@ const ListNum = styled.div`
 const ListContent = styled.textarea`
   height: 40px;
   font-size: 1.75rem;
-  margin-left: 1rem;
+  margin: 0.5rem 0 0.5rem 1rem;
   font-family: 'GowunDodum-Regular', sans-serif;
   color: black;
   width: 100%;
@@ -91,11 +104,19 @@ const ListContent = styled.textarea`
 `;
 const ListCheck = styled.div`
   height: 3.5rem;
-  width: 3.5rem;
+  width: 2rem;
+  margin-right: 0.5rem;
   align-self: end;
-  img:hover {
-    filter: invert(68%) sepia(54%) saturate(7482%) hue-rotate(89deg) brightness(107%)
-      contrast(114%);
+  display: flex;
+
+  :hover {
+    svg {
+      fill: var(--vibrant-green);
+    }
+  }
+  svg {
+    align-self: end;
+    margin-bottom: 0.5rem;
   }
 `;
 const ListCount = styled.div`
@@ -103,12 +124,12 @@ const ListCount = styled.div`
 `;
 const CountHeader = styled.div`
   height: 3.5rem;
-  font-size: 2rem;
+  font-size: 1.5rem;
   margin-top: 1rem;
   color: var(--warm-grey);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: end;
 `;
 const CounterContainer = styled.div`
   color: var(--warm-grey);
@@ -126,8 +147,8 @@ const Counter = styled.div`
 `;
 const ExplanationContainer = styled.div`
   grid-area: explanation;
-  padding-bottom: 3rem;
-  margin-top: 60px;
+  padding-bottom: 2.5rem;
+  margin-top: 2.5rem;
   border-bottom: 2px solid var(--orangey-yellow);
 `;
 const Explanation = styled.textarea`
@@ -190,17 +211,18 @@ const MakeProblem = ({ problem, data, setData, idx, addProblem }) => {
   };
 
   const handleClick = (e) => {
+    console.log(e.target.id);
     const choices = [...problem.choices];
 
-    if (e.target.id === 'increase' && choices.length < 10) {
+    if (e.target.id[0] === 'i' && choices.length < 10) {
       choices.push({ id: choices.length + 1, index: choices.length + 1, content: '' });
-    } else if (e.target.id === 'decrease' && choices.length > 2) {
+    } else if (e.target.id[0] === 'd' && choices.length > 2) {
       choices.pop();
     }
 
     const problems = [...data.problems];
 
-    if (e.target.id[0] === 'n') {
+    if (e.target.id[0] === 's') {
       problems[idx].answer = 0;
     } else if (e.target.id[0] === 'a') {
       problems[idx].answer = Number(e.target.id[1]) + 1;
@@ -210,7 +232,7 @@ const MakeProblem = ({ problem, data, setData, idx, addProblem }) => {
       problems[idx].answer = 2;
     }
 
-    if (e.target.id === 'delete') {
+    if (e.target.id[0] === 't') {
       problems.splice(idx, 1);
     } else {
       problems.splice(idx, 1, { ...problem, choices });
@@ -263,14 +285,14 @@ const MakeProblem = ({ problem, data, setData, idx, addProblem }) => {
             id="question"
           />
           <IconContainer>
-            <Icon onClick={handleClick} id="no_answer" answer={problem.answer === 0}>
-              <img src="./assets/icons/no_answer.svg" id="no_answer" />
+            <Icon onClick={handleClick} id="survey" answer={problem.answer === 0}>
+              <SurveyIcon fill="var(--warm-grey)" />
             </Icon>
             <Icon onClick={handleToggle}>
-              <img src="./assets/icons/list.svg" />
+              <ListIcon fill="var(--warm-grey)" />
             </Icon>
-            <Icon onClick={handleClick} id="delete">
-              <img src="./assets/icons/trash.svg" id="delete" />
+            <Icon onClick={handleClick} id="trash">
+              <TrashIcon fill="var(--warm-grey)" />
             </Icon>
           </IconContainer>
           <ListContainer>
@@ -302,14 +324,17 @@ const MakeProblem = ({ problem, data, setData, idx, addProblem }) => {
             id="question"
           />
           <IconContainer>
-            <Icon onClick={handleClick} id="no_answer" answer={problem.answer === 0}>
-              <img src="./assets/icons/no_answer.svg" id="no_answer" />
+            <Icon onClick={handleClick} id="survey">
+              <SurveyIcon
+                id="survey"
+                fill={problem.answer === 0 ? 'var(--orangey-yellow)' : 'var(--warm-grey)'}
+              />
             </Icon>
             <Icon onClick={handleToggle}>
-              <img src="./assets/icons/ox.svg" />
+              <OxIcon fill="var(--warm-grey)" />
             </Icon>
-            <Icon onClick={handleClick} id="delete">
-              <img src="./assets/icons/trash.svg" id="delete" />
+            <Icon onClick={handleClick} id="trash">
+              <TrashIcon fill="var(--warm-grey)" />
             </Icon>
           </IconContainer>
           <ListContainer>
@@ -324,20 +349,26 @@ const MakeProblem = ({ problem, data, setData, idx, addProblem }) => {
                   onInput={autoGrow}
                 />
                 <ListCheck onClick={handleClick} id={`a${idx}`}>
-                  <img src="./assets/icons/check.svg" id={`a${idx}`} />
+                  <CheckIcon
+                    idx={`${idx}`}
+                    fill={
+                      choice.index === problem.answer
+                        ? 'var(--vibrant-green)'
+                        : 'var(--warm-grey)'
+                    }
+                  />
                 </ListCheck>
               </List>
             ))}
           </ListContainer>
           <ListCount>
-            <CountHeader>보기 개수</CountHeader>
             <CounterContainer>
               <CountController onClick={handleClick} id="decrease">
-                <img src="./assets/icons/minus.svg" id="decrease" />
+                <DecreaseIcon id="decrease" fill="var(--warm-grey)" />
               </CountController>
               <Counter>{problem.choices.length}</Counter>
               <CountController onClick={handleClick} id="increase">
-                <img src="./assets/icons/plus.svg" id="increase" />
+                <IncreaseIcon id="increase" fill="var(--warm-grey)" />
               </CountController>
             </CounterContainer>
           </ListCount>
