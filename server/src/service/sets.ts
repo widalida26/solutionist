@@ -20,6 +20,7 @@ export class SetService {
       ...set,
     });
   }
+
   // 세트 삭제
   async setRemover(id: number): Promise<void> {
     await this.setsRepo.delete({ id });
