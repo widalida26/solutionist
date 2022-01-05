@@ -1,4 +1,5 @@
 export interface ISetsDTO {
+  id: number;
   title: string;
   description: string;
   problems: IProblems[];
