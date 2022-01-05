@@ -218,7 +218,7 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
 
   // * 로그인 기능
   const [loginInfo, setLoginInfo] = useState({
-    username: '',
+    email: '',
     password: '',
   });
   const [errorMessage, setErrorMessage] = useState('');
@@ -233,7 +233,7 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
   // console.log("로그인 후 isLogin", isLogin);
 
   const handleLogin = () => {
-    if (!loginInfo.username || !loginInfo.password) {
+    if (!loginInfo.email || !loginInfo.password) {
       setErrorMessage('아이디와 비밀번호를 입력하세요');
     } else {
       postLogin(loginInfo, onModalOffAction, onloginAction).catch((err) => {
@@ -397,6 +397,13 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
     },
     [signupInfo]
   );
+
+  // 구글 Oauth 방법 2 : URI로 이동
+  const handleSignGoogle = () => {
+    window.location.assign(
+      `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.GOOGLE_CLIENT_ID}&redirect_uri=${process.env.REDIRECT_URI}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email&state=google`
+    );
+  };
 
   // * 임시 코드 : 새로고침 모달 켜기
   // useEffect(() => {});
