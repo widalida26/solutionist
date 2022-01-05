@@ -6,7 +6,6 @@ import { SetService } from '../../service/sets';
 
 const search = async (req: Request, res: Response) => {
   try {
-    console.log('세트 검색');
     res.end();
   } catch (err) {
     errorGenerator({ statusCode: 500 });

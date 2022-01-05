@@ -5,9 +5,7 @@ import search from 'src/controllers/sets/search';
 
 const setsRouter = asyncfy(express.Router());
 
-// 세트 검색
-setsRouter.get('/sets', search);
-// 세트 제작
-setsRouter.post('/choices', add);
+setsRouter.get('/sets', search); // 세트 검색
+setsRouter.post('/choices', add); // 세트 제작
 
 export default setsRouter;

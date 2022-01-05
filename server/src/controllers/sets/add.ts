@@ -27,7 +27,10 @@ const add = async (req: Request, res: Response) => {
     // 세트 작성
     const setInfo = await setServiceInstance.setMaker(userId, setDTO);
 
-    res.end();
+    res.status(200).json({
+      username: 'kimcoding',
+      ...setInfo,
+    });
   } catch (err) {
     errorGenerator({ statusCode: 500 });
   }
