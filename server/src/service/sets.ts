@@ -3,7 +3,7 @@ import { Service } from 'typedi';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 import { SetsRepository } from '../database/repository/sets';
 import { ProblemsRepository } from '../database/repository/problems';
-import { ISetsDTO, IProblems } from '../interface/ISets';
+import { ISetsDTO, IProblems, IChoices } from '../interface/ISets';
 
 @Service()
 export class SetService {
@@ -19,7 +19,7 @@ export class SetService {
       errorGenerator({ statusCode: 400 });
     }
 
-    // 세트 저장 후 setId 값 저장
+    // 세트 삽입 후 setId 값 저장
     const setId = await this.setsRepo
       .save({
         userId,
@@ -29,15 +29,35 @@ export class SetService {
 
     const problems: IProblems[] = set['problems'];
 
-    // 문제가 있을 경우에만 저장
-    if (problems) {
+    // 문제가 배열 형태일 경우에만 저장
+    if (Array.isArray(problems)) {
       // 문제 배열에 setId 값 삽입
-      const problemsWithSetId = problems.map((problem) =>
-        this.setIdToProblems(problem, setId)
+      const problemsToSave = problems.map((problem) =>
+        this.insertIntoObject(problem, 'setId', setId)
       );
 
-      await this.problemsRepo.save(problemsWithSetId);
+      // 문제 삽입
+      const savedProblems = await this.problemsRepo.save(problemsToSave);
+
+      var choicesToSave = [];
+      // 보기 배열에 problemId 값 삽입
+      savedProblems.forEach((problem) => {
+        const choices = problem['choices'];
+        // 보기가 배열 형태일 경우에만 저장
+        if (Array.isArray(choices)) {
+          // 문제 배열에 setId 값 삽입 후 모든 문제의 배열을
+          choicesToSave = choicesToSave.concat(
+            choices.map((choice) => {
+              return this.insertIntoObject(choice, 'problemId', problem.id);
+            })
+          );
+        }
+      });
+
+      //console.log``
+      //await this.chocies.save(choicesToSave);
     }
+    // 문제 없는 세트가 존재하기 때문에 문제 데이터가 없을 경우에도 별도의 에러 없음
   }
 
   // 세트 삭제
@@ -45,7 +65,9 @@ export class SetService {
     await this.setsRepo.delete({ id });
   }
 
-  setIdToProblems = (problem: object, setId: number) => {
-    return { ...problem, setId };
+  // db에 적합한 형태로 problems 변환 => setId 삽입
+  insertIntoObject = (obj: object, key: string, id: number): Object => {
+    obj[key] = id;
+    return obj;
   };
 }

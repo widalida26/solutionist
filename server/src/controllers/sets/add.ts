@@ -24,7 +24,7 @@ const add = async (req: Request, res: Response) => {
 
   let userId: number = 1;
 
-  // // 세트 제작
+  // 세트 작성
   await setServiceInstance.setMaker(userId, setDTO);
 
   //const choices: IChoices[] = problems.map((problem) => {
