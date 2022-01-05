@@ -33,9 +33,13 @@ export class SetService {
     // 문제 없는 세트가 존재하기 때문에 문제 데이터가 없을 경우에도 별도의 에러 없음
     if (Array.isArray(problems)) {
       // 문제 배열에 setId 값 삽입
-      const problemsToSave = problems.map((problem) =>
-        this.insertIntoObject(problem, 'setId', savedSets.id)
-      );
+      const problemsToSave = problems.map((problem) => {
+        // 문제의 index나 question 값이 존재하지 않으면 에러
+        if (!problem.index || !problem.question) {
+          errorGenerator({ statusCode: 400 });
+        }
+        return this.insertIntoObject(problem, 'setId', savedSets.id);
+      });
 
       // 문제 삽입
       const savedProblems = await this.problemsRepo.save(problemsToSave);
@@ -49,6 +53,10 @@ export class SetService {
           // 문제 배열에 setId 값 삽입 후 모든 보기의 배열을 하나로 합침
           choicesToSave = choicesToSave.concat(
             choices.map((choice) => {
+              // 보기의 index 값이 존재하지 않으면 에러
+              if (!choice.index) {
+                errorGenerator({ statusCode: 400 });
+              }
               return this.insertIntoObject(choice, 'problemId', problem.id);
             })
           );
