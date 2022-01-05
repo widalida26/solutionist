@@ -26,7 +26,6 @@ const signup = async (req: Request, res: Response) => {
   } catch (err) {
     console.log(err);
     return res.status(500).send('internal server error');
-    // return res.status(500).send('internal server error');
   }
 };
 
