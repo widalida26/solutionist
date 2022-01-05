@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
+
 import MenuDropDown from './MenuDropDown';
 
 const UnderlineFadeIn = keyframes`
@@ -18,26 +19,26 @@ const NavContainer = styled.div`
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
 `;
 const NavGrid = styled.div`
-  width: calc(100% - 12.8%);
-  height: 100%;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: 1fr;
   grid-template-areas: 'logo logo . make solve . . . search search search login';
-  align-items: center;
-  margin: 0 6.4%;
   grid-gap: 1rem;
+  align-items: center;
+  width: calc(100% - 12.8%);
+  height: 100%;
+  margin: 0 6.4%;
 `;
 const LogoContainer = styled.div`
   grid-area: logo;
   width: 100%;
   height: 100%;
   font-size: 1.75rem;
-  > a {
-    width: 100%;
-    height: 100%;
+  a {
     display: flex;
     align-items: center;
+    width: 100%;
+    height: 100%;
   }
 `;
 const MakeContainer = styled.div`
@@ -45,15 +46,15 @@ const MakeContainer = styled.div`
   width: 100%;
   height: 100%;
   font-size: 1.75rem;
-  > a {
-    width: 100%;
-    height: 100%;
+  a {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
+    height: 100%;
     &:hover {
-      animation: ${UnderlineFadeIn} 0.5s ease;
       box-shadow: 0 -5px 0 0px inset var(--butterscotch);
+      animation: ${UnderlineFadeIn} 0.5s ease;
     }
   }
 `;
@@ -62,15 +63,15 @@ const SolveContainer = styled.div`
   width: 100%;
   height: 100%;
   font-size: 1.75rem;
-  > a {
-    width: 100%;
-    height: 100%;
+  a {
     display: flex;
     justify-content: center;
     align-items: center;
-    &:hover {
-      animation: ${UnderlineFadeIn} 0.5s ease;
+    width: 100%;
+    height: 100%;
+    :hover {
       box-shadow: 0 -5px 0 0px inset var(--butterscotch);
+      animation: ${UnderlineFadeIn} 0.5s ease;
     }
   }
 `;
@@ -78,50 +79,48 @@ const SearchContainer = styled.div`
   grid-area: search;
   display: flex;
   align-items: center;
-  /* background-color: black; */
 `;
 const SearchInput = styled.input`
   width: calc(100% - 55px);
   height: 48px;
-  border-bottom: 2px solid black;
   padding: 0 0 0 5px;
+  border-bottom: 2px solid black;
   font-size: 1.5rem;
   font-family: 'GowunDodum-Regular', sans-serif;
 `;
 const SearchIconContainer = styled.div`
   width: 46px;
   height: 46px;
-  background-color: var(--butterscotch);
   border: 2px solid black;
   border-radius: 10px 10px 10px 0;
-  > a {
-    width: 100%;
-    height: 100%;
+  background-color: var(--butterscotch);
+  a {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
+    height: 100%;
   }
 `;
 const LoginContainer = styled.div`
-  width: 100%;
-  height: 50px;
   grid-area: login;
-  font-size: 1.75rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  /* border: 2px solid black; */
-  background-color: black;
+  width: 100%;
+  height: 50px;
   border-radius: 10px;
-  &:hover {
+  background-color: black;
+  font-size: 1.75rem;
+  :hover {
     opacity: 0.75;
   }
-  > span {
-    width: 100%;
-    height: 100%;
+  span {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
+    height: 100%;
     color: var(--butterscotch);
   }
 `;
@@ -134,7 +133,6 @@ const Nav = ({ onLoginModalOnAction, isLogin }) => {
   const [isDropDown, setIsDropDown] = useState(false);
 
   const handleDropDown = () => {
-    //리덕스 사용 해야함
     if (isDropDown) setIsDropDown(false);
     else setIsDropDown(true);
   };
