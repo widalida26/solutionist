@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import 'dotenv/config';
-import jwtToken from '../controllers/tokenFunctions';
+import jwtToken from '../utils/tokenFunctions';
 import { getRepository } from 'typeorm';
 import { users } from '../database/entity/users';
 

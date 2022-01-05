@@ -1,9 +1,8 @@
 import { Request, Response } from 'express';
-import cryptos from '../../crypto';
 import { users } from '../../database/entity/users';
 import errorGenerator from '../../error/errorGenerator';
 import { getRepository } from 'typeorm';
-import jwtToken from '../tokenFunctions/index';
+import jwtToken from '../../utils/tokenFunctions/index';
 
 const signout = async (req: Request, res: Response) => {
   try {
