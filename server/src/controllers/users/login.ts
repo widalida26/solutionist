@@ -14,14 +14,8 @@ const login = async (req: Request, res: Response) => {
     }
 
     const dbpw = cryptos.encrypt(password);
-    const user = await getRepository(users)
-      .createQueryBuilder('user')
-      .where('user.email = :email OR user.password = :password', {
-        email: email,
-        password: dbpw,
-      })
-      .getOneOrFail();
-
+    const info = getRepository(users);
+    const user = await info.findOne({ where: { email: email, password: dbpw } });
     console.log(user);
     if (!user) {
       return res.status(401).send('"invalid user"');
@@ -31,6 +25,8 @@ const login = async (req: Request, res: Response) => {
     const accessToken = jwtToken.accessToken(userInfo);
 
     jwtToken.sendAccessToken(res, accessToken);
+    console.log(accessToken);
+    return res.status(200).send('ok');
   } catch (err) {
     console.log(err);
     return res.status(500).send('internal server error');

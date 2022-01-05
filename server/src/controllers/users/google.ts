@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-// import { users } from '../../database/entity/users';
-// import { getConnection, getRepository } from 'typeorm';
+import { users } from '../../database/entity/users';
+import { getRepository } from 'typeorm';
 import 'dotenv/config';
 import axios from 'axios';
 
@@ -13,19 +13,21 @@ module.exports = {
     const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
     try {
       const axiosRes = await axios.post(googleInfoURL, {
-        client_id: process.env.GOOGLE_CLIENT_ID,
-        client_secret: process.env.GOOGLE_CLIENT_SECRET,
+        client_id: googleClientId,
+        client_secret: googleClientSecret,
         code: req.body.authorizationCode,
         redirect_uri: process.env.CLIENT_URL,
         grant_type: 'authorization_code',
       });
       const { access_token: accessToken } = axiosRes.data;
-      const profileRes = await axios.get(googleLoginURL, {
+      const userInfo = await axios.get(googleLoginURL, {
         headers: {
           authorization: `Bearer ${accessToken}`,
         },
       });
-      const { name: nickname, email, picture: image } = profileRes.data;
+      const { name: username, email, picture: profileImage } = userInfo.data;
+      const info = getRepository(users);
+      const findUser = await info.findOne({ where: { email: email } });
     } catch (error) {}
   },
 };
