@@ -3,7 +3,6 @@ import 'dotenv/config';
 
 const algorithm = 'aes-256-ctr';
 const secretKey = process.env.SECRET_KEY;
-// const iv = Buffer.alloc(16, 0);
 const iv = crypto.randomBytes(16);
 
 const cryptos = {

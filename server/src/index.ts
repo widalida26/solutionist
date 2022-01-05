@@ -23,7 +23,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // db connection
-app.use('/user', usersRouter);
+app.use('/users', usersRouter);
 
 createConnection()
   .then(async (connection) => {})
