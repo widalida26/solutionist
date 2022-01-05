@@ -14,6 +14,17 @@ export class SetService {
     @InjectRepository() private choicesRepo: ChoicesRepository
   ) {}
 
+  // 세트 검색
+  async SetFinder(title: string): Promise<void> {
+    await this.setsRepo.find({
+      join: { alias: 'sets', innerJoin: { id: 'sets.userId' } },
+    });
+
+    //await this.setsRepo.findSetsByTitle(title);
+
+    //const foundSets = await this.setsRepo.find({ title: Like(`%${title}%`) });
+  }
+
   // 세트 삽입
   async setMaker(userId: number, set: ISetsDTO): Promise<Object> {
     // 세트 타이틀이 누락된 경우
