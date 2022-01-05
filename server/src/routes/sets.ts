@@ -1,7 +1,7 @@
 import express from 'express';
 import add from '../controllers/sets/add';
 import asyncfy from 'express-asyncify';
-import search from 'src/controllers/sets/search';
+import search from '../controllers/sets/search';
 
 const setsRouter = asyncfy(express.Router());
 
