@@ -1,9 +1,7 @@
-import 'reflect-metadata';
 import { Service } from 'typedi';
 import { InjectRepository } from 'typeorm-typedi-extensions';
-import { Repository } from 'typeorm';
-import { ISetsDTO } from '../interface/ISets';
 import { SetsRepository } from '../database/repository/sets';
+import { ISetsDTO } from '../interface/ISets';
 
 @Service()
 export class SetService {

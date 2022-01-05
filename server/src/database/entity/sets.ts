@@ -11,7 +11,6 @@ import {
 import { users } from './users';
 import { problems } from './problems';
 import { usersProblems } from './usersProblems';
-import { JoinTableMultipleColumnsOptions } from 'typeorm/decorator/options/JoinTableMultipleColumnsOptions';
 
 @Entity()
 export class sets {
