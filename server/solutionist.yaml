@@ -81,7 +81,7 @@ paths:
                 - email
                 - password
               example:
-                email: messi
+                email: messi@google.com
                 password: 'messi'
         required: true
       responses:

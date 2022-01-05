@@ -13,12 +13,16 @@ const jwtToken = {
       return null;
     }
   },
-  sendAccessToken: (res, accessToken) => {
-    res.cookie('accessToken', accessToken, {
-      httpOnly: true,
-      sameSite: 'none',
-      secure: true,
-    });
+  sendAccessToken: (res, accessToken: any) => {
+    res.cookie(
+      'accessToken',
+      { accessToken: accessToken },
+      {
+        httpOnly: true,
+        sameSite: 'none',
+        secure: true,
+      }
+    );
   },
 };
 
