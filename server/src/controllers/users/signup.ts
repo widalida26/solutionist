@@ -3,6 +3,7 @@ import cryptos from '../../crypto';
 import { users } from '../../database/entity/users';
 import errorGenerator from '../../error/errorGenerator';
 import { getConnection } from 'typeorm';
+import crypto from 'crypto';
 
 const signup = async (req: Request, res: Response) => {
   try {
@@ -13,14 +14,18 @@ const signup = async (req: Request, res: Response) => {
     }
 
     console.log(username, email, password);
-    const dbpw = cryptos.encrypt(password);
+
+    const saltBuffer = crypto.randomBytes(16);
+
+    const dbpw = cryptos.encrypt(password, saltBuffer);
+    const salt = saltBuffer.toString('base64');
 
     console.log(dbpw);
     const user = await getConnection()
       .createQueryBuilder()
       .insert()
       .into(users)
-      .values([{ username: username, email: email, password: dbpw }])
+      .values([{ username: username, email: email, password: dbpw, salt: salt }])
       .execute();
     return res.status(200).send('successfully signed in');
   } catch (err) {

@@ -3,13 +3,15 @@ import { sign, verify, Secret } from 'jsonwebtoken';
 
 const jwtToken = {
   accessToken: (data: any) => {
-    const period = process.env.EXPIRATION_PERIOD ? process.env.EXPIRATION_PERIOD : '1h';
-    console.log(period);
-    return sign({ data: data }, process.env.SECRET_KEY, { expiresIn: period });
+    return sign({ data: data }, process.env.ACCESS_SECRET, { expiresIn: '1h' });
   },
   isAuthorized: (data: any) => {
+    if (!data) {
+      return null;
+    }
     try {
-      return verify({ data: data }, process.env.ACCESS_SECRET);
+      const token = data;
+      return verify(token, process.env.ACCESS_SECRET);
     } catch (err) {
       // return null if invalid token
       return null;
