@@ -15,8 +15,10 @@ export class SetService {
   ) {}
 
   // 세트 검색
-  async SetFinder(title: string): Promise<void> {
+  async SetFinder(title: string): Promise<Object> {
     const foundSets = await this.setsRepo.findSetsByTitle(title);
+    console.log(foundSets);
+    return {};
   }
 
   // 세트 삽입

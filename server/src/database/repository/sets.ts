@@ -3,16 +3,20 @@ import { sets } from '../entity/sets';
 
 @EntityRepository(sets)
 export class SetsRepository extends Repository<sets> {
-  async findSetsByTitle(title: string) {
+  async findSetsByTitle(title: string): Promise<(Object & sets)[]> {
     const manager = getManager();
     return await manager
       .query(
-        `SELECT s.*, u.username FROM sets AS s LEFT OUTER JOIN users AS u ON s.userId=u.id WHERE s.title LIKE '%${title}%';`
+        `SELECT s.id, s.title, s.description, s.createdAt, u.username FROM sets AS s LEFT OUTER JOIN users AS u ON s.userId=u.id WHERE s.title LIKE '%${title}%';`
       )
-      .then((sets) => {
-        return sets.map((set) => {
-          return JSON.parse(JSON.stringify(set));
+      .then((sets: Object[]) => {
+        return sets.map((set: Object) => {
+          return this.convertRawObject(set);
         });
       });
+  }
+
+  convertRawObject(obj: Object) {
+    return JSON.parse(JSON.stringify(obj));
   }
 }
