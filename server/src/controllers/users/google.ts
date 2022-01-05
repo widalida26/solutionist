@@ -50,7 +50,7 @@ module.exports = {
         return res.status(201).json({ id, username, email, profileImage });
       }
     } catch (error) {
-      return res.status(400).json({ message: 'Error occured during social login' });
+      return res.status(500).send('Internal Server Error');
     }
   },
 };
