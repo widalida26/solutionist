@@ -46,8 +46,9 @@ const Question = styled.textarea`
   margin: 2rem 0 1rem 1rem;
   word-wrap: break-word;
   word-break: break-word;
+  font-family: 'GongGothicMedium', sans-serif;
   resize: none;
-  height: 49px;
+  height: 47px;
 `;
 
 const IconContainer = styled.div`

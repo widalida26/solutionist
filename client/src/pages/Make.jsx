@@ -10,11 +10,12 @@ const MakeContainer = styled.div`
 `;
 const Title = styled.textarea`
   width: 56.6%;
-  height: 78px;
+  height: 70px;
   margin: 0 0 0 21.7%;
   font-size: 3.75rem;
   word-wrap: break-word;
   word-break: break-word;
+  font-family: 'GongGothicMedium', sans-serif;
   resize: none;
 `;
 const Desc = styled.textarea`
