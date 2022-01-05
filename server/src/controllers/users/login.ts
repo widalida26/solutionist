@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import cryptos from '../../crypto';
 import { users } from '../../database/entity/users';
-import errorGenerator from '../../error/errorGenerator';
 import { getRepository } from 'typeorm';
 import jwtToken from '../tokenFunctions/index';
 
@@ -13,19 +12,28 @@ const login = async (req: Request, res: Response) => {
       return res.status(422).send('ok');
     }
 
-    const dbpw = cryptos.encrypt(password);
     const info = getRepository(users);
-    const user = await info.findOne({ where: { email: email, password: dbpw } });
-    console.log(user);
+    const user = await info.findOne({ where: { email: email } });
+
     if (!user) {
-      return res.status(401).send('"invalid user"');
+      return res.status(401).send('Email not found');
     }
-    delete user.password;
-    const userInfo = JSON.stringify(user);
+    const saltBase = user.salt;
+    const salt = Buffer.from(saltBase, 'base64');
+    const dbpw = cryptos.encrypt(password, salt);
+
+    const userpw = await info.findOne({ where: { email: email, password: dbpw } });
+    if (!userpw) {
+      return res.status(401).send('password mismatch');
+    }
+
+    delete userpw.password;
+    delete userpw.salt;
+    const userInfo = JSON.stringify(userpw);
     const accessToken = jwtToken.accessToken(userInfo);
 
     jwtToken.sendAccessToken(res, accessToken);
-    console.log(accessToken);
+    console.log(111, accessToken);
     return res.status(200).send('ok');
   } catch (err) {
     console.log(err);

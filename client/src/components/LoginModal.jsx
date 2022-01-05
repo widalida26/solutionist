@@ -218,7 +218,7 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
 
   // * 로그인 기능
   const [loginInfo, setLoginInfo] = useState({
-    username: '',
+    email: '',
     password: '',
   });
   const [errorMessage, setErrorMessage] = useState('');
@@ -233,18 +233,19 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
   // console.log("로그인 후 isLogin", isLogin);
 
   const handleLogin = () => {
-    if (!loginInfo.username || !loginInfo.password) {
+    if (!loginInfo.email || !loginInfo.password) {
       setErrorMessage('아이디와 비밀번호를 입력하세요');
     } else {
-      postLogin(loginInfo, setUserInfoWithImage, onloginAction).catch((err) => {
-        const errCode = err.response.status;
-        if (errCode === 401) {
-          setErrorMessage('유효하지 않은 유저 입니다!');
-        } else if (errCode === 404) {
-          setErrorMessage('404 not found');
-        } else {
-          setErrorMessage('로그인을 실패했습니다!');
-        }
+      postLogin(loginInfo, onModalOffAction, onloginAction).catch((err) => {
+        // const errCode = err.response.status;
+        // if (errCode === 401) {
+        //   setErrorMessage('유효하지 않은 유저 입니다!');
+        // } else if (errCode === 404) {
+        //   setErrorMessage('404 not found');
+        // } else {
+        //   setErrorMessage('로그인을 실패했습니다!');
+        // }
+        console.log('postLogin 에러캐치', err);
       });
     }
   };
@@ -257,8 +258,11 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
     passwordConfirm: '',
   });
 
+  // 회원가입 완료후 메시지 설정
+  const [afterSignUp, setAfterSignUp] = useState('');
+
   const handleSignup = () => {
-    signUp(signupInfo).catch((err) => {
+    signUp(signupInfo, handleToggle, setAfterSignUp).catch((err) => {
       const errMessage = err.response.data.message;
       if (errMessage === 'insufficient parameters supplied') {
         setErrorMessage('내용을 모두 입력해주세요!');
@@ -394,6 +398,13 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
     [signupInfo]
   );
 
+  // 구글 Oauth 방법 2 : URI로 이동
+  const handleSignGoogle = () => {
+    window.location.assign(
+      `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.GOOGLE_CLIENT_ID}&redirect_uri=${process.env.REDIRECT_URI}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email&state=google`
+    );
+  };
+
   // * 임시 코드 : 새로고침 모달 켜기
   // useEffect(() => {});
 
@@ -454,6 +465,11 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
                         </StyledButton>
                       </ButtonContainer>
                       {errorMessage ? <div>{errorMessage}</div> : ''}
+                      {afterSignUp ? (
+                        <div style={{ color: 'red' }}>{afterSignUp}</div>
+                      ) : (
+                        ''
+                      )}
                       <br />
                       <FlexEndGroup onClick={handleToggle}>
                         <span>아직 계정이 없으신가요?</span>
