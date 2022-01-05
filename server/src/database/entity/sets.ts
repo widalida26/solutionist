@@ -7,7 +7,6 @@ import {
   ManyToOne,
   OneToMany,
   Timestamp,
-  JoinColumn,
 } from 'typeorm';
 import { users } from './users';
 import { problems } from './problems';
@@ -38,14 +37,13 @@ export class sets {
   updatedAt: Timestamp;
 
   @ManyToOne(() => users, (user) => user.id)
-  @JoinColumn({ referencedColumnName: 'id' })
   user: users;
 
   @OneToMany(() => problems, (problem) => problem.setId, {
     cascade: true,
   })
-  problem: problems;
+  problem: problems[];
 
   @OneToMany(() => usersProblems, (uProblem) => uProblem.setId)
-  uProblem: usersProblems;
+  uProblem: usersProblems[];
 }

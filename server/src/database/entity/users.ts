@@ -46,5 +46,5 @@ export class users {
   set: sets[];
 
   @OneToMany(() => solvedSets, (solved) => solved.userId)
-  solved: solvedSets;
+  solved: solvedSets[];
 }

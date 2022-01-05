@@ -16,13 +16,7 @@ export class SetService {
 
   // 세트 검색
   async SetFinder(title: string): Promise<void> {
-    await this.setsRepo.find({
-      join: { alias: 'sets', innerJoin: { id: 'sets.userId' } },
-    });
-
-    //await this.setsRepo.findSetsByTitle(title);
-
-    //const foundSets = await this.setsRepo.find({ title: Like(`%${title}%`) });
+    const foundSets = await this.setsRepo.findSetsByTitle(title);
   }
 
   // 세트 삽입
