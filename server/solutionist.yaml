@@ -6,16 +6,16 @@ info:
 servers:
   - url: 'http://localhost:4000'
 tags:
-  - name: user
+  - name: users
     description: Operations about user
   - name: search && sets
     description: Operations about gathering
   - name: myInfo
 paths:
-  /user/signup:
+  /users/signup:
     post:
       tags:
-        - user
+        - users
       summary: signup
       description: user signup
       requestBody:
@@ -60,10 +60,10 @@ paths:
                   message:
                     type: string
                     default: internal server error
-  /user/login:
+  /users/login:
     post:
       tags:
-        - user
+        - users
       summary: login
       description: login
       requestBody:
@@ -72,15 +72,16 @@ paths:
             schema:
               type: object
               properties:
-                username:
-                  type: string
+                email:
+                  type: email
+                  format: email
                 password:
                   type: string
               required:
-                - username
+                - email
                 - password
               example:
-                username: messi
+                email: messi@google.com
                 password: 'messi'
         required: true
       responses:
