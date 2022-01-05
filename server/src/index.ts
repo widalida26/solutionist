@@ -31,7 +31,7 @@ app.use(express.urlencoded({ extended: false }));
 app.get('/', (req, res) => {
   res.send('hello');
 });
-app.use('/user', usersRouter);
+app.use('/users', usersRouter);
 // routing to controllers
 app.use(setsRouter);
 
