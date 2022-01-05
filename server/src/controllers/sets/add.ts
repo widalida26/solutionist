@@ -3,7 +3,6 @@ import { Request, Response } from 'express';
 import errorGenerator from '../../error/errorGenerator';
 import { ISetsDTO } from '../../interface/ISets';
 import { SetService } from '../../service/sets';
-import jwtToken from '../tokenFunctions';
 
 const add = async (req: Request, res: Response) => {
   const { id, username } = res.locals.userInfo;
