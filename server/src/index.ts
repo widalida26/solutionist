@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import cookieparser from 'cookie-parser';
 import { createConnection } from 'typeorm';
@@ -8,6 +8,7 @@ import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 
 import usersRouter from './routes/users';
+//import errorGenerator, { ErrorWithStatusCode } from './error/errorGenerator';
 const swaggerDocument = YAML.load('./solutionist.yaml');
 
 const port = 4000;
@@ -22,7 +23,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // db connection
-app.use('/user', usersRouter);
+app.use('/users', usersRouter);
 
 createConnection()
   .then(async (connection) => {})

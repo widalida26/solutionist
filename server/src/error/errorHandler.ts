@@ -7,6 +7,7 @@ const errorHandler: ErrorRequestHandler = (
   res: Response,
   next: NextFunction
 ) => {
+  console.log('에러발생');
   const { message, statusCode } = err;
   res.status(statusCode || 500).json({ message });
 };

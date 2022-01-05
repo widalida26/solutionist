@@ -34,7 +34,6 @@ const signup = (req, res) => __awaiter(this, void 0, void 0, function* () {
     catch (err) {
         console.log(err);
         return res.status(500).send('internal server error');
-        // return res.status(500).send('internal server error');
     }
 });
 exports.default = signup;

@@ -17,15 +17,15 @@ const typeorm_1 = require("typeorm");
 const index_1 = __importDefault(require("../tokenFunctions/index"));
 const login = (req, res) => __awaiter(this, void 0, void 0, function* () {
     try {
-        const { username, password } = req.body;
-        if (!username || !password) {
+        const { email, password } = req.body;
+        if (!email || !password) {
             return res.status(422).send('ok');
         }
         const dbpw = crypto_1.default.encrypt(password);
         const user = yield typeorm_1.getRepository(users_1.users)
             .createQueryBuilder('user')
-            .where('user.username = :username OR user.password = :password', {
-            username: username,
+            .where('user.email = :email OR user.password = :password', {
+            email: email,
             password: dbpw,
         })
             .getOneOrFail();
@@ -33,13 +33,9 @@ const login = (req, res) => __awaiter(this, void 0, void 0, function* () {
         if (!user) {
             return res.status(401).send('"invalid user"');
         }
-        console.log(222);
         delete user.password;
         const userInfo = JSON.stringify(user);
         const accessToken = index_1.default.accessToken(userInfo);
-        const refreshToken = index_1.default.refreshToken(userInfo);
-        console.log(333);
-        index_1.default.sendRefreshToken(res, refreshToken);
         index_1.default.sendAccessToken(res, accessToken);
     }
     catch (err) {

@@ -6,30 +6,21 @@ const jwtToken = {
     accessToken: (data) => {
         return jsonwebtoken_1.sign({ data: data }, process.env.SECRET_KEY, { expiresIn: '1h' });
     },
-    refreshToken: (data) => {
-        return jsonwebtoken_1.sign({ data: data }, process.env.SECRET_KEY, { expiresIn: '1d' });
-    },
     isAuthorized: (data) => {
-        const authorization = data;
-        if (!authorization) {
-            return null;
-        }
-        const token = authorization.split(' ')[1];
         try {
-            return jsonwebtoken_1.verify(token, process.env.ACCESS_SECRET);
+            return jsonwebtoken_1.verify({ data: data }, process.env.ACCESS_SECRET);
         }
         catch (err) {
             // return null if invalid token
             return null;
         }
     },
-    sendRefreshToken: (res, refreshToken) => {
-        res.cookie('refreshToken', refreshToken, {
-            httpOnly: true,
-        });
-    },
     sendAccessToken: (res, accessToken) => {
-        return res.status(200).json({ data: { accessToken }, message: 'ok' });
+        res.cookie('accessToken', accessToken, {
+            httpOnly: true,
+            sameSite: 'none',
+            secure: true,
+        });
     },
 };
 exports.default = jwtToken;

@@ -20,7 +20,7 @@
 .env.production.local
 .gitmessage.txt
 /dummy
-/dist/dummy
+/dist
 
 npm-debug.log*
 yarn-debug.log*
