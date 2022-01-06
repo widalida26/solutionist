@@ -8,6 +8,8 @@ import TrashIcon from '../icons/Trash';
 import DecreaseIcon from '../icons/Decrease';
 import IncreaseIcon from '../icons/Increase';
 import CheckIcon from '../icons/Check';
+import OIcon from '../icons/O';
+import XIcon from '../icons/X';
 import CheckBoldIcon from '../icons/CheckBold';
 
 const ProblemContainer = styled.div`
@@ -176,12 +178,16 @@ const OxCard = styled.div`
   width: 12rem;
   height: 12rem;
   margin: 0 4.2%;
-  padding: 4rem;
+  padding: 8%;
   background-color: white;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
   border-radius: 10px;
-  img {
-    object-fit: contain;
+  svg {
+    height: 100%;
+    width: 100%;
+    :hover {
+      fill: var(--orangey-yellow);
+    }
   }
 `;
 const CountController = styled.div`
@@ -266,7 +272,10 @@ const MakeProblem = ({ problem, data, setData, idx, addProblem }) => {
           />
           <IconContainer>
             <Icon onClick={handleClick} id="survey" answer={problem.answer === 0}>
-              <SurveyIcon fill="var(--warm-grey)" />
+              <SurveyIcon
+                fill="var(--warm-grey)"
+                fill={problem.answer === 0 ? 'var(--orangey-yellow)' : 'var(--warm-grey)'}
+              />
             </Icon>
             <Icon onClick={handleToggle}>
               <ListIcon fill="var(--warm-grey)" />
@@ -278,10 +287,20 @@ const MakeProblem = ({ problem, data, setData, idx, addProblem }) => {
           <ListContainer>
             <OxContainer>
               <OxCard onClick={handleClick} id="O">
-                <img src="./assets/icons/circle.svg" id="O" />
+                <OIcon
+                  id="O"
+                  fill={
+                    problem.answer === 1 ? 'var(--orangey-yellow)' : 'var(--warm-grey)'
+                  }
+                />
               </OxCard>
               <OxCard onClick={handleClick} id="X">
-                <img src="./assets/icons/scissors.svg" id="X" />
+                <XIcon
+                  id="X"
+                  fill={
+                    problem.answer === 2 ? 'var(--orangey-yellow)' : 'var(--warm-grey)'
+                  }
+                />
               </OxCard>
             </OxContainer>
           </ListContainer>
