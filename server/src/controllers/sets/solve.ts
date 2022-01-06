@@ -5,8 +5,10 @@ import { ISetsDTO } from '../../interface/ISets';
 import { SetService } from '../../service/sets';
 
 const solve = async (req: Request, res: Response) => {
-  console.log('문제풀기');
-  //   const searchWord = req.query['title'];
+  //    const userInfo: IUsersDTO = res.locals.userInfo ? res.locals.userInfo : {};
+  const searchWord = req.query['title'];
+
+  const setDTO: ISetsDTO = req.body;
 
   //   // 쿼리 값이 부적합할 경우
   //   if (!searchWord) {

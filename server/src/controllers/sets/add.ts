@@ -6,7 +6,6 @@ import { IUsersDTO } from '../../interface/IUsers';
 import { SetService } from '../../service/sets';
 
 const add = async (req: Request, res: Response) => {
-  console.log(res.locals.userInfo);
   const userInfo: IUsersDTO = res.locals.userInfo ? res.locals.userInfo : {};
   const setDTO: ISetsDTO = req.body;
 

@@ -20,3 +20,8 @@ export interface IChoices {
   index: number;
   content: number;
 }
+
+export interface ISolveDTO {
+  problemId: number;
+  choice: number;
+}
