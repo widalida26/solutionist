@@ -1,5 +1,6 @@
 import { EntityRepository, Repository, createQueryBuilder } from 'typeorm';
 import { usersProblems } from '../entity/usersProblems';
+import { convertRawObject } from '../../utils/custom';
 
 @EntityRepository(usersProblems)
 export class uProblemsRepository extends Repository<usersProblems> {
@@ -9,6 +10,9 @@ export class uProblemsRepository extends Repository<usersProblems> {
       .addSelect('COUNT(*) AS choiceCnt')
       .where({ problemId })
       .groupBy('usersProblems.choice')
-      .getRawMany();
+      .getRawMany()
+      .then((result: Object[]) => {
+        return result.map((el: Object) => convertRawObject(el));
+      });
   }
 }

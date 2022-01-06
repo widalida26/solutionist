@@ -11,9 +11,7 @@ export class SetsRepository extends Repository<sets> {
         `SELECT s.id, s.title, s.description, s.createdAt, u.username FROM sets AS s LEFT OUTER JOIN users AS u ON s.userId=u.id WHERE s.title LIKE '%${title}%';`
       )
       .then((sets: Object[]) => {
-        return sets.map((set: Object) => {
-          return convertRawObject(set);
-        });
+        return sets.map((set: Object) => convertRawObject(set));
       });
   }
 }

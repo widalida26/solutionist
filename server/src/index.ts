@@ -9,7 +9,6 @@ import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import usersRouter from './routes/users';
 import setsRouter from './routes/sets';
-import { ErrorWithStatusCode } from './error/errorGenerator';
 
 useContainer(Container);
 // db connection
