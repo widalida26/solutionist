@@ -397,7 +397,6 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
     },
     [signupInfo]
   );
-
   // 구글 Oauth 방법 2 : URI로 이동
   const handleSignGoogle = () => {
     window.location.assign(
@@ -408,13 +407,21 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
     // ! redirect_uri 확인하기
   };
 
+  let authorizationCode;
+
   // * 구글 Oauth 리디렉션 코드 post로 보내기
   useEffect(() => {
     const url = new URL(window.location.href);
-    const authorizationCode = url.href.split('=')[2];
-    console.log('authorizationCode', url.href.split('=')[2]);
-    signUpGoogle(authorizationCode);
-  }, []);
+    console.log(1);
+    // console.log(url);
+    // authorizationCode = url.href.split('=')[2].split('&')[0] + '&' || undefined;
+    authorizationCode = url.href.split('=')[2] || undefined;
+    if (authorizationCode) {
+      authorizationCode = authorizationCode.split('&')[0] + '&';
+      console.log(authorizationCode);
+      signUpGoogle(authorizationCode);
+    }
+  }, [authorizationCode]);
   // useEffect( async () => {
   //   const url = new URL(window.location.href);
   //   const hash = url.hash;
