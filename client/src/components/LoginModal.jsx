@@ -434,7 +434,6 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
 
   return (
     <>
-      <br />
       {isLoginModalOn ? (
         <StyledWrapper>
           <ModalBackdrop onClick={onModalOffAction}>
@@ -486,7 +485,6 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
                       ) : (
                         ''
                       )}
-                      <br />
                       <FlexEndGroup onClick={handleToggle}>
                         <span>아직 계정이 없으신가요?</span>
                       </FlexEndGroup>
@@ -517,7 +515,6 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
                     ) : (
                       ''
                     )}
-                    <br />
                     <InputBox marginBottom={'5.7%'}>
                       <label>Username</label>
                       <input onChange={onChangeUsername} placeholder="김코딩"></input>
@@ -527,7 +524,6 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
                     ) : (
                       ''
                     )}
-                    <br />
                     <InputBox marginBottom={'5.7%'}>
                       <label>Password</label>
                       <input
@@ -541,7 +537,6 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
                     ) : (
                       ''
                     )}
-                    <br />
                     <BetweenDiv>
                       <InputBox marginBottom={'5.7%'}>
                         <label>Password Check</label>
@@ -556,9 +551,7 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
                       ) : (
                         ''
                       )}
-                      <br />
                       {errorMessage ? <div>{errorMessage}</div> : ''}
-                      <br />
                       <SignupGroup>
                         <span onClick={handleToggle}>로그인 화면으로 돌아가기</span>
                         <StyledButton
