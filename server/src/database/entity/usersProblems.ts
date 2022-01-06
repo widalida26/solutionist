@@ -1,5 +1,4 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { sets } from './sets';
 import { problems } from './problems';
 
 @Entity()
