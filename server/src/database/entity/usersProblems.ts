@@ -11,16 +11,10 @@ export class usersProblems {
   userId: number;
 
   @Column()
-  setId: number;
-
-  @Column()
   problemId: number;
 
   @Column()
   chocie: number;
-
-  @ManyToOne(() => sets, (set) => set.id)
-  set: sets;
 
   @ManyToOne(() => problems, (problem) => problem.id)
   problem: problems;

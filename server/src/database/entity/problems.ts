@@ -38,8 +38,8 @@ export class problems {
   @OneToMany(() => choices, (choice) => choice.problemId, {
     cascade: true,
   })
-  choice: choices;
+  choice: choices[];
 
   @OneToMany(() => usersProblems, (uProblem) => uProblem.problemId)
-  uProblem: usersProblems;
+  uProblem: usersProblems[];
 }
