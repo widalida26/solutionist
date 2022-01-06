@@ -6,7 +6,13 @@ import { RiKakaoTalkFill } from 'react-icons/ri';
 import { FaTimesCircle } from 'react-icons/fa';
 import { useState, useEffect, useCallback } from 'react';
 import { device } from '../styles/Breakpoints';
-import { postLogin, signUp, dupliEmail, signUpGoogle } from '../api/LoginModalAPI';
+import {
+  postLogin,
+  signUp,
+  dupliEmail,
+  signUpGoogle,
+  signOut,
+} from '../api/LoginModalAPI';
 
 // * 프리젠테이셔널 컴포넌트
 
@@ -397,51 +403,33 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
     },
     [signupInfo]
   );
-  // 구글 Oauth 방법 2 : URI로 이동
   const handleSignGoogle = () => {
     window.location.assign(
-      `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.NEW_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.REDIRECT_URI}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email&state=google`
+      `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.GOOGLE_CLIENT_ID}&redirect_uri=${process.env.REDIRECT_URI}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email&state=google`
     );
-
-    // TODO : 리디렉션 완료 => code 떼오기 => useEffect로 api요청 => 서버로 code 보내기
-    // ! redirect_uri 확인하기
   };
 
   let authorizationCode;
 
   // * 구글 Oauth 리디렉션 코드 post로 보내기
+  let authorizationCode;
   useEffect(() => {
     const url = new URL(window.location.href);
-    console.log(1);
-    // console.log(url);
-    // authorizationCode = url.href.split('=')[2].split('&')[0] + '&' || undefined;
     authorizationCode = url.href.split('=')[2] || undefined;
     if (authorizationCode) {
       authorizationCode = authorizationCode.split('&')[0] + '&';
-      console.log(authorizationCode);
-      signUpGoogle(authorizationCode);
+      signUpGoogle(authorizationCode, onloginAction);
     }
   }, [authorizationCode]);
-  // useEffect( async () => {
-  //   const url = new URL(window.location.href);
-  //   const hash = url.hash;
-  //   if (hash) {
-  //     const accessToken = hash.split("=")[1].split("&")[0];
-  //     await axios.get('https://www.googleapis.com/oauth2/v2/userinfo?access_token=' + accessToken, {
-  //       headers: {
-  //         authorization: `token ${accessToken}`,
-  //         accept: 'application/json'
-  //       }})
-  //       .then(data => {
-  //         console.log(data);
-  //         setData(data);
-  //     }).catch(e => console.log('oAuth token expired'));
-  //   }
-  // }, [])
+
+  // * 회원 탈퇴
+  const handleSignOut = () => {
+    signOut().catch(console.log('signout 에러'));
+  };
 
   return (
     <>
-      <br />
+      <StyledButton onClick={handleSignOut}>임시 회원탈퇴 버튼</StyledButton>
       {isLoginModalOn ? (
         <StyledWrapper>
           <ModalBackdrop onClick={onModalOffAction}>
@@ -493,7 +481,6 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
                       ) : (
                         ''
                       )}
-                      <br />
                       <FlexEndGroup onClick={handleToggle}>
                         <span>아직 계정이 없으신가요?</span>
                       </FlexEndGroup>
@@ -524,7 +511,6 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
                     ) : (
                       ''
                     )}
-                    <br />
                     <InputBox marginBottom={'5.7%'}>
                       <label>Username</label>
                       <input onChange={onChangeUsername} placeholder="김코딩"></input>
@@ -534,7 +520,6 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
                     ) : (
                       ''
                     )}
-                    <br />
                     <InputBox marginBottom={'5.7%'}>
                       <label>Password</label>
                       <input
@@ -548,7 +533,6 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
                     ) : (
                       ''
                     )}
-                    <br />
                     <BetweenDiv>
                       <InputBox marginBottom={'5.7%'}>
                         <label>Password Check</label>
@@ -563,9 +547,7 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
                       ) : (
                         ''
                       )}
-                      <br />
                       {errorMessage ? <div>{errorMessage}</div> : ''}
-                      <br />
                       <SignupGroup>
                         <span onClick={handleToggle}>로그인 화면으로 돌아가기</span>
                         <StyledButton

@@ -197,7 +197,7 @@ const CountController = styled.div`
   height: 100%;
 `;
 
-const MakeProblem = ({ problem, data, setData, idx, addProblem }) => {
+const MakeProblem = ({ problem, data, setData, idx, navRefs }) => {
   const autoGrow = (e) => {
     e.target.style.height = '1px';
     e.target.style.height = e.target.scrollHeight + 'px';
@@ -257,7 +257,7 @@ const MakeProblem = ({ problem, data, setData, idx, addProblem }) => {
   };
 
   return (
-    <ProblemContainer>
+    <ProblemContainer ref={(el) => (navRefs.current[idx] = el)}>
       <ProblemNum>
         <p>{idx + 1}</p>
       </ProblemNum>
