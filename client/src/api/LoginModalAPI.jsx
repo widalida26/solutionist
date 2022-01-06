@@ -48,13 +48,25 @@ export function signUp(state, handleToggle, setAfterSignUp) {
 // 구글 Oauth 방법 1 : API(authorizationCode: 엑세스 토큰?)
 export function signUpGoogle(authorizationCode) {
   return axios
-    .post(`${process.env.SERVER_URL}auth/google`, {
+    .post(`${process.env.SERVER_URL}users/google`, {
       // ! http 메서드 확인
       authorizationCode,
     })
     .then(() => {
       // setIsDupli(false);
       console.log('구글 로그인 성공');
+    });
+}
+
+export function signOut() {
+  return axios
+    .delete(`${process.env.SERVER_URL}users/signout`, {
+      // ! http 메서드 확인
+      // authorizationCode,
+    })
+    .then(() => {
+      // setIsDupli(false);
+      console.log('회원 탈퇴 성공');
     });
 }
 

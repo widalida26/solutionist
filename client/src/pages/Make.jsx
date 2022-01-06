@@ -1,7 +1,7 @@
-import * as React from 'react';
-import { useState } from 'react/cjs/react.development';
+import React, { useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+
 import MakeProblem from '../components/MakeProblem';
 import { FaPlusSquare, FaSave } from 'react-icons/fa';
 
@@ -10,17 +10,18 @@ const MakeContainer = styled.div`
 `;
 const Title = styled.textarea`
   width: 56.6%;
-  height: 78px;
+  height: 70px;
   margin: 0 0 0 21.7%;
   font-size: 3.75rem;
+  font-family: 'GongGothicMedium', sans-serif;
   word-wrap: break-word;
   word-break: break-word;
   resize: none;
 `;
 const Desc = styled.textarea`
-  margin: 30px 21.7% 0;
   width: 56.6%;
   height: 46px;
+  margin: 30px 21.7% 0;
   font-size: 2rem;
   font-family: 'GowunDodum-Regular', sans-serif;
   word-wrap: break-word;
@@ -28,9 +29,9 @@ const Desc = styled.textarea`
   resize: none;
 `;
 const Blank = styled.div`
-  margin: 0 21.7%;
   width: 56.6%;
   height: 2rem;
+  margin: 0 21.7%;
   border-bottom: 2px solid var(--orangey-yellow);
   font-size: 2rem;
   font-family: 'GowunDodum-Regular', sans-serif;
@@ -40,10 +41,10 @@ const Blank = styled.div`
 `;
 const Button = styled.div`
   display: grid;
-  grid-template-columns: 1fr 56.6% 1fr;
   grid-template-rows: 1fr;
-  font-size: 5rem;
+  grid-template-columns: 1fr 56.6% 1fr;
   color: var(--warm-grey);
+  font-size: 5rem;
   opacity: 0.5;
   svg {
     margin: 1rem 1.5rem;

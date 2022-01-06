@@ -24,6 +24,11 @@ const googleSignin = async (req: Request, res: Response) => {
         authorization: `Bearer ${accessToken}`,
       },
     });
+<<<<<<< HEAD
+=======
+    console.log('111', tokenRes);
+    console.log('222', userInfo);
+>>>>>>> a068f8b4173aa1f61d8e04d37ef9c8bbf2a36a41
     const { name: username, email, picture: profileImage } = userInfo.data;
     const info = getRepository(users);
     const findUser = await info.findOne({ where: { email: email } });
@@ -48,6 +53,10 @@ const googleSignin = async (req: Request, res: Response) => {
       return res.status(201).json({ id, username, email, profileImage });
     }
   } catch (error) {
+<<<<<<< HEAD
+=======
+    console.log(error);
+>>>>>>> a068f8b4173aa1f61d8e04d37ef9c8bbf2a36a41
     return res.status(500).send('Internal Server Error');
   }
 };
