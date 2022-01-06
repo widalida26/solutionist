@@ -170,9 +170,9 @@ paths:
                   answer: 1
                   explanation: thats it
                   isOX: false
-                    choices:
-                      index: 1
-                      content: a
+                  choices:
+                    index: 1
+                    content: a
         required: true
       responses:
         '200':
