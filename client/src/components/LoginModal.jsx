@@ -6,7 +6,7 @@ import { RiKakaoTalkFill } from 'react-icons/ri';
 import { FaTimesCircle } from 'react-icons/fa';
 import { useState, useEffect, useCallback } from 'react';
 import { device } from '../styles/Breakpoints';
-import { postLogin, signUp, dupliEmail } from '../api/LoginModalAPI';
+import { postLogin, signUp, dupliEmail, signUpGoogle } from '../api/LoginModalAPI';
 
 // * 프리젠테이셔널 컴포넌트
 
@@ -401,12 +401,36 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
   // 구글 Oauth 방법 2 : URI로 이동
   const handleSignGoogle = () => {
     window.location.assign(
-      `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.GOOGLE_CLIENT_ID}&redirect_uri=${process.env.REDIRECT_URI}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email&state=google`
+      `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.NEW_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.REDIRECT_URI}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email&state=google`
     );
+
+    // TODO : 리디렉션 완료 => code 떼오기 => useEffect로 api요청 => 서버로 code 보내기
+    // ! redirect_uri 확인하기
   };
 
-  // * 임시 코드 : 새로고침 모달 켜기
-  // useEffect(() => {});
+  // * 구글 Oauth 리디렉션 코드 post로 보내기
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    const authorizationCode = url.href.split('=')[2];
+    console.log('authorizationCode', url.href.split('=')[2]);
+    signUpGoogle(authorizationCode);
+  }, []);
+  // useEffect( async () => {
+  //   const url = new URL(window.location.href);
+  //   const hash = url.hash;
+  //   if (hash) {
+  //     const accessToken = hash.split("=")[1].split("&")[0];
+  //     await axios.get('https://www.googleapis.com/oauth2/v2/userinfo?access_token=' + accessToken, {
+  //       headers: {
+  //         authorization: `token ${accessToken}`,
+  //         accept: 'application/json'
+  //       }})
+  //       .then(data => {
+  //         console.log(data);
+  //         setData(data);
+  //     }).catch(e => console.log('oAuth token expired'));
+  //   }
+  // }, [])
 
   return (
     <>
@@ -448,21 +472,13 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
                       <ButtonContainer>
                         <ButtonGroup>
                           <IconBorder>
-                            <FcGoogle />
+                            <FcGoogle onClick={handleSignGoogle} />
                           </IconBorder>
                           <IconBorder>
                             <RiKakaoTalkFill />
                           </IconBorder>
                         </ButtonGroup>
                         <StyledButton onClick={handleLogin}>LOGIN</StyledButton>
-                        <StyledButton
-                          onClick={() => {
-                            onModalOffAction();
-                            onloginAction();
-                          }}
-                        >
-                          FAKE
-                        </StyledButton>
                       </ButtonContainer>
                       {errorMessage ? <div>{errorMessage}</div> : ''}
                       {afterSignUp ? (
