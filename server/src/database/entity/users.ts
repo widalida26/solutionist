@@ -43,7 +43,7 @@ export class users {
   createdAt: Timestamp;
 
   @OneToMany(() => sets, (set) => set.userId)
-  set: sets;
+  set: sets[];
 
   @OneToMany(() => solvedSets, (solved) => solved.userId)
   solved: solvedSets;

@@ -1,26 +1,45 @@
 import { Request, Response, NextFunction } from 'express';
 import 'dotenv/config';
-import jwtToken from '../controllers/tokenFunctions';
+import jwtToken from '../utils/tokenFunctions';
 import { getRepository } from 'typeorm';
 import { users } from '../database/entity/users';
 
-const checktoken = async (req: Request, res: Response, next: NextFunction) => {
+export const blockUnauthorized = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const auth = req.cookies.accessToken;
 
   if (!auth) {
-    return res.status(403).send('invalid user');
+    return res.status(401).send('invalid user');
   }
 
   const authorized = jwtToken.isAuthorized(auth);
 
   if (!authorized) {
-    return res.status(400).send('not authorization');
+    return res.status(401).send('invalid user');
   }
 
-  const Tokenverify = JSON.parse(authorized.data);
+  const decoded = JSON.parse(authorized.data);
 
-  res.locals.userInfo = Tokenverify;
+  res.locals.userInfo = decoded;
   next();
 };
+export const saveUserInfo = async (req: Request, res: Response, next: NextFunction) => {
+  const auth = req.cookies.accessToken;
 
-export default checktoken;
+  console.log(auth);
+  if (auth) {
+    const authorized = jwtToken.isAuthorized(auth);
+
+    console.log('authorized', authorized);
+    if (authorized) {
+      const decoded = JSON.parse(authorized.data);
+      console.log('decoded', decoded);
+      res.locals.userInfo = decoded;
+    }
+  }
+
+  next();
+};
