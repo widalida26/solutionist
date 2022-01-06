@@ -6,7 +6,7 @@ import { IUsersDTO } from '../../interface/IUsers';
 import { SetService } from '../../service/sets';
 
 const add = async (req: Request, res: Response) => {
-  console.log('aa');
+  // 토큰 인증에 실패했을 경우 = 유저 정보가 없을 경우 => 빈 객체 할당
   const userInfo: IUsersDTO = res.locals.userInfo ? res.locals.userInfo : {};
   const setDTO: ISetsDTO = req.body;
 
@@ -25,7 +25,7 @@ const add = async (req: Request, res: Response) => {
   }
 
   // 로그인된 유저가 아닌 경우 정보 null 처리
-  if (!userInfo) {
+  if (Object.keys(userInfo).length === 0) {
     userInfo.id = null;
     userInfo.username = null;
   }

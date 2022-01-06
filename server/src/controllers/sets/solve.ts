@@ -5,11 +5,16 @@ import { ISetsDTO, ISolveDTO } from '../../interface/ISets';
 import { IUsersDTO } from '../../interface/IUsers';
 import { SetService } from '../../service/sets';
 import { solvedSets } from 'src/database/entity/solvedSets';
+import { v4 } from 'uuid';
 
 const solve = async (req: Request, res: Response) => {
   const userInfo: IUsersDTO = res.locals.userInfo ? res.locals.userInfo : {};
+
   if (!userInfo) {
+    console.log(v4());
+    userInfo.id = v4();
   }
+  console.log(userInfo.id);
   //const searchWord = req.query['title'];
 
   const solveDTO: ISolveDTO = req.body;

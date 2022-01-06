@@ -27,7 +27,6 @@ export const blockUnauthorized = async (
   next();
 };
 export const saveUserInfo = async (req: Request, res: Response, next: NextFunction) => {
-  console.log('bb');
   const auth = req.cookies.accessToken;
 
   console.log(auth);
