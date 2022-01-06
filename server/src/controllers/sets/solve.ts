@@ -4,21 +4,22 @@ import errorGenerator from '../../error/errorGenerator';
 import { ISetsDTO, ISolveDTO } from '../../interface/ISets';
 import { IUsersDTO } from '../../interface/IUsers';
 import { SetService } from '../../service/sets';
-import { solvedSets } from 'src/database/entity/solvedSets';
+import { solvedSets } from '../../database/entity/solvedSets';
 import { v4 } from 'uuid';
+import { emptyObjectCk } from '../../utils/custom';
 
 const solve = async (req: Request, res: Response) => {
+  // 토큰 인증에 실패했을 경우 = 유저 정보가 없을 경우 => 빈 객체 할당
   const userInfo: IUsersDTO = res.locals.userInfo ? res.locals.userInfo : {};
 
-  if (!userInfo) {
-    console.log(v4());
+  // 로그인된 유저가 아닌 경우 임의의 id 설정
+  if (emptyObjectCk(userInfo)) {
     userInfo.id = v4();
+    console.log('aa');
   }
-  console.log(userInfo.id);
-  //const searchWord = req.query['title'];
 
   const solveDTO: ISolveDTO = req.body;
-  console.log(solveDTO);
+  console.log('solve', solveDTO);
   //   // 쿼리 값이 부적합할 경우
   //   if (!searchWord) {
   //     errorGenerator({ statusCode: 400 });
