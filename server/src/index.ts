@@ -9,6 +9,7 @@ import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import usersRouter from './routes/users';
 import setsRouter from './routes/sets';
+import 'dotenv/config';
 
 useContainer(Container);
 // db connection
@@ -18,9 +19,10 @@ createConnection()
 
 const port = 4000;
 const app = express();
-
-const swaggerDocument = YAML.load('./solutionist.yaml');
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+if (process.env.SERVER_SWAGGER) {
+  const swaggerDocument = YAML.load('./solutionist.yaml');
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+}
 
 app.use(cors());
 app.use(cookieparser());
@@ -40,5 +42,5 @@ app.use(errorHandler);
 
 // server listening
 app.listen(port, () => {
-  console.log(`server is listening on ${port}`);
+  console.log(`server is listening on ${port}${process.env.SERVER_SWAGGER}`);
 });
