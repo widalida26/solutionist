@@ -35,6 +35,21 @@ paths:
                 - username
                 - email
                 - password
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+              required:
+                - username
+                - email
+                - password
               example:
                 username: messi
                 email: messi@google.com
@@ -73,7 +88,23 @@ paths:
               type: object
               properties:
                 email:
-                  type: email
+                  type: string
+                  format: email
+                password:
+                  type: string
+              required:
+                - email
+                - password
+              example:
+                email: messi@google.com
+                password: 'messi'
+        required: true
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
                   format: email
                 password:
                   type: string
