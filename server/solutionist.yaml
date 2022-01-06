@@ -35,6 +35,21 @@ paths:
                 - username
                 - email
                 - password
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+              required:
+                - username
+                - email
+                - password
               example:
                 username: messi
                 email: messi@google.com
@@ -73,7 +88,23 @@ paths:
               type: object
               properties:
                 email:
-                  type: email
+                  type: string
+                  format: email
+                password:
+                  type: string
+              required:
+                - email
+                - password
+              example:
+                email: messi@google.com
+                password: 'messi'
+        required: true
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
                   format: email
                 password:
                   type: string
@@ -124,7 +155,89 @@ paths:
                   message:
                     type: string
                     default: internal server error
-                      /user/login:
+  /users/google:
+    post:
+      tags:
+        - users
+      summary: login google
+      description: login google
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  username:
+                    type: string
+                  email:
+                    type: string
+                  profileImage:
+                    type: string
+                example:
+                  id: 1
+                  username: 'messi'
+                  email: 'messi@google.com'
+                  profileImage: 'http://image.com'
+
+        '201':
+          description: create
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  username:
+                    type: string
+                  email:
+                    type: string
+                  profileImage:
+                    type: string
+                example:
+                  id: 1
+                  username: 'messi'
+                  email: 'messi@google.com'
+                  profileImage: 'http://image.com'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: internal server error
+  /users/signout:
+    delete:
+      tags:
+        - users
+      summary: signout 
+      description: signout
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: successfully signed out
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: internal server error
+  /user/login:
     post:
       tags:
         - search && sets
