@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
-import cryptos from '../../crypto';
+import cryptos from '../../utils/crypto';
 import { users } from '../../database/entity/users';
-import errorGenerator from '../../error/errorGenerator';
 import { getConnection } from 'typeorm';
 import crypto from 'crypto';
 

@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import cryptos from '../../crypto';
+import cryptos from '../../utils/crypto';
 import { users } from '../../database/entity/users';
 import { getRepository } from 'typeorm';
-import jwtToken from '../tokenFunctions/index';
+import jwtToken from '../../utils/tokenFunctions/index';
 
 const login = async (req: Request, res: Response) => {
   try {

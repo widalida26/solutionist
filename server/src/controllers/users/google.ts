@@ -3,7 +3,7 @@ import { users } from '../../database/entity/users';
 import { getRepository, getConnection } from 'typeorm';
 import 'dotenv/config';
 import axios from 'axios';
-import jwtToken from '../tokenFunctions/index';
+import jwtToken from '../../utils/tokenFunctions/index';
 
 const googletokenURL = 'https://oauth2.googleapis.com/token';
 const googleInfoURL = 'https://www.googleapis.com/oauth2/v2/userinfo';
