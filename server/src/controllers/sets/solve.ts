@@ -1,15 +1,16 @@
 import Container from 'typedi';
 import { Request, Response } from 'express';
 import errorGenerator from '../../error/errorGenerator';
-import { ISetsDTO } from '../../interface/ISets';
+import { ISetsDTO, ISolveDTO } from '../../interface/ISets';
 import { SetService } from '../../service/sets';
+import { solvedSets } from 'src/database/entity/solvedSets';
 
 const solve = async (req: Request, res: Response) => {
   //    const userInfo: IUsersDTO = res.locals.userInfo ? res.locals.userInfo : {};
-  const searchWord = req.query['title'];
+  //const searchWord = req.query['title'];
 
-  const setDTO: ISetsDTO = req.body;
-
+  const solveDTO: ISolveDTO = req.body;
+  console.log(solveDTO);
   //   // 쿼리 값이 부적합할 경우
   //   if (!searchWord) {
   //     errorGenerator({ statusCode: 400 });
