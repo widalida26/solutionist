@@ -2,11 +2,14 @@ import Container from 'typedi';
 import { Request, Response } from 'express';
 import errorGenerator from '../../error/errorGenerator';
 import { ISetsDTO, ISolveDTO } from '../../interface/ISets';
+import { IUsersDTO } from '../../interface/IUsers';
 import { SetService } from '../../service/sets';
 import { solvedSets } from 'src/database/entity/solvedSets';
 
 const solve = async (req: Request, res: Response) => {
-  //    const userInfo: IUsersDTO = res.locals.userInfo ? res.locals.userInfo : {};
+  const userInfo: IUsersDTO = res.locals.userInfo ? res.locals.userInfo : {};
+  if (!userInfo) {
+  }
   //const searchWord = req.query['title'];
 
   const solveDTO: ISolveDTO = req.body;
