@@ -10,8 +10,7 @@ const add = async (req: Request, res: Response) => {
   // 토큰 인증에 실패했을 경우 = 유저 정보가 없을 경우 => 빈 객체 할당
   const userInfo: IUsersDTO = res.locals.userInfo ? res.locals.userInfo : {};
   const setDTO: ISetsDTO = req.body;
-
-  // 누락된 데이터가 있을 경우
+  // 데이터가 누락됐을 경우
   if (emptyObjectCk(setDTO)) {
     errorGenerator({ statusCode: 400 });
   }

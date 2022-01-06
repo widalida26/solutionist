@@ -15,10 +15,13 @@ const solve = async (req: Request, res: Response) => {
   // 로그인된 유저가 아닌 경우 임의의 id 설정
   if (emptyObjectCk(userInfo)) {
     userInfo.id = v4();
-    console.log('aa');
   }
 
   const solveDTO: ISolveDTO = req.body;
+  // 데이터가 누락됐을 경우
+  if (emptyObjectCk(solveDTO)) {
+    errorGenerator({ statusCode: 400 });
+  }
   console.log('solve', solveDTO);
   //   // 쿼리 값이 부적합할 경우
   //   if (!searchWord) {
