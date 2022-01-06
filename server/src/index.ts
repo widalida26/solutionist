@@ -9,6 +9,7 @@ import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import usersRouter from './routes/users';
 import setsRouter from './routes/sets';
+import { ErrorWithStatusCode } from './error/errorGenerator';
 
 useContainer(Container);
 // db connection
@@ -42,6 +43,9 @@ app.use(setsRouter);
 
 // error handler
 app.use(errorHandler);
+// app.use((err: ErrorWithStatusCode, req: Request, res: Response, next: NextFunction) => {
+//   console.log('aa');
+// });
 
 // server listening
 app.listen(port, () => {

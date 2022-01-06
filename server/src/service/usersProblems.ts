@@ -4,8 +4,9 @@ import { InjectRepository } from 'typeorm-typedi-extensions';
 import { uProblemsRepository } from '../database/repository/usersProblems';
 import { ProblemsRepository } from '../database/repository/problems';
 import { ISetsDTO, IProblems, IChoices, ISolveDTO } from '../interface/ISets';
-import { solve } from 'src/controllers/sets';
-import { problems } from 'src/database/entity/problems';
+import { solve } from '../controllers/sets';
+import { problems } from '../database/entity/problems';
+import { v4 } from 'uuid';
 
 @Service()
 export class uProblemsService {
@@ -20,23 +21,26 @@ export class uProblemsService {
       errorGenerator({ statusCode: 400 });
     }
 
+    // 로그인된 유저가 아닌 경우 임의의 id 설정
     if (!email) {
-      // 로그인된 유저가 아닌 경우 임의의 id 설정 => 음수 id 생성
-      //const minInt = -214748364;
-      //email = Math.floor(Math.random() * (0 - minInt) + minInt);
+      email = v4();
     }
 
+    // problems 테이블에 problem id가 있는지 조회
     const foundProblem = await this.problemsRepo.findOne({ id: solveInfo.problemId });
     // problems 테이블에 problemId에 해당하는 레코드가 없는 경우
     if (!foundProblem) {
       errorGenerator({ statusCode: 400 });
     }
 
+    console.log(solveInfo.choice);
+    // 풀이 정보 삽입
     await this.upRepo.save({
       email,
       ...solveInfo,
     });
 
-    //await this.upRepo.save({});
+    const totalCnt = await this.upRepo.count({ problemId: solveInfo.problemId });
+    console.log(totalCnt);
   }
 }

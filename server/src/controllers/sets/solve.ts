@@ -21,7 +21,7 @@ const solve = async (req: Request, res: Response) => {
   // usersProblems 테이블 이용을 위한 usersProblems 인스턴스
   const upServiceInstance: uProblemsService = Container.get(uProblemsService);
 
-  upServiceInstance.uProblemsMaker(solveDTO);
+  await upServiceInstance.uProblemsMaker(solveDTO);
 
   res.end();
 };
