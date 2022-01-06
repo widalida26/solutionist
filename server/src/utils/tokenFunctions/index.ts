@@ -13,6 +13,7 @@ const jwtToken = {
       const token = data;
       return verify(token, process.env.ACCESS_SECRET);
     } catch (err) {
+      console.log(err);
       // return null if invalid token
       return null;
     }

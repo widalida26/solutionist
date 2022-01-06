@@ -15,11 +15,6 @@ export class choices {
   @Column()
   content: string;
 
-  @Column({
-    default: 0,
-  })
-  selectionRate: number;
-
   @ManyToOne(() => problems, (problem) => problem.id, {
     onDelete: 'CASCADE',
   })

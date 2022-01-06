@@ -14,6 +14,17 @@ export class SetService {
     @InjectRepository() private choicesRepo: ChoicesRepository
   ) {}
 
+  // 세트 검색
+  async SetFinder(title: string): Promise<void> {
+    await this.setsRepo.find({
+      join: { alias: 'sets', innerJoin: { id: 'sets.userId' } },
+    });
+
+    //await this.setsRepo.findSetsByTitle(title);
+
+    //const foundSets = await this.setsRepo.find({ title: Like(`%${title}%`) });
+  }
+
   // 세트 삽입
   async setMaker(userId: number, set: ISetsDTO): Promise<Object> {
     // 세트 타이틀이 누락된 경우
@@ -33,9 +44,13 @@ export class SetService {
     // 문제 없는 세트가 존재하기 때문에 문제 데이터가 없을 경우에도 별도의 에러 없음
     if (Array.isArray(problems)) {
       // 문제 배열에 setId 값 삽입
-      const problemsToSave = problems.map((problem) =>
-        this.insertIntoObject(problem, 'setId', savedSets.id)
-      );
+      const problemsToSave = problems.map((problem) => {
+        // 문제의 index나 question 값이 존재하지 않으면 에러
+        if (!problem.index || !problem.question) {
+          errorGenerator({ statusCode: 400 });
+        }
+        return this.insertIntoObject(problem, 'setId', savedSets.id);
+      });
 
       // 문제 삽입
       const savedProblems = await this.problemsRepo.save(problemsToSave);
@@ -46,9 +61,13 @@ export class SetService {
         const choices = problem['choices'];
         // 보기가 배열 형태일 경우에만 저장
         if (Array.isArray(choices)) {
-          // 문제 배열에 setId 값 삽입 후 모든 보기의 배열을 하나로 합침
+          // 문제 배열에 setId 값 삽입 후 모든 보기의 배열을 하나로 병합
           choicesToSave = choicesToSave.concat(
             choices.map((choice) => {
+              // 보기의 index 값이 존재하지 않으면 에러
+              if (!choice.index) {
+                errorGenerator({ statusCode: 400 });
+              }
               return this.insertIntoObject(choice, 'problemId', problem.id);
             })
           );
