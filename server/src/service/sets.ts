@@ -70,6 +70,11 @@ export class SetService {
         }
       });
 
+      // 보기가 2개 미만인 경우
+      if (choicesToSave.length < 2) {
+        errorGenerator({ statusCode: 400 });
+      }
+
       // 보기 삽입
       await this.choicesRepo.save(choicesToSave);
     }
