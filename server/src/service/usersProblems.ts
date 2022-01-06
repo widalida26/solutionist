@@ -41,6 +41,10 @@ export class uProblemsService {
     });
 
     const totalCnt = await this.upRepo.count({ problemId: solveInfo.problemId });
+    const data = await this.upRepo.countByChoice(solveInfo.problemId);
+    console.log('data', data);
+    //const Cnt = await this.upRepo.count({ problemId: solveInfo.problemId });
+
     console.log(totalCnt);
   }
 }

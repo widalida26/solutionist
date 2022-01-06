@@ -3,7 +3,7 @@ import { sets } from '../entity/sets';
 
 @EntityRepository(sets)
 export class SetsRepository extends Repository<sets> {
-  async findSetsByTitle(title: string): Promise<(Object & sets)[]> {
+  async findSetsByTitle(title: string) {
     const manager = getManager();
     return await manager
       .query(
