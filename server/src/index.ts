@@ -19,8 +19,8 @@ createConnection()
 const port = 4000;
 const app = express();
 
-const swaggerDocument = YAML.load('./solutionist.yaml');
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+//const swaggerDocument = YAML.load('./solutionist.yaml');
+//app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(cors());
 app.use(cookieparser());
