@@ -5,16 +5,16 @@ import { ISetsDTO, ISolveDTO } from '../../interface/ISets';
 import { IUsersDTO } from '../../interface/IUsers';
 import { SetService } from '../../service/sets';
 import { solvedSets } from '../../database/entity/solvedSets';
-import { v4 } from 'uuid';
 import { emptyObjectCk } from '../../utils/custom';
 
 const solve = async (req: Request, res: Response) => {
   // 토큰 인증에 실패했을 경우 = 유저 정보가 없을 경우 => 빈 객체 할당
   const userInfo: IUsersDTO = res.locals.userInfo ? res.locals.userInfo : {};
 
-  // 로그인된 유저가 아닌 경우 임의의 id 설정
+  // 로그인된 유저가 아닌 경우 임의의 id 설정 => 음수 id 생성
+  const minInt = -214748364;
   if (emptyObjectCk(userInfo)) {
-    userInfo.id = v4();
+    userInfo.id = Math.floor(Math.random() * (0 - minInt) + minInt);
   }
 
   const solveDTO: ISolveDTO = req.body;

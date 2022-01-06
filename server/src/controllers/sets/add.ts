@@ -24,17 +24,12 @@ const add = async (req: Request, res: Response) => {
     await setServiceInstance.setRemover(setDTO.id);
   }
 
-  // 로그인된 유저가 아닌 경우 정보 null 처리
-  if (emptyObjectCk(userInfo)) {
-    userInfo.id = null;
-    userInfo.username = null;
-  }
-
   // 세트 작성
-  const setInfo = await setServiceInstance.setMaker(userInfo.id, setDTO);
+  const setInfo = await setServiceInstance.setMaker(setDTO, userInfo.id);
 
   res.status(200).json({
-    username: userInfo.username,
+    // 로그인된 유저가 아닌 경우 정보 null 처리
+    username: emptyObjectCk(userInfo) ? null : userInfo.username,
     ...setInfo,
   });
 };

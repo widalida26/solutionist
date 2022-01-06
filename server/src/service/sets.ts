@@ -22,10 +22,15 @@ export class SetService {
   }
 
   // 세트 삽입
-  async setMaker(userId: number, set: ISetsDTO): Promise<Object> {
+  async setMaker(set: ISetsDTO, userId?: number): Promise<Object> {
     // 세트 타이틀이 누락된 경우
     if (!set.title) {
       errorGenerator({ statusCode: 400 });
+    }
+
+    // 로그인된 유저가 아닐 경우 id에 null 할당
+    if (!userId) {
+      userId = null;
     }
 
     // 세트 삽입 후 setId 값 저장

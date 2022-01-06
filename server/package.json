@@ -50,8 +50,7 @@
     "typeorm": "^0.2.41",
     "typeorm-seeding": "^1.6.1",
     "typeorm-typedi-extensions": "^0.4.1",
-    "upgrade": "^1.1.0",
-    "uuid": "^8.3.2"
+    "upgrade": "^1.1.0"
   },
   "compilerOptions": {
     "module": "CommonJS"
