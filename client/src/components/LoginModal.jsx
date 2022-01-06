@@ -6,7 +6,7 @@ import { RiKakaoTalkFill } from 'react-icons/ri';
 import { FaTimesCircle } from 'react-icons/fa';
 import { useState, useEffect, useCallback } from 'react';
 import { device } from '../styles/Breakpoints';
-import { postLogin, signUp, dupliEmail } from '../api/LoginModalAPI';
+import { postLogin, signUp, dupliEmail, signUpGoogle } from '../api/LoginModalAPI';
 
 // * 프리젠테이셔널 컴포넌트
 
@@ -411,8 +411,9 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
   // * 구글 Oauth 리디렉션 코드 post로 보내기
   useEffect(() => {
     const url = new URL(window.location.href);
-    console.log(url);
+    const authorizationCode = url.href.split('=')[2];
     console.log('authorizationCode', url.href.split('=')[2]);
+    signUpGoogle(authorizationCode);
   }, []);
   // useEffect( async () => {
   //   const url = new URL(window.location.href);

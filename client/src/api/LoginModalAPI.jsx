@@ -7,13 +7,13 @@ export function postLogin(state, onModalOffAction, onloginAction) {
       {
         email: state.email,
         password: state.password,
-      },
-      {
-        headers: {
-          'Content-Type': `application/json`,
-        },
-        withCredentials: true,
       }
+      // {
+      //   headers: {
+      //     'Content-Type': `application/json`,
+      //   },
+      //   withCredentials: true,
+      // }
     )
     .then((res) => {
       // ! 수정 & 확인
@@ -48,7 +48,7 @@ export function signUp(state, handleToggle, setAfterSignUp) {
 // 구글 Oauth 방법 1 : API(authorizationCode: 엑세스 토큰?)
 export function signUpGoogle(authorizationCode) {
   return axios
-    .post(`${process.env.SERVER_URL}auth/google`, {
+    .post(`${process.env.SERVER_URL}users/google`, {
       // ! http 메서드 확인
       authorizationCode,
     })
