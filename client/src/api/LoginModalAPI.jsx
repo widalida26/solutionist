@@ -58,6 +58,18 @@ export function signUpGoogle(authorizationCode) {
     });
 }
 
+export function signOut() {
+  return axios
+    .delete(`${process.env.SERVER_URL}users/signout`, {
+      // ! http 메서드 확인
+      // authorizationCode,
+    })
+    .then(() => {
+      // setIsDupli(false);
+      console.log('회원 탈퇴 성공');
+    });
+}
+
 export function dupliEmail(state, setIsDupli) {
   return axios
     .post(`${process.env.SERVER_URL}users/email/${state.email}`, {
