@@ -43,7 +43,4 @@ export class sets {
     cascade: true,
   })
   problem: problems[];
-
-  @OneToMany(() => usersProblems, (uProblem) => uProblem.setId)
-  uProblem: usersProblems[];
 }
