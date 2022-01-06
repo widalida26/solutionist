@@ -1,4 +1,6 @@
 #!/bin/bash
 cd /home/ubuntu/solutionist/server
 authbind --deep tsc
-authbind --deep pm2 start npm -- start
+cd /home/ubuntu/solutionist/server/dist/src
+authbind --deep pm2 start index.js
+#authbind --deep pm2 start npm -- start
