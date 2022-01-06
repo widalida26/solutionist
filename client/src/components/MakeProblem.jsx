@@ -1,5 +1,6 @@
-import * as React from 'react';
+import React from 'react';
 import styled from 'styled-components';
+
 import OxIcon from '../icons/Ox';
 import ListIcon from '../icons/List';
 import SurveyIcon from '../icons/Survey';
@@ -7,25 +8,26 @@ import TrashIcon from '../icons/Trash';
 import DecreaseIcon from '../icons/Decrease';
 import IncreaseIcon from '../icons/Increase';
 import CheckIcon from '../icons/Check';
+import OIcon from '../icons/O';
+import XIcon from '../icons/X';
 import CheckBoldIcon from '../icons/CheckBold';
 
 const ProblemContainer = styled.div`
   display: grid;
-  grid-template-columns: 1fr 56.6% 1fr;
   grid-template-rows: 1fr;
+  grid-template-columns: 1fr 56.6% 1fr;
 `;
-
 const ProblemNum = styled.div`
-  font-size: 15rem;
-  color: var(--orangey-yellow);
-  opacity: 0.5;
   text-align: end;
   margin-right: 1rem;
+  color: var(--orangey-yellow);
+  font-size: 15rem;
+  opacity: 0.5;
 `;
 const Problem = styled.div`
   display: grid;
-  grid-template-columns: 3fr 1fr;
   grid-template-rows: repeat(3, auto);
+  grid-template-columns: 3fr 1fr;
   grid-template-areas:
     'question icons'
     'list list-count'
@@ -33,8 +35,8 @@ const Problem = styled.div`
 `;
 const ProblemOx = styled.div`
   display: grid;
-  grid-template-columns: 3fr 1fr;
   grid-template-rows: repeat(3, auto);
+  grid-template-columns: 3fr 1fr;
   grid-template-areas:
     'question icons'
     'list list'
@@ -42,19 +44,19 @@ const ProblemOx = styled.div`
 `;
 const Question = styled.textarea`
   grid-area: question;
-  font-size: 2.5rem;
+  height: 47px;
   margin: 2rem 0 1rem 1rem;
   word-wrap: break-word;
   word-break: break-word;
+  font-size: 2.5rem;
+  font-family: 'GongGothicMedium', sans-serif;
   resize: none;
-  height: 49px;
 `;
-
 const IconContainer = styled.div`
   display: flex;
+  justify-content: flex-end;
   grid-area: icons;
   margin-top: 2rem;
-  justify-content: flex-end;
 `;
 const Icon = styled.div`
   margin: 0.5rem 1rem auto 0;
@@ -74,71 +76,69 @@ const ListContainer = styled.ol`
 `;
 const List = styled.li`
   display: flex;
-  border-bottom: 1px solid var(--warm-grey);
   margin-top: 1rem;
   margin-left: 1rem;
-  color: var(--warm-grey);
   align-items: center;
+  border-bottom: 1px solid var(--warm-grey);
+  color: var(--warm-grey);
 `;
 const ListNum = styled.div`
-  width: 2.5rem;
-  height: 3.5rem;
-  font-size: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 2.5rem;
+  height: 3.5rem;
   align-self: end;
+  font-size: 2rem;
 `;
 const ListContent = styled.textarea`
-  height: 40px;
-  font-size: 1.75rem;
-  margin: 0.5rem 0 0.5rem 1rem;
-  font-family: 'GowunDodum-Regular', sans-serif;
-  color: black;
-  width: 100%;
   flex: 1;
+  width: 100%;
+  height: 40px;
+  margin: 0.5rem 0 0.5rem 1rem;
+  color: black;
+  font-size: 1.75rem;
+  font-family: 'GowunDodum-Regular', sans-serif;
   word-wrap: break-word;
   word-break: break-word;
   resize: none;
 `;
 const ListCheck = styled.div`
-  height: 3.5rem;
+  display: flex;
   width: 2rem;
+  height: 3.5rem;
   margin-right: 0.5rem;
   align-self: end;
-  display: flex;
-
   :hover {
     svg {
       fill: var(--vibrant-green);
     }
   }
   svg {
-    align-self: end;
     margin-bottom: 0.5rem;
+    align-self: end;
   }
 `;
 const ListCount = styled.div`
   grid-area: list-count;
 `;
 const CountHeader = styled.div`
-  height: 3.5rem;
-  font-size: 1.5rem;
-  margin-top: 1rem;
-  color: var(--warm-grey);
   display: flex;
   justify-content: center;
   align-items: end;
-`;
-const CounterContainer = styled.div`
-  color: var(--warm-grey);
   height: 3.5rem;
-  font-size: 2rem;
   margin-top: 1rem;
   color: var(--warm-grey);
+  font-size: 1.5rem;
+`;
+const CounterContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 3.5rem;
+  margin-top: 1rem;
+  color: var(--warm-grey);
+  font-size: 2rem;
 `;
 const Counter = styled.div`
   width: auto;
@@ -146,21 +146,21 @@ const Counter = styled.div`
 `;
 const ExplanationContainer = styled.div`
   grid-area: explanation;
-  padding-bottom: 2.5rem;
   margin-top: 2.5rem;
+  padding-bottom: 2.5rem;
   border-bottom: 2px solid var(--orangey-yellow);
 `;
 const Explanation = styled.textarea`
-  padding: 1rem 2rem;
+  height: 67px;
   width: calc(100% - 6rem - 2px);
   margin: 0 1rem;
-  font-size: 1.5rem;
-  font-family: 'GowunDodum-Regular', sans-serif;
-  background-color: white;
+  padding: 1rem 2rem;
   border: 1px solid var(--warm-grey);
   border-radius: 10px;
+  background-color: white;
   color: var(--warm-grey);
-  height: 67px;
+  font-size: 1.5rem;
+  font-family: 'GowunDodum-Regular', sans-serif;
   word-wrap: break-word;
   word-break: break-word;
   resize: none;
@@ -172,28 +172,32 @@ const OxContainer = styled.div`
   margin-top: 1rem;
 `;
 const OxCard = styled.div`
-  width: 12rem;
-  height: 12rem;
-  padding: 4rem;
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
-  margin: 0 4.2%;
   display: flex;
   justify-content: center;
   align-items: center;
-  img {
-    object-fit: contain;
+  width: 12rem;
+  height: 12rem;
+  margin: 0 4.2%;
+  padding: 8%;
+  background-color: white;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
+  border-radius: 10px;
+  svg {
+    height: 100%;
+    width: 100%;
+    :hover {
+      fill: var(--orangey-yellow);
+    }
   }
 `;
 const CountController = styled.div`
-  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100%;
 `;
 
-const MakeProblem = ({ problem, data, setData, idx, addProblem }) => {
+const MakeProblem = ({ problem, data, setData, idx, navRefs }) => {
   const autoGrow = (e) => {
     e.target.style.height = '1px';
     e.target.style.height = e.target.scrollHeight + 'px';
@@ -253,7 +257,7 @@ const MakeProblem = ({ problem, data, setData, idx, addProblem }) => {
   };
 
   return (
-    <ProblemContainer>
+    <ProblemContainer ref={(el) => (navRefs.current[idx] = el)}>
       <ProblemNum>
         <p>{idx + 1}</p>
       </ProblemNum>
@@ -268,7 +272,10 @@ const MakeProblem = ({ problem, data, setData, idx, addProblem }) => {
           />
           <IconContainer>
             <Icon onClick={handleClick} id="survey" answer={problem.answer === 0}>
-              <SurveyIcon fill="var(--warm-grey)" />
+              <SurveyIcon
+                fill="var(--warm-grey)"
+                fill={problem.answer === 0 ? 'var(--orangey-yellow)' : 'var(--warm-grey)'}
+              />
             </Icon>
             <Icon onClick={handleToggle}>
               <ListIcon fill="var(--warm-grey)" />
@@ -280,10 +287,20 @@ const MakeProblem = ({ problem, data, setData, idx, addProblem }) => {
           <ListContainer>
             <OxContainer>
               <OxCard onClick={handleClick} id="O">
-                <img src="./assets/icons/circle.svg" id="O" />
+                <OIcon
+                  id="O"
+                  fill={
+                    problem.answer === 1 ? 'var(--orangey-yellow)' : 'var(--warm-grey)'
+                  }
+                />
               </OxCard>
               <OxCard onClick={handleClick} id="X">
-                <img src="./assets/icons/scissors.svg" id="X" />
+                <XIcon
+                  id="X"
+                  fill={
+                    problem.answer === 2 ? 'var(--orangey-yellow)' : 'var(--warm-grey)'
+                  }
+                />
               </OxCard>
             </OxContainer>
           </ListContainer>
