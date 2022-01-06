@@ -5,3 +5,7 @@ export const emptyObjectCk = (obj: Object): boolean => {
     return false;
   }
 };
+
+export const convertRawObject = (obj: Object): Object => {
+  return JSON.parse(JSON.stringify(obj));
+};

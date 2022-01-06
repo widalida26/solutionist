@@ -37,15 +37,12 @@ app.use(express.urlencoded({ extended: false }));
 app.get('/', (req, res) => {
   res.send('hello');
 });
-app.use('/users', usersRouter);
 // routing to controllers
+app.use('/users', usersRouter);
 app.use(setsRouter);
 
 // error handler
 app.use(errorHandler);
-// app.use((err: ErrorWithStatusCode, req: Request, res: Response, next: NextFunction) => {
-//   console.log('aa');
-// });
 
 // server listening
 app.listen(port, () => {

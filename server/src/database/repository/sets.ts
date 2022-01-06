@@ -1,5 +1,6 @@
 import { EntityRepository, Repository, getManager } from 'typeorm';
 import { sets } from '../entity/sets';
+import { convertRawObject } from '../../utils/custom';
 
 @EntityRepository(sets)
 export class SetsRepository extends Repository<sets> {
@@ -11,12 +12,8 @@ export class SetsRepository extends Repository<sets> {
       )
       .then((sets: Object[]) => {
         return sets.map((set: Object) => {
-          return this.convertRawObject(set);
+          return convertRawObject(set);
         });
       });
-  }
-
-  convertRawObject(obj: Object) {
-    return JSON.parse(JSON.stringify(obj));
   }
 }
