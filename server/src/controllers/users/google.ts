@@ -11,13 +11,18 @@ const googleSignin = async (req: Request, res: Response) => {
   const googleClientId = process.env.GOOGLE_CLIENT_ID;
   const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
   try {
-    const tokenRes = await axios.post(googletokenURL, {
-      client_id: googleClientId,
-      client_secret: googleClientSecret,
-      code: req.body.authorizationCode,
-      redirect_uri: process.env.CLIENT_URI,
-      grant_type: 'authorization_code',
-    });
+    // const tokenRes = await axios.post(googletokenURL, {
+    //   client_id: googleClientId,
+    //   client_secret: googleClientSecret,
+    //   code: req.body.authorizationCode,
+    //   redirect_uri: process.env.CLIENT_URI,
+    //   grant_type: 'authorization_code',
+    // });
+    const tokenRes = await axios.post(
+      `https://oauth2.googleapis.com/token?code=${req.body.authorizationCode}&client_id=${googleClientId}&client_secret=${googleClientSecret}&redirect_uri=${process.env.CLIENT_URI}&grant_type=authorization_code`
+    );
+
+    console.log('tokenres111', tokenRes);
     const { access_token: accessToken } = tokenRes.data;
     const userInfo = await axios.get(googleInfoURL, {
       headers: {
