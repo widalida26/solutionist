@@ -4,7 +4,6 @@ import login from '../controllers/users/login';
 import google from '../controllers/users/google';
 import { blockUnauthorized } from '../middleware/checkauth';
 import signout from '../controllers/users/signout';
-import google from '../controllers/users/google';
 
 const userRouter = express.Router();
 userRouter.delete('/signout', blockUnauthorized, signout);
