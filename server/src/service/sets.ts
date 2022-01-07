@@ -28,32 +28,38 @@ export class SetService {
   //   return await this.setsRepo.findOrogin(setId);
   // }
 
+  // 새로운 세트 생성 => collections 테이블 추가
+  async setCreator(set: ISets, userId: number): Promise<Object> {
+    if (set.id) {
+      // 세트 생성 정보 획득
+    } else {
+    }
+
+    set.editor = null;
+    // 세트 id가 있을 때 => 문제 작성
+    set.creator = userId;
+    return {};
+  }
+
+  // 세트 수정 => sets 테이블에만 추가
+  async setModifier(set: ISets, userId: number): Promise<Object> {
+    const { creator, createdAt } = await this.setsRepo.findOrogin(set.id);
+    set.creator = creator;
+    set.createdAt = createdAt;
+    set.editor = userId;
+    return {};
+  }
+
   // 세트 삽입
-  async setMaker(set: ISets, userId: number): Promise<Object> {
+  async setMaker(set: ISets): Promise<Object> {
     // 세트 타이틀이 누락된 경우
     if (!set.title) {
       errorGenerator({ statusCode: 400 });
     }
 
-    // 세트 id가 있을 때 => 문제 수정
-    if (set.id) {
-      // 세트 생성 정보 획득
-      const { creator, createdAt } = await this.setsRepo.findOrogin(set.id);
-      set.creator = creator;
-      set.createdAt = createdAt;
-      set.editor = userId;
-    } else {
-      // 세트 id가 있을 때 => 문제 작성
-      set.creator = userId;
-      set.editor = null;
-    }
-
     // 세트 삽입 후 setId 값 저장
     const savedSets = await this.setsRepo.save({
       ...set,
-      creator: set.creator,
-      editor: set.editor,
-      createdAt: set.createdAt ? set.createdAt : undefined,
     });
 
     const problems: IProblems[] = set['problems'];
