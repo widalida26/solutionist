@@ -15,6 +15,15 @@ export class SetsRepository extends Repository<sets> {
         return sets.map((set: Object) => convertRawObject(set));
       });
   }
+  // 세트의 제작자와 최초 생성 시간 반환
+  async findOrogin(id: number): Promise<Object> {
+    return await this.findOne(id).then((set) => {
+      return {
+        creator: set.creator ? set.creator['id'] : null,
+        createdAt: set.createdAt,
+      };
+    });
+  }
   //삭제된 세트의 userId 반환
   async getRemovedUser(id: number) {
     return await this.findOne(id).then(async (set) => {
