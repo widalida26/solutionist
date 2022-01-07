@@ -36,7 +36,7 @@ export function signUp(state, handleToggle, setAfterSignUp) {
     });
 }
 
-export function signUpGoogle(authorizationCode, onloginAction) {
+export function signUpGoogle(authorizationCode, onloginAction, onModalOffAction) {
   return axios
     .post(
       `${process.env.SERVER_URL}users/google`,
@@ -53,10 +53,11 @@ export function signUpGoogle(authorizationCode, onloginAction) {
     .then(() => {
       console.log('구글 로그인 성공');
       onloginAction();
+      onModalOffAction();
     });
 }
 
-export function signOut() {
+export function signOut(handleLogout) {
   return axios
     .delete(`${process.env.SERVER_URL}users/signout`, {
       headers: {
@@ -66,6 +67,7 @@ export function signOut() {
     })
     .then(() => {
       console.log('회원 탈퇴 성공');
+      handleLogout();
       // ! 회원탈퇴 후 로그인 풀기 액션 반영
     });
 }
@@ -80,7 +82,6 @@ export function logout() {
     })
     .then(() => {
       console.log('로그아웃 성공');
-      // ! 로그아웃 후 로그인 풀기 액션 반영
     });
 }
 

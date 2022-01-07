@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import LoginModal from '../components/LoginModal';
-import { modalOffAction, loginAction } from '../modules/loginModal';
+import { modalOffAction, loginAction, logoutAction } from '../modules/loginModal';
 
 // * 컨테이너 컴포넌트
 
@@ -16,9 +16,9 @@ function LoginModalContainer() {
   // useDispatch 는 리덕스 스토어의 dispatch 를 함수에서 사용 할 수 있게 해주는 Hook 입니다.
   const dispatch = useDispatch();
   // 각 액션들을 디스패치하는 함수들을 만드세요
-  // const onLoginModalOnAction = () => dispatch(loginModalOnAction());
   const onModalOffAction = () => dispatch(modalOffAction());
   const onloginAction = () => dispatch(loginAction());
+  const onlogoutAction = () => dispatch(logoutAction());
 
   return (
     <LoginModal
@@ -26,9 +26,9 @@ function LoginModalContainer() {
       isLoginModalOn={isLoginModalOn}
       isLogin={isLogin}
       // 액션을 디스패치 하는 함수들을 props로 넣어줍니다.
-      // onLoginModalOnAction={onLoginModalOnAction}
       onModalOffAction={onModalOffAction}
       onloginAction={onloginAction} // isLogin을 true로 변경하는 함수
+      onlogoutAction={onlogoutAction}
     />
   );
 }
