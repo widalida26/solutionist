@@ -30,6 +30,7 @@ export class SetService {
 
     // 로그인된 유저가 아닐 경우 id에 null 할당
     if (!userId) {
+      console.log('no user');
       userId = null;
     }
 
