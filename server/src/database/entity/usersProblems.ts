@@ -1,5 +1,4 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { sets } from './sets';
 import { problems } from './problems';
 
 @Entity()
@@ -8,13 +7,13 @@ export class usersProblems {
   id: number;
 
   @Column()
-  userId: number;
+  email: string;
 
   @Column()
   problemId: number;
 
   @Column()
-  chocie: number;
+  choice: number;
 
   @ManyToOne(() => problems, (problem) => problem.id)
   problem: problems;
