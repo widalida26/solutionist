@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { problems } from './problems';
 
 @Entity()
@@ -6,14 +6,17 @@ export class choices {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => problems, (problem) => problem.id, {
-    onDelete: 'CASCADE',
-  })
-  problem: number;
+  @Column()
+  problemId: number;
 
   @Column()
   index: number;
 
   @Column()
   content: string;
+
+  @ManyToOne(() => problems, (problem) => problem.id, {
+    onDelete: 'CASCADE',
+  })
+  problem: problems;
 }

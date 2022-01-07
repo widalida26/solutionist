@@ -23,16 +23,15 @@ export class SetService {
     return {};
   }
 
-  // async SetExist(id: number): Promise<boolean> {
-  //   const set = await this.setsRepo.findOne(id);
-  //   if (set) return true;
-  //   else return false;
-  // }
-
   // 세트의 생성 정보
   // async SetOrigin(setId: number): Promise<IOrigin> {
   //   return await this.setsRepo.findOrogin(setId);
   // }
+
+  // 세트 수정 => collection 테이블에 추가
+  async setCreator(set: ISets): Promise<Object> {
+    return {};
+  }
 
   // 세트 수정 => sets 테이블에만 추가
   async setModifier(set: ISets, userId: number): Promise<Object> {

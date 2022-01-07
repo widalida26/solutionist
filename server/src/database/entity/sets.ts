@@ -18,8 +18,7 @@ export class sets {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => collections, (collection) => collection.id, { eager: true })
-  @JoinColumn({ name: 'collectionId' })
+  @Column()
   collection: number;
 
   @ManyToOne(() => users, (user) => user.id, { eager: true })
@@ -43,6 +42,11 @@ export class sets {
 
   @UpdateDateColumn()
   updatedAt: Timestamp;
+
+  @ManyToOne(() => collections, (collection) => collection.id, {
+    onDelete: 'CASCADE',
+  })
+  set: sets;
 
   @OneToMany(() => problems, (problem) => problem.setId, {
     cascade: true,
