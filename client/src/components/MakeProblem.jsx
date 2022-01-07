@@ -21,7 +21,7 @@ const ProblemNum = styled.div`
   text-align: end;
   margin-right: 1rem;
   color: var(--orangey-yellow);
-  font-size: 15rem;
+  font-size: 12rem;
   opacity: 0.5;
 `;
 const Problem = styled.div`
@@ -121,15 +121,6 @@ const ListCheck = styled.div`
 `;
 const ListCount = styled.div`
   grid-area: list-count;
-`;
-const CountHeader = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: end;
-  height: 3.5rem;
-  margin-top: 1rem;
-  color: var(--warm-grey);
-  font-size: 1.5rem;
 `;
 const CounterContainer = styled.div`
   display: flex;

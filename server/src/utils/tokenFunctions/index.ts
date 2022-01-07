@@ -22,15 +22,11 @@ const jwtToken = {
     }
   },
   sendAccessToken: (res, accessToken: any) => {
-    res.cookie(
-      'accessToken',
-      { accessToken: accessToken },
-      {
-        httpOnly: true,
-        sameSite: 'none',
-        secure: true,
-      }
-    );
+    res.cookie('accessToken', accessToken, {
+      httpOnly: true,
+      // sameSite: 'none',
+      // secure: true,
+    });
   },
 };
 

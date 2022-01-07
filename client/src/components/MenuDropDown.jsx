@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
+import { logout } from '../api/LoginModalAPI';
 
 const FadeIn = keyframes`
 from {
@@ -61,7 +62,13 @@ const LogoutMenu = styled.div`
   font-size: 1.5rem;
 `;
 
-const MenuDropDown = ({ handleDropDown }) => {
+const handleLogout = () => {
+  logout().catch((err) => {
+    console.log('handleLogout 에러캐치', err);
+  });
+};
+
+const MenuDropDown = ({ handleDropDown, onlogoutAction }) => {
   return (
     <DropDownContainer>
       <ImageContainer />
@@ -74,7 +81,15 @@ const MenuDropDown = ({ handleDropDown }) => {
         <SettingMenu>프로필 설정</SettingMenu>
       </Link>
       <Link to="/">
-        <LogoutMenu onCLogoutMenuck={handleDropDown}>로그아웃</LogoutMenu>
+        <LogoutMenu
+          onClick={() => {
+            handleDropDown();
+            handleLogout();
+            onlogoutAction();
+          }}
+        >
+          로그아웃
+        </LogoutMenu>
       </Link>
     </DropDownContainer>
   );

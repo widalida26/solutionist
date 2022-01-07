@@ -50,12 +50,9 @@ const Button = styled.div`
   font-size: 5rem;
   opacity: 0.5;
   svg {
-    margin: 1rem 1.5rem;
+    margin: 1rem;
     :hover {
       color: black;
-    }
-    :first-child {
-      justify-self: end;
     }
   }
 `;
@@ -85,6 +82,10 @@ const ProblemQuestion = styled.div`
   font-size: 1rem;
   font-family: 'GowunDodum-Regular', sans-serif;
   font-weight: ${(props) => props.weight};
+`;
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 const Make = () => {
@@ -141,10 +142,11 @@ const Make = () => {
   };
 
   const handleNav = (e) => {
-    navRefs.current[e.target.id].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    navRefs.current[e.target.id].scrollIntoView({ behavior: 'smooth' });
   };
 
   const [Qpos, setQpos] = useState([]);
+
   useEffect(() => {
     const arr = [0];
     navRefs.current
@@ -162,13 +164,12 @@ const Make = () => {
 
   const handleScroll = (e) => {
     for (let i = 0; i < Qpos.length; i++) {
-      if (Qpos[i] < makeRef.current.scrollTop) {
+      if (Qpos[i] - 100 < makeRef.current.scrollTop) {
         setCurPos(i);
       }
     }
   };
 
-  console.log(curPos);
   return (
     <MakeContainer onScroll={handleScroll} ref={makeRef}>
       <Title
@@ -216,9 +217,12 @@ const Make = () => {
         />
       ))}
       <Button>
-        <FaPlusSquare onClick={addProblem} />
         <div></div>
-        <FaSave onClick={handleSave} />
+        <ButtonContainer>
+          <FaPlusSquare onClick={addProblem} />
+          <FaSave onClick={handleSave} />
+        </ButtonContainer>
+        <div></div>
       </Button>
     </MakeContainer>
   );
