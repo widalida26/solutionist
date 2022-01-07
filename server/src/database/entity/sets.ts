@@ -9,6 +9,7 @@ import {
   JoinColumn,
   Timestamp,
 } from 'typeorm';
+import { collections } from './collections';
 import { users } from './users';
 import { problems } from './problems';
 
@@ -16,6 +17,10 @@ import { problems } from './problems';
 export class sets {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @ManyToOne(() => collections, (collection) => collection.id, { eager: true })
+  @JoinColumn({ name: 'collectionId' })
+  collection: number;
 
   @ManyToOne(() => users, (user) => user.id, { eager: true })
   @JoinColumn({ name: 'creatorId' })
