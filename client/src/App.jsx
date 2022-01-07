@@ -25,7 +25,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/make" element={<Make />} />
-        <Route path="/solve" element={<Solve />} />
+        <Route path="/solve/:setId" element={<Solve />} />
         <Route path="/myset" element={<MySet />} />
         <Route path="/solve" element={<Solve />} />
         <Route path="/setting" element={<Setting />} />
