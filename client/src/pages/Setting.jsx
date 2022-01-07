@@ -38,7 +38,7 @@ const Setting = () => {
 
   const handleSignOut = () => {
     signOut(onlogoutAction).catch((err) => {
-      console.log('signout 에러', err);
+      console.log('signout API 에러', err);
     });
   };
 
