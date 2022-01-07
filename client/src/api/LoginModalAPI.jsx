@@ -70,9 +70,23 @@ export function signOut() {
     });
 }
 
+export function logout() {
+  return axios
+    .post(`${process.env.SERVER_URL}users/logout`, {
+      headers: {
+        'Content-Type': `application/json`,
+      },
+      withCredentials: true,
+    })
+    .then(() => {
+      console.log('로그아웃 성공');
+      // ! 로그아웃 후 로그인 풀기 액션 반영
+    });
+}
+
 export function dupliEmail(state, setIsDupli) {
   return axios
-    .post(`${process.env.SERVER_URL}users/email/${state.email}`, {
+    .get(`${process.env.SERVER_URL}users/email/${state.email}`, {
       email: state.email,
     })
     .then(() => {

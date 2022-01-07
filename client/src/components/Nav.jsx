@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 
-import MenuDropDown from './MenuDropDown';
+import MenuDropDownContainer from '../containers/MenuDropDownContainer';
 
 const UnderlineFadeIn = keyframes`
 from {
@@ -173,7 +173,7 @@ const Nav = ({ onLoginModalOnAction, isLogin }) => {
           </LoginContainer>
         )}
       </NavGrid>
-      {isDropDown ? <MenuDropDown handleDropDown={handleDropDown} /> : ''}
+      {isDropDown ? <MenuDropDownContainer handleDropDown={handleDropDown} /> : ''}
     </NavContainer>
   );
 };
