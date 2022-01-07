@@ -19,22 +19,17 @@ const initialState = {
 
 /* 리듀서 선언 */
 // 리듀서는 export default 로 내보내주세요.
-const loginModal = (prevState = initialState, action) => {
-  let state;
+const loginModal = (state = initialState, action) => {
   switch (action.type) {
     case LOGIN_MODAL_ON:
-      state = { ...prevState, isLoginModalOn: true };
-      break;
+      return (state = { ...state, isLoginModalOn: true });
     case MODAL_OFF:
-      state = { ...initialState };
-      break;
+      return (state = { ...initialState });
     case LOGIN_SUCCESS:
-      state = { ...prevState, isLogin: true };
-      break;
+      return (state = { ...state, isLogin: true });
     default:
-      state = { ...prevState };
+      return state;
   }
-  return state;
 };
 
 export default loginModal;

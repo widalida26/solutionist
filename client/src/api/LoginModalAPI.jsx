@@ -48,9 +48,17 @@ export function signUpGoogle(authorizationCode, onloginAction) {
 }
 
 export function signOut() {
-  return axios.delete(`${process.env.SERVER_URL}users/signout`).then(() => {
-    console.log('회원 탈퇴 성공');
-  });
+  return axios
+    .delete(`${process.env.SERVER_URL}users/signout`, {
+      headers: {
+        'Content-Type': `application/json`,
+      },
+      withCredentials: true,
+    })
+    .then(() => {
+      console.log('회원 탈퇴 성공');
+      // ! 회원탈퇴 후 로그인 풀기 액션 반영
+    });
 }
 
 export function dupliEmail(state, setIsDupli) {
