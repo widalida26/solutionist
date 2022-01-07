@@ -21,7 +21,7 @@ const ProblemNum = styled.div`
   text-align: end;
   margin-right: 1rem;
   color: var(--orangey-yellow);
-  font-size: 15rem;
+  font-size: 12rem;
   opacity: 0.5;
 `;
 const Problem = styled.div`
