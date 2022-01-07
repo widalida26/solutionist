@@ -23,7 +23,6 @@ const google = async (req: Request, res: Response) => {
     });
 
     const { name: username, email, picture: profileImage } = userInfo.data;
-    console.log(999, username, profileImage);
     const info = getRepository(users);
     const findUser = await info.findOne({ where: { email: email } });
 
@@ -42,7 +41,8 @@ const google = async (req: Request, res: Response) => {
         email: secondFind.email,
         type: secondFind.type,
       };
-      const accessToken = jwtToken.accessToken(playload);
+      const userString = JSON.stringify(playload);
+      const accessToken = jwtToken.accessToken(userString);
       jwtToken.sendAccessToken(res, accessToken);
       console.log('accessToken', accessToken);
       return res.status(201).json({ data: playload });
@@ -53,7 +53,8 @@ const google = async (req: Request, res: Response) => {
         email: findUser.email,
         type: findUser.type,
       };
-      const accessToken = jwtToken.accessToken(playload);
+      const userString = JSON.stringify(playload);
+      const accessToken = jwtToken.accessToken(userString);
       jwtToken.sendAccessToken(res, accessToken);
       console.log('accessToken', accessToken);
       return res.status(201).json({ data: playload });
