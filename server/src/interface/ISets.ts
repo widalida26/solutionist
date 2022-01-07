@@ -23,7 +23,7 @@ export interface IChoices {
 }
 
 export interface ISolve {
-  problem: number;
+  problemId: number;
   choice: number;
 }
 

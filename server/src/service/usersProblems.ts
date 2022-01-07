@@ -17,7 +17,7 @@ export class uProblemsService {
 
   async uProblemsMaker(solveInfo: ISolve, email?: string): Promise<void> {
     // 필요한 정보가 누락된 경우
-    if (!solveInfo.problem || !solveInfo.choice) {
+    if (!solveInfo.problemId || !solveInfo.choice) {
       errorGenerator({ statusCode: 400 });
     }
 
@@ -27,23 +27,24 @@ export class uProblemsService {
     }
 
     // problems 테이블에 problem id가 있는지 조회
-    const foundProblem = await this.problemsRepo.findOne({ id: solveInfo.problem });
+    const foundProblem = await this.problemsRepo.findOne({ id: solveInfo.problemId });
     // problems 테이블에 problemId에 해당하는 레코드가 없는 경우
     if (!foundProblem) {
+      console.log('not found');
       errorGenerator({ statusCode: 400 });
     }
 
     // choice가 유효한지 확인
     // problems 테이블에서 조회
-    console.log(solveInfo.choice);
     // 풀이 정보 삽입
     await this.upRepo.save({
-      email,
       ...solveInfo,
+      email,
     });
 
-    const totalCnt = await this.upRepo.count({ problem: solveInfo.problem });
-    const data = await this.upRepo.countByChoice(solveInfo.problem);
+    const totalCnt = await this.upRepo.count({ problemId: solveInfo.problemId });
+    console.log('total', totalCnt);
+    const data = await this.upRepo.countByChoice(solveInfo.problemId);
     console.log('data', data);
     //const Cnt = await this.upRepo.count({ problemId: solveInfo.problemId });
 
