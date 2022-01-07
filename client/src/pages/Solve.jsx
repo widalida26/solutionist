@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { FaCaretSquareLeft, FaCaretSquareRight } from 'react-icons/fa';
 import CheckIcon from '../icons/Check';
 import OIcon from '../icons/O';
 import XIcon from '../icons/X';
@@ -240,6 +241,28 @@ const ChartNumOx = styled.div`
   display: ${(props) => props.display};
   align-items: center;
   margin: 0 1rem;
+`;
+const Button = styled.div`
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 56.6% 1fr;
+  color: var(--warm-grey);
+  font-size: 5rem;
+  opacity: 0.5;
+  * {
+    margin: 1rem;
+    :hover {
+      color: black;
+    }
+  }
+  svg:first-child {
+    justify-self: end;
+  }
+  svg:last-child {
+    justify-self: start;
+  }
 `;
 
 const Solve = () => {
@@ -605,20 +628,6 @@ const Solve = () => {
                                 : 'var(--warm-grey)'
                               : 'var(--warm-grey)'
                           }
-                          // stroke={
-                          //   data[problemIdx]
-                          //     ? data[problemIdx].choice === idx + 1
-                          //       ? 'var(--orangey-yellow)'
-                          //       : 'var(--warm-grey)'
-                          //     : 'var(--warm-grey)'
-                          // }
-                          // strokeWidth={
-                          //   data[problemIdx]
-                          //     ? data[problemIdx].choice === idx + 1
-                          //       ? '2'
-                          //       : '0'
-                          //     : '0'
-                          // }
                         />
                       </ListCheck>
                     </List>
@@ -630,9 +639,11 @@ const Solve = () => {
           </>
         )}
       </ProblemContainer>
-      <div onClick={handlePrev}>prev</div>
-      <div onClick={handleCheck}>check </div>
-      <div onClick={handleNext}>next </div>
+      <Button>
+        <FaCaretSquareLeft onClick={handlePrev} />
+        <div onClick={handleCheck}>check </div>
+        <FaCaretSquareRight onClick={handleNext} />
+      </Button>
     </SolveContainer>
   );
 };
