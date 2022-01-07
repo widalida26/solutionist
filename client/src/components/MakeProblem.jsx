@@ -44,8 +44,9 @@ const ProblemOx = styled.div`
 `;
 const Question = styled.textarea`
   grid-area: question;
-  height: 47px;
+  height: 48px;
   margin: 2rem 0 1rem 1rem;
+  line-height: 120%;
   word-wrap: break-word;
   word-break: break-word;
   font-size: 2.5rem;
