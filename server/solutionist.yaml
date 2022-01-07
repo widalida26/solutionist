@@ -9,8 +9,9 @@ tags:
   - name: users
     description: Operations about user
   - name: search && sets
-    description: Operations about gathering
+    description: Operations about sets
   - name: myInfo
+    description: Operations about myInfo
 paths:
   /users/signup:
     post:
@@ -209,7 +210,7 @@ paths:
                     type: string
                     default: internal server error
   /users/logout:
-    delete:
+    post:
       tags:
         - users
       summary: logout
