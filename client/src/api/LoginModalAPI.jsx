@@ -38,9 +38,18 @@ export function signUp(state, handleToggle, setAfterSignUp) {
 
 export function signUpGoogle(authorizationCode, onloginAction) {
   return axios
-    .post(`${process.env.SERVER_URL}users/google`, {
-      authorizationCode,
-    })
+    .post(
+      `${process.env.SERVER_URL}users/google`,
+      {
+        authorizationCode,
+      },
+      {
+        headers: {
+          'Content-Type': `application/json`,
+        },
+        withCredentials: true,
+      }
+    )
     .then(() => {
       console.log('구글 로그인 성공');
       onloginAction();
