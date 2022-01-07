@@ -33,6 +33,8 @@ export class uProblemsService {
       errorGenerator({ statusCode: 400 });
     }
 
+    // choice가 유효한지 확인
+    // problems 테이블에서 조회
     console.log(solveInfo.choice);
     // 풀이 정보 삽입
     await this.upRepo.save({
