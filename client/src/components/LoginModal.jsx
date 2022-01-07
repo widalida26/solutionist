@@ -215,7 +215,13 @@ const StyledWrapper = styled.div`
 // react-transition-group의 <Transition> 실패 https://velog.io/@sae1013/REACT-%EB%AA%A8%EB%8B%AC-%EC%95%A0%EB%8B%88%EB%A9%94%EC%9D%B4%EC%85%98CSS
 // setTimeout 실패 https://agal.tistory.com/170
 
-const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }) => {
+const LoginModal = ({
+  isLoginModalOn,
+  onModalOffAction,
+  isLogin,
+  onloginAction,
+  onlogoutAction,
+}) => {
   const [toggle, setToggle] = useState(true);
   const handleToggle = () => {
     setErrorMessage('');
@@ -416,13 +422,15 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
     authorizationCode = url.href.split('=')[2] || undefined;
     if (authorizationCode) {
       authorizationCode = authorizationCode.split('&')[0] + '&';
-      signUpGoogle(authorizationCode, onloginAction);
+      signUpGoogle(authorizationCode, onloginAction, onModalOffAction);
     }
   }, [authorizationCode]);
 
   // * 회원 탈퇴
   const handleSignOut = () => {
-    signOut().catch(console.log('signout 에러'));
+    signOut(onlogoutAction).catch((err) => {
+      console.log('signout 에러', err);
+    });
   };
 
   return (
