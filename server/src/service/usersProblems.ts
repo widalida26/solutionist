@@ -4,9 +4,7 @@ import { InjectRepository } from 'typeorm-typedi-extensions';
 import { uProblemsRepository } from '../database/repository/usersProblems';
 import { ProblemsRepository } from '../database/repository/problems';
 import { ChoicesRepository } from 'src/database/repository/choices';
-import { ISets, IProblems, IChoices, ISolve } from '../interface/ISets';
-import { solve } from '../controllers/sets';
-import { problems } from '../database/entity/problems';
+import { ISolve } from '../interface/ISets';
 import { v4 } from 'uuid';
 
 @Service()
