@@ -16,30 +16,23 @@ export class SetService {
     @InjectRepository() private choicesRepo: ChoicesRepository
   ) {}
 
-  // 세트 검색
+  // 타이틀로 세트 검색
   async SetFinder(title: string): Promise<Object> {
     const foundSets = await this.setsRepo.findSetsByTitle(title);
     console.log(foundSets);
     return {};
   }
 
+  // async SetExist(id: number): Promise<boolean> {
+  //   const set = await this.setsRepo.findOne(id);
+  //   if (set) return true;
+  //   else return false;
+  // }
+
   // 세트의 생성 정보
   // async SetOrigin(setId: number): Promise<IOrigin> {
   //   return await this.setsRepo.findOrogin(setId);
   // }
-
-  // 새로운 세트 생성 => collections 테이블 추가
-  async setCreator(set: ISets, userId: number): Promise<Object> {
-    if (set.id) {
-      // 세트 생성 정보 획득
-    } else {
-    }
-
-    set.editor = null;
-    // 세트 id가 있을 때 => 문제 작성
-    set.creator = userId;
-    return {};
-  }
 
   // 세트 수정 => sets 테이블에만 추가
   async setModifier(set: ISets, userId: number): Promise<Object> {
