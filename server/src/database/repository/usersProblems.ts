@@ -1,10 +1,12 @@
 import { EntityRepository, Repository, createQueryBuilder } from 'typeorm';
 import { usersProblems } from '../entity/usersProblems';
-import { convertRawObject } from '../../utils/custom';
+import { ISelect } from 'src/interface/ISets';
+import { convertRawObject, convertRawMap } from '../../utils/custom';
 
 @EntityRepository(usersProblems)
 export class uProblemsRepository extends Repository<usersProblems> {
-  async countByChoice(problemId: number) {
+  // 보기 선택 카운트
+  async countByChoice(problemId: number): Promise<ISelect> {
     return await this.createQueryBuilder('usersProblems')
       .select('usersProblems.choice AS choice')
       .addSelect('COUNT(*) AS cnt')
@@ -12,11 +14,13 @@ export class uProblemsRepository extends Repository<usersProblems> {
       .groupBy('usersProblems.choice')
       .getRawMany()
       .then((reuslt) => {
-        const cntInfo = { total: 0, select: [] };
-        reuslt.forEach((el) => {
-          const obj = convertRawObject(el);
-          cntInfo.select.push(obj);
-          cntInfo.total += Number(obj['cnt']);
+        const cntInfo = { total: 0, info: new Map<number, number>() };
+        reuslt.forEach((el, idx) => {
+          let map = convertRawMap(el);
+          // 문제 번호 : 숫자 형태의 Map으로 변환
+          let cnt = Number(map['cnt']);
+          cntInfo.info[idx + 1] = cnt;
+          cntInfo.total += cnt;
         });
         return cntInfo;
       });

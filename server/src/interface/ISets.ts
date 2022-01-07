@@ -35,10 +35,5 @@ export interface ISolve {
 
 export interface ISelect {
   total: number;
-  cnts: ICount[];
-}
-
-export interface ICount {
-  choice: number;
-  cnt: number;
+  info: Map<number, number>;
 }

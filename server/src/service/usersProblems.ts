@@ -17,7 +17,7 @@ export class uProblemsService {
     @InjectRepository() private choicesRepo: ChoicesRepository
   ) {}
 
-  async uProblemsMaker(solveInfo: ISolve, email?: string) {
+  async SelectionRateCalculator(solveInfo: ISolve, email?: string) {
     // 필요한 정보가 누락된 경우
     if (!solveInfo.problemId || !solveInfo.choice) {
       errorGenerator({ statusCode: 400 });
@@ -28,7 +28,7 @@ export class uProblemsService {
       email = v4();
     }
 
-    // problems 테이블에 problem id가 있는지 조회
+    // problems 테이블에 problemId가 있는지 조회
     const foundProblem = await this.problemsRepo.findOne({ id: solveInfo.problemId });
     // problems 테이블에 problemId에 해당하는 레코드가 없는 경우
     if (!foundProblem) {
@@ -49,19 +49,19 @@ export class uProblemsService {
       })
       .then((result) => result.id);
 
+    // 선택 비율 카운트
     const counted = await this.upRepo.countByChoice(solveInfo.problemId);
 
-    console.log(counted);
-    const selectionRates = {};
-    let total = 0;
-
-    console.log('total', total);
+    // 퍼센트 계산
+    const selectionRate = [];
     for (let i = 1; i <= maxIdx; i++) {
-      // if (counted['select'].choice === i) {
-      // }
+      let cnt = counted.info[i] ? counted.info[i] : 0;
+      selectionRate.push(Math.round((cnt / counted.total) * 100));
     }
 
-    console.log('data', counted);
-    //const Cnt = await this.upRepo.count({ problemId: solveInfo.problemId });
+    return {
+      id,
+      selectionRate,
+    };
   }
 }

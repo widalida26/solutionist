@@ -6,11 +6,15 @@ export const emptyObjectCk = (obj: Object): boolean => {
   }
 };
 
-export const insertIntoObject = (obj: object, key: string, id: number): Object => {
-  obj[key] = id;
+export const insertIntoObject = (obj: object, key: string, val: number): Object => {
+  obj[key] = val;
   return obj;
 };
 
 export const convertRawObject = (obj: Object): Object => {
+  return JSON.parse(JSON.stringify(obj));
+};
+
+export const convertRawMap = (obj: Object): Map<any, any> => {
   return JSON.parse(JSON.stringify(obj));
 };
