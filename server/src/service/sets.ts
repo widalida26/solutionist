@@ -4,29 +4,51 @@ import { InjectRepository } from 'typeorm-typedi-extensions';
 import { SetsRepository } from '../database/repository/sets';
 import { ProblemsRepository } from '../database/repository/problems';
 import { ChoicesRepository } from '../database/repository/choices';
-import { ISetsDTO, IProblems, IChoices } from '../interface/ISets';
+import { CollectionsRepository } from 'src/database/repository/collections';
+import { ISets, IProblems, IChoices } from '../interface/ISets';
+import { insertIntoObject } from 'src/utils/custom';
+import { sets } from '../database/entity/sets';
 
 @Service()
 export class SetService {
   constructor(
     @InjectRepository() private setsRepo: SetsRepository,
     @InjectRepository() private problemsRepo: ProblemsRepository,
-    @InjectRepository() private choicesRepo: ChoicesRepository
+    @InjectRepository() private choicesRepo: ChoicesRepository,
+    @InjectRepository() private collectionRepo: CollectionsRepository
   ) {}
 
-  // 세트 검색
-  async SetFinder(title: string): Promise<void> {
-    await this.setsRepo.find({
-      join: { alias: 'sets', innerJoin: { id: 'sets.userId' } },
+  // 타이틀로 세트 검색
+  async SetFinder(title: string): Promise<Object> {
+    const foundSets = await this.setsRepo.findSetsByTitle(title);
+    return {};
+  }
+
+  // 세트 수정 => collection 테이블에 추가
+  async setCreator(set: ISets): Promise<Object> {
+    set.collectionId = await this.collectionRepo
+      .save({ id: null })
+      .then((collection) => collection.id);
+    return await this.setMaker(set);
+  }
+
+  // 세트 수정 => sets 테이블에만 추가
+  async setModifier(set: ISets): Promise<Object> {
+    await this.setsRepo.findOne({ collectionId: set.collectionId }).then((foundSet) => {
+      if (!foundSet) {
+        errorGenerator({ statusCode: 400 });
+      }
+      set.collectionId = foundSet.collectionId;
+      set.creator = foundSet.creator;
+      set.createdAt = String(foundSet.createdAt);
     });
 
-    //await this.setsRepo.findSetsByTitle(title);
-
-    //const foundSets = await this.setsRepo.find({ title: Like(`%${title}%`) });
+    // 생성 정보 세팅
+    return await this.setMaker(set);
   }
 
   // 세트 삽입
-  async setMaker(userId: number, set: ISetsDTO): Promise<Object> {
+  async setMaker(set: ISets): Promise<Object> {
     // 세트 타이틀이 누락된 경우
     if (!set.title) {
       errorGenerator({ statusCode: 400 });
@@ -34,7 +56,6 @@ export class SetService {
 
     // 세트 삽입 후 setId 값 저장
     const savedSets = await this.setsRepo.save({
-      userId,
       ...set,
     });
 
@@ -49,7 +70,8 @@ export class SetService {
         if (!problem.index || !problem.question) {
           errorGenerator({ statusCode: 400 });
         }
-        return this.insertIntoObject(problem, 'setId', savedSets.id);
+        // db에 적합한 형태로 problems 변환 => setId 삽입
+        return insertIntoObject(problem, 'setId', savedSets.id);
       });
 
       // 문제 삽입
@@ -68,11 +90,16 @@ export class SetService {
               if (!choice.index) {
                 errorGenerator({ statusCode: 400 });
               }
-              return this.insertIntoObject(choice, 'problemId', problem.id);
+              return insertIntoObject(choice, 'problemId', problem.id);
             })
           );
         }
       });
+
+      // 보기가 2개 미만인 경우
+      if (choicesToSave.length < 2) {
+        errorGenerator({ statusCode: 400 });
+      }
 
       // 보기 삽입
       await this.choicesRepo.save(choicesToSave);
@@ -87,13 +114,7 @@ export class SetService {
   }
 
   // 세트 삭제
-  async setRemover(id: number): Promise<void> {
-    await this.setsRepo.delete({ id });
-  }
-
-  // db에 적합한 형태로 problems 변환 => setId 삽입
-  insertIntoObject = (obj: object, key: string, id: number): Object => {
-    obj[key] = id;
-    return obj;
-  };
+  // async setRemover(id: number): Promise<number> {
+  //   return await this.setsRepo.getRemovedUser(id);
+  // }
 }

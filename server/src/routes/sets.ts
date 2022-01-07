@@ -1,12 +1,13 @@
 import express from 'express';
-import add from '../controllers/sets/add';
+import { search, create, modify, solve } from '../controllers/sets/index';
 import asyncfy from 'express-asyncify';
-import search from '../controllers/sets/search';
-import { saveUserInfo } from '../middleware/checkauth';
+import { saveUserInfo, blockUnauthorized } from '../middleware/checkauth';
 
 const setsRouter = asyncfy(express.Router());
 
 setsRouter.get('/sets', search); // 세트 검색
-setsRouter.post('/choices', saveUserInfo, add); // 세트 제작
+setsRouter.post('/collections', saveUserInfo, create); // 세트 제작
+setsRouter.post('/sets', blockUnauthorized, modify); // 세트 수정
+setsRouter.post('/usersProblems', saveUserInfo, solve); // 문제 풀기
 
 export default setsRouter;

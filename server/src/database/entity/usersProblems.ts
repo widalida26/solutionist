@@ -9,12 +9,9 @@ export class usersProblems {
   @Column()
   email: string;
 
-  @Column()
-  problemId: number;
+  @ManyToOne(() => problems, (problem) => problem.id)
+  problem: number;
 
   @Column()
   choice: number;
-
-  @ManyToOne(() => problems, (problem) => problem.id)
-  problem: problems;
 }

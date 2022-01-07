@@ -12,6 +12,7 @@ import setsRouter from './routes/sets';
 import 'dotenv/config';
 
 useContainer(Container);
+
 // db connection
 createConnection()
   .then(async (connection) => {})
@@ -19,6 +20,7 @@ createConnection()
 
 const port = 4000;
 const app = express();
+
 app.use(express.static('public'));
 app.use(cookieparser());
 app.use(express.json());
@@ -34,6 +36,7 @@ app.use(
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   })
 );
+
 if (process.env.SERVER_SWAGGER) {
   const swaggerDocument = YAML.load('./solutionist.yaml');
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
@@ -52,5 +55,9 @@ app.use(errorHandler);
 
 // server listening
 app.listen(port, () => {
-  console.log(`server is listening on ${port}${process.env.SERVER_SWAGGER}`);
+  console.log(
+    `server is listening on ${port} \nswagger hub ${
+      process.env.SERVER_SWAGGER ? 'on' : 'off'
+    }`
+  );
 });

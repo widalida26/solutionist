@@ -1,8 +1,31 @@
-import { EntityRepository, Repository, Like } from 'typeorm';
+import { EntityRepository, Repository, getManager } from 'typeorm';
 import { sets } from '../entity/sets';
-import { users } from '../entity/users';
+import { IOrigin } from 'src/interface/ISets';
+import { convertRawObject } from '../../utils/custom';
 
 @EntityRepository(sets)
 export class SetsRepository extends Repository<sets> {
-  async findSetsByTitle(title: string) {}
+  // title로 세트 검색
+  async findSetsByTitle(title: string) {
+    const manager = getManager();
+    return await manager
+      .query(
+        `SELECT s.id, s.title, s.description, s.createdAt, u.username FROM sets AS s LEFT OUTER JOIN users AS u ON s.userId=u.id WHERE s.title LIKE '%${title}%';`
+      )
+      .then((sets: Object[]) => {
+        return sets.map((set: Object) => convertRawObject(set));
+      });
+  }
+
+  //삭제된 세트의 userId 반환
+  async getRemovedUser(id: number) {
+    return await this.findOne(id).then(async (set) => {
+      await this.delete(id);
+      if (!set) {
+        return null;
+      } else {
+        return set.creator;
+      }
+    });
+  }
 }
