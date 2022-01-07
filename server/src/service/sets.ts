@@ -35,7 +35,6 @@ export class SetService {
   // 세트 수정 => sets 테이블에만 추가
   async setModifier(set: ISets): Promise<Object> {
     await this.setsRepo.findOne({ collectionId: set.collectionId }).then((foundSet) => {
-      console.log(foundSet.collectionId);
       if (!foundSet) {
         errorGenerator({ statusCode: 400 });
       }
