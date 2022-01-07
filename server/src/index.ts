@@ -9,6 +9,7 @@ import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import usersRouter from './routes/users';
 import setsRouter from './routes/sets';
+import 'dotenv/config';
 
 useContainer(Container);
 // db connection
@@ -18,14 +19,25 @@ createConnection()
 
 const port = 4000;
 const app = express();
-
-const swaggerDocument = YAML.load('./solutionist.yaml');
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-app.use(cors());
+app.use(express.static('public'));
 app.use(cookieparser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(
+  cors({
+    origin: true,
+    //orogin: [`*`],
+    //origin: [`http://localhost:3000`],
+    allowedHeaders: ['Authorization, Content-Type'],
+    //exposedHeaders: ['Authorization'],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  })
+);
+if (process.env.SERVER_SWAGGER) {
+  const swaggerDocument = YAML.load('./solutionist.yaml');
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+}
 
 // basic routing
 app.get('/', (req, res) => {
@@ -40,5 +52,5 @@ app.use(errorHandler);
 
 // server listening
 app.listen(port, () => {
-  console.log(`server is listening on ${port}`);
+  console.log(`server is listening on ${port}${process.env.SERVER_SWAGGER}`);
 });

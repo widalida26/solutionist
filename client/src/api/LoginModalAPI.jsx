@@ -7,13 +7,13 @@ export function postLogin(state, onModalOffAction, onloginAction) {
       {
         email: state.email,
         password: state.password,
+      },
+      {
+        headers: {
+          'Content-Type': `application/json`,
+        },
+        withCredentials: true,
       }
-      // {
-      //   headers: {
-      //     'Content-Type': `application/json`,
-      //   },
-      //   withCredentials: true,
-      // }
     )
     .then((res) => {
       console.log('login 성공', res);

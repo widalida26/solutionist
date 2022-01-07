@@ -35,21 +35,6 @@ paths:
                 - username
                 - email
                 - password
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                username:
-                  type: string
-                email:
-                  type: string
-                  format: email
-                password:
-                  type: string
-              required:
-                - username
-                - email
-                - password
               example:
                 username: messi
                 email: messi@google.com
@@ -84,22 +69,6 @@ paths:
       requestBody:
         content:
           'application/json':
-            schema:
-              type: object
-              properties:
-                email:
-                  type: string
-                  format: email
-                password:
-                  type: string
-              required:
-                - email
-                - password
-              example:
-                email: messi@google.com
-                password: 'messi'
-        required: true
-          multipart/form-data:
             schema:
               type: object
               properties:
@@ -216,7 +185,7 @@ paths:
     delete:
       tags:
         - users
-      summary: signout 
+      summary: signout
       description: signout
       responses:
         '200':
@@ -237,7 +206,7 @@ paths:
                   message:
                     type: string
                     default: internal server error
-  /user/login:
+  /choices:
     post:
       tags:
         - search && sets
@@ -255,37 +224,45 @@ paths:
                   type: string
                 description:
                   type: string
-                problems: 
+                problems:
                   type: array
-                  items: 
+                  items:
                     type: object
                     properties:
-                      index: integer
-                      question: string
-                      answer: integer
-                      explanation: integer
-                      isOX: boolean                     
-                      choices: 
-                        type: array
-                        itmes: object
-                        properties:
-                          index: integer
-                          content: string
+                      index:
+                        type: integer
+                      question:
+                        type: string
+                      answer:
+                        type: integer
+                      explanation:
+                        type: integer
+                      isOX:
+                        type: boolean
+                choices:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      index:
+                        type: integer
+                      content:
+                        type: string
               required:
                 - title
               example:
                 id: 1
                 title: easy questions
                 description: very easy
-                problems: 
+                problems:
                   index: 1
                   question: what is it
                   answer: 1
                   explanation: thats it
                   isOX: false
-                    choices:
-                      index: 1
-                      content: a
+                  choices:
+                    index: 1
+                    content: a
         required: true
       responses:
         '200':
@@ -300,9 +277,9 @@ paths:
                   username:
                     type: string
                   createdAt:
-                    type: timestamp
+                    type: string
                   updatedAt:
-                    type: timestamp
+                    type: string
                 example:
                   title: easy questions
                   username: kimcoding

@@ -11,6 +11,8 @@ export const blockUnauthorized = async (
 ) => {
   const auth = req.cookies.accessToken;
 
+  console.log(555, req);
+
   if (!auth) {
     return res.status(401).send('invalid user');
   }
