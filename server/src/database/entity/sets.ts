@@ -20,7 +20,7 @@ export class sets {
   @ManyToOne(() => users, (user) => user.id)
   creator: number;
 
-  @ManyToOne((user) => users, (user) => user.id)
+  @ManyToOne(() => users, (user) => user.id)
   editor: users;
 
   @Column()
