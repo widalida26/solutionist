@@ -12,9 +12,12 @@ const MakeContainer = styled.div`
   overflow: scroll;
 `;
 const Title = styled.textarea`
+  display: flex;
+  align-items: center;
   width: 56.6%;
-  height: 70px;
+  height: 72px;
   margin: 0 0 0 21.7%;
+  line-height: 120%;
   font-size: 3.75rem;
   font-family: 'GongGothicMedium', sans-serif;
   word-wrap: break-word;
@@ -22,9 +25,12 @@ const Title = styled.textarea`
   resize: none;
 `;
 const Desc = styled.textarea`
+  display: flex;
+  align-items: center;
   width: 56.6%;
-  height: 46px;
+  height: 42px;
   margin: 30px 21.7% 0;
+  line-height: 120%;
   font-size: 2rem;
   font-family: 'GowunDodum-Regular', sans-serif;
   word-wrap: break-word;
