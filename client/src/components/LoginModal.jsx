@@ -405,11 +405,9 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
   );
   const handleSignGoogle = () => {
     window.location.assign(
-      `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.GOOGLE_CLIENT_ID}&redirect_uri=${process.env.REDIRECT_URI}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email&state=google`
+      `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.NEW_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.NEW_REDIRECT_URI}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email&state=google`
     );
   };
-
-  let authorizationCode;
 
   // * 구글 Oauth 리디렉션 코드 post로 보내기
   let authorizationCode;

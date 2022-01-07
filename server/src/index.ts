@@ -23,11 +23,21 @@ if (process.env.SERVER_SWAGGER) {
   const swaggerDocument = YAML.load('./solutionist.yaml');
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 }
-
-app.use(cors());
+app.use(express.static('public'));
 app.use(cookieparser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(
+  cors({
+    origin: true,
+    //orogin: [`*`],
+    //origin: [`http://localhost:3000`],
+    allowedHeaders: ['Authorization, Content-Type'],
+    //exposedHeaders: ['Authorization'],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  })
+);
 
 // basic routing
 app.get('/', (req, res) => {
