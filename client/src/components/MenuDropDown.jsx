@@ -85,7 +85,7 @@ const MenuDropDown = ({ handleDropDown, onlogoutAction }) => {
           onClick={() => {
             handleDropDown();
             handleLogout();
-            // onlogoutAction();
+            onlogoutAction();
           }}
         >
           로그아웃
