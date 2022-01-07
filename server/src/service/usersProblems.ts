@@ -17,7 +17,7 @@ export class uProblemsService {
     @InjectRepository() private choicesRepo: ChoicesRepository
   ) {}
 
-  async uProblemsMaker(solveInfo: ISolve, email?: string): Promise<void> {
+  async uProblemsMaker(solveInfo: ISolve, email?: string) {
     // 필요한 정보가 누락된 경우
     if (!solveInfo.problemId || !solveInfo.choice) {
       errorGenerator({ statusCode: 400 });

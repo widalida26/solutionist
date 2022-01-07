@@ -19,13 +19,13 @@ export class SetService {
   ) {}
 
   // 타이틀로 세트 검색
-  async SetFinder(title: string): Promise<Object> {
+  async SetFinder(title: string) {
     const foundSets = await this.setsRepo.findSetsByTitle(title);
     return {};
   }
 
   // 세트 수정 => collection 테이블에 추가
-  async setCreator(set: ISets): Promise<Object> {
+  async setCreator(set: ISets) {
     set.collectionId = await this.collectionRepo
       .save({ id: null })
       .then((collection) => collection.id);
@@ -33,7 +33,7 @@ export class SetService {
   }
 
   // 세트 수정 => sets 테이블에만 추가
-  async setModifier(set: ISets): Promise<Object> {
+  async setModifier(set: ISets) {
     await this.setsRepo.findOne({ collectionId: set.collectionId }).then((foundSet) => {
       if (!foundSet) {
         errorGenerator({ statusCode: 400 });
@@ -48,7 +48,7 @@ export class SetService {
   }
 
   // 세트 삽입
-  async setMaker(set: ISets): Promise<Object> {
+  async setMaker(set: ISets) {
     // 세트 타이틀이 누락된 경우
     if (!set.title) {
       errorGenerator({ statusCode: 400 });
