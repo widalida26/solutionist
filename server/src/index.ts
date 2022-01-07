@@ -12,6 +12,7 @@ import setsRouter from './routes/sets';
 import 'dotenv/config';
 
 useContainer(Container);
+
 // db connection
 createConnection()
   .then(async (connection) => {})
