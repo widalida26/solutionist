@@ -55,5 +55,9 @@ app.use(errorHandler);
 
 // server listening
 app.listen(port, () => {
-  console.log(`server is listening on ${port}${process.env.SERVER_SWAGGER}`);
+  console.log(
+    `server is listening on ${port} \nswagger hub ${
+      process.env.SERVER_SWAGGER ? 'on' : 'off'
+    }`
+  );
 });
