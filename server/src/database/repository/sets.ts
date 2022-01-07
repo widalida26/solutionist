@@ -14,4 +14,10 @@ export class SetsRepository extends Repository<sets> {
         return sets.map((set: Object) => convertRawObject(set));
       });
   }
+  async getRemovedUser(id: number) {
+    return await this.findOne(id).then((set) => {
+      this.delete(id);
+      return set.userId;
+    });
+  }
 }

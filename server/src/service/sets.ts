@@ -93,8 +93,8 @@ export class SetService {
   }
 
   // 세트 삭제
-  async setRemover(id: number): Promise<void> {
-    await this.setsRepo.delete({ id });
+  async setRemover(id: number): Promise<number> {
+    return await this.setsRepo.getRemovedUser(id);
   }
 
   // db에 적합한 형태로 problems 변환 => setId 삽입
