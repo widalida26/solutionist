@@ -5,6 +5,8 @@ info:
   version: '1.0.0'
 servers:
   - url: 'http://localhost:4000'
+  - url: 'https://solutionist.site'
+
 tags:
   - name: users
     description: Operations about user
@@ -207,6 +209,125 @@ paths:
                     type: string
                     default: internal server error
   /choices:
+    post:
+      tags:
+        - search && sets
+      summary: make set
+      description: make set
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                title:
+                  type: string
+                description:
+                  type: string
+                problems:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      index:
+                        type: integer
+                      question:
+                        type: string
+                      answer:
+                        type: integer
+                      explanation:
+                        type: integer
+                      isOX:
+                        type: boolean
+                choices:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      index:
+                        type: integer
+                      content:
+                        type: string
+              required:
+                - title
+              example:
+                id: 1
+                title: easy questions
+                description: very easy
+                problems:
+                  - index: 1
+                    question: what is it
+                    answer: 1
+                    explanation: thats it
+                    isOX: false
+                    choices:
+                      - index: 1
+                        content: a
+                      - index: 2
+                        content: b
+                  - index: 2
+                    question: what is it
+                    answer: 1
+                    explanation: thats it
+                    isOX: false
+                    choices:
+                      - index: 1
+                        content: a
+                      - index: 2
+                        content: a
+        required: true
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  title:
+                    type: string
+                  username:
+                    type: string
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                example:
+                  title: easy questions
+                  username: kimcoding
+                  createdAt: 2021-12-18 22:51:20
+                  updatedAt: 2021-12-19 22:51:20
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: insufficient information
+
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: invalid user
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: internal server error
+  /usersProblems:
     post:
       tags:
         - search && sets

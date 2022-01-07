@@ -7,24 +7,16 @@ export class solvedSets {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({
-    nullable: true,
-  })
-  userId: number;
+  @ManyToOne(() => users, (user) => user.id)
+  user: number;
 
-  @Column()
-  setId: number;
+  @ManyToOne(() => sets, (set) => set.creator, {
+    onDelete: 'CASCADE',
+  })
+  set: number;
 
   @Column({
     default: 0,
   })
   answerRate: number;
-
-  @ManyToOne(() => users, (user) => user.id)
-  user: users;
-
-  @ManyToOne(() => sets, (set) => set.userId, {
-    onDelete: 'CASCADE',
-  })
-  set: sets;
 }

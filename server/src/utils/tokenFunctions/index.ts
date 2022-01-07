@@ -3,7 +3,10 @@ import { sign, verify, Secret } from 'jsonwebtoken';
 
 const jwtToken = {
   accessToken: (data: any) => {
-    return sign({ data: data }, process.env.ACCESS_SECRET, { expiresIn: '1h' });
+    const period: string = process.env.EXPIRATION_PERIOD
+      ? process.env.EXPIRATION_PERIOD
+      : '1h';
+    return sign({ data: data }, process.env.ACCESS_SECRET, { expiresIn: period });
   },
   isAuthorized: (data: any) => {
     if (!data) {
@@ -22,6 +25,7 @@ const jwtToken = {
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
       // sameSite: 'none',
+      // secure: true,
     });
   },
 };

@@ -6,13 +6,7 @@ import { RiKakaoTalkFill } from 'react-icons/ri';
 import { FaTimesCircle } from 'react-icons/fa';
 import { useState, useEffect, useCallback } from 'react';
 import { device } from '../styles/Breakpoints';
-import {
-  postLogin,
-  signUp,
-  dupliEmail,
-  signUpGoogle,
-  signOut,
-} from '../api/LoginModalAPI';
+import { postLogin, signUp, dupliEmail, signUpGoogle } from '../api/LoginModalAPI';
 
 // * 프리젠테이셔널 컴포넌트
 
@@ -405,7 +399,7 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
   );
   const handleSignGoogle = () => {
     window.location.assign(
-      `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.NEW_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.NEW_REDIRECT_URI}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email&state=google`
+      `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.GOOGLE_CLIENT_ID}&redirect_uri=${process.env.REDIRECT_URI}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email&state=google`
     );
   };
 
@@ -416,18 +410,12 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
     authorizationCode = url.href.split('=')[2] || undefined;
     if (authorizationCode) {
       authorizationCode = authorizationCode.split('&')[0] + '&';
-      signUpGoogle(authorizationCode, onloginAction);
+      signUpGoogle(authorizationCode, onloginAction, onModalOffAction);
     }
   }, [authorizationCode]);
 
-  // * 회원 탈퇴
-  const handleSignOut = () => {
-    signOut().catch(console.log('signout 에러'));
-  };
-
   return (
     <>
-      <StyledButton onClick={handleSignOut}>임시 회원탈퇴 버튼</StyledButton>
       {isLoginModalOn ? (
         <StyledWrapper>
           <ModalBackdrop onClick={onModalOffAction}>
