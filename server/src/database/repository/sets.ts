@@ -22,7 +22,7 @@ export class SetsRepository extends Repository<sets> {
       if (!set) {
         return null;
       } else {
-        return set.userId;
+        return set.creator;
       }
     });
   }

@@ -6,17 +6,14 @@ export class choices {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  problemId: number;
+  @ManyToOne(() => problems, (problem) => problem.id, {
+    onDelete: 'CASCADE',
+  })
+  problem: number;
 
   @Column()
   index: number;
 
   @Column()
   content: string;
-
-  @ManyToOne(() => problems, (problem) => problem.id, {
-    onDelete: 'CASCADE',
-  })
-  problem: problems;
 }

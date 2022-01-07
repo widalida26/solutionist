@@ -35,11 +35,11 @@ export class problems {
   })
   set: sets;
 
-  @OneToMany(() => choices, (choice) => choice.problemId, {
+  @OneToMany(() => choices, (choice) => choice.problem, {
     cascade: true,
   })
   choice: choices[];
 
-  @OneToMany(() => usersProblems, (uProblem) => uProblem.problemId)
+  @OneToMany(() => usersProblems, (uProblem) => uProblem.problem)
   uProblem: usersProblems[];
 }

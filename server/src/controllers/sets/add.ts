@@ -29,7 +29,6 @@ const add = async (req: Request, res: Response) => {
   // 세트 작성
   const setInfo = await setServiceInstance.setMaker(setDTO, userInfo.id);
 
-  console.log('empty', emptyObjectCk(userInfo));
   res.status(200).json({
     username: userInfo.username,
     ...setInfo,

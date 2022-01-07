@@ -30,7 +30,6 @@ export class SetService {
 
     // 로그인된 유저가 아닐 경우 id에 null 할당
     if (!userId) {
-      console.log('no user');
       userId = null;
     }
 
@@ -39,6 +38,7 @@ export class SetService {
       userId,
       ...set,
     });
+    console.log('savedSets', savedSets);
 
     const problems: IProblems[] = set['problems'];
 
@@ -54,6 +54,7 @@ export class SetService {
         return this.insertIntoObject(problem, 'setId', savedSets.id);
       });
 
+      console.log('problemsToSave', problemsToSave);
       // 문제 삽입
       const savedProblems = await this.problemsRepo.save(problemsToSave);
 

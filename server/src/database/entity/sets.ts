@@ -17,10 +17,11 @@ export class sets {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({
-    nullable: true,
-  })
-  userId: number;
+  @ManyToOne(() => users, (user) => user.id)
+  creator: number;
+
+  @ManyToOne((user) => users, (user) => user.id)
+  editor: users;
 
   @Column()
   title: string;
@@ -35,9 +36,6 @@ export class sets {
 
   @UpdateDateColumn()
   updatedAt: Timestamp;
-
-  @ManyToOne(() => users, (user) => user.id)
-  user: users;
 
   @OneToMany(() => problems, (problem) => problem.setId, {
     cascade: true,

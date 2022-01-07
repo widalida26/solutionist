@@ -22,6 +22,6 @@ export interface IChoices {
 }
 
 export interface ISolveDTO {
-  problemId: number;
+  problem: number;
   choice: number;
 }
