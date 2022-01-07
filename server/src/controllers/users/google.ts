@@ -41,8 +41,7 @@ const google = async (req: Request, res: Response) => {
         email: secondFind.email,
         type: secondFind.type,
       };
-      const userString = JSON.stringify(playload);
-      const accessToken = jwtToken.accessToken(userString);
+      const accessToken = jwtToken.accessToken(playload);
       jwtToken.sendAccessToken(res, accessToken);
       console.log('accessToken', accessToken);
       return res.status(201).json({ data: playload });
@@ -53,8 +52,7 @@ const google = async (req: Request, res: Response) => {
         email: findUser.email,
         type: findUser.type,
       };
-      const userString = JSON.stringify(playload);
-      const accessToken = jwtToken.accessToken(userString);
+      const accessToken = jwtToken.accessToken(playload);
       jwtToken.sendAccessToken(res, accessToken);
       console.log('accessToken', accessToken);
       return res.status(201).json({ data: playload });
