@@ -19,15 +19,13 @@ createConnection()
 
 const port = 4000;
 const app = express();
-app.use(express.static('public'));
 app.use(cookieparser());
+app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
     origin: true,
-    //orogin: [`*`],
-    //origin: [`http://localhost:3000`],
     allowedHeaders: ['Authorization, Content-Type'],
     //exposedHeaders: ['Authorization'],
     credentials: true,
