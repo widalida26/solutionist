@@ -6,13 +6,7 @@ import { RiKakaoTalkFill } from 'react-icons/ri';
 import { FaTimesCircle } from 'react-icons/fa';
 import { useState, useEffect, useCallback } from 'react';
 import { device } from '../styles/Breakpoints';
-import {
-  postLogin,
-  signUp,
-  dupliEmail,
-  signUpGoogle,
-  signOut,
-} from '../api/LoginModalAPI';
+import { postLogin, signUp, dupliEmail, signUpGoogle } from '../api/LoginModalAPI';
 
 // * 프리젠테이셔널 컴포넌트
 
@@ -215,13 +209,7 @@ const StyledWrapper = styled.div`
 // react-transition-group의 <Transition> 실패 https://velog.io/@sae1013/REACT-%EB%AA%A8%EB%8B%AC-%EC%95%A0%EB%8B%88%EB%A9%94%EC%9D%B4%EC%85%98CSS
 // setTimeout 실패 https://agal.tistory.com/170
 
-const LoginModal = ({
-  isLoginModalOn,
-  onModalOffAction,
-  isLogin,
-  onloginAction,
-  onlogoutAction,
-}) => {
+const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }) => {
   const [toggle, setToggle] = useState(true);
   const handleToggle = () => {
     setErrorMessage('');
@@ -426,16 +414,8 @@ const LoginModal = ({
     }
   }, [authorizationCode]);
 
-  // * 회원 탈퇴
-  const handleSignOut = () => {
-    signOut(onlogoutAction).catch((err) => {
-      console.log('signout 에러', err);
-    });
-  };
-
   return (
     <>
-      <StyledButton onClick={handleSignOut}>임시 회원탈퇴 버튼</StyledButton>
       {isLoginModalOn ? (
         <StyledWrapper>
           <ModalBackdrop onClick={onModalOffAction}>
