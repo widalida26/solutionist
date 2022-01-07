@@ -19,7 +19,7 @@ export class sets {
   id: number;
 
   @Column()
-  collection: number;
+  collectionId: number;
 
   @ManyToOne(() => users, (user) => user.id, { eager: true })
   @JoinColumn({ name: 'creatorId' })
@@ -46,7 +46,7 @@ export class sets {
   @ManyToOne(() => collections, (collection) => collection.id, {
     onDelete: 'CASCADE',
   })
-  set: sets;
+  collection: collections;
 
   @OneToMany(() => problems, (problem) => problem.setId, {
     cascade: true,

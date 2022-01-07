@@ -4,16 +4,18 @@ import { InjectRepository } from 'typeorm-typedi-extensions';
 import { SetsRepository } from '../database/repository/sets';
 import { ProblemsRepository } from '../database/repository/problems';
 import { ChoicesRepository } from '../database/repository/choices';
+import { CollectionsRepository } from 'src/database/repository/collections';
 import { ISets, IProblems, IChoices } from '../interface/ISets';
 import { insertIntoObject } from 'src/utils/custom';
-import { sets } from 'src/database/entity/sets';
+import { sets } from '../database/entity/sets';
 
 @Service()
 export class SetService {
   constructor(
     @InjectRepository() private setsRepo: SetsRepository,
     @InjectRepository() private problemsRepo: ProblemsRepository,
-    @InjectRepository() private choicesRepo: ChoicesRepository
+    @InjectRepository() private choicesRepo: ChoicesRepository,
+    @InjectRepository() private collectionRepo: CollectionsRepository
   ) {}
 
   // 타이틀로 세트 검색
@@ -30,7 +32,10 @@ export class SetService {
 
   // 세트 수정 => collection 테이블에 추가
   async setCreator(set: ISets): Promise<Object> {
-    return {};
+    set.collectionId = await this.collectionRepo
+      .save({ id: null })
+      .then((collection) => collection.id);
+    return await this.setMaker(set);
   }
 
   // 세트 수정 => sets 테이블에만 추가

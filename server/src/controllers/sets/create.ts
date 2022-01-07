@@ -29,7 +29,7 @@ const create = async (req: Request, res: Response) => {
   setDTO.editor = null;
 
   // 세트 생성
-  const setInfo = await setServiceInstance.setMaker(setDTO);
+  const setInfo = await setServiceInstance.setCreator(setDTO);
 
   res.status(200).json({
     username: userInfo.username,

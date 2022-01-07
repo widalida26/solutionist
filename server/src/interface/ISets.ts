@@ -1,5 +1,6 @@
 export interface ISets extends IOrigin {
   id: number;
+  collectionId: number;
   title: string;
   description: string;
   editor: number;
