@@ -38,7 +38,6 @@ export class SetService {
       userId,
       ...set,
     });
-    console.log('savedSets', savedSets);
 
     const problems: IProblems[] = set['problems'];
 
@@ -54,7 +53,6 @@ export class SetService {
         return this.insertIntoObject(problem, 'setId', savedSets.id);
       });
 
-      console.log('problemsToSave', problemsToSave);
       // 문제 삽입
       const savedProblems = await this.problemsRepo.save(problemsToSave);
 
