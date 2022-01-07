@@ -1,8 +1,7 @@
-export interface ISets {
+export interface ISets extends IOrigin {
   id: number;
   title: string;
   description: string;
-  origin: IOrigin;
   editor: number;
   problems: IProblems[];
 }

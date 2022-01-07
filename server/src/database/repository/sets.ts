@@ -1,7 +1,7 @@
 import { EntityRepository, Repository, getManager } from 'typeorm';
 import { sets } from '../entity/sets';
-import { convertRawObject } from '../../utils/custom';
 import { IOrigin } from 'src/interface/ISets';
+import { convertRawObject } from '../../utils/custom';
 
 @EntityRepository(sets)
 export class SetsRepository extends Repository<sets> {
