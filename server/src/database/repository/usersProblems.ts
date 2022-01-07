@@ -19,7 +19,7 @@ export class uProblemsRepository extends Repository<usersProblems> {
           let map = convertRawMap(el);
           // 문제 번호 : 숫자 형태의 Map으로 변환
           let cnt = Number(map['cnt']);
-          cntInfo.info[idx + 1] = cnt;
+          cntInfo.info[map['choice']] = cnt;
           cntInfo.total += cnt;
         });
         return cntInfo;
