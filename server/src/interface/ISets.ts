@@ -1,6 +1,5 @@
 export interface ISets extends IOrigin {
   id: number;
-  collectionId: number;
   title: string;
   description: string;
   editor: number;
@@ -29,6 +28,7 @@ export interface ISolve {
 }
 
 export interface IOrigin {
+  collectionId: number;
   creator: number;
   createdAt: string;
 }

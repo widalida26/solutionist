@@ -21,14 +21,8 @@ export class SetService {
   // 타이틀로 세트 검색
   async SetFinder(title: string): Promise<Object> {
     const foundSets = await this.setsRepo.findSetsByTitle(title);
-    console.log(foundSets);
     return {};
   }
-
-  // 세트의 생성 정보
-  // async SetOrigin(setId: number): Promise<IOrigin> {
-  //   return await this.setsRepo.findOrogin(setId);
-  // }
 
   // 세트 수정 => collection 테이블에 추가
   async setCreator(set: ISets): Promise<Object> {
@@ -39,12 +33,19 @@ export class SetService {
   }
 
   // 세트 수정 => sets 테이블에만 추가
-  async setModifier(set: ISets, userId: number): Promise<Object> {
-    const { creator, createdAt } = await this.setsRepo.findOrogin(set.id);
-    set.creator = creator;
-    set.createdAt = createdAt;
-    set.editor = userId;
-    return {};
+  async setModifier(set: ISets): Promise<Object> {
+    await this.setsRepo.findOne({ collectionId: set.collectionId }).then((foundSet) => {
+      console.log(foundSet.collectionId);
+      if (!foundSet) {
+        errorGenerator({ statusCode: 400 });
+      }
+      set.collectionId = foundSet.collectionId;
+      set.creator = foundSet.creator;
+      set.createdAt = String(foundSet.createdAt);
+    });
+
+    // 생성 정보 세팅
+    return await this.setMaker(set);
   }
 
   // 세트 삽입
