@@ -2,8 +2,6 @@ import { Request, Response } from 'express';
 import { users } from '../../database/entity/users';
 import { getRepository, getConnection } from 'typeorm';
 import 'dotenv/config';
-import axios from 'axios';
-import jwtToken from '../../utils/tokenFunctions/index';
 
 const email = async (req: Request, res: Response) => {
   try {
