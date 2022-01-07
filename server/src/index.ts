@@ -19,10 +19,6 @@ createConnection()
 
 const port = 4000;
 const app = express();
-if (process.env.SERVER_SWAGGER) {
-  const swaggerDocument = YAML.load('./solutionist.yaml');
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-}
 app.use(express.static('public'));
 app.use(cookieparser());
 app.use(express.json());
@@ -38,6 +34,10 @@ app.use(
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   })
 );
+if (process.env.SERVER_SWAGGER) {
+  const swaggerDocument = YAML.load('./solutionist.yaml');
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+}
 
 // basic routing
 app.get('/', (req, res) => {
