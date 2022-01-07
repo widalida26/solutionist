@@ -1,7 +1,9 @@
-export interface ISetsDTO {
+export interface ISets {
   id: number;
   title: string;
   description: string;
+  origin: IOrigin;
+  editor: number;
   problems: IProblems[];
 }
 
@@ -21,7 +23,7 @@ export interface IChoices {
   content: number;
 }
 
-export interface ISolveDTO {
+export interface ISolve {
   problem: number;
   choice: number;
 }

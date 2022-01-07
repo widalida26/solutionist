@@ -3,7 +3,7 @@ import { Service } from 'typedi';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 import { uProblemsRepository } from '../database/repository/usersProblems';
 import { ProblemsRepository } from '../database/repository/problems';
-import { ISetsDTO, IProblems, IChoices, ISolveDTO } from '../interface/ISets';
+import { ISets, IProblems, IChoices, ISolve } from '../interface/ISets';
 import { solve } from '../controllers/sets';
 import { problems } from '../database/entity/problems';
 import { v4 } from 'uuid';
@@ -15,7 +15,7 @@ export class uProblemsService {
     @InjectRepository() private problemsRepo: ProblemsRepository
   ) {}
 
-  async uProblemsMaker(solveInfo: ISolveDTO, email?: string): Promise<void> {
+  async uProblemsMaker(solveInfo: ISolve, email?: string): Promise<void> {
     // 필요한 정보가 누락된 경우
     if (!solveInfo.problem || !solveInfo.choice) {
       errorGenerator({ statusCode: 400 });

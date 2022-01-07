@@ -1,6 +1,7 @@
 import { EntityRepository, Repository, getManager } from 'typeorm';
 import { sets } from '../entity/sets';
 import { convertRawObject } from '../../utils/custom';
+import { IOrigin } from 'src/interface/ISets';
 
 @EntityRepository(sets)
 export class SetsRepository extends Repository<sets> {
@@ -16,11 +17,11 @@ export class SetsRepository extends Repository<sets> {
       });
   }
   // 세트의 제작자와 최초 생성 시간 반환
-  async findOrogin(id: number): Promise<Object> {
+  async findOrogin(id: number): Promise<IOrigin> {
     return await this.findOne(id).then((set) => {
       return {
         creator: set.creator ? set.creator['id'] : null,
-        createdAt: set.createdAt,
+        createdAt: String(set.createdAt),
       };
     });
   }
