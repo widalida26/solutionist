@@ -38,9 +38,18 @@ export function signUp(state, handleToggle, setAfterSignUp) {
 
 export function signUpGoogle(authorizationCode, onloginAction) {
   return axios
-    .post(`${process.env.SERVER_URL}users/google`, {
-      authorizationCode,
-    })
+    .post(
+      `${process.env.SERVER_URL}users/google`,
+      {
+        authorizationCode,
+      },
+      {
+        headers: {
+          'Content-Type': `application/json`,
+        },
+        withCredentials: true,
+      }
+    )
     .then(() => {
       console.log('구글 로그인 성공');
       onloginAction();
@@ -48,9 +57,16 @@ export function signUpGoogle(authorizationCode, onloginAction) {
 }
 
 export function signOut() {
-  return axios.delete(`${process.env.SERVER_URL}users/signout`).then(() => {
-    console.log('회원 탈퇴 성공');
-  });
+  return axios
+    .delete(`${process.env.SERVER_URL}users/signout`, {
+      headers: {
+        'Content-Type': `application/json`,
+      },
+      withCredentials: true,
+    })
+    .then(() => {
+      console.log('회원 탈퇴 성공');
+    });
 }
 
 export function dupliEmail(state, setIsDupli) {

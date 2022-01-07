@@ -22,6 +22,7 @@ const jwtToken = {
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
       // sameSite: 'none',
+      // secure: true,
     });
   },
 };
