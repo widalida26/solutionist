@@ -22,13 +22,23 @@ export interface IChoices {
   content: number;
 }
 
+export interface IOrigin {
+  collectionId: number;
+  creator: number;
+  createdAt: string;
+}
+
 export interface ISolve {
   problemId: number;
   choice: number;
 }
 
-export interface IOrigin {
-  collectionId: number;
-  creator: number;
-  createdAt: string;
+export interface ISelect {
+  total: number;
+  cnts: ICount[];
+}
+
+export interface ICount {
+  choice: number;
+  cnt: number;
 }

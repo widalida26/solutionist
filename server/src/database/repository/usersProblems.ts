@@ -7,12 +7,18 @@ export class uProblemsRepository extends Repository<usersProblems> {
   async countByChoice(problemId: number) {
     return await this.createQueryBuilder('usersProblems')
       .select('usersProblems.choice AS choice')
-      .addSelect('COUNT(*) AS choiceCnt')
+      .addSelect('COUNT(*) AS cnt')
       .where({ problemId })
       .groupBy('usersProblems.choice')
       .getRawMany()
-      .then((result: Object[]) => {
-        return result.map((el: Object) => convertRawObject(el));
+      .then((reuslt) => {
+        const cntInfo = { total: 0, select: [] };
+        reuslt.forEach((el) => {
+          const obj = convertRawObject(el);
+          cntInfo.select.push(obj);
+          cntInfo.total += Number(obj['cnt']);
+        });
+        return cntInfo;
       });
   }
 }
