@@ -11,7 +11,6 @@ import {
 } from 'typeorm';
 import { users } from './users';
 import { problems } from './problems';
-import { usersProblems } from './usersProblems';
 
 @Entity()
 export class sets {

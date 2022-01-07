@@ -25,3 +25,8 @@ export interface ISolveDTO {
   problem: number;
   choice: number;
 }
+
+export interface IOrigin {
+  creator: number;
+  createdAt: string;
+}
