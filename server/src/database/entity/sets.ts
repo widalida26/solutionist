@@ -6,6 +6,7 @@ import {
   UpdateDateColumn,
   ManyToOne,
   OneToMany,
+  JoinColumn,
   Timestamp,
 } from 'typeorm';
 import { users } from './users';
@@ -17,11 +18,13 @@ export class sets {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => users, (user) => user.id)
+  @ManyToOne(() => users, (user) => user.id, { eager: true })
+  @JoinColumn({ name: 'creatorId' })
   creator: number;
 
-  @ManyToOne(() => users, (user) => user.id)
-  editor: users;
+  @ManyToOne(() => users, (user) => user.id, { eager: true })
+  @JoinColumn({ name: 'editorId' })
+  editor: number;
 
   @Column()
   title: string;
