@@ -8,6 +8,7 @@ import errorHandler from './error/errorHandler';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import usersRouter from './routes/users';
+import myPage from './routes/myPage';
 import setsRouter from './routes/sets';
 import 'dotenv/config';
 
@@ -42,6 +43,7 @@ app.get('/', (req, res) => {
   res.send('hello');
 });
 app.use('/users', usersRouter);
+app.use('/myPage', myPage);
 // routing to controllers
 app.use(setsRouter);
 

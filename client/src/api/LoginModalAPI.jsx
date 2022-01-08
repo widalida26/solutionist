@@ -57,7 +57,7 @@ export function signUpGoogle(authorizationCode, onloginAction, onModalOffAction)
     });
 }
 
-export function signOut(handleLogout) {
+export function signOut(handleOnLogout) {
   return axios
     .delete(`${process.env.SERVER_URL}users/signout`, {
       headers: {
@@ -67,19 +67,23 @@ export function signOut(handleLogout) {
     })
     .then(() => {
       console.log('회원 탈퇴 성공');
-      handleLogout();
+      handleOnLogout();
       // ! 회원탈퇴 후 로그인 풀기 액션 반영
     });
 }
 
 export function logout() {
   return axios
-    .post(`${process.env.SERVER_URL}users/logout`, {
-      headers: {
-        'Content-Type': `application/json`,
-      },
-      withCredentials: true,
-    })
+    .post(
+      `${process.env.SERVER_URL}users/logout`,
+      {},
+      {
+        headers: {
+          'Content-Type': `application/json`,
+        },
+        withCredentials: true,
+      }
+    )
     .then(() => {
       console.log('로그아웃 성공');
     });
