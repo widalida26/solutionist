@@ -57,6 +57,27 @@ export function signUpGoogle(authorizationCode, onloginAction, onModalOffAction)
     });
 }
 
+export function signUpKakao(authorizationCode, onloginAction, onModalOffAction) {
+  return axios
+    .post(
+      `${process.env.SERVER_URL}users/kakao`,
+      {
+        authorizationCode,
+      },
+      {
+        headers: {
+          'Content-Type': `application/json`,
+        },
+        withCredentials: true,
+      }
+    )
+    .then(() => {
+      console.log('카카오 로그인 성공');
+      onloginAction();
+      onModalOffAction();
+    });
+}
+
 export function signOut(onlogoutAction) {
   return axios
     .delete(`${process.env.SERVER_URL}users/signout`, {
