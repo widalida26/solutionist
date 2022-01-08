@@ -24,7 +24,7 @@ const modify = async (req: Request, res: Response) => {
   const setServiceInstance: SetService = Container.get(SetService);
 
   // 세트 작성 정보 세팅
-  setDTO.editor = userInfo.id;
+  setDTO.editorId = userInfo.id;
 
   //   // 세트 생성
   const setInfo = await setServiceInstance.setModifier(setDTO);

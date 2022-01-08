@@ -6,14 +6,19 @@ import { convertRawObject } from '../../utils/custom';
 export class SetsRepository extends Repository<sets> {
   // title로 세트 검색
   async findSetsByTitle(title: string) {
-    const manager = getManager();
-    return await manager
-      .query(
-        `SELECT s.id, s.title, s.description, s.createdAt, u.username FROM sets AS s LEFT OUTER JOIN users AS u ON s.userId=u.id WHERE s.title LIKE '%${title}%';`
-      )
-      .then((sets) => {
-        return sets.map((set) => convertRawObject(set));
-      });
+    const dt = await this.createQueryBuilder('sets')
+      .leftJoinAndSelect('sets.creator', 'user')
+      .where('sets.title like :title', { title: '%' + title + '%' })
+      .getMany();
+    console.log(dt);
+    // const manager = getManager();
+    // return await manager
+    //   .query(
+    //     `SELECT s.id, s.title, s.description, s.createdAt, u.username FROM sets AS s LEFT OUTER JOIN users AS u ON s.userId=u.id WHERE s.title LIKE '%${title}%';`
+    //   )
+    //   .then((sets) => {
+    //     return sets.map((set) => convertRawObject(set));
+    //   });
   }
 
   //삭제된 세트의 userId 반환
@@ -23,7 +28,7 @@ export class SetsRepository extends Repository<sets> {
       if (!set) {
         return null;
       } else {
-        return set.creator;
+        return set.creatorId;
       }
     });
   }

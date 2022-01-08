@@ -7,7 +7,6 @@ import { ChoicesRepository } from '../database/repository/choices';
 import { CollectionsRepository } from 'src/database/repository/collections';
 import { ISets, IProblems, IChoices } from '../interface/ISets';
 import { insertIntoObject } from 'src/utils/custom';
-import { sets } from '../database/entity/sets';
 
 @Service()
 export class SetService {
@@ -39,7 +38,7 @@ export class SetService {
         errorGenerator({ statusCode: 400 });
       }
       set.collectionId = foundSet.collectionId;
-      set.creator = foundSet.creator;
+      set.creatorId = foundSet.creatorId;
       set.createdAt = String(foundSet.createdAt);
     });
 
@@ -111,6 +110,8 @@ export class SetService {
       createdAt: savedSets.createdAt,
       updatedAt: savedSets.updatedAt,
     };
+
+    return {};
   }
 
   // 세트 삭제
