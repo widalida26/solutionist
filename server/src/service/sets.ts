@@ -4,9 +4,9 @@ import { InjectRepository } from 'typeorm-typedi-extensions';
 import { SetsRepository } from '../database/repository/sets';
 import { ProblemsRepository } from '../database/repository/problems';
 import { ChoicesRepository } from '../database/repository/choices';
-import { CollectionsRepository } from 'src/database/repository/collections';
+import { CollectionsRepository } from '../database/repository/collections';
 import { ISets, IProblems, IChoices } from '../interface/ISets';
-import { insertIntoObject } from 'src/utils/custom';
+import { insertIntoObject } from '../utils/custom';
 
 @Service()
 export class SetService {
