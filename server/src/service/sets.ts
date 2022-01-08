@@ -20,6 +20,7 @@ export class SetService {
   // 타이틀로 세트 검색
   async SetFinder(title: string) {
     const foundSets = await this.setsRepo.findSetsByTitle(title);
+    console.log(foundSets);
     return {};
   }
 

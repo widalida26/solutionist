@@ -1,24 +1,33 @@
 import { EntityRepository, Repository, getManager } from 'typeorm';
 import { sets } from '../entity/sets';
 import { convertRawObject } from '../../utils/custom';
+import e from 'express';
 
 @EntityRepository(sets)
 export class SetsRepository extends Repository<sets> {
   // title로 세트 검색
   async findSetsByTitle(title: string) {
-    const dt = await this.createQueryBuilder('sets')
-      .leftJoinAndSelect('sets.creator', 'user')
+    return await this.createQueryBuilder('sets')
+      .leftJoin('sets.creator', 'users')
+      .select([
+        'sets.id',
+        'sets.collectionId',
+        'sets.title',
+        'sets.description',
+        'sets.createdAt',
+        'users.username',
+      ])
       .where('sets.title like :title', { title: '%' + title + '%' })
-      .getMany();
-    console.log(dt);
-    // const manager = getManager();
-    // return await manager
-    //   .query(
-    //     `SELECT s.id, s.title, s.description, s.createdAt, u.username FROM sets AS s LEFT OUTER JOIN users AS u ON s.userId=u.id WHERE s.title LIKE '%${title}%';`
-    //   )
-    //   .then((sets) => {
-    //     return sets.map((set) => convertRawObject(set));
-    //   });
+      .getMany()
+      .then((result) => {
+        console.log('result', result);
+        return result.map((el) => {
+          //console.log(el);
+          //el['username'] = el.creator ? el.creator.username : null;
+          //delete el.creator;
+          //return el;
+        });
+      });
   }
 
   //삭제된 세트의 userId 반환
