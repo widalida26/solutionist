@@ -88,6 +88,7 @@ export class SetService {
             choices.map((choice) => {
               // 보기의 index 값이 존재하지 않으면 에러
               if (!choice.index) {
+                console.log('no choice idx');
                 errorGenerator({ statusCode: 400 });
               }
               return insertIntoObject(choice, 'problemId', problem.id);

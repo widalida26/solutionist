@@ -14,7 +14,3 @@ export const insertIntoObject = (obj: object, key: string, val: number): Object 
 export const convertRawObject = (obj: Object): Object => {
   return JSON.parse(JSON.stringify(obj));
 };
-
-export const convertRawMap = (obj: Object): Map<any, any> => {
-  return JSON.parse(JSON.stringify(obj));
-};

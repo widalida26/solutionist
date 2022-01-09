@@ -35,5 +35,5 @@ export interface ISolve {
 
 export interface ISelect {
   total: number;
-  info: Map<number, number>;
+  info: Object;
 }

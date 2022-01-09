@@ -1,7 +1,7 @@
 import { EntityRepository, Repository, createQueryBuilder } from 'typeorm';
 import { usersProblems } from '../entity/usersProblems';
 import { ISelect } from 'src/interface/ISets';
-import { convertRawMap } from '../../utils/custom';
+import { convertRawObject } from '../../utils/custom';
 
 @EntityRepository(usersProblems)
 export class uProblemsRepository extends Repository<usersProblems> {
@@ -16,7 +16,7 @@ export class uProblemsRepository extends Repository<usersProblems> {
       .then((reuslt) => {
         const cntInfo = { total: 0, info: new Map<number, number>() };
         reuslt.forEach((el) => {
-          let map = convertRawMap(el);
+          let map = convertRawObject(el);
           // 문제 번호 : 숫자 형태의 Map으로 변환
           let cnt = Number(map['cnt']);
           cntInfo.info[map['choice']] = cnt;
