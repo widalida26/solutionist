@@ -14,7 +14,8 @@ export class uProblemsRepository extends Repository<usersProblems> {
       .groupBy('usersProblems.choice')
       .getRawMany()
       .then((reuslt) => {
-        const cntInfo = { total: 0, info: new Map<number, number>() };
+        console.log(reuslt);
+        const cntInfo = { total: 0, info: {} };
         reuslt.forEach((el) => {
           let map = convertRawObject(el);
           // 문제 번호 : 숫자 형태의 Map으로 변환

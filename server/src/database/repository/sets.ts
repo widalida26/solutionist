@@ -10,13 +10,13 @@ export class SetsRepository extends Repository<sets> {
   async findSetsByTitle(title: string) {
     const dt = await this.createQueryBuilder('sets')
       .select([
-        'sets.id',
-        'sets.collectionId',
-        'sets.title',
-        'sets.description',
-        'sets.createdAt',
+        'sets.id as id',
+        'sets.collectionId as collectionId',
+        'sets.title as title',
+        'sets.description as descriptoin',
+        'sets.createdAt as createdAt',
       ])
-      .addSelect('users.username')
+      .addSelect('users.username as username')
       .leftJoin(users, 'users', 'sets.creatorId = users.id')
       .getRawMany();
     console.log(dt);
