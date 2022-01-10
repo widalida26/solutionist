@@ -58,9 +58,6 @@ export function signUpGoogle(authorizationCode, onloginAction, onModalOffAction)
     });
 }
 
-<<<<<<< HEAD
-export function signOut(handleOnLogout) {
-=======
 export function signUpKakao(authorizationCode, onloginAction, onModalOffAction) {
   return axios
     .post(
@@ -83,7 +80,6 @@ export function signUpKakao(authorizationCode, onloginAction, onModalOffAction) 
 }
 
 export function signOut(onlogoutAction) {
->>>>>>> 884ecd7566264b21f3fd3a58628978ea411ecbef
   return axios
     .delete(`${process.env.SERVER_URL}users/signout`, {
       headers: {
@@ -93,11 +89,7 @@ export function signOut(onlogoutAction) {
     })
     .then(() => {
       console.log('회원 탈퇴 성공');
-<<<<<<< HEAD
-      handleOnLogout();
-=======
       onlogoutAction();
->>>>>>> 884ecd7566264b21f3fd3a58628978ea411ecbef
       // ! 회원탈퇴 후 로그인 풀기 액션 반영
     });
 }

@@ -2,15 +2,14 @@ import { Request, Response } from 'express';
 import { users } from '../../database/entity/users';
 import { getRepository, getConnection } from 'typeorm';
 import 'dotenv/config';
-import axios from 'axios';
-import jwtToken from '../../utils/tokenFunctions/index';
-
-interface MulterRequest extends Request {
-  file: any;
-}
+import aws from 'aws-sdk';
 
 const image = async (req: Request, res: Response) => {
-  const { id, email, profileImage } = res.locals.userInfo;
+  const { email } = res.locals.userInfo;
+
+  interface MulterRequest extends Request {
+    file: any;
+  }
   try {
     const image = (req as MulterRequest).file.location;
     if (image === undefined) {
@@ -18,7 +17,37 @@ const image = async (req: Request, res: Response) => {
     }
     const info = getRepository(users);
     const findUser = await info.findOne({ where: { email: email } });
-  } catch {}
+    const s3 = new aws.S3({
+      accessKeyId: process.env.BUCKET_KEY_ID,
+      secretAccessKey: process.env.BUCKET_SECRET_KEY,
+      region: process.env.BUCKET_REGION,
+    });
+    const s3ImageName = findUser.profileImage.substring(
+      findUser.profileImage.lastIndexOf('/') + 1
+    );
+
+    if (findUser !== null) {
+      s3.deleteObject(
+        {
+          Bucket: 'solutionist',
+          Key: `${s3ImageName}`,
+        },
+        function (err, data) {
+          if (err) console.log(555, err, err.stack);
+          else console.log();
+        }
+      );
+    }
+
+    await getConnection()
+      .createQueryBuilder()
+      .update(users)
+      .set({ profileImage: image })
+      .where('id = :id', { id: findUser.id })
+      .execute();
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export default image;
