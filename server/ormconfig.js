@@ -8,9 +8,15 @@ module.exports = {
   synchronize: true,
   logging: false,
   autoLoadEntities: true,
-  entities: ['src/database/entity/*{.ts,.js}'],
-  migrations: ['src/database/migration/*{.ts,.js}'],
-  subscribers: ['src/database/subscriber/*{.ts,.js}'],
+  entities: ['src/database/entity/*{.ts,.js}', 'dist/src/database/entity/*{.ts,.js}'],
+  migrations: [
+    'src/database/migration/*{.ts,.js}',
+    'dist/src/database/entity/*{.ts,.js}',
+  ],
+  subscribers: [
+    'src/database/subscriber/*{.ts,.js}',
+    'dist/src/database/entity/*{.ts,.js}',
+  ],
   cli: {
     entitiesDir: 'src/database/entity',
     migrationsDir: 'src/database/migration',
