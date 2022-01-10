@@ -45,6 +45,15 @@ app.use(
 // basic routing
 app.get('/', (req, res) => {
   res.send('hello');
+  console.log('rds username', process.env.RDS_USERNAME);
+  console.log('rds password', process.env.RDS_PASSWORD);
+  console.log('rds port', process.env.RDS_PORT);
+  console.log('rds database', process.env.RDS_DATABASE);
+  console.log('rds host', process.env.RDS_HOST);
+  console.log('access', process.env.ACCESS_SECRET);
+  console.log('secret', process.env.SECRET_KEY);
+  console.log('google id', process.env.GOOGLE_CLIENT_ID);
+  console.log('google secret', process.env.GOOGLE_CLIENT_SECRET);
 });
 app.use('/users', usersRouter);
 // routing to controllers
