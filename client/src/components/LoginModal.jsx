@@ -6,7 +6,13 @@ import { RiKakaoTalkFill } from 'react-icons/ri';
 import { FaTimesCircle } from 'react-icons/fa';
 import { useState, useEffect, useCallback } from 'react';
 import { device } from '../styles/Breakpoints';
-import { postLogin, signUp, dupliEmail, signUpGoogle } from '../api/LoginModalAPI';
+import {
+  postLogin,
+  signUp,
+  dupliEmail,
+  signUpGoogle,
+  signUpKakao,
+} from '../api/LoginModalAPI';
 
 // * 프리젠테이셔널 컴포넌트
 
@@ -397,20 +403,53 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
     },
     [signupInfo]
   );
+
+  // * 구글 Oauth
   const handleSignGoogle = () => {
     window.location.assign(
       `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.GOOGLE_CLIENT_ID}&redirect_uri=${process.env.REDIRECT_URI}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email&state=google`
     );
   };
 
-  // * 구글 Oauth 리디렉션 코드 post로 보내기
+  // * 구글 Oauth 리디렉션 코드 post로 보내기 => 카카오 확인 후 삭제
+  // let authorizationCode;
+  // useEffect(() => {
+  //   const url = new URL(window.location.href);
+  //   authorizationCode = url.href.split('=')[2] || undefined;
+  //   if (authorizationCode) {
+  //     authorizationCode = authorizationCode.split('&')[0] + '&';
+  //     signUpGoogle(authorizationCode, onloginAction, onModalOffAction);
+  //   }
+  // }, [authorizationCode]);
+
+  // * 카카오 Oauth
+  const handleSignKakao = () => {
+    window.location.assign(
+      `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.KAKAO_CLIENT_ID}&redirect_uri=${process.env.REDIRECT_URI}&response_type=code&state=kakao`
+    );
+  };
+
+  // * 카카오 Oauth 리디렉션 코드 post로 보내기
   let authorizationCode;
   useEffect(() => {
     const url = new URL(window.location.href);
-    authorizationCode = url.href.split('=')[2] || undefined;
-    if (authorizationCode) {
-      authorizationCode = authorizationCode.split('&')[0] + '&';
-      signUpGoogle(authorizationCode, onloginAction, onModalOffAction);
+    // console.log(url.href.split('=')[0].split('/')[3]);
+    if (url.href.split('=')[0].split('/')[3] === '?code') {
+      // 카카오(API 테스트 확인)
+      authorizationCode = url.href.split('=')[1] || undefined;
+      if (authorizationCode) {
+        authorizationCode = authorizationCode.split('&')[0] + '&';
+        console.log(authorizationCode);
+        signUpKakao(authorizationCode, onloginAction, onModalOffAction);
+      }
+    } else {
+      // 구글
+      authorizationCode = url.href.split('=')[2] || undefined;
+      if (authorizationCode) {
+        authorizationCode = authorizationCode.split('&')[0] + '&';
+        console.log(authorizationCode);
+        signUpGoogle(authorizationCode, onloginAction, onModalOffAction);
+      }
     }
   }, [authorizationCode]);
 
@@ -456,7 +495,7 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
                             <FcGoogle onClick={handleSignGoogle} />
                           </IconBorder>
                           <IconBorder>
-                            <RiKakaoTalkFill />
+                            <RiKakaoTalkFill onClick={handleSignKakao} />
                           </IconBorder>
                         </ButtonGroup>
                         <StyledButton onClick={handleLogin}>LOGIN</StyledButton>
