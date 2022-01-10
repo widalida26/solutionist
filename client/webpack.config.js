@@ -1,13 +1,9 @@
 const path = require('path');
 const Dotenv = require('dotenv-webpack');
-// const dotenv = require('dotenv');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-// const webpack = require('webpack');
 
 module.exports = {
-  // dotenv.config();
-  // return {
   // 개발모드, development or production
   mode: 'development',
 
@@ -75,11 +71,5 @@ module.exports = {
         { from: './public/assets/icons', to: './assets/icons/' },
       ],
     }),
-    // new webpack.DefinePlugin({
-    // 'process.env.SERVER_URL': JSON.stringify(process.env.SERVER_URL),
-    // 'process.env.API_VERSION': JSON.stringify(process.env.API_VERSION),
-    // 'process.env.WEB_URL': JSON.stringify(process.env.WEB_URL),
-    // }),
   ],
-  // };
 };

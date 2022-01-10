@@ -47,6 +47,11 @@ const EditContainer = styled.div`
   display: flex;
 `;
 
+const EditPwContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 const PersonalInfo = styled.div`
   display: flex;
   flex-direction: column;
@@ -79,6 +84,22 @@ const ImageContainer = styled.div`
   color: var(--white);
 `;
 
+const StyledInput = styled.input`
+  font-family: GowunDodum-Regular;
+  font-size: 1.66rem;
+  border-bottom: 1px solid var(--warm-grey);
+  ::placeholder {
+    font-family: GowunDodum-Regular;
+  }
+`;
+
+const PasswordContainer = styled.div`
+  display: grid;
+  grid-template-rows: 2fr;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2rem;
+`;
+
 const StyledButton = styled.button`
   /* 공통 스타일 */
   display: inline-flex;
@@ -91,6 +112,7 @@ const StyledButton = styled.button`
   padding: 0.5rem 1rem;
   border-radius: 10px;
   width: fit-content;
+  height: fit-content;
 
   /* 색상 & 폰트 */
   background-color: #000;
@@ -142,7 +164,15 @@ const Setting = () => {
         <div />
         <LeftSide>비밀번호 변경</LeftSide>
         <div>
-          <StyledButton>비밀번호 변경</StyledButton>
+          <EditPwContainer>
+            <PasswordContainer>
+              <StyledInput placeholder="현재 비밀번호" />
+              <StyledInput placeholder="새 비밀번호" />
+              <div />
+              <StyledInput placeholder="새 비밀번호 확인" />
+            </PasswordContainer>
+            <StyledButton>비밀번호 변경</StyledButton>
+          </EditPwContainer>
           <Blank />
         </div>
         <div />

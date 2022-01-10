@@ -1,4 +1,5 @@
 const axios = require('axios');
+// axios.defaults.baseURL = 'https://api.velog.io/';
 
 export function postLogin(state, onModalOffAction, onloginAction) {
   return axios
