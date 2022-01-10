@@ -264,6 +264,32 @@ const Button = styled.div`
     justify-self: start;
   }
 `;
+const SideNavContainer = styled.div`
+  position: sticky;
+  float: 0;
+  top: 3rem;
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 56.6% 1fr;
+`;
+const SideRelative = styled.div`
+  position: relative;
+`;
+const SideNav = styled.div`
+  position: absolute;
+  left: 0;
+  margin-left: 1rem;
+  padding: 0 1rem;
+  border-left: 2px dashed var(--warm-grey);
+  color: var(--warm-grey);
+`;
+const ProblemQuestion = styled.div`
+  margin-bottom: 0.5rem;
+  color: ${(props) => props.color};
+  font-size: 1rem;
+  font-family: 'GowunDodum-Regular', sans-serif;
+  font-weight: ${(props) => props.weight};
+`;
 
 const Solve = () => {
   const dummy = {
@@ -396,6 +422,27 @@ const Solve = () => {
       <Title>{set.title}</Title>
       <Desc>{set.description}</Desc>
       <Blank />
+      <SideNavContainer>
+        <div></div>
+        <div></div>
+        <SideRelative>
+          <SideNav>
+            {set.problems.map((problem, idx) => (
+              <ProblemQuestion
+                color={
+                  data[idx] && isCheck[idx]
+                    ? data[idx].choice === set.problems[idx].answer
+                      ? 'var(--vibrant-green)'
+                      : 'var(--red)'
+                    : 'var(--warm-grey)'
+                }
+                weight={problemIdx === idx ? 'bold' : 'normal'}
+                onClick={() => setProblemIdx(idx)}
+              >{`${idx + 1}. ${problem.question}`}</ProblemQuestion>
+            ))}
+          </SideNav>
+        </SideRelative>
+      </SideNavContainer>
       <ProblemContainer>
         {isCheck[problemIdx] ? (
           <>
