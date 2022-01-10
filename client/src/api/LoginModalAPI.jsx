@@ -57,7 +57,28 @@ export function signUpGoogle(authorizationCode, onloginAction, onModalOffAction)
     });
 }
 
-export function signOut(handleLogout) {
+export function signUpKakao(authorizationCode, onloginAction, onModalOffAction) {
+  return axios
+    .post(
+      `${process.env.SERVER_URL}users/kakao`,
+      {
+        authorizationCode,
+      },
+      {
+        headers: {
+          'Content-Type': `application/json`,
+        },
+        withCredentials: true,
+      }
+    )
+    .then(() => {
+      console.log('카카오 로그인 성공');
+      onloginAction();
+      onModalOffAction();
+    });
+}
+
+export function signOut(onlogoutAction) {
   return axios
     .delete(`${process.env.SERVER_URL}users/signout`, {
       headers: {
@@ -67,19 +88,23 @@ export function signOut(handleLogout) {
     })
     .then(() => {
       console.log('회원 탈퇴 성공');
-      handleLogout();
+      onlogoutAction();
       // ! 회원탈퇴 후 로그인 풀기 액션 반영
     });
 }
 
 export function logout() {
   return axios
-    .post(`${process.env.SERVER_URL}users/logout`, {
-      headers: {
-        'Content-Type': `application/json`,
-      },
-      withCredentials: true,
-    })
+    .post(
+      `${process.env.SERVER_URL}users/logout`,
+      {},
+      {
+        headers: {
+          'Content-Type': `application/json`,
+        },
+        withCredentials: true,
+      }
+    )
     .then(() => {
       console.log('로그아웃 성공');
     });
