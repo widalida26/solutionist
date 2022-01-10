@@ -77,8 +77,8 @@ module.exports = () => {
       }),
       new webpack.DefinePlugin({
         'process.env.SERVER_URL': JSON.stringify(process.env.SERVER_URL),
-        // 'process.env.API_VERSION': JSON.stringify(process.env.API_VERSION),
-        // 'process.env.WEB_URL': JSON.stringify(process.env.WEB_URL),
+        'process.env.REDIRECT_URI': JSON.stringify(process.env.REDIRECT_URI),
+        'process.env.GOOGLE_CLIENT_ID': JSON.stringify(process.env.GOOGLE_CLIENT_ID),
       }),
     ],
   };
