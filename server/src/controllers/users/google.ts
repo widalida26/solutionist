@@ -13,6 +13,7 @@ const google = async (req: Request, res: Response) => {
 
   const googleClientId = process.env.GOOGLE_CLIENT_ID;
   const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
+  console.log('google client uri', process.env.CLIENT_URI);
   try {
     const tokenRes = await axios.post(
       `https://oauth2.googleapis.com/token?code=${req.body.authorizationCode}&client_id=${googleClientId}&client_secret=${googleClientSecret}&redirect_uri=${process.env.CLIENT_URI}&grant_type=authorization_code`
