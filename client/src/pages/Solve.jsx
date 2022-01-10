@@ -251,16 +251,17 @@ const Button = styled.div`
   color: var(--warm-grey);
   font-size: 5rem;
   opacity: 0.5;
+  user-select: none;
   * {
     margin: 1rem;
     :hover {
       color: black;
     }
   }
-  svg:first-child {
+  *:first-child {
     justify-self: end;
   }
-  svg:last-child {
+  *:last-child {
     justify-self: start;
   }
 `;
@@ -365,17 +366,20 @@ const Solve = () => {
     ],
   };
 
-  const set = dummy;
+  const [set, setSet] = useState(dummy);
   const { setId } = useParams();
   const [data, setData] = useState([]);
   const [problemIdx, setProblemIdx] = useState(0);
-  const { id, index, question, answer, explanation, isOX, choices } =
-    set.problems[problemIdx];
+  const { id, question, answer, explanation, isOX, choices } = set.problems[problemIdx];
   const [isCheck, setIsCheck] = useState([]);
   const [stats, setStats] = useState([
     [90, 100, 70, 85],
     [30, 70],
   ]);
+
+  axios
+    .get(`${process.env.SERVER_URL}sets/${setId}`)
+    .then((res) => console.log(res.body));
 
   const handleClick = (e) => {
     const newData = [...data];
@@ -396,11 +400,11 @@ const Solve = () => {
     }
   };
 
-  console.log(problemIdx);
-
   const handleCheck = () => {
     if (!data[problemIdx]) return console.log('답을 입력해주세요');
+
     const newIsCheck = [...isCheck];
+
     newIsCheck[problemIdx] = true;
     setIsCheck(newIsCheck);
     axios.post(`${process.env.SERVER_URL}usersProblems`, data);
@@ -415,6 +419,9 @@ const Solve = () => {
     if (problemIdx < set.problems.length - 1) {
       setProblemIdx(problemIdx + 1);
     }
+  };
+  const handleSubmit = () => {
+    console.log('submit');
   };
 
   return (
@@ -687,9 +694,13 @@ const Solve = () => {
         )}
       </ProblemContainer>
       <Button>
-        <FaCaretSquareLeft onClick={handlePrev} />
+        {problemIdx === 0 ? <div></div> : <FaCaretSquareLeft onClick={handlePrev} />}
         <div onClick={handleCheck}>check </div>
-        <FaCaretSquareRight onClick={handleNext} />
+        {problemIdx === set.problems.length - 1 ? (
+          <div onClick={handleSubmit}>submit</div>
+        ) : (
+          <FaCaretSquareRight onClick={handleNext} />
+        )}
       </Button>
     </SolveContainer>
   );
