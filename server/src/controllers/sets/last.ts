@@ -16,12 +16,10 @@ const last = async (req: Request, res: Response) => {
     errorGenerator({ statusCode: 400 });
   }
 
-  console.log(solveInfo);
-
   // solvedSets 테이블 이용을 위한 solvedService 인스턴스
   const solvedServiceInstance: SolvedService = Container.get(SolvedService);
-  //console.log('instance', solvedServiceInstance);
 
+  //
   await solvedServiceInstance.AnswerRateCalculator(solveInfo);
 
   res.end();

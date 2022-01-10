@@ -19,10 +19,12 @@ const solve = async (req: Request, res: Response) => {
   // usersProblems 테이블 이용을 위한 usersProblems 인스턴스
   const upServiceInstance: uProblemsService = Container.get(uProblemsService);
 
+  // 선택 비율 집계
   const solveResponse = await upServiceInstance.SelectionRateCalculator(
     solveDTO,
     userInfo.eamil
   );
-  res.send(solveResponse);
+
+  res.status(201).send(solveResponse);
 };
 export default solve;

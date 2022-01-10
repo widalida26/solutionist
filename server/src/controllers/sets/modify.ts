@@ -29,10 +29,9 @@ const modify = async (req: Request, res: Response) => {
   //   // 세트 생성
   const setInfo = await setServiceInstance.setModifier(setDTO);
 
-  res.status(200).json({
+  res.status(201).json({
     username: userInfo.username,
     ...setInfo,
   });
-  res.end();
 };
 export default modify;
