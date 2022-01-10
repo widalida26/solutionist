@@ -1,6 +1,6 @@
-import { EntityRepository, Repository, createQueryBuilder } from 'typeorm';
+import { EntityRepository, Repository } from 'typeorm';
 import { usersProblems } from '../entity/usersProblems';
-import { ISelect } from 'src/interface/ISets';
+import { ISelect } from '../../interface/ISets';
 import { convertRawObject } from '../../utils/custom';
 
 @EntityRepository(usersProblems)
