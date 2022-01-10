@@ -55,6 +55,8 @@ app.use(errorHandler);
 
 // server listening
 app.listen(port, () => {
+  console.log('secret', process.env.SECRET_KEY);
+
   console.log(
     `server is listening on ${port} \nswagger hub ${
       process.env.SERVER_SWAGGER ? 'on' : 'off'
