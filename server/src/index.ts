@@ -33,10 +33,10 @@ app.use(
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   })
 );
-if (process.env.SERVER_SWAGGER) {
-  const swaggerDocument = YAML.load('./solutionist.yaml');
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-}
+// if (process.env.SERVER_SWAGGER) {
+//   const swaggerDocument = YAML.load('./solutionist.yaml');
+//   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+// }
 
 // basic routing
 app.get('/', (req, res) => {
