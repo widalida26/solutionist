@@ -14,9 +14,9 @@ import 'dotenv/config';
 useContainer(Container);
 
 // db connection
-createConnection()
-  .then(async (connection) => {})
-  .catch((error) => console.log(error));
+// createConnection()
+//   .then(async (connection) => {})
+//   .catch((error) => console.log(error));
 
 const port = 4000;
 const app = express();
