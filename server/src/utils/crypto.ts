@@ -13,6 +13,7 @@ const cryptos = {
   },
 
   decrypt: (hash, iv) => {
+    console.log('secretKey', secretKey);
     const decipher = crypto.createDecipheriv(algorithm, secretKey, iv);
     const decrpyted = Buffer.concat([
       decipher.update(Buffer.from(hash, 'hex')),
