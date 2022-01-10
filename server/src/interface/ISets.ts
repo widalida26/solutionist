@@ -35,7 +35,8 @@ export interface ISolve {
 
 export interface IRate {
   setId: number;
-  answerRate: number;
+  userRate: number;
+  totalRate: number;
 }
 
 export interface ISelect {
