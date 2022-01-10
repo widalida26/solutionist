@@ -33,6 +33,11 @@ export interface ISolve {
   choice: number;
 }
 
+export interface IRate {
+  setId: number;
+  answerRate: number;
+}
+
 export interface ISelect {
   total: number;
   info: Object;

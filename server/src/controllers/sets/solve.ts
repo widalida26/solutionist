@@ -1,9 +1,9 @@
-import Container from 'typedi';
 import { Request, Response } from 'express';
-import errorGenerator from '../../error/errorGenerator';
+import Container from 'typedi';
 import { ISolve } from '../../interface/ISets';
 import { IUsers } from '../../interface/IUsers';
 import { uProblemsService } from '../../service/usersProblems';
+import errorGenerator from '../../error/errorGenerator';
 import { emptyObjectCk } from '../../utils/custom';
 
 const solve = async (req: Request, res: Response) => {

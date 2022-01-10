@@ -1,10 +1,11 @@
-import Container from 'typedi';
 import { Request, Response } from 'express';
-import errorGenerator from '../../error/errorGenerator';
+import Container from 'typedi';
+import { IRate } from '../../interface/ISets';
 import { SetService } from '../../service/sets';
+import errorGenerator from '../../error/errorGenerator';
 
 const last = async (req: Request, res: Response) => {
-  console.log(res);
+  const solveInfo: IRate = req.body;
   //   const searchWord = req.query['title'];
 
   //   // 쿼리 값이 부적합할 경우

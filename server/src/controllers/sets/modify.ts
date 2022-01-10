@@ -1,9 +1,9 @@
-import Container from 'typedi';
 import { Request, Response } from 'express';
-import errorGenerator from '../../error/errorGenerator';
+import Container from 'typedi';
 import { ISets } from '../../interface/ISets';
 import { IUsers } from '../../interface/IUsers';
 import { SetService } from '../../service/sets';
+import errorGenerator from '../../error/errorGenerator';
 import { emptyObjectCk } from '../../utils/custom';
 
 const modify = async (req: Request, res: Response) => {
