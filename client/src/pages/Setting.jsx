@@ -2,9 +2,103 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { device } from '../styles/Breakpoints';
 import { signOut } from '../api/LoginModalAPI';
+import { MdEdit } from 'react-icons/md';
+
 // redux
 import { useDispatch } from 'react-redux';
 import { logoutAction } from '../modules/loginModal';
+
+const MainContainer = styled.div`
+  /* position: relative; */
+  /* height: calc(100% - 190px); */
+  padding: 60px 0;
+  overflow: scroll;
+`;
+
+const SettingContainer = styled.div`
+  display: grid;
+  grid-template-rows: 4fr;
+  grid-template-columns: 1fr 56.6% 1fr;
+`;
+
+const Title = styled.div`
+  font-size: 3.75rem;
+`;
+
+const LeftSide = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  font-size: 1.75rem;
+  margin-right: 5.9%;
+`;
+
+const Blank = styled.div`
+  width: 100%;
+  margin: 5.9% 0;
+  border-bottom: 2px solid var(--orangey-yellow);
+  font-size: 2rem;
+  font-family: 'GowunDodum-Regular', sans-serif;
+  word-wrap: break-word;
+  word-break: break-word;
+  resize: none;
+`;
+
+const EditContainer = styled.div`
+  display: flex;
+`;
+
+const EditPwContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const PersonalInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 5%;
+  > p {
+    /* margin-top: 10%; */
+    font-size: 1.75rem;
+  }
+`;
+
+const Nickname = styled.div`
+  display: flex;
+  > span {
+    font-size: 3rem;
+  }
+  > svg {
+    font-size: 3rem;
+  }
+`;
+
+const ImageContainer = styled.div`
+  width: 250px;
+  height: 250px;
+  background-color: var(--warm-grey);
+  border-radius: 125px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--white);
+`;
+
+const StyledInput = styled.input`
+  font-family: GowunDodum-Regular;
+  font-size: 1.66rem;
+  border-bottom: 1px solid var(--warm-grey);
+  ::placeholder {
+    font-family: GowunDodum-Regular;
+  }
+`;
+
+const PasswordContainer = styled.div`
+  display: grid;
+  grid-template-rows: 2fr;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2rem;
+`;
 
 const StyledButton = styled.button`
   /* 공통 스타일 */
@@ -17,6 +111,8 @@ const StyledButton = styled.button`
   cursor: pointer;
   padding: 0.5rem 1rem;
   border-radius: 10px;
+  width: fit-content;
+  height: fit-content;
 
   /* 색상 & 폰트 */
   background-color: #000;
@@ -38,15 +134,53 @@ const Setting = () => {
 
   const handleSignOut = () => {
     signOut(onlogoutAction).catch((err) => {
-      console.log('signout 에러', err);
+      console.log('signout API 에러', err);
     });
   };
 
   return (
-    <div className="h_100 w_100 bg_main">
-      <div>Setting</div>
-      <StyledButton onClick={handleSignOut}>임시 회원탈퇴 버튼</StyledButton>
-    </div>
+    <MainContainer>
+      <SettingContainer>
+        <div />
+        <Title>
+          설정
+          <Blank />
+        </Title>
+        <div />
+        <LeftSide>개인정보 수정</LeftSide>
+        <div>
+          <EditContainer>
+            <ImageContainer>누르면 프로필 사진 수정 가능</ImageContainer>
+            <PersonalInfo>
+              <Nickname>
+                <span>김코딩</span>
+                <MdEdit />
+              </Nickname>
+              <p>kimcoding@gmail.com</p>
+            </PersonalInfo>
+          </EditContainer>
+          <Blank />
+        </div>
+        <div />
+        <LeftSide>비밀번호 변경</LeftSide>
+        <div>
+          <EditPwContainer>
+            <PasswordContainer>
+              <StyledInput placeholder="현재 비밀번호" />
+              <StyledInput placeholder="새 비밀번호" />
+              <div />
+              <StyledInput placeholder="새 비밀번호 확인" />
+            </PasswordContainer>
+            <StyledButton>비밀번호 변경</StyledButton>
+          </EditPwContainer>
+          <Blank />
+        </div>
+        <div />
+        <LeftSide>계정 관리</LeftSide>
+        <StyledButton onClick={handleSignOut}>회원 탈퇴</StyledButton>
+        <div />
+      </SettingContainer>
+    </MainContainer>
   );
 };
 
