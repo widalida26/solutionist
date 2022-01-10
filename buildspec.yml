@@ -1,5 +1,9 @@
 version: 0.2
 
+env:
+  variables:
+    SERVER_URL: 'https://server.solutionist.site/'
+
 phases:
   pre_build:
     commands:
