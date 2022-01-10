@@ -270,7 +270,7 @@ const Solve = () => {
     userId: 'aaa', // 로그인이 되지 않은 경우 임의의 유저 아이디
     setId: 1,
     userName: 'kimcoding',
-    title: '아주 쉬운 문제들이지만 제목만큼은 정말 긴',
+    title: '아마존 S3 적용 테스트',
     description: '정말 쉽습니다만 이름이 정말 정말 정말 정말 정말 정말 정말 길답니다.',
     solvedUserNumber: 100,
     createdAt: '21-12-18 22:51:20',
