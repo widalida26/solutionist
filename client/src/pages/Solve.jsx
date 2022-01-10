@@ -264,13 +264,39 @@ const Button = styled.div`
     justify-self: start;
   }
 `;
+const SideNavContainer = styled.div`
+  position: sticky;
+  float: 0;
+  top: 3rem;
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 56.6% 1fr;
+`;
+const SideRelative = styled.div`
+  position: relative;
+`;
+const SideNav = styled.div`
+  position: absolute;
+  left: 0;
+  margin-left: 1rem;
+  padding: 0 1rem;
+  border-left: 2px dashed var(--warm-grey);
+  color: var(--warm-grey);
+`;
+const ProblemQuestion = styled.div`
+  margin-bottom: 0.5rem;
+  color: ${(props) => props.color};
+  font-size: 1rem;
+  font-family: 'GowunDodum-Regular', sans-serif;
+  font-weight: ${(props) => props.weight};
+`;
 
 const Solve = () => {
   const dummy = {
     userId: 'aaa', // 로그인이 되지 않은 경우 임의의 유저 아이디
     setId: 1,
     userName: 'kimcoding',
-    title: '아주 쉬운 문제들이지만 제목만큼은 정말 긴',
+    title: '아마존 S3 적용 테스트',
     description: '정말 쉽습니다만 이름이 정말 정말 정말 정말 정말 정말 정말 길답니다.',
     solvedUserNumber: 100,
     createdAt: '21-12-18 22:51:20',
@@ -396,6 +422,27 @@ const Solve = () => {
       <Title>{set.title}</Title>
       <Desc>{set.description}</Desc>
       <Blank />
+      <SideNavContainer>
+        <div></div>
+        <div></div>
+        <SideRelative>
+          <SideNav>
+            {set.problems.map((problem, idx) => (
+              <ProblemQuestion
+                color={
+                  data[idx] && isCheck[idx]
+                    ? data[idx].choice === set.problems[idx].answer
+                      ? 'var(--vibrant-green)'
+                      : 'var(--red)'
+                    : 'var(--warm-grey)'
+                }
+                weight={problemIdx === idx ? 'bold' : 'normal'}
+                onClick={() => setProblemIdx(idx)}
+              >{`${idx + 1}. ${problem.question}`}</ProblemQuestion>
+            ))}
+          </SideNav>
+        </SideRelative>
+      </SideNavContainer>
       <ProblemContainer>
         {isCheck[problemIdx] ? (
           <>
