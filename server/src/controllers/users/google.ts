@@ -8,6 +8,9 @@ import jwtToken from '../../utils/tokenFunctions/index';
 const google = async (req: Request, res: Response) => {
   // const googletokenURL = 'https://oauth2.googleapis.com/token';
   const googleInfoURL = 'https://www.googleapis.com/oauth2/v2/userinfo';
+  console.log('client id', process.env.GOOGLE_CLIENT_ID);
+  console.log('client secret', process.env.GOOGLE_CLIENT_SECRET);
+
   const googleClientId = process.env.GOOGLE_CLIENT_ID;
   const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
   try {
@@ -16,6 +19,7 @@ const google = async (req: Request, res: Response) => {
     );
 
     const { access_token: accessToken } = tokenRes.data;
+    console.log('tokenRes', tokenRes);
     const userInfo = await axios.get(googleInfoURL, {
       headers: {
         authorization: `Bearer ${accessToken}`,
