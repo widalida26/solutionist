@@ -10,7 +10,9 @@ export class solvedSets {
   @Column()
   setId: number;
 
-  @Column()
+  @Column({
+    nullable: true,
+  })
   userId: number;
 
   @Column({
