@@ -3,10 +3,7 @@ import { Service } from 'typedi';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 import { SolvedSetsRepository } from '../database/repository/solvedSets';
 import { SetsRepository } from '../database/repository/sets';
-
 import { IRate } from '../interface/ISets';
-import { setFlagsFromString } from 'v8';
-import { sets } from 'src/database/entity/sets';
 
 @Service()
 export class SolvedService {
@@ -30,9 +27,11 @@ export class SolvedService {
     // id에 해당하는 세트가 있는지 확인
     await this.solvedRepo.save({
       setId: rateInfo.setId,
-      userId: userId,
+      userId,
       answerRate: rateInfo.userRate,
     });
-    // id에 해당하는 세트가 없는 경우
+
+    const found = await this.solvedRepo.findAndCount({ setId: rateInfo.setId });
+    console.log(found);
   }
 }
