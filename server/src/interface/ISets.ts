@@ -1,7 +1,8 @@
-export interface ISetsDTO {
+export interface ISets extends IOrigin {
   id: number;
   title: string;
   description: string;
+  editor: number;
   problems: IProblems[];
 }
 
@@ -19,4 +20,15 @@ export interface IChoices {
   id: number;
   index: number;
   content: number;
+}
+
+export interface ISolve {
+  problem: number;
+  choice: number;
+}
+
+export interface IOrigin {
+  collectionId: number;
+  creator: number;
+  createdAt: string;
 }

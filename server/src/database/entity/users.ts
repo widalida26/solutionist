@@ -42,9 +42,9 @@ export class users {
   @CreateDateColumn()
   createdAt: Timestamp;
 
-  @OneToMany(() => sets, (set) => set.userId)
+  @OneToMany(() => sets, (set) => set.creator)
   set: sets[];
 
-  @OneToMany(() => solvedSets, (solved) => solved.userId)
-  solved: solvedSets;
+  @OneToMany(() => solvedSets, (solved) => solved.user)
+  solved: solvedSets[];
 }

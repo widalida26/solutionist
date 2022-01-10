@@ -64,7 +64,7 @@ const LogoutMenu = styled.div`
 
 const handleLogout = () => {
   logout().catch((err) => {
-    console.log('handleLogout 에러캐치', err);
+    console.log('logout API 에러캐치', err);
   });
 };
 
