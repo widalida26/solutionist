@@ -5,12 +5,13 @@ import styled, { keyframes } from 'styled-components';
 import MenuDropDownContainer from '../containers/MenuDropDownContainer';
 
 const UnderlineFadeIn = keyframes`
-from {
-  box-shadow: 0 0 0 0px inset var(--butterscotch);
-}
-to{
-  box-shadow: 0 -5px 0 0px inset var(--butterscotch);
-}`;
+  from {
+    box-shadow: 0 0 0 0px inset var(--butterscotch);
+  }
+  to{
+    box-shadow: 0 -5px 0 0px inset var(--butterscotch);
+  }
+`;
 
 const NavContainer = styled.div`
   width: 100vw;
