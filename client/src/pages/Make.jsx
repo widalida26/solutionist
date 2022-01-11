@@ -89,9 +89,16 @@ const SideNav = styled.div`
 `;
 const ProblemQuestion = styled.div`
   margin-bottom: 0.5rem;
-  font-size: 1rem;
-  font-family: 'GowunDodum-Regular', sans-serif;
-  font-weight: ${(props) => props.weight};
+  display: flex;
+  * {
+    font-size: 1rem;
+    font-family: 'GowunDodum-Regular', sans-serif;
+    font-weight: ${(props) => props.weight};
+    word-break: break-word;
+  }
+  div:first-child {
+    margin-right: 0.5rem;
+  }
 `;
 const ButtonContainer = styled.div`
   display: flex;
@@ -214,7 +221,8 @@ const Make = () => {
                 key={`#Q${idx + 1}`}
                 weight={curPos === idx ? 'bold' : 'normal'}
               >
-                {idx + 1} &nbsp;&nbsp; {problem.question}
+                <div>{idx + 1}</div>
+                <div>{problem.question}</div>
               </ProblemQuestion>
             ))}
           </SideNav>
