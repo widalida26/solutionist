@@ -12,7 +12,7 @@ export const blockUnauthorized = async (
   const auth = req.cookies.accessToken;
 
   if (!auth) {
-    return res.status(401).send('invalid user');
+    return res.status(400).send('invalid authorized');
   }
 
   const authorized = jwtToken.isAuthorized(auth);

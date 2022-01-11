@@ -40,29 +40,31 @@ const google = async (req: Request, res: Response) => {
         .execute();
 
       const secondFind = await info.findOne({ where: { email: email } });
-      const playload = {
+      const payload = {
         id: secondFind.id,
         username: secondFind.username,
         email: secondFind.email,
         type: secondFind.type,
+        role: secondFind.role,
       };
-      const userString = JSON.stringify(playload);
+      const userString = JSON.stringify(payload);
       const accessToken = jwtToken.accessToken(userString);
       jwtToken.sendAccessToken(res, accessToken);
       console.log('accessToken', accessToken);
-      return res.status(201).json({ data: playload });
+      return res.status(201).json({ data: payload });
     } else {
-      const playload = {
+      const payload = {
         id: findUser.id,
         username: findUser.username,
         email: findUser.email,
         type: findUser.type,
+        role: findUser.role,
       };
-      const userString = JSON.stringify(playload);
+      const userString = JSON.stringify(payload);
       const accessToken = jwtToken.accessToken(userString);
       jwtToken.sendAccessToken(res, accessToken);
       console.log('accessToken', accessToken);
-      return res.status(201).json({ data: playload });
+      return res.status(201).json({ data: payload });
     }
   } catch (error) {
     console.log(error);

@@ -6,6 +6,7 @@ import { blockUnauthorized } from '../middleware/checkauth';
 import signout from '../controllers/users/signout';
 import logout from '../controllers/users/logout';
 import email from '../controllers/users/email';
+import kakao from '../controllers/users/kakao';
 
 const userRouter = express.Router();
 userRouter.delete('/signout', blockUnauthorized, signout);
@@ -14,5 +15,6 @@ userRouter.post('/signup', signup);
 userRouter.post('/login', login);
 userRouter.post('/google', google);
 userRouter.post('/logout', blockUnauthorized, logout);
+userRouter.post('kakao', kakao);
 
 export default userRouter;
