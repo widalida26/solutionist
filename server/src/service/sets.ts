@@ -25,9 +25,9 @@ export class SetService {
   }
 
   // 세트 수정 => collection 테이블에 추가
-  async setCreator(set: ISets) {
+  async setCreator(set: ISets, creatorId: number) {
     set.collectionId = await this.collectionRepo
-      .save({ id: null })
+      .save({ id: null, creatorId })
       .then((collection) => collection.id);
     return await this.setMaker(set);
   }

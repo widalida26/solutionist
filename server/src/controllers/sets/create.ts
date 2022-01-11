@@ -8,8 +8,9 @@ import { emptyObjectCk } from '../../utils/custom';
 
 const create = async (req: Request, res: Response) => {
   // 토큰 인증에 실패했을 경우 = 유저 정보가 없을 경우 => null 값 할당
-  const userInfo: IUsers = res.locals.userInfo ? res.locals.userInfo : { username: null };
-  const collectionDTO: ICollection = req.body;
+  const userInfo: IUsers = res.locals.userInfo
+    ? res.locals.userInfo
+    : { id: null, username: null };
   const setDTO: ISets = req.body;
 
   // 데이터가 누락됐을 경우
@@ -26,11 +27,10 @@ const create = async (req: Request, res: Response) => {
   const setServiceInstance: SetService = Container.get(SetService);
 
   // 세트 작성 정보 세팅
-  collectionDTO.creatorId = userInfo.id;
   setDTO.editorId = null;
 
   // 세트 생성
-  const setInfo = await setServiceInstance.setCreator(setDTO);
+  const setInfo = await setServiceInstance.setCreator(setDTO, userInfo.id);
 
   res.status(201).json({
     username: userInfo.username,
