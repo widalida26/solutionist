@@ -1,12 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 
-import ResultProblem from '../components/ResultProblem';
+import MakeProblem from '../components/MakeProblem';
 import { FaPlusSquare, FaSave } from 'react-icons/fa';
 
-const MakeContainer = styled.div`
+const EditContainer = styled.div`
   position: relative;
   height: calc(100% - 190px);
   padding: 60px 0;
@@ -16,7 +15,7 @@ const MakeContainer = styled.div`
     opacity: 0.5;
   }
 `;
-const Title = styled.div`
+const Title = styled.textarea`
   display: flex;
   align-items: center;
   width: 56.6%;
@@ -27,8 +26,9 @@ const Title = styled.div`
   font-family: 'GongGothicMedium', sans-serif;
   word-wrap: break-word;
   word-break: break-word;
+  resize: none;
 `;
-const Desc = styled.div`
+const Desc = styled.textarea`
   display: flex;
   align-items: center;
   width: 56.6%;
@@ -39,6 +39,7 @@ const Desc = styled.div`
   font-family: 'GowunDodum-Regular', sans-serif;
   word-wrap: break-word;
   word-break: break-word;
+  resize: none;
 `;
 const Blank = styled.div`
   width: 56.6%;
@@ -104,7 +105,7 @@ const ButtonContainer = styled.div`
   justify-content: space-between;
 `;
 
-const Make = () => {
+const Edit = () => {
   const dummy = {
     title: '세상에서 시리즈',
     description: 'Global 합니다',
@@ -153,7 +154,7 @@ const Make = () => {
       },
     ],
   };
-  const { setId } = useParams();
+
   const [data, setData] = useState(dummy);
 
   const [curPos, setCurPos] = useState(0);
@@ -237,12 +238,22 @@ const Make = () => {
     }
   };
 
-  console.log(data);
-
   return (
-    <MakeContainer onScroll={handleScroll} ref={makeRef}>
-      <Title name="title">{data.title}</Title>
-      <Desc name="description">{data.description}</Desc>
+    <EditContainer onScroll={handleScroll} ref={makeRef}>
+      <Title
+        placeholder="세트 제목을 입력해주세요."
+        value={data.title}
+        onChange={handleChange}
+        name="title"
+        onInput={autoGrow}
+      />
+      <Desc
+        placeholder="세트 설명을 입력해주세요."
+        value={data.description}
+        onChange={handleChange}
+        name="description"
+        onInput={autoGrow}
+      />
       <Blank />
       <SideNavContainer>
         <div></div>
@@ -264,10 +275,13 @@ const Make = () => {
         </SideRelative>
       </SideNavContainer>
       {data.problems.map((problem, idx) => (
-        <ResultProblem
+        <MakeProblem
           key={problem.index}
           problem={problem}
+          data={data}
+          setData={setData}
           idx={idx}
+          addProblem={addProblem}
           navRefs={navRefs}
         />
       ))}
@@ -279,8 +293,8 @@ const Make = () => {
         </ButtonContainer>
         <div></div>
       </Button>
-    </MakeContainer>
+    </EditContainer>
   );
 };
 
-export default Make;
+export default Edit;
