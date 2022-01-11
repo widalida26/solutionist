@@ -48,7 +48,10 @@ export class SetsRepository extends Repository<sets> {
       .innerJoin('sets.collection', 'collections')
       .where('sets.collectionId = :collectionId', { collectionId: collectionId })
       .getRawOne()
-      .then((result) => convertRawObject(result)['createdAt']);
+      .then((result) => {
+        if (!result) return null;
+        else return convertRawObject(result)['createdAt'];
+      });
   }
   //삭제된 세트의 userId 반환
   // async getRemovedUser(id: number) {

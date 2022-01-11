@@ -38,7 +38,6 @@ export class SetService {
 
     // 세트 제작
     const madeSet = await this.setMaker(set);
-
     // 생성 정보 세팅
     return {
       title: madeSet.title,
@@ -59,7 +58,6 @@ export class SetService {
 
     // 세트 제작
     const madeSet = await this.setMaker(set);
-
     // 수정 정보 세팅
     return {
       title: madeSet.title,
