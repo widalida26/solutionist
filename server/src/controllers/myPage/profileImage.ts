@@ -10,6 +10,7 @@ const image = async (req: Request, res: Response) => {
   interface MulterRequest extends Request {
     file: any;
   }
+  console.log(111);
   try {
     const image = (req as MulterRequest).file.location;
     if (image === undefined) {
@@ -24,6 +25,7 @@ const image = async (req: Request, res: Response) => {
     });
 
     if (findUser.profileImage !== null) {
+      console.log(222, findUser);
       const s3ImageName = findUser.profileImage.substring(
         findUser.profileImage.lastIndexOf('/') + 1
       );
@@ -37,18 +39,20 @@ const image = async (req: Request, res: Response) => {
           else console.log();
         }
       );
-      await getConnection()
-        .createQueryBuilder()
-        .update(users)
-        .set({ profileImage: image })
-        .where('id = :id', { id: findUser.id })
-        .execute();
-    } else {
     }
 
-    return res.status(200).send('ok');
+    console.log(333);
+    await getConnection()
+      .createQueryBuilder()
+      .update(users)
+      .set({ profileImage: image })
+      .where('id = :id', { id: findUser.id })
+      .execute();
+
+    return res.status(200).send('successfully profile image changed');
   } catch (err) {
     console.log(err);
+    return res.status(500).send('internal server error');
   }
 };
 

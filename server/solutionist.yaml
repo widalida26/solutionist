@@ -10,10 +10,10 @@ servers:
 tags:
   - name: users
     description: Operations about user
-  - name: search && sets
-    description: Operations about sets
   - name: myInfo
     description: Operations about myInfo
+  - name: search && sets
+    description: Operations about sets
 paths:
   /users/signup:
     post:
@@ -270,6 +270,52 @@ paths:
                   message:
                     type: string
                     default: duplicate information
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: internal server error
+  /myPage/profileImage:
+    patch:
+      tags:
+        - myInfo
+      summary: profileImage modify
+      description: profileImage modify
+      security:
+        - cookieAuth: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                # 'file' will be the field name in this multipart request
+                file:
+                  type: string
+                  format: binary
+        responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: successfully profile image changed
+        '401':
+          description: invalid user
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: successfully logout
         '500':
           description: Internal Server Error
           content:
