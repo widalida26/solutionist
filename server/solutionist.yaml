@@ -208,20 +208,17 @@ paths:
                   message:
                     type: string
                     default: internal server error
-  /choices:
+  /collections:
     post:
       tags:
         - search && sets
-      summary: make set
-      description: make set
+      summary: create set
       requestBody:
         content:
           'application/json':
             schema:
               type: object
               properties:
-                id:
-                  type: integer
                 title:
                   type: string
                 description:
@@ -253,7 +250,6 @@ paths:
               required:
                 - title
               example:
-                id: 1
                 title: easy questions
                 description: very easy
                 problems:
@@ -276,11 +272,11 @@ paths:
                       - index: 1
                         content: a
                       - index: 2
-                        content: a
+                        content: b
         required: true
       responses:
-        '200':
-          description: ok
+        '201':
+          description: Created
           content:
             application/json:
               schema:
@@ -298,7 +294,6 @@ paths:
                   title: easy questions
                   username: kimcoding
                   createdAt: 2021-12-18 22:51:20
-                  updatedAt: 2021-12-19 22:51:20
         '400':
           description: Bad Request
           content:
@@ -308,16 +303,6 @@ paths:
                   message:
                     type: string
                     default: insufficient information
-
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                properties:
-                  message:
-                    type: string
-                    default: invalid user
         '500':
           description: Internal Server Error
           content:
@@ -327,20 +312,19 @@ paths:
                   message:
                     type: string
                     default: internal server error
-  /usersProblems:
+  /sets:
     post:
       tags:
         - search && sets
-      summary: make set
-      description: make set
+      summary: modify set
       requestBody:
         content:
           'application/json':
             schema:
               type: object
               properties:
-                id:
-                  type: integer
+                collectionId:
+                  type: number
                 title:
                   type: string
                 description:
@@ -370,24 +354,37 @@ paths:
                       content:
                         type: string
               required:
+                - collectionId
                 - title
               example:
-                id: 1
+                collectionId: 20
                 title: easy questions
                 description: very easy
                 problems:
-                  index: 1
-                  question: what is it
-                  answer: 1
-                  explanation: thats it
-                  isOX: false
-                  choices:
-                    index: 1
-                    content: a
+                  - index: 1
+                    question: what is it
+                    answer: 1
+                    explanation: thats it
+                    isOX: false
+                    choices:
+                      - index: 1
+                        content: a
+                      - index: 2
+                        content: b
+                  - index: 2
+                    question: what is it
+                    answer: 1
+                    explanation: thats it
+                    isOX: false
+                    choices:
+                      - index: 1
+                        content: a
+                      - index: 2
+                        content: b
         required: true
       responses:
-        '200':
-          description: ok
+        '201':
+          description: Created
           content:
             application/json:
               schema:
@@ -425,6 +422,128 @@ paths:
                   message:
                     type: string
                     default: invalid user
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: duplicate information
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: internal server error
+  /solveStatus:
+    post:
+      tags:
+        - search && sets
+      summary: solve set
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                solver:
+                  type: string
+                problemId:
+                  type: number
+                choice:
+                  type: number
+              required:
+                - problemId
+                - choice
+              example:
+                solver: 'kimcoding@naver.com'
+                title: 1
+                choice: 2
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                  solver:
+                    type: string
+                  selectionRate:
+                    type: array
+                example:
+                  id: 1
+                  username: 'kimcoding@naver.com'
+                  selectionRate: ['10', '20', '30', '40']
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: insufficient information
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: internal server error
+  /solvedSets:
+    post:
+      tags:
+        - search && sets
+      summary: submit set
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                setId:
+                  type: number
+                userRate:
+                  type: number
+              required:
+                - setId
+                - userRate
+              example:
+                setId: 1
+                userRate: 50
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                example:
+                  id: 1
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: insufficient information
         '500':
           description: Internal Server Error
           content:
