@@ -11,7 +11,7 @@ export class SolvedService {
     @InjectRepository() private solvedRepo: SolvedSetsRepository,
     @InjectRepository() private setsRepo: SetsRepository
   ) {}
-  async AnswerRateCalculator(rateInfo: IRate, userId: number) {
+  async AnswerRateCalculator(rateInfo: IRate, userId: number): Promise<IRate> {
     // 필요한 정보가 누락된 경우
     if (!rateInfo.setId || !rateInfo.userRate) {
       errorGenerator({ statusCode: 400 });
@@ -31,7 +31,9 @@ export class SolvedService {
       answerRate: rateInfo.userRate,
     });
 
-    const found = await this.solvedRepo.findAndCount({ setId: rateInfo.setId });
-    console.log(found);
+    // 해당 세트의 평균 구하기
+    rateInfo.totalRate = await this.solvedRepo.getAvgRate(rateInfo.setId);
+
+    return rateInfo;
   }
 }

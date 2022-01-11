@@ -19,8 +19,11 @@ const last = async (req: Request, res: Response) => {
   const solvedServiceInstance: SolvedService = Container.get(SolvedService);
 
   // solvedSets 테이블 이용을 위한 solvedService 인스턴스
-  await solvedServiceInstance.AnswerRateCalculator(solveInfo, userId);
+  const rateInfo = await solvedServiceInstance.AnswerRateCalculator(solveInfo, userId);
 
-  res.end();
+  res.status(201).json({
+    setId: rateInfo.setId,
+    totalRate: rateInfo.totalRate,
+  });
 };
 export default last;

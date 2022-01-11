@@ -25,6 +25,6 @@ const solve = async (req: Request, res: Response) => {
     userInfo.eamil
   );
 
-  res.status(201).send(solveResponse);
+  res.status(201).json(solveResponse);
 };
 export default solve;
