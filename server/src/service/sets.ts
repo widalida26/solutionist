@@ -6,7 +6,7 @@ import { ProblemsRepository } from '../database/repository/problems';
 import { ChoicesRepository } from '../database/repository/choices';
 import { CollectionsRepository } from '../database/repository/collections';
 import { ISets, IProblems, IChoices } from '../interface/ISets';
-import { insertIntoObject } from '../utils/custom';
+import { insertIntoObject, timestampToLocaleTime } from '../utils/custom';
 
 @Service()
 export class SetService {
@@ -38,12 +38,11 @@ export class SetService {
 
     // 세트 제작
     const madeSet = await this.setMaker(set);
-    const utc = madeSet.createdAt;
-    //const dt = new Date(utc);
+
     // 생성 정보 세팅
     return {
       title: madeSet.title,
-      createdAt: madeSet.createdAt,
+      createdAt: timestampToLocaleTime(madeSet.createdAt),
     };
   }
 
@@ -63,8 +62,8 @@ export class SetService {
     // 수정 정보 세팅
     return {
       title: madeSet.title,
-      createdAt: collectionCreatedAt,
-      upatedAt: madeSet.createdAt,
+      createdAt: timestampToLocaleTime(collectionCreatedAt),
+      upatedAt: timestampToLocaleTime(madeSet.createdAt),
     };
   }
 
