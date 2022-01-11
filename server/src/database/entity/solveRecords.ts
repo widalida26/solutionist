@@ -17,7 +17,7 @@ export class solveRecords {
   userId: number;
 
   @Column({
-    default: 0,
+    default: -1,
   })
   answerRate: number;
 
@@ -29,6 +29,6 @@ export class solveRecords {
   @ManyToOne(() => users, (user) => user.id)
   user: users;
 
-  @OneToMany(() => solveStatus, (status) => status.recordId)
+  @OneToMany(() => solveStatus, (status) => status.record)
   status: solveStatus;
 }
