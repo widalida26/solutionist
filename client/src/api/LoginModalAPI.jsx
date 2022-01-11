@@ -1,5 +1,4 @@
 const axios = require('axios');
-// axios.defaults.baseURL = 'https://api.velog.io/';
 
 export function postLogin(state, onModalOffAction, onloginAction) {
   return axios
@@ -90,7 +89,7 @@ export function signOut(onlogoutAction) {
     .then(() => {
       console.log('회원 탈퇴 성공');
       onlogoutAction();
-      // ! 회원탈퇴 후 로그인 풀기 액션 반영
+      // ! 홈으로 이동 & 리팩토링
     });
 }
 

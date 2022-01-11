@@ -9,9 +9,14 @@ export class usersProblems {
   @Column()
   email: string;
 
-  @ManyToOne(() => problems, (problem) => problem.id)
-  problem: number;
+  @Column()
+  problemId: number;
 
   @Column()
   choice: number;
+
+  @ManyToOne(() => problems, (problem) => problem.id, {
+    onDelete: 'CASCADE',
+  })
+  problem: problems;
 }

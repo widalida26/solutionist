@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { device } from '../styles/Breakpoints';
 import { signOut } from '../api/LoginModalAPI';
 import { MdEdit } from 'react-icons/md';
+import { changeProfileImage } from '../api/SettingAPI';
 
 // redux
 import { useDispatch } from 'react-redux';
@@ -77,11 +78,42 @@ const ImageContainer = styled.div`
   width: 250px;
   height: 250px;
   background-color: var(--warm-grey);
-  border-radius: 125px;
+  border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: var(--white);
+
+  input {
+    width: 250px;
+    height: 250px;
+    outline: none;
+    display: block;
+    border-radius: 50%;
+    cursor: pointer;
+    position: absolute;
+    margin: 0;
+    z-index: -1;
+  }
+
+  label {
+    position: inherit;
+    width: 250px;
+    height: 250px;
+    outline: none;
+    display: block;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  img {
+    position: inherit;
+    width: 250px;
+    height: 250px;
+    outline: none;
+    display: block;
+    border-radius: 50%;
+    cursor: pointer;
+  }
 `;
 
 const StyledInput = styled.input`
@@ -98,6 +130,21 @@ const PasswordContainer = styled.div`
   grid-template-rows: 2fr;
   grid-template-columns: 1fr 1fr;
   grid-gap: 2rem;
+  grid-template-areas:
+    'one two'
+    '. three';
+
+  input:first-child {
+    grid-area: one;
+  }
+
+  input:nth-child(2) {
+    grid-area: two;
+  }
+
+  input:last-child {
+    grid-area: three;
+  }
 `;
 
 const StyledButton = styled.button`
@@ -138,6 +185,24 @@ const Setting = () => {
     });
   };
 
+  // * 프로필 사진 변경
+  const handleFileInput = (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+
+    // ! file을 서버에 보내기
+    const sendAPICall = async () => {
+      try {
+        const data = await changeProfileImage(file);
+        console.log(data);
+        // TODO : data(res)의 image를 userinfo state(리덕스)에 반영하기
+      } catch (err) {
+        console.log('changeProfileImage err:', err);
+      }
+    };
+    sendAPICall();
+  };
+
   return (
     <MainContainer>
       <SettingContainer>
@@ -150,7 +215,14 @@ const Setting = () => {
         <LeftSide>개인정보 수정</LeftSide>
         <div>
           <EditContainer>
-            <ImageContainer>누르면 프로필 사진 수정 가능</ImageContainer>
+            <ImageContainer>
+              <input type="file" id="upload" onChange={handleFileInput} />
+              <label htmlFor="upload">
+                <img
+                  src={`https://user-images.githubusercontent.com/73838733/148787027-fb49f517-703a-4122-977d-54bd8a260d94.jpeg`}
+                />
+              </label>
+            </ImageContainer>
             <PersonalInfo>
               <Nickname>
                 <span>김코딩</span>
@@ -168,7 +240,6 @@ const Setting = () => {
             <PasswordContainer>
               <StyledInput placeholder="현재 비밀번호" />
               <StyledInput placeholder="새 비밀번호" />
-              <div />
               <StyledInput placeholder="새 비밀번호 확인" />
             </PasswordContainer>
             <StyledButton>비밀번호 변경</StyledButton>

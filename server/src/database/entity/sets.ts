@@ -6,10 +6,8 @@ import {
   UpdateDateColumn,
   ManyToOne,
   OneToMany,
-  JoinColumn,
   Timestamp,
 } from 'typeorm';
-import { collections } from './collections';
 import { users } from './users';
 import { problems } from './problems';
 
@@ -21,13 +19,15 @@ export class sets {
   @Column()
   collectionId: number;
 
-  @ManyToOne(() => users, (user) => user.id, { eager: true })
-  @JoinColumn({ name: 'creatorId' })
-  creator: number;
+  @Column({
+    nullable: true,
+  })
+  creatorId: number;
 
-  @ManyToOne(() => users, (user) => user.id, { eager: true })
-  @JoinColumn({ name: 'editorId' })
-  editor: number;
+  @Column({
+    nullable: true,
+  })
+  editorId: number;
 
   @Column()
   title: string;
@@ -43,10 +43,11 @@ export class sets {
   @UpdateDateColumn()
   updatedAt: Timestamp;
 
-  @ManyToOne(() => collections, (collection) => collection.id, {
-    onDelete: 'CASCADE',
-  })
-  collection: collections;
+  @ManyToOne(() => users, (user) => user.id)
+  creator: users;
+
+  @ManyToOne(() => users, (user) => user.id)
+  editor: users;
 
   @OneToMany(() => problems, (problem) => problem.setId, {
     cascade: true,

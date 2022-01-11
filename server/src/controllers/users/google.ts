@@ -8,14 +8,19 @@ import jwtToken from '../../utils/tokenFunctions/index';
 const google = async (req: Request, res: Response) => {
   // const googletokenURL = 'https://oauth2.googleapis.com/token';
   const googleInfoURL = 'https://www.googleapis.com/oauth2/v2/userinfo';
+  console.log('client id', process.env.GOOGLE_CLIENT_ID);
+  console.log('client secret', process.env.GOOGLE_CLIENT_SECRET);
+
   const googleClientId = process.env.GOOGLE_CLIENT_ID;
   const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
+  console.log('google client uri', process.env.CLIENT_URI);
   try {
     const tokenRes = await axios.post(
       `https://oauth2.googleapis.com/token?code=${req.body.authorizationCode}&client_id=${googleClientId}&client_secret=${googleClientSecret}&redirect_uri=${process.env.CLIENT_URI}&grant_type=authorization_code`
     );
 
     const { access_token: accessToken } = tokenRes.data;
+    console.log('tokenRes', tokenRes);
     const userInfo = await axios.get(googleInfoURL, {
       headers: {
         authorization: `Bearer ${accessToken}`,
@@ -60,6 +65,7 @@ const google = async (req: Request, res: Response) => {
       return res.status(201).json({ data: playload });
     }
   } catch (error) {
+    console.log(error);
     return res.status(500).send('Internal Server Error');
   }
 };

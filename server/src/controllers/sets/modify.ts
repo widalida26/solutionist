@@ -1,13 +1,13 @@
-import Container from 'typedi';
 import { Request, Response } from 'express';
-import errorGenerator from '../../error/errorGenerator';
+import Container from 'typedi';
 import { ISets } from '../../interface/ISets';
 import { IUsers } from '../../interface/IUsers';
 import { SetService } from '../../service/sets';
+import errorGenerator from '../../error/errorGenerator';
 import { emptyObjectCk } from '../../utils/custom';
 
 const modify = async (req: Request, res: Response) => {
-  //   // 토큰 인증에 실패했을 경우 = 유저 정보가 없을 경우 => null 값 할당
+  // 토큰 인증에 실패했을 경우 = 유저 정보가 없을 경우 => null 값 할당
   const userInfo: IUsers = res.locals.userInfo ? res.locals.userInfo : { username: null };
   const setDTO: ISets = req.body;
 
@@ -24,15 +24,14 @@ const modify = async (req: Request, res: Response) => {
   const setServiceInstance: SetService = Container.get(SetService);
 
   // 세트 작성 정보 세팅
-  setDTO.editor = userInfo.id;
+  setDTO.editorId = userInfo.id;
 
   //   // 세트 생성
   const setInfo = await setServiceInstance.setModifier(setDTO);
 
-  res.status(200).json({
+  res.status(201).json({
     username: userInfo.username,
     ...setInfo,
   });
-  res.end();
 };
 export default modify;
