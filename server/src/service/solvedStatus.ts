@@ -18,6 +18,7 @@ export class StatusService {
   async SelectionRateCalculator(solveInfo: ISolve) {
     // 필요한 정보가 누락된 경우
     if (!solveInfo.problemId || !solveInfo.choice) {
+      console.log('aaaa');
       errorGenerator({ statusCode: 400 });
     }
 
@@ -27,15 +28,19 @@ export class StatusService {
     }
 
     // problems 테이블에 problemId가 있는지 조회
-    const foundProblem = await this.problemsRepo.findOne({ id: solveInfo.problemId });
+    const foundProblem = await this.problemsRepo.findOne({
+      id: solveInfo.problemId,
+    });
     // problems 테이블에 problemId에 해당하는 레코드가 없는 경우
     if (!foundProblem) {
+      console.log('bbbb');
       errorGenerator({ statusCode: 400 });
     }
 
     // choice가 유효한지 확인 => 0 이하거나 가장 마지막 index보다 크면 안됨
     const maxIdx = await this.choicesRepo.getLastChoice();
     if (solveInfo.choice <= 0 || solveInfo.choice > maxIdx) {
+      console.log('cccc');
       errorGenerator({ statusCode: 400 });
     }
 

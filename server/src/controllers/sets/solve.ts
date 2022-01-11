@@ -1,18 +1,18 @@
 import { Request, Response } from 'express';
 import Container from 'typedi';
 import { ISolve } from '../../interface/ISets';
-import { IUsers } from '../../interface/IUsers';
 import { StatusService } from '../../service/solvedStatus';
 import errorGenerator from '../../error/errorGenerator';
 import { emptyObjectCk } from '../../utils/custom';
+import { solvedSets } from 'src/database/entity/solvedSets';
 
 const solve = async (req: Request, res: Response) => {
   // 토큰 인증에 실패했을 경우 = 유저 정보가 없을 경우 => 빈 객체 할당
+  console.log(req.body);
   const solveDTO: ISolve = req.body;
-  solveDTO.solver = res.locals.userInfo ? res.locals.userInfo.email : null;
+  solveDTO.solver = res.locals.userInfo ? res.locals.userInfo.email : solveDTO.solver;
   // 데이터가 누락됐을 경우
   if (emptyObjectCk(solveDTO)) {
-    console.log('누락?');
     errorGenerator({ statusCode: 400 });
   }
 
