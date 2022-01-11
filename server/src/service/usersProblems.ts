@@ -47,7 +47,7 @@ export class uProblemsService {
       })
       .then((result) => result.id);
 
-    // 선택 비율 카운트
+    // 선택 비율 집계
     const counted = await this.upRepo.countByChoice(solveInfo.problemId);
 
     // 퍼센트 계산
