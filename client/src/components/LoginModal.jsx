@@ -215,7 +215,12 @@ const StyledWrapper = styled.div`
 // react-transition-group의 <Transition> 실패 https://velog.io/@sae1013/REACT-%EB%AA%A8%EB%8B%AC-%EC%95%A0%EB%8B%88%EB%A9%94%EC%9D%B4%EC%85%98CSS
 // setTimeout 실패 https://agal.tistory.com/170
 
-const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }) => {
+const LoginModal = ({
+  isLoginModalOn,
+  onModalOffAction,
+  onloginAction,
+  onUpdateUserInfoAction,
+}) => {
   const [toggle, setToggle] = useState(true);
   const handleToggle = () => {
     setErrorMessage('');
@@ -234,7 +239,7 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
     // console.log(loginInfo);
   };
 
-  const [userInfo, setUserInfo] = useState({});
+  // const [userInfo, setUserInfo] = useState({});
   // console.log('로그인 후 유저인포', userInfo);
   // console.log('로그인 후 isLogin', isLogin);
 
@@ -245,13 +250,14 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
       postLogin(loginInfo)
         .then((res) => {
           // TODO : res redux에 저장
-          console.log('login 성공', res.data.data.payload);
-          setUserInfo(res.data.data.payload);
+          onUpdateUserInfoAction(res.data.data.payload);
+          // console.log('login 성공', res.data.data.payload);
+          // setUserInfo(res.data.data.payload);
           onModalOffAction();
           onloginAction();
         })
         .catch((err) => {
-          const errCode = err.response.status;
+          const errCode = err.response.status || 500;
           if (errCode === 401) {
             setErrorMessage('유효하지 않은 유저 입니다!');
           } else {
@@ -465,7 +471,8 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
       if (authorizationCode) {
         authorizationCode = authorizationCode.split('&')[0] + '&';
         console.log(authorizationCode);
-        signUpGoogle(authorizationCode).then(() => {
+        signUpGoogle(authorizationCode).then((res) => {
+          onUpdateUserInfoAction(res.data.data);
           console.log('구글 로그인 성공');
           onloginAction();
           onModalOffAction();

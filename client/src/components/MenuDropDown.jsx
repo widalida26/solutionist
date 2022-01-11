@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { logout } from '../api/SettingAPI';
 
+// redux
+import { useSelector } from 'react-redux';
+
 const FadeIn = keyframes`
 from {
   opacity: 0;
@@ -73,11 +76,17 @@ const handleLogout = () => {
 };
 
 const MenuDropDown = ({ handleDropDown, onlogoutAction }) => {
+  const { userInfo } = useSelector((state) => ({
+    userInfo: state.loginModal.userInfo,
+  }));
+
+  const { email, username, profileImage } = userInfo;
+
   return (
     <DropDownContainer>
       <ImageContainer />
-      <Username>김코딩</Username>
-      <Email>kimcoding@gmail.com</Email>
+      <Username>{username}</Username>
+      <Email>{email}</Email>
       <Link to="/myset" onClick={handleDropDown}>
         <MySetMenu>나의 세트</MySetMenu>
       </Link>
