@@ -33,7 +33,6 @@ export const saveUserInfo = async (req: Request, res: Response, next: NextFuncti
   if (auth) {
     const authorized = jwtToken.isAuthorized(auth);
 
-    console.log('authorized', authorized);
     if (authorized) {
       const decoded = JSON.parse(authorized.data);
       console.log('decoded', decoded);

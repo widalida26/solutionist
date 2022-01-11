@@ -1,8 +1,7 @@
-import Container from 'typedi';
 import { Request, Response } from 'express';
-import errorGenerator from '../../error/errorGenerator';
-import { ISets } from '../../interface/ISets';
+import Container from 'typedi';
 import { SetService } from '../../service/sets';
+import errorGenerator from '../../error/errorGenerator';
 
 const search = async (req: Request, res: Response) => {
   const searchWord = req.query['title'];

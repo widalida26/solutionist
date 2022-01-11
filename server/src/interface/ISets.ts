@@ -2,7 +2,7 @@ export interface ISets extends IOrigin {
   id: number;
   title: string;
   description: string;
-  editor: number;
+  editorId: number;
   problems: IProblems[];
 }
 
@@ -22,13 +22,24 @@ export interface IChoices {
   content: number;
 }
 
+export interface IOrigin {
+  collectionId: number;
+  creatorId: number;
+  createdAt: string;
+}
+
 export interface ISolve {
-  problem: number;
+  problemId: number;
   choice: number;
 }
 
-export interface IOrigin {
-  collectionId: number;
-  creator: number;
-  createdAt: string;
+export interface IRate {
+  setId: number;
+  userRate: number;
+  totalRate: number;
+}
+
+export interface ISelect {
+  total: number;
+  info: Object;
 }

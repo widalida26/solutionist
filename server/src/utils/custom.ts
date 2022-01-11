@@ -6,8 +6,8 @@ export const emptyObjectCk = (obj: Object): boolean => {
   }
 };
 
-export const insertIntoObject = (obj: object, key: string, id: number): Object => {
-  obj[key] = id;
+export const insertIntoObject = (obj: object, key: string, val: number): Object => {
+  obj[key] = val;
   return obj;
 };
 

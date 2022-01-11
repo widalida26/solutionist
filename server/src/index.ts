@@ -37,10 +37,10 @@ app.use(
   })
 );
 
-if (process.env.SERVER_SWAGGER) {
-  const swaggerDocument = YAML.load('./solutionist.yaml');
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-}
+// if (process.env.SERVER_SWAGGER) {
+//   const swaggerDocument = YAML.load('./solutionist.yaml');
+//   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+// }
 
 // basic routing
 app.get('/', (req, res) => {
@@ -55,6 +55,15 @@ app.use(errorHandler);
 
 // server listening
 app.listen(port, () => {
+  // console.log('rds username', process.env.RDS_USERNAME);
+  // console.log('rds password', process.env.RDS_PASSWORD);
+  // console.log('rds port', process.env.RDS_PORT);
+  // console.log('rds database', process.env.RDS_DATABASE);
+  // console.log('rds host', process.env.RDS_HOST);
+  // console.log('access', process.env.ACCESS_SECRET);
+  // console.log('secret', process.env.SECRET_KEY);
+  // console.log('google id', process.env.GOOGLE_CLIENT_ID);
+  // console.log('google secret', process.env.GOOGLE_CLIENT_SECRET);
   console.log(
     `server is listening on ${port} \nswagger hub ${
       process.env.SERVER_SWAGGER ? 'on' : 'off'
