@@ -45,6 +45,8 @@ const image = async (req: Request, res: Response) => {
       .set({ profileImage: image })
       .where('id = :id', { id: findUser.id })
       .execute();
+
+    return res.status(200).send('ok');
   } catch (err) {
     console.log(err);
   }

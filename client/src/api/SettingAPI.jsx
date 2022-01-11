@@ -3,7 +3,7 @@ const axios = require('axios');
 export function changeProfileImage(file) {
   return axios
     .patch(
-      `${process.env.SERVER_URL}users/profileImage`,
+      `${process.env.SERVER_URL}myPage/profileImage`,
       {
         file,
       },

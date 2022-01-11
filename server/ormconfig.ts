@@ -9,13 +9,8 @@ module.exports = {
   logging: false,
   autoLoadEntities: true,
   entities: ['src/database/entity/*{.ts,.js}', '../src/database/entity/*.js'],
-<<<<<<< HEAD:server/ormconfig.js
-  migrations: ['src/database/migration/*{.ts,.js}', '../src/database/entity/*.js'],
-  subscribers: ['src/database/subscriber/*{.ts,.js}', '../src/database/entity/*.js'],
-=======
   migrations: ['src/database/migration/*{.ts,.js}', '../src/database/migration/*.js'],
   subscribers: ['src/database/subscriber/*{.ts,.js}', '../src/database/subscriber/*.js'],
->>>>>>> cb3d9d30eb36ece097d90560034b94c8882ded7f:server/ormconfig.ts
   cli: {
     entitiesDir: 'src/database/entity',
     migrationsDir: 'src/database/migration',
