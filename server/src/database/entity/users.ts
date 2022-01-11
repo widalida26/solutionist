@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { collections } from './collections';
 import { sets } from './sets';
-import { solvedSets } from './solvedSets';
+import { solveRecords } from './solveRecords';
 
 @Entity()
 export class users {
@@ -49,6 +49,6 @@ export class users {
   @OneToMany(() => sets, (set) => set.editorId)
   set: sets[];
 
-  @OneToMany(() => solvedSets, (solved) => solved.userId)
-  solved: solvedSets[];
+  @OneToMany(() => solveRecords, (record) => record.userId)
+  solved: solveRecords[];
 }

@@ -1,9 +1,9 @@
 import { EntityRepository, Repository } from 'typeorm';
-import { solvedSets } from '../entity/solvedSets';
+import { solveRecords } from '../entity/solveRecords';
 import { convertRawObject } from '../../utils/custom';
 
-@EntityRepository(solvedSets)
-export class SolvedSetsRepository extends Repository<solvedSets> {
+@EntityRepository(solveRecords)
+export class SolvedSetsRepository extends Repository<solveRecords> {
   async getAvgRate(setId: number) {
     return this.createQueryBuilder('solved')
       .select('AVG(solved.answerRate)', 'avg')

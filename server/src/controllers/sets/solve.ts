@@ -4,7 +4,6 @@ import { ISolve } from '../../interface/ISets';
 import { StatusService } from '../../service/solvedStatus';
 import errorGenerator from '../../error/errorGenerator';
 import { emptyObjectCk } from '../../utils/custom';
-import { solvedSets } from 'src/database/entity/solvedSets';
 
 const solve = async (req: Request, res: Response) => {
   // 토큰 인증에 실패했을 경우 = 유저 정보가 없을 경우 => 빈 객체 할당

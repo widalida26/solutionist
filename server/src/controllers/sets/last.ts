@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import Container from 'typedi';
 import { IRate } from '../../interface/ISets';
-import { SolvedService } from '../../service/solvedSets';
+import { RecordsService } from '../../service/solveRecords';
 import errorGenerator from '../../error/errorGenerator';
 import { emptyObjectCk } from '../../utils/custom';
 
@@ -16,7 +16,7 @@ const last = async (req: Request, res: Response) => {
   }
 
   // solvedSets 테이블 이용을 위한 solvedService 인스턴스
-  const solvedServiceInstance: SolvedService = Container.get(SolvedService);
+  const solvedServiceInstance: RecordsService = Container.get(RecordsService);
 
   // solvedSets 테이블 이용을 위한 solvedService 인스턴스
   const rateInfo = await solvedServiceInstance.AnswerRateCalculator(solveInfo, userId);

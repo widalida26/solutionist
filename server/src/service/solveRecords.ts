@@ -1,12 +1,12 @@
 import errorGenerator from '../error/errorGenerator';
 import { Service } from 'typedi';
 import { InjectRepository } from 'typeorm-typedi-extensions';
-import { SolvedSetsRepository } from '../database/repository/solvedSets';
+import { SolvedSetsRepository } from '../database/repository/solveRecords';
 import { SetsRepository } from '../database/repository/sets';
 import { IRate } from '../interface/ISets';
 
 @Service()
-export class SolvedService {
+export class RecordsService {
   constructor(
     @InjectRepository() private solvedRepo: SolvedSetsRepository,
     @InjectRepository() private setsRepo: SetsRepository

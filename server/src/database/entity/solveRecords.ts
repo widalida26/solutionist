@@ -1,9 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { users } from './users';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from 'typeorm';
 import { sets } from './sets';
+import { users } from './users';
+import { solveStatus } from './solveStatus';
 
 @Entity()
-export class solvedSets {
+export class solveRecords {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -27,4 +28,7 @@ export class solvedSets {
 
   @ManyToOne(() => users, (user) => user.id)
   user: users;
+
+  @OneToMany(() => solveStatus, (status) => status.recordId)
+  status: solveStatus;
 }
