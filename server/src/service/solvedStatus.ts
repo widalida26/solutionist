@@ -15,19 +15,21 @@ export class StatusService {
     @InjectRepository() private choicesRepo: ChoicesRepository
   ) {}
 
-  async SelectionRateCalculator(solveInfo: ISolve, email?: string) {
+  async SelectionRateCalculator(solveInfo: ISolve) {
     // 필요한 정보가 누락된 경우
     if (!solveInfo.problemId || !solveInfo.choice) {
       errorGenerator({ statusCode: 400 });
     }
 
     // 로그인된 유저가 아닌 경우 임의의 id 설정
-    if (!email) {
-      email = v4();
+    if (!solveInfo.solver) {
+      solveInfo.solver = v4();
     }
 
     // problems 테이블에 problemId가 있는지 조회
-    const foundProblem = await this.problemsRepo.findOne({ id: solveInfo.problemId });
+    const foundProblem = await this.problemsRepo.findOne({
+      id: solveInfo.problemId,
+    });
     // problems 테이블에 problemId에 해당하는 레코드가 없는 경우
     if (!foundProblem) {
       errorGenerator({ statusCode: 400 });
@@ -43,7 +45,6 @@ export class StatusService {
     const id = await this.statusRepo
       .save({
         ...solveInfo,
-        email,
       })
       .then((result) => result.id);
 
@@ -54,7 +55,7 @@ export class StatusService {
     const selectionRate = [];
     for (let i = 1; i <= maxIdx; i++) {
       let cnt = counted.info[i] ? counted.info[i] : 0;
-      selectionRate.push(Math.round((cnt / counted.total) * 100));
+      selectionRate.push((cnt / counted.total) * 100);
     }
 
     return {

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import Container from 'typedi';
-import { ICollection, ISets } from '../../interface/ISets';
+import { ISets } from '../../interface/ISets';
 import { IUsers } from '../../interface/IUsers';
 import { SetService } from '../../service/sets';
 import errorGenerator from '../../error/errorGenerator';

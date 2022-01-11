@@ -14,7 +14,6 @@ export class solveStatusRepository extends Repository<solveStatus> {
       .groupBy('status.choice')
       .getRawMany()
       .then((reuslt) => {
-        console.log(reuslt);
         const cntInfo = { total: 0, info: {} };
         reuslt.forEach((el) => {
           let map = convertRawObject(el);
