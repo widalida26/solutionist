@@ -7,6 +7,7 @@ import {
   ManyToOne,
   OneToMany,
 } from 'typeorm';
+import { collections } from './collections';
 import { users } from './users';
 import { problems } from './problems';
 
@@ -41,6 +42,11 @@ export class sets {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @ManyToOne(() => collections, (collection) => collection.id, {
+    onDelete: 'CASCADE',
+  })
+  collection: collections;
 
   @ManyToOne(() => users, (user) => user.id)
   creator: users;
