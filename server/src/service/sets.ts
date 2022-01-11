@@ -4,10 +4,9 @@ import { InjectRepository } from 'typeorm-typedi-extensions';
 import { SetsRepository } from '../database/repository/sets';
 import { ProblemsRepository } from '../database/repository/problems';
 import { ChoicesRepository } from '../database/repository/choices';
-import { CollectionsRepository } from 'src/database/repository/collections';
+import { CollectionsRepository } from '../database/repository/collections';
 import { ISets, IProblems, IChoices } from '../interface/ISets';
-import { insertIntoObject } from 'src/utils/custom';
-import { sets } from '../database/entity/sets';
+import { insertIntoObject } from '../utils/custom';
 
 @Service()
 export class SetService {
@@ -19,13 +18,14 @@ export class SetService {
   ) {}
 
   // 타이틀로 세트 검색
-  async SetFinder(title: string): Promise<Object> {
+  async SetFinder(title: string) {
     const foundSets = await this.setsRepo.findSetsByTitle(title);
+    console.log(foundSets);
     return {};
   }
 
   // 세트 수정 => collection 테이블에 추가
-  async setCreator(set: ISets): Promise<Object> {
+  async setCreator(set: ISets) {
     set.collectionId = await this.collectionRepo
       .save({ id: null })
       .then((collection) => collection.id);
@@ -33,13 +33,13 @@ export class SetService {
   }
 
   // 세트 수정 => sets 테이블에만 추가
-  async setModifier(set: ISets): Promise<Object> {
+  async setModifier(set: ISets) {
     await this.setsRepo.findOne({ collectionId: set.collectionId }).then((foundSet) => {
       if (!foundSet) {
         errorGenerator({ statusCode: 400 });
       }
       set.collectionId = foundSet.collectionId;
-      set.creator = foundSet.creator;
+      set.creatorId = foundSet.creatorId;
       set.createdAt = String(foundSet.createdAt);
     });
 
@@ -48,7 +48,7 @@ export class SetService {
   }
 
   // 세트 삽입
-  async setMaker(set: ISets): Promise<Object> {
+  async setMaker(set: ISets) {
     // 세트 타이틀이 누락된 경우
     if (!set.title) {
       errorGenerator({ statusCode: 400 });
@@ -88,6 +88,7 @@ export class SetService {
             choices.map((choice) => {
               // 보기의 index 값이 존재하지 않으면 에러
               if (!choice.index) {
+                console.log('no choice idx');
                 errorGenerator({ statusCode: 400 });
               }
               return insertIntoObject(choice, 'problemId', problem.id);
@@ -111,6 +112,8 @@ export class SetService {
       createdAt: savedSets.createdAt,
       updatedAt: savedSets.updatedAt,
     };
+
+    return {};
   }
 
   // 세트 삭제

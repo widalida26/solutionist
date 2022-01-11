@@ -1,9 +1,9 @@
-import Container from 'typedi';
 import { Request, Response } from 'express';
-import errorGenerator from '../../error/errorGenerator';
+import Container from 'typedi';
 import { ISets } from '../../interface/ISets';
 import { IUsers } from '../../interface/IUsers';
 import { SetService } from '../../service/sets';
+import errorGenerator from '../../error/errorGenerator';
 import { emptyObjectCk } from '../../utils/custom';
 
 const create = async (req: Request, res: Response) => {
@@ -25,13 +25,13 @@ const create = async (req: Request, res: Response) => {
   const setServiceInstance: SetService = Container.get(SetService);
 
   // 세트 작성 정보 세팅
-  setDTO.creator = userInfo.id;
-  setDTO.editor = null;
+  setDTO.creatorId = userInfo.id;
+  setDTO.editorId = null;
 
   // 세트 생성
   const setInfo = await setServiceInstance.setCreator(setDTO);
 
-  res.status(200).json({
+  res.status(201).json({
     username: userInfo.username,
     ...setInfo,
   });
