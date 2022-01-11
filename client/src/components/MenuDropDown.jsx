@@ -37,7 +37,17 @@ const ImageContainer = styled.div`
   width: 120px;
   height: 120px;
   background-color: var(--warm-grey);
-  border-radius: 60px;
+  border-radius: 50%;
+
+  img {
+    position: inherit;
+    width: 120px;
+    height: 120px;
+    outline: none;
+    display: block;
+    border-radius: 50%;
+    cursor: pointer;
+  }
 `;
 const Username = styled.div`
   font-size: 1.25rem;
@@ -79,12 +89,13 @@ const MenuDropDown = ({ handleDropDown, onlogoutAction }) => {
   const { userInfo } = useSelector((state) => ({
     userInfo: state.loginModal.userInfo,
   }));
-
   const { email, username, profileImage } = userInfo;
 
   return (
     <DropDownContainer>
-      <ImageContainer />
+      <ImageContainer>
+        <img src={`${profileImage}`} />
+      </ImageContainer>
       <Username>{username}</Username>
       <Email>{email}</Email>
       <Link to="/myset" onClick={handleDropDown}>

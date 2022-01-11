@@ -5,7 +5,7 @@ import { MdEdit } from 'react-icons/md';
 import { signOut, changeProfileImage } from '../api/SettingAPI';
 import { useNavigate } from 'react-router-dom';
 // redux
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logoutAction } from '../modules/loginModal';
 
 const MainContainer = styled.div`
@@ -174,6 +174,13 @@ const StyledButton = styled.button`
 `;
 
 const Setting = () => {
+  const { userInfo } = useSelector((state) => ({
+    userInfo: state.loginModal.userInfo,
+  }));
+  const { email, username, profileImage } = userInfo;
+
+  console.log(profileImage);
+
   // * 회원 탈퇴
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -224,17 +231,15 @@ const Setting = () => {
             <ImageContainer>
               <input type="file" id="upload" onChange={handleFileInput} />
               <label htmlFor="upload">
-                <img
-                  src={`https://user-images.githubusercontent.com/73838733/148787027-fb49f517-703a-4122-977d-54bd8a260d94.jpeg`}
-                />
+                <img src={`${profileImage}`} />
               </label>
             </ImageContainer>
             <PersonalInfo>
               <Nickname>
-                <span>김코딩</span>
+                <span>{username}</span>
                 <MdEdit />
               </Nickname>
-              <p>kimcoding@gmail.com</p>
+              <p>{email}</p>
             </PersonalInfo>
           </EditContainer>
           <Blank />
