@@ -53,7 +53,7 @@ export class StatusService {
     const selectionRate = [];
     for (let i = 1; i <= maxIdx; i++) {
       let cnt = counted.info[i] ? counted.info[i] : 0;
-      selectionRate.push(Math.round((cnt / counted.total) * 100));
+      selectionRate.push((cnt / counted.total) * 100);
     }
 
     return {

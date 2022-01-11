@@ -12,6 +12,7 @@ const solve = async (req: Request, res: Response) => {
   solveDTO.solver = res.locals.userInfo ? res.locals.userInfo.email : null;
   // 데이터가 누락됐을 경우
   if (emptyObjectCk(solveDTO)) {
+    console.log('누락?');
     errorGenerator({ statusCode: 400 });
   }
 

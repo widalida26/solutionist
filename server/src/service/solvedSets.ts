@@ -38,7 +38,6 @@ export class SolvedService {
 
     // 해당 세트의 평균 구하기
     rateInfo.totalRate = await this.solvedRepo.getAvgRate(rateInfo.setId);
-
     return rateInfo;
   }
 }
