@@ -12,7 +12,7 @@ module.exports = () => {
     mode: 'development',
 
     // entry를 기준으로 연관된 모든 파일들을 번들링
-    entry: './src/index',
+    entry: ['babel-polyfill', './src/index'],
 
     // 번들링 될 파일 확장자 등록
     resolve: {
