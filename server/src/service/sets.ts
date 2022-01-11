@@ -23,7 +23,6 @@ export class SetService {
     console.log(foundSets);
     return {};
   }
-  ㄴ;
 
   // 세트 생성 => collection 테이블에 추가
   async setCreator(set: ISets, creatorId: number) {
