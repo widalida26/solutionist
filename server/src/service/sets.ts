@@ -38,6 +38,8 @@ export class SetService {
 
     // 세트 제작
     const madeSet = await this.setMaker(set);
+    const utc = madeSet.createdAt;
+    //const dt = new Date(utc);
     // 생성 정보 세팅
     return {
       title: madeSet.title,
