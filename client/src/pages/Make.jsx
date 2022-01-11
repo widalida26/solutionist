@@ -10,6 +10,10 @@ const MakeContainer = styled.div`
   height: calc(100% - 190px);
   padding: 60px 0;
   overflow: scroll;
+
+  *::placeholder {
+    opacity: 0.5;
+  }
 `;
 const Title = styled.textarea`
   display: flex;
@@ -85,9 +89,16 @@ const SideNav = styled.div`
 `;
 const ProblemQuestion = styled.div`
   margin-bottom: 0.5rem;
-  font-size: 1rem;
-  font-family: 'GowunDodum-Regular', sans-serif;
-  font-weight: ${(props) => props.weight};
+  display: flex;
+  * {
+    font-size: 1rem;
+    font-family: 'GowunDodum-Regular', sans-serif;
+    font-weight: ${(props) => props.weight};
+    word-break: break-word;
+  }
+  div:first-child {
+    margin-right: 0.5rem;
+  }
 `;
 const ButtonContainer = styled.div`
   display: flex;
@@ -102,8 +113,6 @@ const Make = () => {
   });
 
   const [curPos, setCurPos] = useState(0);
-
-  console.log(data);
 
   const makeRef = useRef(null);
   const navRefs = useRef([0]);
@@ -138,13 +147,20 @@ const Make = () => {
   };
 
   const handleSave = () => {
+    if (data.title === '') {
+      return console.log('세트 제목을 입력하세요');
+    }
+
     for (let problem of data.problems) {
       if (problem.question === '') {
-        console.log('please fill question');
-        return 0;
+        return console.log('문제를 입력해주세요');
+      }
+
+      if (problem.answer === '') {
+        return console.log('답을 정해주세요');
       }
     }
-    axios.post(`${process.env.SERVER_URL}choices`, data);
+    return axios.post(`${process.env.SERVER_URL}collections`, data);
   };
 
   const handleNav = (e) => {
@@ -205,7 +221,8 @@ const Make = () => {
                 key={`#Q${idx + 1}`}
                 weight={curPos === idx ? 'bold' : 'normal'}
               >
-                {idx + 1} &nbsp;&nbsp; {problem.question}
+                <div>{idx + 1}</div>
+                <div>{problem.question}</div>
               </ProblemQuestion>
             ))}
           </SideNav>
