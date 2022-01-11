@@ -8,6 +8,7 @@ import errorHandler from './error/errorHandler';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import usersRouter from './routes/users';
+import myPage from './routes/myPage';
 import setsRouter from './routes/sets';
 import 'dotenv/config';
 
@@ -21,15 +22,13 @@ createConnection()
 const port = 4000;
 const app = express();
 
-app.use(express.static('public'));
 app.use(cookieparser());
+app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
     origin: true,
-    //orogin: [`*`],
-    //origin: [`http://localhost:3000`],
     allowedHeaders: ['Authorization, Content-Type'],
     //exposedHeaders: ['Authorization'],
     credentials: true,
@@ -47,6 +46,7 @@ app.get('/', (req, res) => {
   res.send('hello');
 });
 app.use('/users', usersRouter);
+app.use('/myPage', myPage);
 // routing to controllers
 app.use(setsRouter);
 

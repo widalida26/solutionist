@@ -31,15 +31,16 @@ const login = async (req: Request, res: Response) => {
     delete userpw.salt;
     const userInfo = JSON.stringify(userpw);
     const accessToken = jwtToken.accessToken(userInfo);
-    const playload = {
+    const payload = {
       id: userpw.id,
       username: userpw.username,
       email: userpw.email,
       profileImage: userpw.profileImage,
+      role: userpw.role,
     };
     jwtToken.sendAccessToken(res, accessToken);
     console.log(111, accessToken);
-    return res.status(200).json({ data: { playload }, message: 'ok' });
+    return res.status(200).json({ data: { payload }, message: 'ok' });
   } catch (err) {
     console.log(err);
     return res.status(500).send('internal server error');

@@ -11,8 +11,9 @@ tags:
   - name: users
     description: Operations about user
   - name: search && sets
-    description: Operations about gathering
+    description: Operations about sets
   - name: myInfo
+    description: Operations about myInfo
 paths:
   /users/signup:
     post:
@@ -189,6 +190,8 @@ paths:
         - users
       summary: signout
       description: signout
+      security:
+        - cookieAuth: []
       responses:
         '200':
           description: ok
@@ -553,3 +556,10 @@ paths:
                   message:
                     type: string
                     default: internal server error
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: accessToken

@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import { access } from 'fs';
 import { sign, verify, Secret } from 'jsonwebtoken';
 
 const jwtToken = {

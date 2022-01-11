@@ -21,7 +21,7 @@ const ProblemNum = styled.div`
   text-align: end;
   margin-right: 1rem;
   color: var(--orangey-yellow);
-  font-size: 12rem;
+  font-size: ${(props) => props.font_size};
   opacity: 0.5;
 `;
 const Problem = styled.div`
@@ -250,7 +250,7 @@ const MakeProblem = ({ problem, data, setData, idx, navRefs }) => {
 
   return (
     <ProblemContainer ref={(el) => (navRefs.current[idx] = el)}>
-      <ProblemNum>
+      <ProblemNum font_size={idx + 1 > 99 ? '8rem' : '12rem'}>
         <p>{idx + 1}</p>
       </ProblemNum>
       {problem.isOx ? (
