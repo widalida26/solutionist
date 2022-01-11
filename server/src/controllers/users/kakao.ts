@@ -33,7 +33,16 @@ const kakao = async (req: Request, res: Response) => {
     });
 
     console.log(555, kakaoUserInfo);
-    const userInfo = kakaoUserInfo.data.kakao.account;
+    const {
+      profile: { profile_image_url: profileIamge, nickname: username },
+      email,
+    } = kakaoUserInfo.data.kakao_account;
+
+    const info = getRepository(users);
+    const findUser = await info.findOne({ where: { email: email } });
+
+    if (!findUser) {
+    }
   } catch (error) {
     return res.status(500).send('Internal Server Error');
   }
