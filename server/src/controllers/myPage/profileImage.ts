@@ -22,11 +22,11 @@ const image = async (req: Request, res: Response) => {
       secretAccessKey: process.env.BUCKET_SECRET_KEY,
       region: process.env.BUCKET_REGION,
     });
-    const s3ImageName = findUser.profileImage.substring(
-      findUser.profileImage.lastIndexOf('/') + 1
-    );
 
-    if (findUser !== null) {
+    if (findUser.profileImage !== null) {
+      const s3ImageName = findUser.profileImage.substring(
+        findUser.profileImage.lastIndexOf('/') + 1
+      );
       s3.deleteObject(
         {
           Bucket: 'solutionist',
@@ -37,14 +37,14 @@ const image = async (req: Request, res: Response) => {
           else console.log();
         }
       );
+      await getConnection()
+        .createQueryBuilder()
+        .update(users)
+        .set({ profileImage: image })
+        .where('id = :id', { id: findUser.id })
+        .execute();
+    } else {
     }
-
-    await getConnection()
-      .createQueryBuilder()
-      .update(users)
-      .set({ profileImage: image })
-      .where('id = :id', { id: findUser.id })
-      .execute();
 
     return res.status(200).send('ok');
   } catch (err) {
