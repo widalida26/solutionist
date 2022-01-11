@@ -1,8 +1,18 @@
-export interface ISets extends IOrigin {
+import { Timestamp } from 'typeorm';
+
+export interface ICollection {
+  collectionId: number;
+  creatorId: number;
+  createdAt: Timestamp;
+}
+
+export interface ISets {
   id: number;
+  collectionId: number;
   title: string;
   description: string;
   editorId: number;
+  createdAt: Timestamp;
   problems: IProblems[];
 }
 
@@ -20,12 +30,6 @@ export interface IChoices {
   id: number;
   index: number;
   content: number;
-}
-
-export interface IOrigin {
-  collectionId: number;
-  creatorId: number;
-  createdAt: string;
 }
 
 export interface ISolve {

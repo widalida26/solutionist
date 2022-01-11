@@ -17,6 +17,11 @@ export class SolvedService {
       errorGenerator({ statusCode: 400 });
     }
 
+    // userRate가 유효하지 않을 경우
+    if (rateInfo.userRate < 0 || rateInfo.userRate > 100) {
+      errorGenerator({ statusCode: 400 });
+    }
+
     // id에 해당하는 세트가 있는지 확인
     const foundSet = await this.setsRepo.findOne(rateInfo.setId);
     // id에 해당하는 세트가 없는 경우

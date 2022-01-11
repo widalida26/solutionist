@@ -3,11 +3,11 @@ import {
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
-  UpdateDateColumn,
   ManyToOne,
   OneToMany,
   Timestamp,
 } from 'typeorm';
+import { collections } from './collections';
 import { users } from './users';
 import { problems } from './problems';
 
@@ -19,14 +19,7 @@ export class sets {
   @Column()
   collectionId: number;
 
-  @Column({
-    nullable: true,
-  })
-  creatorId: number;
-
-  @Column({
-    nullable: true,
-  })
+  @Column({ nullable: true })
   editorId: number;
 
   @Column()
@@ -40,11 +33,10 @@ export class sets {
   @CreateDateColumn()
   createdAt: Timestamp;
 
-  @UpdateDateColumn()
-  updatedAt: Timestamp;
-
-  @ManyToOne(() => users, (user) => user.id)
-  creator: users;
+  @ManyToOne(() => collections, (collection) => collection.id, {
+    onDelete: 'CASCADE',
+  })
+  collection: collections;
 
   @ManyToOne(() => users, (user) => user.id)
   editor: users;
