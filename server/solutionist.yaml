@@ -11,8 +11,9 @@ tags:
   - name: users
     description: Operations about user
   - name: search && sets
-    description: Operations about gathering
+    description: Operations about sets
   - name: myInfo
+    description: Operations about myInfo
 paths:
   /users/signup:
     post:
@@ -189,6 +190,8 @@ paths:
         - users
       summary: signout
       description: signout
+      security:
+        - cookieAuth: []
       responses:
         '200':
           description: ok
@@ -199,6 +202,74 @@ paths:
                   message:
                     type: string
                     default: successfully signed out
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: internal server error
+  /users/logout:
+    post:
+      tags:
+        - users
+      summary: logout
+      description: logout
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: successfully logout
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: internal server error
+  /users/email/{email}:
+    get:
+      tags:
+        - users
+      summary: email
+      description: email
+      parameters:
+        - in: path
+          name: email # Note the name is the same as in the path
+          required: true
+          schema:
+            type: string
+          description: The user ID
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: email duplicate check passed
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: duplicate information
         '500':
           description: Internal Server Error
           content:
@@ -434,3 +505,10 @@ paths:
                   message:
                     type: string
                     default: internal server error
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: accessToken
