@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
 import { sets } from './sets';
 import { choices } from './choices';
-import { usersProblems } from './usersProblems';
+import { solveStatus } from './solveStatus';
 
 @Entity()
 export class problems {
@@ -40,6 +40,6 @@ export class problems {
   })
   choice: choices[];
 
-  @OneToMany(() => usersProblems, (uProblem) => uProblem.problem)
-  uProblem: usersProblems[];
+  @OneToMany(() => solveStatus, (status) => status.problem)
+  uProblem: solveStatus[];
 }

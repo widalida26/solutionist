@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import Container from 'typedi';
 import { ISolve } from '../../interface/ISets';
 import { IUsers } from '../../interface/IUsers';
-import { uProblemsService } from '../../service/usersProblems';
+import { StatusService } from '../../service/solvedStatus';
 import errorGenerator from '../../error/errorGenerator';
 import { emptyObjectCk } from '../../utils/custom';
 
@@ -17,10 +17,10 @@ const solve = async (req: Request, res: Response) => {
   }
 
   // usersProblems 테이블 이용을 위한 usersProblems 인스턴스
-  const upServiceInstance: uProblemsService = Container.get(uProblemsService);
+  const statusServiceInstance: StatusService = Container.get(StatusService);
 
   // 선택 비율 집계
-  const solveResponse = await upServiceInstance.SelectionRateCalculator(
+  const solveResponse = await statusServiceInstance.SelectionRateCalculator(
     solveDTO,
     userInfo.eamil
   );

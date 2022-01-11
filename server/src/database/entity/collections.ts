@@ -4,6 +4,7 @@ import {
   CreateDateColumn,
   OneToMany,
   Timestamp,
+  Column,
 } from 'typeorm';
 import { sets } from './sets';
 
@@ -11,6 +12,9 @@ import { sets } from './sets';
 export class collections {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column()
+  creatorId: number;
 
   @CreateDateColumn()
   createdAt: Timestamp;

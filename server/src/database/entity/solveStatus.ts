@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { problems } from './problems';
 
 @Entity()
-export class usersProblems {
+export class solveStatus {
   @PrimaryGeneratedColumn()
   id: number;
 

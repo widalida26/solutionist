@@ -58,7 +58,10 @@ export class SetService {
       ...set,
     });
 
-    console.log(savedSets);
+    // 세트가 저장되지 않았을 때
+    if (!savedSets) {
+      errorGenerator({ statusCode: 500 });
+    }
 
     const problems: IProblems[] = set['problems'];
 
@@ -89,7 +92,6 @@ export class SetService {
             choices.map((choice) => {
               // 보기의 index 값이 존재하지 않으면 에러
               if (!choice.index) {
-                console.log('no choice idx');
                 errorGenerator({ statusCode: 400 });
               }
               return insertIntoObject(choice, 'problemId', problem.id);
@@ -107,6 +109,7 @@ export class SetService {
       await this.choicesRepo.save(choicesToSave);
     }
 
+    console.log(savedSets);
     // 응답에 필요한 객체 리턴
     return {
       title: savedSets.title,
