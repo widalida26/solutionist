@@ -150,7 +150,7 @@ const Nav = ({ onLoginModalOnAction, isLogin }) => {
       <NavGrid>
         <LogoContainer>
           <Link to="/">
-            <img src="./assets/images/header.png" />
+            <img src="/assets/images/header.png" />
           </Link>
         </LogoContainer>
         <MakeContainer>
@@ -168,13 +168,13 @@ const Nav = ({ onLoginModalOnAction, isLogin }) => {
           />
           <SearchIconContainer>
             <Link to="/search">
-              <img src="./assets/icons/search.svg" alt="search-icon" />
+              <img src="/assets/icons/search.svg" alt="search-icon" />
             </Link>
           </SearchIconContainer>
         </SearchContainer>
         {isLogin ? (
           <MenuIconContainer>
-            <img src="./assets/icons/menu.svg" alt="menu-icon" onClick={handleDropDown} />
+            <img src="/assets/icons/menu.svg" alt="menu-icon" onClick={handleDropDown} />
           </MenuIconContainer>
         ) : (
           <LoginContainer onClick={onLoginModalOnAction}>

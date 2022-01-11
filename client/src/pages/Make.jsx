@@ -7,8 +7,8 @@ import { FaPlusSquare, FaSave } from 'react-icons/fa';
 
 const MakeContainer = styled.div`
   position: relative;
-  height: calc(100% - 190px);
-  padding: 60px 0;
+  height: calc(100% - 4rem);
+  padding: 2rem 0;
   overflow: scroll;
 
   *::placeholder {
@@ -18,66 +18,110 @@ const MakeContainer = styled.div`
 const Title = styled.textarea`
   display: flex;
   align-items: center;
-  width: 56.6%;
-  height: 72px;
-  margin: 0 0 0 21.7%;
+  width: 50%;
+  height: 38px;
+  margin: 0 25% 0 25%;
   line-height: 120%;
-  font-size: 3.75rem;
+  font-size: 2rem;
   font-family: 'GongGothicMedium', sans-serif;
   word-wrap: break-word;
   word-break: break-word;
   resize: none;
+
+  @media all and (max-width: 1023px) {
+    width: 60%;
+    margin: 0 15% 0 25%;
+  }
+  @media all and (max-width: 767px) {
+    width: calc(100% - 2rem);
+    margin: 0 1rem;
+    font-size: 1.5rem;
+    height: 29px;
+  }
 `;
 const Desc = styled.textarea`
   display: flex;
   align-items: center;
-  width: 56.6%;
-  height: 42px;
-  margin: 30px 21.7% 0;
+  width: 50%;
+  height: 26px;
+  margin: 0.5rem 25%;
   line-height: 120%;
-  font-size: 2rem;
+  font-size: 1.25rem;
   font-family: 'GowunDodum-Regular', sans-serif;
   word-wrap: break-word;
   word-break: break-word;
   resize: none;
+
+  @media all and (max-width: 1023px) {
+    width: 60%;
+    margin: 0.5rem 15% 0.5rem 25%;
+  }
+  @media all and (max-width: 767px) {
+    width: calc(100% - 2rem);
+    margin: 0.5rem 1rem;
+    font-size: 1rem;
+    height: 21px;
+  }
 `;
-const Blank = styled.div`
-  width: 56.6%;
-  height: 2rem;
-  margin: 0 21.7%;
-  border-bottom: 2px solid var(--orangey-yellow);
-  font-size: 2rem;
-  font-family: 'GowunDodum-Regular', sans-serif;
-  word-wrap: break-word;
-  word-break: break-word;
-  resize: none;
+const Divider = styled.div`
+  width: 50%;
+  height: 2px;
+  margin: 0 25%;
+  background-color: var(--orangey-yellow);
+
+  @media all and (max-width: 1023px) {
+    width: 60%;
+    margin: 0 15% 0 25%;
+  }
+  @media all and (max-width: 767px) {
+    width: calc(100% - 2rem);
+    margin: 0 1rem;
+  }
 `;
-const Button = styled.div`
-  display: grid;
-  grid-template-rows: 1fr;
-  grid-template-columns: 1fr 56.6% 1fr;
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
+  margin: 0 25% 0 25%;
   color: var(--warm-grey);
   font-size: 5rem;
   opacity: 0.5;
   svg {
-    margin: 1rem;
+    margin: 1rem 0;
     :hover {
       color: black;
     }
   }
+
+  @media all and (max-width: 1023px) {
+    grid-template-columns: 25% 60% 15%;
+  }
+  @media all and (max-width: 767px) {
+    grid-template-columns: 1rem 90% 5%;
+    width: calc(100% - 2rem);
+    margin: 0 1rem;
+    font-size: 3rem;
+  }
 `;
-const SideNavContainer = styled.div`
+
+const SidebarContainer = styled.div`
   position: sticky;
   float: 0;
   top: 3rem;
   display: grid;
   grid-template-rows: 1fr;
-  grid-template-columns: 1fr 56.6% 1fr;
+  grid-template-columns: 1fr 50% 1fr;
+  grid-template-areas: '. . sidebar';
+
+  @media all and (max-width: 1023px) {
+    display: none;
+  }
 `;
 const SideRelative = styled.div`
+  grid-area: sidebar;
   position: relative;
 `;
-const SideNav = styled.div`
+const Sidebar = styled.div`
   position: absolute;
   left: 0;
   margin-left: 1rem;
@@ -85,10 +129,11 @@ const SideNav = styled.div`
   border-left: 2px dashed var(--warm-grey);
   color: var(--warm-grey);
   div {
+    font-size: 0.75rem;
   }
 `;
 const ProblemQuestion = styled.div`
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
   display: flex;
   * {
     font-size: 1rem;
@@ -100,10 +145,6 @@ const ProblemQuestion = styled.div`
     margin-right: 0.5rem;
   }
 `;
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
 
 const Make = () => {
   const [data, setData] = useState({
@@ -111,9 +152,7 @@ const Make = () => {
     description: '',
     problems: [],
   });
-
   const [curPos, setCurPos] = useState(0);
-
   const makeRef = useRef(null);
   const navRefs = useRef([0]);
 
@@ -208,12 +247,10 @@ const Make = () => {
         name="description"
         onInput={autoGrow}
       />
-      <Blank />
-      <SideNavContainer>
-        <div></div>
-        <div></div>
+      <Divider />
+      <SidebarContainer>
         <SideRelative>
-          <SideNav>
+          <Sidebar>
             {data.problems.map((problem, idx) => (
               <ProblemQuestion
                 onClick={handleNav}
@@ -221,32 +258,31 @@ const Make = () => {
                 key={`#Q${idx + 1}`}
                 weight={curPos === idx ? 'bold' : 'normal'}
               >
-                <div>{idx + 1}</div>
-                <div>{problem.question}</div>
+                <div id={idx}>{idx + 1}</div>
+                <div id={idx}>{problem.question}</div>
               </ProblemQuestion>
             ))}
-          </SideNav>
+          </Sidebar>
         </SideRelative>
-      </SideNavContainer>
+      </SidebarContainer>
       {data.problems.map((problem, idx) => (
-        <MakeProblem
-          key={problem.index}
-          problem={problem}
-          data={data}
-          setData={setData}
-          idx={idx}
-          addProblem={addProblem}
-          navRefs={navRefs}
-        />
+        <>
+          <MakeProblem
+            key={problem.index}
+            problem={problem}
+            data={data}
+            setData={setData}
+            idx={idx}
+            addProblem={addProblem}
+            navRefs={navRefs}
+          />
+          <Divider />
+        </>
       ))}
-      <Button>
-        <div></div>
-        <ButtonContainer>
-          <FaPlusSquare onClick={addProblem} />
-          <FaSave onClick={handleSave} />
-        </ButtonContainer>
-        <div></div>
-      </Button>
+      <ButtonContainer>
+        <FaPlusSquare onClick={addProblem} />
+        <FaSave onClick={handleSave} />
+      </ButtonContainer>
     </MakeContainer>
   );
 };
