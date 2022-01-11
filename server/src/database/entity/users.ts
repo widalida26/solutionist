@@ -6,6 +6,7 @@ import {
   OneToMany,
   Timestamp,
 } from 'typeorm';
+import { collections } from './collections';
 import { sets } from './sets';
 import { solvedSets } from './solvedSets';
 
@@ -42,7 +43,9 @@ export class users {
   @CreateDateColumn()
   createdAt: Timestamp;
 
-  @OneToMany(() => sets, (set) => set.creatorId)
+  @OneToMany(() => collections, (collection) => collection.creatorId)
+  collection: collections[];
+
   @OneToMany(() => sets, (set) => set.editorId)
   set: sets[];
 

@@ -1,16 +1,16 @@
 import errorGenerator from '../error/errorGenerator';
 import { Service } from 'typedi';
 import { InjectRepository } from 'typeorm-typedi-extensions';
-import { uProblemsRepository } from '../database/repository/usersProblems';
+import { solveStatusRepository } from '../database/repository/solveStatus';
 import { ProblemsRepository } from '../database/repository/problems';
 import { ChoicesRepository } from '../database/repository/choices';
 import { ISolve } from '../interface/ISets';
 import { v4 } from 'uuid';
 
 @Service()
-export class uProblemsService {
+export class StatusService {
   constructor(
-    @InjectRepository() private upRepo: uProblemsRepository,
+    @InjectRepository() private statusRepo: solveStatusRepository,
     @InjectRepository() private problemsRepo: ProblemsRepository,
     @InjectRepository() private choicesRepo: ChoicesRepository
   ) {}
@@ -40,15 +40,15 @@ export class uProblemsService {
     }
 
     // 풀이 정보 삽입
-    const id = await this.upRepo
+    const id = await this.statusRepo
       .save({
         ...solveInfo,
         email,
       })
       .then((result) => result.id);
 
-    // 선택 비율 카운트
-    const counted = await this.upRepo.countByChoice(solveInfo.problemId);
+    // 선택 비율 집계
+    const counted = await this.statusRepo.countByChoice(solveInfo.problemId);
 
     // 퍼센트 계산
     const selectionRate = [];
