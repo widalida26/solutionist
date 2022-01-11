@@ -52,6 +52,14 @@ const MySet = () => {
       <Divider />
       <SetsContainer>
         <Header>내가 푼 세트</Header>
+        <CardsContainer>
+          <SetCard></SetCard>
+          <SetCard></SetCard>
+          <SetCard></SetCard>
+          <SetCard></SetCard>
+          <SetCard></SetCard>
+          <SetCard></SetCard>
+        </CardsContainer>
       </SetsContainer>
     </>
   );
