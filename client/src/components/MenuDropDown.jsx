@@ -1,7 +1,10 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
-import { logout } from '../api/LoginModalAPI';
+import { logout } from '../api/SettingAPI';
+
+// redux
+import { useSelector } from 'react-redux';
 
 const FadeIn = keyframes`
 from {
@@ -34,7 +37,17 @@ const ImageContainer = styled.div`
   width: 120px;
   height: 120px;
   background-color: var(--warm-grey);
-  border-radius: 60px;
+  border-radius: 50%;
+
+  img {
+    position: inherit;
+    width: 120px;
+    height: 120px;
+    outline: none;
+    display: block;
+    border-radius: 50%;
+    cursor: pointer;
+  }
 `;
 const Username = styled.div`
   font-size: 1.25rem;
@@ -63,17 +76,28 @@ const LogoutMenu = styled.div`
 `;
 
 const handleLogout = () => {
-  logout().catch((err) => {
-    console.log('logout API 에러캐치', err);
-  });
+  logout()
+    .then(() => {
+      console.log('로그아웃 성공');
+    })
+    .catch((err) => {
+      console.log('logout API 에러캐치', err);
+    });
 };
 
 const MenuDropDown = ({ handleDropDown, onlogoutAction }) => {
+  const { userInfo } = useSelector((state) => ({
+    userInfo: state.loginModal.userInfo,
+  }));
+  const { email, username, profileImage } = userInfo;
+
   return (
     <DropDownContainer>
-      <ImageContainer />
-      <Username>김코딩</Username>
-      <Email>kimcoding@gmail.com</Email>
+      <ImageContainer>
+        <img src={`${profileImage}`} />
+      </ImageContainer>
+      <Username>{username}</Username>
+      <Email>{email}</Email>
       <Link to="/myset" onClick={handleDropDown}>
         <MySetMenu>나의 세트</MySetMenu>
       </Link>
