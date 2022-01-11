@@ -1,9 +1,6 @@
-import { Timestamp } from 'typeorm';
-
 export interface ICollection {
-  collectionId: number;
   creatorId: number;
-  createdAt: Timestamp;
+  createdAt: string;
 }
 
 export interface ISets {
@@ -12,7 +9,7 @@ export interface ISets {
   title: string;
   description: string;
   editorId: number;
-  createdAt: Timestamp;
+  createdAt: string;
   problems: IProblems[];
 }
 
@@ -33,6 +30,7 @@ export interface IChoices {
 }
 
 export interface ISolve {
+  solver: string;
   problemId: number;
   choice: number;
 }

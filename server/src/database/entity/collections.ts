@@ -24,7 +24,7 @@ export class collections {
   @ManyToOne(() => users, (user) => user.id)
   creator: users;
 
-  @OneToMany(() => sets, (set) => set.id, {
+  @OneToMany(() => sets, (set) => set.collection, {
     cascade: true,
   })
   set: sets[];

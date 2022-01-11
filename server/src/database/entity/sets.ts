@@ -41,7 +41,7 @@ export class sets {
   @ManyToOne(() => users, (user) => user.id)
   editor: users;
 
-  @OneToMany(() => problems, (problem) => problem.setId, {
+  @OneToMany(() => problems, (problem) => problem.set, {
     cascade: true,
   })
   problem: problems[];

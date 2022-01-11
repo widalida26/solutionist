@@ -2,20 +2,17 @@ const axios = require('axios');
 
 export function changeProfileImage(file) {
   // console.log('axios:', file);
-
-  console.log(777, file);
   if (file) {
     const formData = new FormData();
-    formData.append('file', file[0]);
-
-    const config = {
-      header: { 'content-type': 'multipart/form-data' },
-    };
+    formData.append('image', file);
     // for (var value of formData.values()) {
     //   console.log(value);
     // }
     return axios
       .patch(`${process.env.SERVER_URL}myPage/profileImage`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
         withCredentials: true,
       })
       .then((res) => {
@@ -23,4 +20,26 @@ export function changeProfileImage(file) {
         return res;
       });
   }
+}
+
+export function signOut() {
+  return axios.delete(`${process.env.SERVER_URL}users/signout`, {
+    headers: {
+      'Content-Type': `application/json`,
+    },
+    withCredentials: true,
+  });
+}
+
+export function logout() {
+  return axios.post(
+    `${process.env.SERVER_URL}users/logout`,
+    {},
+    {
+      headers: {
+        'Content-Type': `application/json`,
+      },
+      withCredentials: true,
+    }
+  );
 }
