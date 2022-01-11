@@ -25,7 +25,6 @@ export interface IChoices {
 export interface IOrigin {
   collectionId: number;
   creatorId: number;
-  createdAt: string;
 }
 
 export interface ISolve {

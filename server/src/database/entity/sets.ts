@@ -6,6 +6,7 @@ import {
   UpdateDateColumn,
   ManyToOne,
   OneToMany,
+  Timestamp,
 } from 'typeorm';
 import { collections } from './collections';
 import { users } from './users';
@@ -38,10 +39,7 @@ export class sets {
   description: string;
 
   @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
+  createdAt: Timestamp;
 
   @ManyToOne(() => collections, (collection) => collection.id, {
     onDelete: 'CASCADE',

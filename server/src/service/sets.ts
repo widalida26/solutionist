@@ -40,7 +40,6 @@ export class SetService {
       }
       set.collectionId = foundSet.collectionId;
       set.creatorId = foundSet.creatorId;
-      set.createdAt = String(foundSet.createdAt);
     });
 
     // 생성 정보 세팅
@@ -54,11 +53,12 @@ export class SetService {
       errorGenerator({ statusCode: 400 });
     }
 
-    console.log('set', set);
     // 세트 삽입 후 setId 값 저장
     const savedSets = await this.setsRepo.save({
       ...set,
     });
+
+    console.log(savedSets);
 
     const problems: IProblems[] = set['problems'];
 
@@ -109,9 +109,8 @@ export class SetService {
 
     // 응답에 필요한 객체 리턴
     return {
-      id: savedSets.id,
+      title: savedSets.title,
       createdAt: savedSets.createdAt,
-      updatedAt: savedSets.updatedAt,
     };
   }
 
