@@ -1,14 +1,14 @@
 import errorGenerator from '../error/errorGenerator';
 import { Service } from 'typedi';
 import { InjectRepository } from 'typeorm-typedi-extensions';
-import { SolvedSetsRepository } from '../database/repository/solveRecords';
+import { SolvedRecordsRepository } from '../database/repository/solveRecords';
 import { SetsRepository } from '../database/repository/sets';
 import { IRate } from '../interface/ISets';
 
 @Service()
 export class RecordsService {
   constructor(
-    @InjectRepository() private solvedRepo: SolvedSetsRepository,
+    @InjectRepository() private solvedRepo: SolvedRecordsRepository,
     @InjectRepository() private setsRepo: SetsRepository
   ) {}
   async AnswerRateCalculator(rateInfo: IRate, userId: number): Promise<IRate> {

@@ -5,9 +5,10 @@ import { SetsRepository } from '../database/repository/sets';
 import { ProblemsRepository } from '../database/repository/problems';
 import { ChoicesRepository } from '../database/repository/choices';
 import { CollectionsRepository } from '../database/repository/collections';
+import { SolvedRecordsRepository } from '../database/repository/solveRecords';
 import { ISets, IProblems, IChoices } from '../interface/ISets';
 import { insertIntoObject, timestampToLocaleTime } from '../utils/custom';
-import { problems } from 'src/database/entity/problems';
+import { MoreThan } from 'typeorm';
 
 @Service()
 export class SetService {
@@ -15,22 +16,55 @@ export class SetService {
     @InjectRepository() private setsRepo: SetsRepository,
     @InjectRepository() private problemsRepo: ProblemsRepository,
     @InjectRepository() private choicesRepo: ChoicesRepository,
+    @InjectRepository() private recordsRepo: SolvedRecordsRepository,
     @InjectRepository() private collectionRepo: CollectionsRepository
   ) {}
 
   // 타이틀로 세트 검색
   async SetFinder(title: string) {
     const foundSets = await this.setsRepo.findSetsByTitle(title);
-    console.log(foundSets);
     return {};
   }
 
-  async SetSelector(setId: number) {
-    //await this.setsRepo.getSet(setId);
-    await this.setsRepo
-      .createQueryBuilder('sets')
-      .innerJoin('sets.problem', 'problems')
-      .getMany();
+  async SetSelector(setId: number, userId: number) {
+    // 세트 검색
+    const set = await this.setsRepo.findSet(setId);
+    // 세트 검색에 실패한 경우
+    if (!set) {
+      errorGenerator({ statusCode: 500 });
+    }
+
+    // solveRecords 테이블에 삽입
+    const recordId = await this.recordsRepo
+      .save({ setId, userId })
+      .then((result) => (result ? result.id : null));
+    // solvedRecords 삽입에 성공한 경우
+    if (!recordId) {
+      errorGenerator({ statusCode: 500 });
+    }
+
+    // 해당 세트를 푼 유저를 카운트
+    const solvedUserNumber = await this.recordsRepo.count({
+      where: {
+        setId: setId,
+        answerRate: MoreThan(-1),
+      },
+    });
+    if (solvedUserNumber === null || solvedUserNumber === undefined) {
+      errorGenerator({ statusCode: 500 });
+    }
+
+    return {
+      setId: setId,
+      collectionId: set.collectionId,
+      username: set.collection.creator.username,
+      title: set.title,
+      description: set.description,
+      createdAt: timestampToLocaleTime(String(set.collection.createdAt)),
+      recordId,
+      solvedUserNumber,
+      problems: set.problem,
+    };
   }
 
   // 세트 생성 => collection 테이블에 추가
@@ -141,7 +175,6 @@ export class SetService {
     }
 
     return savedSet;
-    // 응답에 필요한 객체 리턴
   }
 
   // 세트 삭제

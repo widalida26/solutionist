@@ -17,7 +17,7 @@ export class solveRecords {
   userId: number;
 
   @Column({
-    default: 0,
+    default: -1,
   })
   answerRate: number;
 

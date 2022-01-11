@@ -18,6 +18,7 @@ export class SetsRepository extends Repository<sets> {
       .addSelect('users.username as username')
       .leftJoin(users, 'users', 'sets.creatorId = users.id')
       .getRawMany();
+    console.log(dt);
   }
   // await this.createQueryBuilder('sets');
   // collection 아이디로 groupby한 다음 가장 최신의 set를 가져와야 함
@@ -40,7 +41,15 @@ export class SetsRepository extends Repository<sets> {
   //     });
   //   });
 
-  async getSet(id: number) {}
+  // setId로 세트 검색
+  async findSet(id: number) {
+    return await this.createQueryBuilder('sets')
+      .innerJoinAndSelect('sets.collection', 'collections')
+      .innerJoinAndSelect('collections.creator', 'users')
+      .innerJoinAndSelect('sets.problem', 'problems')
+      .innerJoinAndSelect('problems.choice', 'choices')
+      .getOne();
+  }
 
   // collection의 생성 일자 검색
   async findCollectionCreatedAt(collectionId: number) {
