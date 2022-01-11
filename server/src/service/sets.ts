@@ -54,6 +54,7 @@ export class SetService {
       errorGenerator({ statusCode: 400 });
     }
 
+    console.log('set', set);
     // 세트 삽입 후 setId 값 저장
     const savedSets = await this.setsRepo.save({
       ...set,
@@ -112,8 +113,6 @@ export class SetService {
       createdAt: savedSets.createdAt,
       updatedAt: savedSets.updatedAt,
     };
-
-    return {};
   }
 
   // 세트 삭제

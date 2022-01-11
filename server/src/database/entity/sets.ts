@@ -6,7 +6,6 @@ import {
   UpdateDateColumn,
   ManyToOne,
   OneToMany,
-  Timestamp,
 } from 'typeorm';
 import { users } from './users';
 import { problems } from './problems';
@@ -38,10 +37,10 @@ export class sets {
   description: string;
 
   @CreateDateColumn()
-  createdAt: Timestamp;
+  createdAt: Date;
 
   @UpdateDateColumn()
-  updatedAt: Timestamp;
+  updatedAt: Date;
 
   @ManyToOne(() => users, (user) => user.id)
   creator: users;
