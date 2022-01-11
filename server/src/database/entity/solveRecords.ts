@@ -29,6 +29,6 @@ export class solveRecords {
   @ManyToOne(() => users, (user) => user.id)
   user: users;
 
-  @OneToMany(() => solveStatus, (status) => status.recordId)
+  @OneToMany(() => solveStatus, (status) => status.record)
   status: solveStatus;
 }

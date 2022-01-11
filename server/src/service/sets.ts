@@ -7,6 +7,7 @@ import { ChoicesRepository } from '../database/repository/choices';
 import { CollectionsRepository } from '../database/repository/collections';
 import { ISets, IProblems, IChoices } from '../interface/ISets';
 import { insertIntoObject, timestampToLocaleTime } from '../utils/custom';
+import { problems } from 'src/database/entity/problems';
 
 @Service()
 export class SetService {
@@ -22,6 +23,14 @@ export class SetService {
     const foundSets = await this.setsRepo.findSetsByTitle(title);
     console.log(foundSets);
     return {};
+  }
+
+  async SetSelector(setId: number) {
+    //await this.setsRepo.getSet(setId);
+    await this.setsRepo
+      .createQueryBuilder('sets')
+      .innerJoin('sets.problem', 'problems')
+      .getMany();
   }
 
   // 세트 생성 => collection 테이블에 추가
