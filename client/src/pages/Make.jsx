@@ -164,6 +164,7 @@ const Make = () => {
   };
 
   const handleNav = (e) => {
+    console.log(navRefs.current);
     navRefs.current[e.target.id].scrollIntoView({ behavior: 'smooth' });
   };
 
@@ -221,8 +222,8 @@ const Make = () => {
                 key={`#Q${idx + 1}`}
                 weight={curPos === idx ? 'bold' : 'normal'}
               >
-                <div>{idx + 1}</div>
-                <div>{problem.question}</div>
+                <div id={idx}>{idx + 1}</div>
+                <div id={idx}>{problem.question}</div>
               </ProblemQuestion>
             ))}
           </SideNav>
