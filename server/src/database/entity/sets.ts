@@ -3,7 +3,6 @@ import {
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
-  UpdateDateColumn,
   ManyToOne,
   OneToMany,
   Timestamp,
@@ -20,14 +19,7 @@ export class sets {
   @Column()
   collectionId: number;
 
-  @Column({
-    nullable: true,
-  })
-  creatorId: number;
-
-  @Column({
-    nullable: true,
-  })
+  @Column({ nullable: true })
   editorId: number;
 
   @Column()
@@ -45,9 +37,6 @@ export class sets {
     onDelete: 'CASCADE',
   })
   collection: collections;
-
-  @ManyToOne(() => users, (user) => user.id)
-  creator: users;
 
   @ManyToOne(() => users, (user) => user.id)
   editor: users;

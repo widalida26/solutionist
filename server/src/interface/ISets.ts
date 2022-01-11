@@ -2,6 +2,7 @@ import { Timestamp } from 'typeorm';
 
 export interface ICollection {
   collectionId: number;
+  creatorId: number;
   createdAt: Timestamp;
 }
 
@@ -10,8 +11,8 @@ export interface ISets {
   collectionId: number;
   title: string;
   description: string;
-  creatorId: number;
   editorId: number;
+  createdAt: Timestamp;
   problems: IProblems[];
 }
 

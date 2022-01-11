@@ -43,14 +43,14 @@ export class SetsRepository extends Repository<sets> {
   }
 
   //삭제된 세트의 userId 반환
-  async getRemovedUser(id: number) {
-    return await this.findOne(id).then(async (set) => {
-      await this.delete(id);
-      if (!set) {
-        return null;
-      } else {
-        return set.creatorId;
-      }
-    });
-  }
+  // async getRemovedUser(id: number) {
+  //   return await this.findOne(id).then(async (set) => {
+  //     await this.delete(id);
+  //     if (!set) {
+  //       return null;
+  //     } else {
+  //       return set.creatorId;
+  //     }
+  //   });
+  // }
 }

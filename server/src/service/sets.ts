@@ -39,7 +39,6 @@ export class SetService {
         errorGenerator({ statusCode: 400 });
       }
       set.collectionId = foundSet.collectionId;
-      set.creatorId = foundSet.creatorId;
     });
 
     // 생성 정보 세팅

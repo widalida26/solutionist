@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import Container from 'typedi';
-import { ISets } from '../../interface/ISets';
+import { ICollection, ISets } from '../../interface/ISets';
 import { IUsers } from '../../interface/IUsers';
 import { SetService } from '../../service/sets';
 import errorGenerator from '../../error/errorGenerator';
@@ -9,6 +9,7 @@ import { emptyObjectCk } from '../../utils/custom';
 const create = async (req: Request, res: Response) => {
   // 토큰 인증에 실패했을 경우 = 유저 정보가 없을 경우 => null 값 할당
   const userInfo: IUsers = res.locals.userInfo ? res.locals.userInfo : { username: null };
+  const collectionDTO: ICollection = req.body;
   const setDTO: ISets = req.body;
 
   // 데이터가 누락됐을 경우
@@ -25,7 +26,7 @@ const create = async (req: Request, res: Response) => {
   const setServiceInstance: SetService = Container.get(SetService);
 
   // 세트 작성 정보 세팅
-  setDTO.creatorId = userInfo.id;
+  collectionDTO.creatorId = userInfo.id;
   setDTO.editorId = null;
 
   // 세트 생성

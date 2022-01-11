@@ -20,13 +20,11 @@ export class solvedSets {
   })
   answerRate: number;
 
-  @ManyToOne(() => sets, (set) => set.creatorId, {
+  @ManyToOne(() => sets, (set) => set.id, {
     onDelete: 'CASCADE',
   })
   set: sets;
 
-  @ManyToOne(() => users, (user) => user.id, {
-    onDelete: 'CASCADE',
-  })
+  @ManyToOne(() => users, (user) => user.id)
   user: users;
 }

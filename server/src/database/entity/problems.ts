@@ -22,9 +22,7 @@ export class problems {
   })
   answer: number;
 
-  @Column({
-    nullable: true,
-  })
+  @Column({ nullable: true })
   explanation: string;
 
   @Column()

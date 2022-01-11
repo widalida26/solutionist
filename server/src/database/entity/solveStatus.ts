@@ -7,7 +7,7 @@ export class solveStatus {
   id: number;
 
   @Column()
-  email: string;
+  solver: string;
 
   @Column()
   problemId: number;
