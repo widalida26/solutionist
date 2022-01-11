@@ -24,25 +24,48 @@ export class SetService {
     return {};
   }
 
-  // 세트 수정 => collection 테이블에 추가
+  // 세트 생성 => collection 테이블에 추가
   async setCreator(set: ISets, creatorId: number) {
+    // collection 생성
     set.collectionId = await this.collectionRepo
       .save({ id: null, creatorId })
       .then((collection) => collection.id);
-    return await this.setMaker(set);
+
+    // collection 생성이 실패했을 경우
+    if (!set.collectionId) {
+      errorGenerator({ statusCode: 500 });
+    }
+
+    // 세트 제작
+    const madeSet = await this.setMaker(set);
+
+    // 생성 정보 세팅
+    return {
+      title: madeSet.title,
+      createdAt: madeSet.createdAt,
+    };
   }
 
   // 세트 수정 => sets 테이블에만 추가
   async setModifier(set: ISets) {
-    await this.setsRepo.findOne({ collectionId: set.collectionId }).then((foundSet) => {
-      if (!foundSet) {
-        errorGenerator({ statusCode: 400 });
-      }
-      set.collectionId = foundSet.collectionId;
-    });
+    // collection의 생성 일자 검색
+    const collectionCreatedAt = await this.setsRepo.findCollectionCreatedAt(
+      set.collectionId
+    );
+    // collection이 없거나 collection에 해당하는 set가 없을 경우
+    if (!collectionCreatedAt) {
+      errorGenerator({ statusCode: 400 });
+    }
 
-    // 생성 정보 세팅
-    return await this.setMaker(set);
+    // 세트 제작
+    const madeSet = await this.setMaker(set);
+
+    // 수정 정보 세팅
+    return {
+      title: madeSet.title,
+      createdAt: collectionCreatedAt,
+      upatedAt: madeSet.createdAt,
+    };
   }
 
   // 세트 삽입
@@ -53,12 +76,12 @@ export class SetService {
     }
 
     // 세트 삽입 후 setId 값 저장
-    const savedSets = await this.setsRepo.save({
+    const savedSet = await this.setsRepo.save({
       ...set,
     });
 
     // 세트가 저장되지 않았을 때
-    if (!savedSets) {
+    if (!savedSet) {
       errorGenerator({ statusCode: 500 });
     }
 
@@ -74,7 +97,7 @@ export class SetService {
           errorGenerator({ statusCode: 400 });
         }
         // db에 적합한 형태로 problems 변환 => setId 삽입
-        return insertIntoObject(problem, 'setId', savedSets.id);
+        return insertIntoObject(problem, 'setId', savedSet.id);
       });
 
       // 문제 삽입
@@ -108,12 +131,8 @@ export class SetService {
       await this.choicesRepo.save(choicesToSave);
     }
 
-    console.log(savedSets);
+    return savedSet;
     // 응답에 필요한 객체 리턴
-    return {
-      title: savedSets.title,
-      createdAt: savedSets.createdAt,
-    };
   }
 
   // 세트 삭제

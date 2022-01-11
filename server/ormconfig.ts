@@ -8,6 +8,7 @@ module.exports = {
   synchronize: true,
   logging: false,
   autoLoadEntities: true,
+  timezone: 'Asia/Seoul',
   entities: ['src/database/entity/*{.ts,.js}', '../src/database/entity/*.js'],
   migrations: ['src/database/migration/*{.ts,.js}', '../src/database/migration/*.js'],
   subscribers: ['src/database/subscriber/*{.ts,.js}', '../src/database/subscriber/*.js'],

@@ -6,7 +6,7 @@ import e from 'express';
 
 @EntityRepository(sets)
 export class SetsRepository extends Repository<sets> {
-  // title로 세트 검색
+  // title으로 세트 검색
   async findSetsByTitle(title: string) {
     const dt = await this.createQueryBuilder('sets')
       .select([
@@ -19,7 +19,6 @@ export class SetsRepository extends Repository<sets> {
       .addSelect('users.username as username')
       .leftJoin(users, 'users', 'sets.creatorId = users.id')
       .getRawMany();
-    console.log(dt);
     // await this.createQueryBuilder('sets');
     // collection 아이디로 groupby한 다음 가장 최신의 set를 가져와야 함
     // return await this.createQueryBuilder('sets')
@@ -42,6 +41,15 @@ export class SetsRepository extends Repository<sets> {
     //   });
   }
 
+  // collection의 생성 일자 검색
+  async findCollectionCreatedAt(collectionId: number) {
+    return await this.createQueryBuilder('sets')
+      .select(['collections.createdAt as createdAt'])
+      .innerJoin('sets.collection', 'collections')
+      .where('sets.collectionId = :collectionId', { collectionId: collectionId })
+      .getRawOne()
+      .then((result) => convertRawObject(result)['createdAt']);
+  }
   //삭제된 세트의 userId 반환
   // async getRemovedUser(id: number) {
   //   return await this.findOne(id).then(async (set) => {
