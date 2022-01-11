@@ -15,15 +15,15 @@ export class StatusService {
     @InjectRepository() private choicesRepo: ChoicesRepository
   ) {}
 
-  async SelectionRateCalculator(solveInfo: ISolve, email?: string) {
+  async SelectionRateCalculator(solveInfo: ISolve) {
     // 필요한 정보가 누락된 경우
     if (!solveInfo.problemId || !solveInfo.choice) {
       errorGenerator({ statusCode: 400 });
     }
 
     // 로그인된 유저가 아닌 경우 임의의 id 설정
-    if (!email) {
-      email = v4();
+    if (!solveInfo.solver) {
+      solveInfo.solver = v4();
     }
 
     // problems 테이블에 problemId가 있는지 조회
@@ -43,7 +43,6 @@ export class StatusService {
     const id = await this.statusRepo
       .save({
         ...solveInfo,
-        email,
       })
       .then((result) => result.id);
 
