@@ -294,72 +294,48 @@ const ProblemQuestion = styled.div`
 
 const Solve = () => {
   const dummy = {
-    userId: 'aaa', // 로그인이 되지 않은 경우 임의의 유저 아이디
-    setId: 1,
-    userName: 'kimcoding',
-    title: '아마존 S3 적용 테스트',
-    description: '정말 쉽습니다만 이름이 정말 정말 정말 정말 정말 정말 정말 길답니다.',
-    solvedUserNumber: 100,
-    createdAt: '21-12-18 22:51:20',
+    title: '세상에서 시리즈',
+    description: 'Global 합니다',
     problems: [
       {
-        id: 1,
-        index: 1, // 문제 번호 => 1번 문제
-        question: '다음 중 알파벳이 아닌 것은?',
-        answer: 1, // 문제 정답
-        explanation: 'A랑 B의 차이를 잘 보십시오',
-        isOX: false,
+        index: 1,
+        question: '세상에서 가장 높은 빌딩은?',
+        answer: 3,
+        explanation: '부르즈 칼리파..였나?',
+        isOx: false,
         choices: [
           {
-            id: 1,
-            problemId: 1,
-            index: 1, // 보기 번호 => 1번 보기
-            content: 'A',
-            selectionRate: 10, // 문제 1번에서 보기 1번을 고른 사람은 10%
+            index: 1,
+            content: '63빌딩',
           },
           {
-            id: 2,
-            problemId: 1,
-            index: 2, // 보기 번호 => 2번 보기
-            content: 'B',
-            selectionRate: 10, // 문제 1번에서 보기 1번을 고른 사람은 10%
+            index: 2,
+            content: '에펠탑',
           },
           {
-            id: 3,
-            problemId: 1,
-            index: 3, // 보기 번호 => 2번 보기
-            content: 'c',
-            selectionRate: 10, // 문제 1번에서 보기 1번을 고른 사람은 10%
+            index: 3,
+            content: '아랍의 어떤 빌딩',
           },
           {
-            id: 3,
-            problemId: 1,
-            index: 3, // 보기 번호 => 2번 보기
-            content: 'd',
-            selectionRate: 10, // 문제 1번에서 보기 1번을 고른 사람은 10%
+            index: 4,
+            content: '자유의 여신상',
           },
         ],
       },
       {
-        id: 2,
-        index: 2, // 문제 번호 => 2번 문제
-        question: '다음 중 알파벳이 맞는?',
-        answer: 2, // 문제 정답
-        isOX: true,
+        index: 2,
+        question: '에베레스트는 지구에서 가장 높다',
+        answer: 1,
+        explanation: '그렇습니다',
+        isOx: true,
         choices: [
           {
-            id: 1,
-            problemId: 1,
             index: 1,
-            content: 'A',
-            selectionRate: 10,
+            content: '',
           },
           {
-            id: 2,
-            problemId: 1,
-            index: 1,
-            content: 'B',
-            selectionRate: 10,
+            index: 2,
+            content: '',
           },
         ],
       },
@@ -370,7 +346,7 @@ const Solve = () => {
   const { setId } = useParams();
   const [data, setData] = useState([]);
   const [problemIdx, setProblemIdx] = useState(0);
-  const { id, question, answer, explanation, isOX, choices } = set.problems[problemIdx];
+  const { id, question, answer, explanation, isOx, choices } = set.problems[problemIdx];
   const [isCheck, setIsCheck] = useState([]);
   const [stats, setStats] = useState([
     [90, 100, 70, 85],
@@ -464,7 +440,7 @@ const Solve = () => {
             >
               {id}
             </ProblemNum>
-            {isOX ? (
+            {isOx ? (
               <ProblemOx>
                 <Question>{question}</Question>
                 <ListContainer>
@@ -631,7 +607,7 @@ const Solve = () => {
         ) : (
           <>
             <ProblemNum color="var(--orangey-yellow)">{id}</ProblemNum>
-            {isOX ? (
+            {isOx ? (
               <ProblemOx>
                 <Question>{question}</Question>
                 <ListContainer>
