@@ -10,6 +10,10 @@ const MakeContainer = styled.div`
   height: calc(100% - 190px);
   padding: 60px 0;
   overflow: scroll;
+
+  *::placeholder {
+    opacity: 0.5;
+  }
 `;
 const Title = styled.textarea`
   display: flex;
@@ -103,8 +107,6 @@ const Make = () => {
 
   const [curPos, setCurPos] = useState(0);
 
-  console.log(data);
-
   const makeRef = useRef(null);
   const navRefs = useRef([0]);
 
@@ -138,13 +140,20 @@ const Make = () => {
   };
 
   const handleSave = () => {
+    if (data.title === '') {
+      return console.log('세트 제목을 입력하세요');
+    }
+
     for (let problem of data.problems) {
       if (problem.question === '') {
-        console.log('please fill question');
-        return 0;
+        return console.log('문제를 입력해주세요');
+      }
+
+      if (problem.answer === '') {
+        return console.log('답을 정해주세요');
       }
     }
-    axios.post(`${process.env.SERVER_URL}choices`, data);
+    return axios.post(`${process.env.SERVER_URL}collections`, data);
   };
 
   const handleNav = (e) => {
