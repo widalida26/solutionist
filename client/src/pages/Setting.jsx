@@ -1,10 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { device } from '../styles/Breakpoints';
-import { signOut } from '../api/LoginModalAPI';
 import { MdEdit } from 'react-icons/md';
-import { changeProfileImage } from '../api/SettingAPI';
-
+import { signOut, changeProfileImage } from '../api/SettingAPI';
+import { useNavigate } from 'react-router-dom';
 // redux
 import { useDispatch } from 'react-redux';
 import { logoutAction } from '../modules/loginModal';
@@ -176,13 +175,20 @@ const StyledButton = styled.button`
 
 const Setting = () => {
   // * 회원 탈퇴
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const onlogoutAction = () => dispatch(logoutAction());
 
   const handleSignOut = () => {
-    signOut(onlogoutAction).catch((err) => {
-      console.log('signout API 에러', err);
-    });
+    signOut()
+      .then(() => {
+        console.log('회원 탈퇴 성공');
+        onlogoutAction();
+        navigate('/');
+      })
+      .catch((err) => {
+        console.log('signout API 에러', err);
+      });
   };
 
   // * 프로필 사진 변경

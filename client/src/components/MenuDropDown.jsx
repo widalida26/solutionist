@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
-import { logout } from '../api/LoginModalAPI';
+import { logout } from '../api/SettingAPI';
 
 const FadeIn = keyframes`
 from {
@@ -63,9 +63,13 @@ const LogoutMenu = styled.div`
 `;
 
 const handleLogout = () => {
-  logout().catch((err) => {
-    console.log('logout API 에러캐치', err);
-  });
+  logout()
+    .then(() => {
+      console.log('로그아웃 성공');
+    })
+    .catch((err) => {
+      console.log('logout API 에러캐치', err);
+    });
 };
 
 const MenuDropDown = ({ handleDropDown, onlogoutAction }) => {
