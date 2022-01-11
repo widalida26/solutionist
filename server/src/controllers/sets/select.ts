@@ -1,10 +1,7 @@
 import { Request, Response } from 'express';
 import Container from 'typedi';
-import { IRate } from '../../interface/ISets';
-import { IUsers } from '../../interface/IUsers';
 import { SetService } from '../../service/sets';
 import errorGenerator from '../../error/errorGenerator';
-import { emptyObjectCk } from '../../utils/custom';
 import { v4 } from 'uuid';
 
 const select = async (req: Request, res: Response) => {
@@ -22,6 +19,7 @@ const select = async (req: Request, res: Response) => {
   // sets 테이블 이용을 위한 setService 인스턴스
   const setServiceInstance: SetService = Container.get(SetService);
 
+  // 세트 선택
   const selectedSet = await setServiceInstance.SetSelector(Number(setId), userId);
 
   res.status(200).json({
