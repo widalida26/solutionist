@@ -11,6 +11,8 @@ const image = async (req: Request, res: Response) => {
     file: any;
   }
   try {
+    console.log(222);
+    console.log(111, (req as MulterRequest).file);
     const image = (req as MulterRequest).file.location;
     if (image === undefined) {
       return res.status(400).send('not exists image');
