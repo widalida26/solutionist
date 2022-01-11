@@ -1,5 +1,4 @@
 export interface ICollection {
-  collectionId: number;
   creatorId: number;
   createdAt: string;
 }
