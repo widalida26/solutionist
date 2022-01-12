@@ -24,6 +24,8 @@ export class solveStatus {
   })
   problem: problems;
 
-  @ManyToOne(() => solveRecords, (record) => record.id)
+  @ManyToOne(() => solveRecords, (record) => record.id, {
+    onDelete: 'CASCADE',
+  })
   record: solveRecords;
 }

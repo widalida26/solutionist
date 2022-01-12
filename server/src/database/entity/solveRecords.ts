@@ -29,6 +29,8 @@ export class solveRecords {
   @ManyToOne(() => users, (user) => user.id)
   user: users;
 
-  @OneToMany(() => solveStatus, (status) => status.record)
+  @OneToMany(() => solveStatus, (status) => status.record, {
+    cascade: true,
+  })
   status: solveStatus;
 }
