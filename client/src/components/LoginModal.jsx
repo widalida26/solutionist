@@ -393,7 +393,7 @@ const LoginModal = ({
       } else {
         setValiErrMessage({
           ...valiErrMessage,
-          ErrPassword: '안전한 비밀번호에요 :)',
+          ErrPassword: '안전한 비밀번호예요 :)',
         });
         setValiInfo({ ...valiInfo, isPassword: true });
       }
@@ -459,11 +459,11 @@ const LoginModal = ({
       if (authorizationCode) {
         authorizationCode = authorizationCode.split('&')[0] + '&';
         console.log(authorizationCode);
+        onModalOffAction();
         signUpKakao(authorizationCode).then((res) => {
           // onUpdateUserInfoAction(res.data.data);
           console.log('카카오 로그인 성공');
           onloginAction();
-          onModalOffAction();
         });
       }
     } else {
@@ -472,11 +472,11 @@ const LoginModal = ({
       if (authorizationCode) {
         authorizationCode = authorizationCode.split('&')[0] + '&';
         console.log(authorizationCode);
+        onModalOffAction();
         signUpGoogle(authorizationCode).then((res) => {
           onUpdateUserInfoAction(res.data.data);
           console.log('구글 로그인 성공');
           onloginAction();
-          onModalOffAction();
         });
       }
     }
