@@ -36,7 +36,7 @@ const login = async (req: Request, res: Response) => {
       username: userpw.username,
       email: userpw.email,
       profileImage: userpw.profileImage,
-      role: userpw.role,
+      type: userpw.type,
     };
     jwtToken.sendAccessToken(res, accessToken);
     console.log(111, accessToken);

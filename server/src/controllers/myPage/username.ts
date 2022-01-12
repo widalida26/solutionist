@@ -2,14 +2,10 @@ import { Request, Response } from 'express';
 import { users } from '../../database/entity/users';
 import { getRepository, getConnection } from 'typeorm';
 import 'dotenv/config';
-import aws from 'aws-sdk';
 
 const modifyUsername = async (req: Request, res: Response) => {
   try {
-    const { email, username } = res.locals.userInfo;
-
-    const info = getRepository(users);
-    const findUser = await info.findOne({ where: { email: email } });
+    const { id, username } = res.locals.userInfo;
 
     const { newUserName } = req.body;
 
@@ -20,13 +16,16 @@ const modifyUsername = async (req: Request, res: Response) => {
       .createQueryBuilder()
       .update(users)
       .set({ username: newUserName })
-      .where('id = :id', { id: findUser.id })
+      .where('id = :id', { id: id })
       .execute();
 
     return res
       .status(201)
-      .json({ data: newUserName, message: 'successfully password changed' });
-  } catch (err) {}
+      .json({ data: newUserName, message: 'successfully user name changed' });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send('internal server error');
+  }
 };
 
 export default modifyUsername;
