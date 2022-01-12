@@ -13,6 +13,12 @@ export class RecordsService {
   ) {}
 
   async RecordMaker(setId: number, userId: number): Promise<number> {
+    // 해당하는 세트가 없는 경우
+    await this.setsRepo.findOne(setId).then((result) => {
+      if (!result) {
+        errorGenerator({ statusCode: 400 });
+      }
+    });
     // solveRecords 테이블에 삽입
     const recordId = await this.recordRepo
       .save({ setId, userId })
