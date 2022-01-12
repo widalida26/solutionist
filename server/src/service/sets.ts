@@ -29,9 +29,8 @@ export class SetService {
   async SetSelector(setId: number, userId: number) {
     // 세트 검색
     const set = await this.setsRepo.findSet(setId);
-    console.log('set', set);
-    // 세트 검색에 실패한 경우
-    if (!set) {
+    // 세트 검색에 실패하가나 유효하지 않은 경우
+    if (!set || !set.collection) {
       errorGenerator({ statusCode: 500 });
     }
 
