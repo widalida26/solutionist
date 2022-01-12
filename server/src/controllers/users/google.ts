@@ -8,12 +8,8 @@ import jwtToken from '../../utils/tokenFunctions/index';
 const google = async (req: Request, res: Response) => {
   // const googletokenURL = 'https://oauth2.googleapis.com/token';
   const googleInfoURL = 'https://www.googleapis.com/oauth2/v2/userinfo';
-  console.log('client id', process.env.GOOGLE_CLIENT_ID);
-  console.log('client secret', process.env.GOOGLE_CLIENT_SECRET);
-
   const googleClientId = process.env.GOOGLE_CLIENT_ID;
   const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
-  console.log('google client uri', process.env.CLIENT_URI);
   try {
     const tokenRes = await axios.post(
       `https://oauth2.googleapis.com/token?code=${req.body.authorizationCode}&client_id=${googleClientId}&client_secret=${googleClientSecret}&redirect_uri=${process.env.CLIENT_URI}&grant_type=authorization_code`
@@ -41,11 +37,10 @@ const google = async (req: Request, res: Response) => {
 
       const secondFind = await info.findOne({ where: { email: email } });
       const payload = {
-        id: secondFind.id,
         username: secondFind.username,
         email: secondFind.email,
         type: secondFind.type,
-        role: secondFind.role,
+        profileImage: profileImage,
       };
       const userString = JSON.stringify(payload);
       const accessToken = jwtToken.accessToken(userString);
@@ -54,11 +49,10 @@ const google = async (req: Request, res: Response) => {
       return res.status(201).json({ data: payload });
     } else {
       const payload = {
-        id: findUser.id,
         username: findUser.username,
         email: findUser.email,
         type: findUser.type,
-        role: findUser.role,
+        profileImage: profileImage,
       };
       const userString = JSON.stringify(payload);
       const accessToken = jwtToken.accessToken(userString);
@@ -68,7 +62,7 @@ const google = async (req: Request, res: Response) => {
     }
   } catch (error) {
     console.log(error);
-    return res.status(500).send('Internal Server Error');
+    return res.status(error.status).send('Internal Server Error');
   }
 };
 
