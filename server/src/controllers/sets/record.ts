@@ -22,7 +22,7 @@ const record = async (req: Request, res: Response) => {
   // 세트 선택
   const recordId = await recordsServiceInstance.RecordMaker(setId, userId);
 
-  res.status(200).json({
+  res.status(201).json({
     solver,
     recordId,
   });
