@@ -1,10 +1,9 @@
 import errorGenerator from '../error/errorGenerator';
+import { MoreThan } from 'typeorm';
 import { Service } from 'typedi';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 import { SolveRecordsRepository } from '../database/repository/solveRecords';
 import { SetsRepository } from '../database/repository/sets';
-import { IRate } from '../interface/ISets';
-import { IdentityStore } from 'aws-sdk';
 
 @Service()
 export class RecordsService {
@@ -41,5 +40,15 @@ export class RecordsService {
     await this.recordRepo.save({ id: recordId, answerRate: userRate });
 
     return recordId;
+  }
+
+  // 해당 세트를 푼 유저를 카운트
+  async recordCounter(setId: number) {
+    return await this.recordRepo.count({
+      where: {
+        setId,
+        answerRate: MoreThan(-1),
+      },
+    });
   }
 }

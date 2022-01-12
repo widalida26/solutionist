@@ -8,7 +8,6 @@ import { CollectionsRepository } from '../database/repository/collections';
 import { SolveRecordsRepository } from '../database/repository/solveRecords';
 import { ISets, IProblems, IChoices } from '../interface/ISets';
 import { insertIntoObject, timestampToLocaleTime } from '../utils/custom';
-import { MoreThan } from 'typeorm';
 
 @Service()
 export class SetService {
@@ -34,18 +33,6 @@ export class SetService {
       errorGenerator({ statusCode: 500 });
     }
 
-    // 해당 세트를 푼 유저를 카운트
-    const solvedUserNumber = await this.recordsRepo.count({
-      where: {
-        setId: setId,
-        answerRate: MoreThan(-1),
-      },
-    });
-    // 해당 세트를 푼 유저를 카운트에 실패할 경우
-    if (solvedUserNumber === null || solvedUserNumber === undefined) {
-      errorGenerator({ statusCode: 500 });
-    }
-
     return {
       setId: setId,
       collectionId: set.collectionId,
@@ -53,7 +40,6 @@ export class SetService {
       title: set.title,
       description: set.description,
       createdAt: timestampToLocaleTime(String(set['collection'].createdAt)),
-      solvedUserNumber,
       problems: set.problem,
     };
   }
