@@ -1,12 +1,12 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { device } from '../styles/Breakpoints';
-import { MdEdit } from 'react-icons/md';
-import { signOut, changeProfileImage } from '../api/SettingAPI';
+import { MdEdit, MdCheck } from 'react-icons/md';
+import { signOut, changeProfileImage, changeUsername } from '../api/SettingAPI';
 import { useNavigate } from 'react-router-dom';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { logoutAction } from '../modules/loginModal';
+import { logoutAction, updateUserInfoAction } from '../modules/loginModal';
 
 const MainContainer = styled.div`
   /* position: relative; */
@@ -179,7 +179,7 @@ const Setting = () => {
   }));
   const { email, username, profileImage } = userInfo;
 
-  console.log(profileImage);
+  // console.log(profileImage);
 
   // * 회원 탈퇴
   const navigate = useNavigate();
@@ -218,6 +218,33 @@ const Setting = () => {
     sendAPICall();
   };
 
+  // * username 변경
+  const [isUsernameEdit, setIsUsernameEdit] = useState(false);
+  const [newUsername, setNewUsername] = useState('');
+
+  const handleEditUsername = () => {
+    setIsUsernameEdit(true);
+  };
+
+  const handleSubmitNewUsername = () => {
+    console.log('클릭');
+    // axios
+    changeUsername(newUsername)
+      .then((res) => {
+        console.log('changeUsername 요청 성공, res:', res);
+        // onUpdateUserInfoAction(res.data.data);
+      })
+      .catch((err) => {
+        console.log('changeUsername 실패', err);
+      });
+    setIsUsernameEdit(false);
+  };
+
+  const handleChangeNewUsername = (e) => {
+    setNewUsername(e.target.value);
+    console.log(newUsername);
+  };
+
   return (
     <MainContainer>
       <SettingContainer>
@@ -244,10 +271,20 @@ const Setting = () => {
               </label>
             </ImageContainer>
             <PersonalInfo>
-              <Nickname>
-                <span>{username}</span>
-                <MdEdit />
-              </Nickname>
+              {isUsernameEdit ? (
+                <Nickname>
+                  <StyledInput
+                    placeholder="새 Username 입력"
+                    onChange={handleChangeNewUsername}
+                  />
+                  <MdCheck onClick={handleSubmitNewUsername} />
+                </Nickname>
+              ) : (
+                <Nickname>
+                  <span>{username}</span>
+                  <MdEdit onClick={handleEditUsername} />
+                </Nickname>
+              )}
               <p>{email}</p>
             </PersonalInfo>
           </EditContainer>

@@ -307,7 +307,7 @@ const LoginModal = ({
         console.log('중복 이메일 아님 사용 가능 ㅊㅋㅊㅋ');
       })
       .catch(() => {
-        setIsDupli(true); // ! 중복 아닐시 (200 OK) state 관리 다시 확인
+        setIsDupli(true);
         setValiErrMessage({
           ...valiErrMessage,
           ErrDupliEmail: '중복된 이메일이에요. 다시 입력해주세요',
@@ -459,7 +459,8 @@ const LoginModal = ({
       if (authorizationCode) {
         authorizationCode = authorizationCode.split('&')[0] + '&';
         console.log(authorizationCode);
-        signUpKakao(authorizationCode).then(() => {
+        signUpKakao(authorizationCode).then((res) => {
+          // onUpdateUserInfoAction(res.data.data);
           console.log('카카오 로그인 성공');
           onloginAction();
           onModalOffAction();

@@ -22,6 +22,20 @@ export function changeProfileImage(file) {
   }
 }
 
+export function changeUsername(state) {
+  console.log(state);
+  return axios.patch(
+    `${process.env.SERVER_URL}myPage/changeUsername`,
+    { state },
+    {
+      headers: {
+        'Content-Type': `application/json`,
+      },
+      withCredentials: true,
+    }
+  );
+}
+
 export function signOut() {
   return axios.delete(`${process.env.SERVER_URL}users/signout`, {
     headers: {
