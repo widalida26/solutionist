@@ -18,7 +18,7 @@ setsRouter.get('/sets/:setId', select); // 세트 선택
 setsRouter.post('/sets', saveUserInfo, record); //풀이 선택
 setsRouter.post('/collections', saveUserInfo, create); // 세트 제작
 setsRouter.post('/sets', blockUnauthorized, modify); // 세트 수정
-setsRouter.post('/solveSets', saveUserInfo, solve); // 문제 풀기
-setsRouter.post('/solvedSets', saveUserInfo, submit); // 세트 제출
+setsRouter.post('/solveStatus', saveUserInfo, solve); // 문제 풀기
+setsRouter.post('/solvedRecords', saveUserInfo, submit); // 세트 제출
 
 export default setsRouter;
