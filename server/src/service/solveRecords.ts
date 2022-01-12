@@ -4,6 +4,7 @@ import { InjectRepository } from 'typeorm-typedi-extensions';
 import { SolveRecordsRepository } from '../database/repository/solveRecords';
 import { SetsRepository } from '../database/repository/sets';
 import { IRate } from '../interface/ISets';
+import { IdentityStore } from 'aws-sdk';
 
 @Service()
 export class RecordsService {
@@ -39,8 +40,6 @@ export class RecordsService {
     // id에 해당하는 레코드 있는지 확인
     await this.recordRepo.save({ id: recordId, answerRate: userRate });
 
-    // 해당 세트의 평균 구하기
-    const totalRate = await this.recordRepo.getAvgRate(recordId);
-    //return rateInfo;
+    return recordId;
   }
 }

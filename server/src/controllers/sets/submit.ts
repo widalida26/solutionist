@@ -19,11 +19,10 @@ const submit = async (req: Request, res: Response) => {
   const recordsServiceInstance: RecordsService = Container.get(RecordsService);
 
   // 전체 정답률 집계
-  const rateInfo = await recordsServiceInstance.RecordSubmitter(recordId, userRate);
+  const submmitedId = await recordsServiceInstance.RecordSubmitter(recordId, userRate);
 
   res.status(201).json({
-    //setId: rateInfo.setId,
-    //totalRate: rateInfo.totalRate,
+    id: submmitedId,
   });
 };
 export default submit;
