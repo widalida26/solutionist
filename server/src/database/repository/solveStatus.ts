@@ -1,20 +1,19 @@
 import { EntityRepository, Repository } from 'typeorm';
-import { usersProblems } from '../entity/usersProblems';
+import { solveStatus } from '../entity/solveStatus';
 import { ISelect } from '../../interface/ISets';
 import { convertRawObject } from '../../utils/custom';
 
-@EntityRepository(usersProblems)
-export class uProblemsRepository extends Repository<usersProblems> {
+@EntityRepository(solveStatus)
+export class solveStatusRepository extends Repository<solveStatus> {
   // 보기 선택 카운트
   async countByChoice(problemId: number): Promise<ISelect> {
-    return await this.createQueryBuilder('usersProblems')
-      .select('usersProblems.choice AS choice')
+    return await this.createQueryBuilder('status')
+      .select('status.choice AS choice')
       .addSelect('COUNT(*) AS cnt')
       .where({ problemId })
-      .groupBy('usersProblems.choice')
+      .groupBy('status.choice')
       .getRawMany()
       .then((reuslt) => {
-        console.log(reuslt);
         const cntInfo = { total: 0, info: {} };
         reuslt.forEach((el) => {
           let map = convertRawObject(el);

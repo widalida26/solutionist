@@ -21,3 +21,39 @@ export function changeProfileImage(file) {
       });
   }
 }
+
+export function changeUsername(state) {
+  console.log(state);
+  return axios.patch(
+    `${process.env.SERVER_URL}myPage/changeUsername`,
+    { state },
+    {
+      headers: {
+        'Content-Type': `application/json`,
+      },
+      withCredentials: true,
+    }
+  );
+}
+
+export function signOut() {
+  return axios.delete(`${process.env.SERVER_URL}users/signout`, {
+    headers: {
+      'Content-Type': `application/json`,
+    },
+    withCredentials: true,
+  });
+}
+
+export function logout() {
+  return axios.post(
+    `${process.env.SERVER_URL}users/logout`,
+    {},
+    {
+      headers: {
+        'Content-Type': `application/json`,
+      },
+      withCredentials: true,
+    }
+  );
+}

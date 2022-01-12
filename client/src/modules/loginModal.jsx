@@ -5,6 +5,7 @@ const LOGIN_MODAL_ON = 'loginModal/LOGIN_MODAL_ON';
 const LOGIN_MODAL_OFF = 'loginModal/LOGIN_MODAL_OFF';
 const LOGIN_SUCCESS = 'loginModal/LOGIN_SUCCESS';
 const LOGOUT_SUCCESS = 'loginModal/LOGOUT_SUCCESS';
+const USER_INFO = 'loginModal/USER_INFO';
 
 /* 액션 생성함수 만들기 */
 // 액션 생성함수를 만들고 export 키워드를 사용해서 내보내주세요.
@@ -12,11 +13,19 @@ export const loginModalOnAction = () => ({ type: LOGIN_MODAL_ON });
 export const modalOffAction = () => ({ type: LOGIN_MODAL_OFF });
 export const loginAction = () => ({ type: LOGIN_SUCCESS });
 export const logoutAction = () => ({ type: LOGOUT_SUCCESS });
+export const updateUserInfoAction = (data) => ({ type: USER_INFO, payload: { ...data } });
 
 /* 초기 상태 선언 */
 const initialState = {
   isLoginModalOn: false,
   isLogin: false,
+  userInfo: {
+    email: undefined,
+    profileImage: undefined,
+    id: undefined,
+    role: undefined,
+    username: undefined,
+  },
 };
 
 /* 리듀서 선언 */
@@ -30,7 +39,18 @@ const loginModal = (state = initialState, action) => {
     case LOGIN_SUCCESS:
       return (state = { ...state, isLogin: true });
     case LOGOUT_SUCCESS:
-      return (state = { ...state, isLogin: false });
+      return (state = initialState);
+    case USER_INFO:
+      return (state = {
+        ...state,
+        userInfo: {
+          email: action.payload.email,
+          profileImage: action.payload.profileImage,
+          id: action.payload.id,
+          role: action.payload.role,
+          username: action.payload.username,
+        },
+      });
     default:
       return state;
   }

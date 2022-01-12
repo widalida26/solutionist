@@ -18,6 +18,10 @@ const NavContainer = styled.div`
   height: 70px;
   background-color: white;
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+
+  div:last-child {
+    z-index: 900;
+  }
 `;
 const NavGrid = styled.div`
   display: grid;
@@ -39,7 +43,10 @@ const LogoContainer = styled.div`
     display: flex;
     align-items: center;
     width: 100%;
-    height: 100%;
+    height: 70px;
+    img {
+      height: 100%;
+    }
   }
 `;
 const MakeContainer = styled.div`
@@ -142,7 +149,9 @@ const Nav = ({ onLoginModalOnAction, isLogin }) => {
     <NavContainer>
       <NavGrid>
         <LogoContainer>
-          <Link to="/">Solutionist</Link>
+          <Link to="/">
+            <img src="/assets/images/header.png" />
+          </Link>
         </LogoContainer>
         <MakeContainer>
           <Link to="/make">MAKE</Link>
@@ -159,14 +168,13 @@ const Nav = ({ onLoginModalOnAction, isLogin }) => {
           />
           <SearchIconContainer>
             <Link to="/search">
-              <img src="./assets/icons/search.svg" alt="search-icon" />
+              <img src="/assets/icons/search.svg" alt="search-icon" />
             </Link>
           </SearchIconContainer>
         </SearchContainer>
         {isLogin ? (
-          // 리덕스를 사용한다면 isLogin이 올 자리
           <MenuIconContainer>
-            <img src="./assets/icons/menu.svg" alt="menu-icon" onClick={handleDropDown} />
+            <img src="/assets/icons/menu.svg" alt="menu-icon" onClick={handleDropDown} />
           </MenuIconContainer>
         ) : (
           <LoginContainer onClick={onLoginModalOnAction}>

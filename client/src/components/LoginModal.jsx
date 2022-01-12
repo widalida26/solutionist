@@ -215,7 +215,12 @@ const StyledWrapper = styled.div`
 // react-transition-group의 <Transition> 실패 https://velog.io/@sae1013/REACT-%EB%AA%A8%EB%8B%AC-%EC%95%A0%EB%8B%88%EB%A9%94%EC%9D%B4%EC%85%98CSS
 // setTimeout 실패 https://agal.tistory.com/170
 
-const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }) => {
+const LoginModal = ({
+  isLoginModalOn,
+  onModalOffAction,
+  onloginAction,
+  onUpdateUserInfoAction,
+}) => {
   const [toggle, setToggle] = useState(true);
   const handleToggle = () => {
     setErrorMessage('');
@@ -231,28 +236,35 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
 
   const handleInputValue = (target) => (e) => {
     setLoginInfo({ ...loginInfo, [target]: e.target.value });
-    console.log(loginInfo);
+    // console.log(loginInfo);
   };
 
-  const [userInfoWithImage, setUserInfoWithImage] = useState({});
-  // console.log("로그인 후 유저인포", userInfo);
-  // console.log("로그인 후 isLogin", isLogin);
+  // const [userInfo, setUserInfo] = useState({});
+  // console.log('로그인 후 유저인포', userInfo);
+  // console.log('로그인 후 isLogin', isLogin);
 
   const handleLogin = () => {
     if (!loginInfo.email || !loginInfo.password) {
       setErrorMessage('아이디와 비밀번호를 입력하세요');
     } else {
-      postLogin(loginInfo, onModalOffAction, onloginAction).catch((err) => {
-        // const errCode = err.response.status;
-        // if (errCode === 401) {
-        //   setErrorMessage('유효하지 않은 유저 입니다!');
-        // } else if (errCode === 404) {
-        //   setErrorMessage('404 not found');
-        // } else {
-        //   setErrorMessage('로그인을 실패했습니다!');
-        // }
-        console.log('postLogin 에러캐치', err);
-      });
+      postLogin(loginInfo)
+        .then((res) => {
+          // TODO : res redux에 저장
+          onUpdateUserInfoAction(res.data.data.payload);
+          // console.log('login 성공', res.data.data.payload);
+          // setUserInfo(res.data.data.payload);
+          onModalOffAction();
+          onloginAction();
+        })
+        .catch((err) => {
+          const errCode = err.response.status || 500;
+          if (errCode === 401) {
+            setErrorMessage('유효하지 않은 유저 입니다!');
+          } else {
+            setErrorMessage('로그인을 실패했습니다!');
+          }
+          console.log('postLogin 에러캐치', err);
+        });
     }
   };
 
@@ -268,14 +280,39 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
   const [afterSignUp, setAfterSignUp] = useState('');
 
   const handleSignup = () => {
-    signUp(signupInfo, handleToggle, setAfterSignUp).catch((err) => {
-      const errMessage = err.response.data.message;
-      if (errMessage === 'insufficient parameters supplied') {
-        setErrorMessage('내용을 모두 입력해주세요!');
-      } else {
-        setErrorMessage('회원가입에 실패했습니다!');
-      }
-    });
+    signUp(signupInfo)
+      .then(() => {
+        console.log('회원가입 성공');
+        handleToggle();
+        setAfterSignUp('회원가입이 완료되었습니다! 로그인 하세요!');
+      })
+      .catch((err) => {
+        const errMessage = err.response.data.message;
+        if (errMessage === 'insufficient parameters supplied') {
+          setErrorMessage('내용을 모두 입력해주세요!');
+        } else {
+          setErrorMessage('회원가입에 실패했습니다!');
+        }
+      });
+  };
+
+  // * 이메일 중복 검사
+  // TODO : 인풋창 벗어날 때 API 요청(onBlur), 성공시 아무것도 안함, 실패시 에러메시지 빨갛게 표시
+  const [isDupli, setIsDupli] = useState(false);
+
+  const checkDupli = () => {
+    dupliEmail(signupInfo)
+      .then(() => {
+        setIsDupli(false);
+        console.log('중복 이메일 아님 사용 가능 ㅊㅋㅊㅋ');
+      })
+      .catch(() => {
+        setIsDupli(true);
+        setValiErrMessage({
+          ...valiErrMessage,
+          ErrDupliEmail: '중복된 이메일이에요. 다시 입력해주세요',
+        });
+      });
   };
 
   // * 유효성 검사
@@ -295,24 +332,6 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
     ErrPasswordConfirm: '',
     ErrDupliEmail: '',
   });
-
-  // console.log('singup onchange', signupInfo);
-  // console.log('밸리인포 불린', valiInfo);
-
-  // * 이메일 중복 검사
-  // TODO : 인풋창 벗어날 때 API 요청(onBlur), 성공시 아무것도 안함, 실패시 에러메시지 빨갛게 표시
-  const [isDupli, setIsDupli] = useState(false);
-
-  const checkDupli = () => {
-    dupliEmail(signupInfo, setIsDupli).catch(() => {
-      setValiErrMessage({
-        ...valiErrMessage,
-        ErrDupliEmail: '중복된 이메일이에요. 다시 입력해주세요',
-      });
-      // setIsDupli(true); // ! 중복 아닐시 (200 OK) state 관리 다시 확인
-      // console.log(isDupli);
-    });
-  };
 
   // 회원가입 onChange
   // 이메일
@@ -374,7 +393,7 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
       } else {
         setValiErrMessage({
           ...valiErrMessage,
-          ErrPassword: '안전한 비밀번호에요 :)',
+          ErrPassword: '안전한 비밀번호예요 :)',
         });
         setValiInfo({ ...valiInfo, isPassword: true });
       }
@@ -440,7 +459,12 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
       if (authorizationCode) {
         authorizationCode = authorizationCode.split('&')[0] + '&';
         console.log(authorizationCode);
-        signUpKakao(authorizationCode, onloginAction, onModalOffAction);
+        onModalOffAction();
+        signUpKakao(authorizationCode).then((res) => {
+          // onUpdateUserInfoAction(res.data.data);
+          console.log('카카오 로그인 성공');
+          onloginAction();
+        });
       }
     } else {
       // 구글
@@ -448,7 +472,12 @@ const LoginModal = ({ isLoginModalOn, onModalOffAction, isLogin, onloginAction }
       if (authorizationCode) {
         authorizationCode = authorizationCode.split('&')[0] + '&';
         console.log(authorizationCode);
-        signUpGoogle(authorizationCode, onloginAction, onModalOffAction);
+        onModalOffAction();
+        signUpGoogle(authorizationCode).then((res) => {
+          onUpdateUserInfoAction(res.data.data);
+          console.log('구글 로그인 성공');
+          onloginAction();
+        });
       }
     }
   }, [authorizationCode]);

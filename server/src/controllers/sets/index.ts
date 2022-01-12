@@ -1,7 +1,9 @@
 import search from './search';
+import select from './select';
+import record from './record';
 import create from './create';
 import modify from './modify';
 import solve from './solve';
-import last from './last';
+import submit from './submit';
 
-export { search, create, modify, solve, last };
+export { search, select, record, create, modify, solve, submit };

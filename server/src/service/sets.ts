@@ -5,8 +5,10 @@ import { SetsRepository } from '../database/repository/sets';
 import { ProblemsRepository } from '../database/repository/problems';
 import { ChoicesRepository } from '../database/repository/choices';
 import { CollectionsRepository } from '../database/repository/collections';
+import { SolveRecordsRepository } from '../database/repository/solveRecords';
 import { ISets, IProblems, IChoices } from '../interface/ISets';
-import { insertIntoObject } from '../utils/custom';
+import { insertIntoObject, timestampToLocaleTime } from '../utils/custom';
+import { MoreThan } from 'typeorm';
 
 @Service()
 export class SetService {
@@ -14,37 +16,89 @@ export class SetService {
     @InjectRepository() private setsRepo: SetsRepository,
     @InjectRepository() private problemsRepo: ProblemsRepository,
     @InjectRepository() private choicesRepo: ChoicesRepository,
+    @InjectRepository() private recordsRepo: SolveRecordsRepository,
     @InjectRepository() private collectionRepo: CollectionsRepository
   ) {}
 
   // 타이틀로 세트 검색
   async SetFinder(title: string) {
     const foundSets = await this.setsRepo.findSetsByTitle(title);
-    console.log(foundSets);
     return {};
   }
 
-  // 세트 수정 => collection 테이블에 추가
-  async setCreator(set: ISets) {
+  async SetSelector(setId: number) {
+    // 세트 검색
+    const set = await this.setsRepo.findSet(setId);
+    // 세트 검색에 실패하가나 유효하지 않은 경우
+    if (!set || !set['collection']) {
+      errorGenerator({ statusCode: 500 });
+    }
+
+    // 해당 세트를 푼 유저를 카운트
+    const solvedUserNumber = await this.recordsRepo.count({
+      where: {
+        setId: setId,
+        answerRate: MoreThan(-1),
+      },
+    });
+    // 해당 세트를 푼 유저를 카운트에 실패할 경우
+    if (solvedUserNumber === null || solvedUserNumber === undefined) {
+      errorGenerator({ statusCode: 500 });
+    }
+
+    return {
+      setId: setId,
+      collectionId: set.collectionId,
+      username: set['collection'].creator ? set['collection'].creator.username : null,
+      title: set.title,
+      description: set.description,
+      createdAt: timestampToLocaleTime(String(set['collection'].createdAt)),
+      solvedUserNumber,
+      problems: set.problem,
+    };
+  }
+
+  // 세트 생성 => collection 테이블에 추가
+  async setCreator(set: ISets, creatorId: number) {
+    // collection 생성
     set.collectionId = await this.collectionRepo
-      .save({ id: null })
+      .save({ id: null, creatorId })
       .then((collection) => collection.id);
-    return await this.setMaker(set);
+
+    // collection 생성이 실패했을 경우
+    if (!set.collectionId) {
+      errorGenerator({ statusCode: 500 });
+    }
+
+    // 세트 제작
+    const madeSet = await this.setMaker(set);
+
+    // 생성 정보 세팅
+    return {
+      title: madeSet.title,
+      createdAt: timestampToLocaleTime(madeSet.createdAt),
+    };
   }
 
   // 세트 수정 => sets 테이블에만 추가
   async setModifier(set: ISets) {
-    await this.setsRepo.findOne({ collectionId: set.collectionId }).then((foundSet) => {
-      if (!foundSet) {
-        errorGenerator({ statusCode: 400 });
-      }
-      set.collectionId = foundSet.collectionId;
-      set.creatorId = foundSet.creatorId;
-      set.createdAt = String(foundSet.createdAt);
-    });
+    // collection의 생성 일자 검색
+    const collectionCreatedAt = await this.setsRepo.findCollectionCreatedAt(
+      set.collectionId
+    );
+    // collection이 없거나 collection에 해당하는 set가 없을 경우
+    if (!collectionCreatedAt) {
+      errorGenerator({ statusCode: 400 });
+    }
 
-    // 생성 정보 세팅
-    return await this.setMaker(set);
+    // 세트 제작
+    const madeSet = await this.setMaker(set);
+    // 수정 정보 세팅
+    return {
+      title: madeSet.title,
+      createdAt: timestampToLocaleTime(collectionCreatedAt),
+      upatedAt: timestampToLocaleTime(madeSet.createdAt),
+    };
   }
 
   // 세트 삽입
@@ -55,9 +109,14 @@ export class SetService {
     }
 
     // 세트 삽입 후 setId 값 저장
-    const savedSets = await this.setsRepo.save({
+    const savedSet = await this.setsRepo.save({
       ...set,
     });
+
+    // 세트가 저장되지 않았을 때
+    if (!savedSet) {
+      errorGenerator({ statusCode: 500 });
+    }
 
     const problems: IProblems[] = set['problems'];
 
@@ -71,7 +130,7 @@ export class SetService {
           errorGenerator({ statusCode: 400 });
         }
         // db에 적합한 형태로 problems 변환 => setId 삽입
-        return insertIntoObject(problem, 'setId', savedSets.id);
+        return insertIntoObject(problem, 'setId', savedSet.id);
       });
 
       // 문제 삽입
@@ -88,9 +147,9 @@ export class SetService {
             choices.map((choice) => {
               // 보기의 index 값이 존재하지 않으면 에러
               if (!choice.index) {
-                console.log('no choice idx');
                 errorGenerator({ statusCode: 400 });
               }
+              // choices에 problemId 삽입
               return insertIntoObject(choice, 'problemId', problem.id);
             })
           );
@@ -106,14 +165,7 @@ export class SetService {
       await this.choicesRepo.save(choicesToSave);
     }
 
-    // 응답에 필요한 객체 리턴
-    return {
-      id: savedSets.id,
-      createdAt: savedSets.createdAt,
-      updatedAt: savedSets.updatedAt,
-    };
-
-    return {};
+    return savedSet;
   }
 
   // 세트 삭제

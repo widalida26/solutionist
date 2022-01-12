@@ -70,7 +70,7 @@ const Stat = styled.li`
   display: flex;
   margin-top: 0.5rem;
   > p {
-    margin-left: 1rem;
+    margin-left: 0.5rem;
   }
 `;
 const CardBack = styled.div`
