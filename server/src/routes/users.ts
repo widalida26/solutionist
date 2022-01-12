@@ -15,6 +15,6 @@ userRouter.post('/signup', signup);
 userRouter.post('/login', login);
 userRouter.post('/google', google);
 userRouter.post('/logout', blockUnauthorized, logout);
-userRouter.post('kakao', kakao);
+userRouter.post('/kakao', kakao);
 
 export default userRouter;

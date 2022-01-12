@@ -3,7 +3,7 @@ import { users } from '../../database/entity/users';
 import { getRepository, getConnection } from 'typeorm';
 import 'dotenv/config';
 
-const modifyUsername = async (req: Request, res: Response) => {
+const modifyPassword = async (req: Request, res: Response) => {
   try {
     const { email } = res.locals.userInfo;
 
@@ -29,4 +29,4 @@ const modifyUsername = async (req: Request, res: Response) => {
   }
 };
 
-export default modifyUsername;
+export default modifyPassword;

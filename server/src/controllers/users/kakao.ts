@@ -32,17 +32,52 @@ const kakao = async (req: Request, res: Response) => {
       },
     });
 
-    console.log(555, kakaoUserInfo);
-    const {
-      profile: { profile_image_url: profileIamge, nickname: username },
-      email,
-    } = kakaoUserInfo.data.kakao_account;
+    const { nickname: username, profile_image: profileImage } =
+      kakaoUserInfo.data.properties;
+    const { email } = kakaoUserInfo.data.kakao_account;
 
-    const info = getRepository(users);
-    const findUser = await info.findOne({ where: { email: email } });
+    const findUser = async () => {
+      try {
+        const info = getRepository(users);
+        const user = await info.findOne({ where: { email: email } });
+        return user;
+      } catch (err) {
+        console.log(err);
+        return err;
+      }
+    };
 
-    if (!findUser) {
+    const dbUser = await findUser();
+    console.log(111, dbUser);
+
+    if (!dbUser) {
+      const user = await getConnection()
+        .createQueryBuilder()
+        .insert()
+        .into(users)
+        .values([
+          {
+            username: username,
+            email: email,
+            type: 'kakao',
+            profileImage: profileImage,
+          },
+        ])
+
+        .execute();
     }
+    const secondFind = await findUser();
+    const payload = {
+      username: secondFind.username,
+      email: secondFind.email,
+      type: secondFind.type,
+      profileImage: secondFind.profileImage,
+    };
+    const userString = JSON.stringify(payload);
+    const accessToken2 = jwtToken.accessToken(userString);
+    jwtToken.sendAccessToken(res, accessToken2);
+    console.log('accessToken', accessToken2);
+    return res.status(201).json({ data: payload });
   } catch (error) {
     return res.status(500).send('Internal Server Error');
   }

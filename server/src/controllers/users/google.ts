@@ -32,7 +32,14 @@ const google = async (req: Request, res: Response) => {
         .createQueryBuilder()
         .insert()
         .into(users)
-        .values([{ username: username, email: email, type: 'google', profileImage }])
+        .values([
+          {
+            username: username,
+            email: email,
+            type: 'google',
+            profileImage: profileImage,
+          },
+        ])
         .execute();
 
       const secondFind = await info.findOne({ where: { email: email } });
