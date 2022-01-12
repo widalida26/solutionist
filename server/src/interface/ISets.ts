@@ -32,6 +32,7 @@ export interface IChoices {
 export interface ISolve {
   solver: string;
   problemId: number;
+  recordId: number;
   choice: number;
 }
 

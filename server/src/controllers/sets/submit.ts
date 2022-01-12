@@ -5,7 +5,7 @@ import { RecordsService } from '../../service/solveRecords';
 import errorGenerator from '../../error/errorGenerator';
 import { emptyObjectCk } from '../../utils/custom';
 
-const last = async (req: Request, res: Response) => {
+const submit = async (req: Request, res: Response) => {
   // 토큰 인증에 실패했을 경우 = 유저 정보가 없을 경우 => null 값 할당
   const userId: number = res.locals.userInfo ? res.locals.userInfo.id : null;
   const solveInfo: IRate = req.body;
@@ -26,4 +26,4 @@ const last = async (req: Request, res: Response) => {
     totalRate: rateInfo.totalRate,
   });
 };
-export default last;
+export default submit;

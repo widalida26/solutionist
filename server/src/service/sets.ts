@@ -29,8 +29,8 @@ export class SetService {
   async SetSelector(setId: number, userId: number) {
     // 세트 검색
     const set = await this.setsRepo.findSet(setId);
-    // 세트 검색에 실패한 경우
-    if (!set) {
+    // 세트 검색에 실패하가나 유효하지 않은 경우
+    if (!set || !set.collection) {
       errorGenerator({ statusCode: 500 });
     }
 
@@ -50,6 +50,7 @@ export class SetService {
         answerRate: MoreThan(-1),
       },
     });
+    // 해당 세트를 푼 유저를 카운트에 실패할 경우
     if (solvedUserNumber === null || solvedUserNumber === undefined) {
       errorGenerator({ statusCode: 500 });
     }
@@ -57,7 +58,7 @@ export class SetService {
     return {
       setId: setId,
       collectionId: set.collectionId,
-      username: set.collection.creator.username,
+      username: set.collection.creator ? set.collection.creator.username : null,
       title: set.title,
       description: set.description,
       createdAt: timestampToLocaleTime(String(set.collection.createdAt)),

@@ -6,6 +6,10 @@ export const emptyObjectCk = (obj: Object): boolean => {
   }
 };
 
+export const emptyObjectValueCk = (obj: Object): boolean => {
+  return Object.values(obj).some((val) => val === null || val === '');
+};
+
 export const insertIntoObject = (obj: object, key: string, val: number) => {
   obj[key] = val;
   return obj;
