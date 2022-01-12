@@ -19,7 +19,13 @@ export const updateUserInfoAction = (data) => ({ type: USER_INFO, payload: { ...
 const initialState = {
   isLoginModalOn: false,
   isLogin: false,
-  userInfo: {},
+  userInfo: {
+    email: undefined,
+    profileImage: undefined,
+    id: undefined,
+    role: undefined,
+    username: undefined,
+  },
 };
 
 /* 리듀서 선언 */
@@ -33,7 +39,7 @@ const loginModal = (state = initialState, action) => {
     case LOGIN_SUCCESS:
       return (state = { ...state, isLogin: true });
     case LOGOUT_SUCCESS:
-      return (state = { ...state, isLogin: false });
+      return (state = initialState);
     case USER_INFO:
       return (state = {
         ...state,

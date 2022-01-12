@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 import { device } from '../styles/Breakpoints';
 import { MdEdit } from 'react-icons/md';
@@ -199,6 +199,8 @@ const Setting = () => {
   };
 
   // * 프로필 사진 변경
+  const imgRef = useRef(null);
+
   const handleFileInput = (e) => {
     const file = e.target.files[0];
     console.log(file);
@@ -231,7 +233,14 @@ const Setting = () => {
             <ImageContainer>
               <input type="file" id="upload" onChange={handleFileInput} />
               <label htmlFor="upload">
-                <img src={`${profileImage}`} />
+                <img
+                  src={`${profileImage}`}
+                  ref={imgRef}
+                  onError={() => {
+                    return (imgRef.current.src =
+                      'https://i.pinimg.com/236x/2f/ec/a4/2feca4c9330929232091f910dbff7f87.jpg');
+                  }}
+                />
               </label>
             </ImageContainer>
             <PersonalInfo>
