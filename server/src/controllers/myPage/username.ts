@@ -16,6 +16,16 @@ const modifyUsername = async (req: Request, res: Response) => {
     if (newUserName === username) {
       return res.status(409).send('duplicate information');
     }
+    await getConnection()
+      .createQueryBuilder()
+      .update(users)
+      .set({ username: newUserName })
+      .where('id = :id', { id: findUser.id })
+      .execute();
+
+    return res
+      .status(201)
+      .json({ data: newUserName, message: 'successfully password changed' });
   } catch (err) {}
 };
 
