@@ -24,13 +24,13 @@ const create = async (req: Request, res: Response) => {
   }
 
   // sets 테이블 이용을 위한 setService 인스턴스
-  const setServiceInstance: SetService = Container.get(SetService);
+  const setsServiceInstance: SetService = Container.get(SetService);
 
   // 세트 작성 정보 세팅
   setDTO.editorId = null;
 
   // 세트 생성
-  const setInfo = await setServiceInstance.setCreator(setDTO, userInfo.id);
+  const setInfo = await setsServiceInstance.setCreator(setDTO, userInfo.id);
 
   res.status(201).json({
     username: userInfo.username,
