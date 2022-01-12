@@ -30,7 +30,7 @@ export class SetService {
     // 세트 검색
     const set = await this.setsRepo.findSet(setId);
     // 세트 검색에 실패하가나 유효하지 않은 경우
-    if (!set || !set.collection) {
+    if (!set || !set['collection']) {
       errorGenerator({ statusCode: 500 });
     }
 
@@ -49,10 +49,10 @@ export class SetService {
     return {
       setId: setId,
       collectionId: set.collectionId,
-      username: set.collection.creator ? set.collection.creator.username : null,
+      username: set['collection'].creator ? set['collection'].creator.username : null,
       title: set.title,
       description: set.description,
-      createdAt: timestampToLocaleTime(String(set.collection.createdAt)),
+      createdAt: timestampToLocaleTime(String(set['collection'].createdAt)),
       solvedUserNumber,
       problems: set.problem,
     };
