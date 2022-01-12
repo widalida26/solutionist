@@ -49,19 +49,8 @@ export class StatusService {
   }
 
   async verifyStatusToSave(recordId: number, problemId: number) {
-    this.problemsRepo.createQueryBuilder('problems');
-    // problems 테이블에 problemId가 있는지 조회
-    const setId = await this.problemsRepo.findOne(problemId).then((result) => {
-      // problems 테이블에 problemId에 해당하는 레코드가 없는 경우
-      if (!result) {
-        errorGenerator({ statusCode: 400 });
-      } else {
-        return result.setId;
-      }
-    });
-
     // solveRecords 테이블에 recrodId가 있는지 조회
-    await this.recordRepo.findOne({ id: recordId, setId }).then((result) => {
+    await this.recordRepo.findOne({ id: recordId }).then((result) => {
       // solveRecords 테이블에 recrodId가 해당하는 레코드가 없는 경우
       if (!result) {
         errorGenerator({ statusCode: 400 });
