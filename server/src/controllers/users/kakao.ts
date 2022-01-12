@@ -5,7 +5,7 @@ import 'dotenv/config';
 import axios from 'axios';
 import jwtToken from '../../utils/tokenFunctions/index';
 
-const kakao = async (req: Request, res: Response) => {
+const kakaoOauth = async (req: Request, res: Response) => {
   const { authorizationCode } = req.body;
   try {
     const resToken = await axios({
@@ -83,4 +83,4 @@ const kakao = async (req: Request, res: Response) => {
   }
 };
 
-export default kakao;
+export default kakaoOauth;
