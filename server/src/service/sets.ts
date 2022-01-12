@@ -50,9 +50,11 @@ export class SetService {
         answerRate: MoreThan(-1),
       },
     });
+    // 해당 세트를 푼 유저를 카운트에 실패할 경우
     if (solvedUserNumber === null || solvedUserNumber === undefined) {
       errorGenerator({ statusCode: 500 });
     }
+
     return {
       setId: setId,
       collectionId: set.collectionId,
