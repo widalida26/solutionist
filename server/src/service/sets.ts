@@ -29,6 +29,7 @@ export class SetService {
   async SetSelector(setId: number, userId: number) {
     // 세트 검색
     const set = await this.setsRepo.findSet(setId);
+    console.log('set', set);
     // 세트 검색에 실패한 경우
     if (!set) {
       errorGenerator({ statusCode: 500 });
@@ -53,11 +54,10 @@ export class SetService {
     if (solvedUserNumber === null || solvedUserNumber === undefined) {
       errorGenerator({ statusCode: 500 });
     }
-
     return {
       setId: setId,
       collectionId: set.collectionId,
-      username: set.collection.creator.username,
+      username: set.collection.creator ? set.collection.creator.username : null,
       title: set.title,
       description: set.description,
       createdAt: timestampToLocaleTime(String(set.collection.createdAt)),
