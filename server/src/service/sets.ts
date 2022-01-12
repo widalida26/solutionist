@@ -5,7 +5,7 @@ import { SetsRepository } from '../database/repository/sets';
 import { ProblemsRepository } from '../database/repository/problems';
 import { ChoicesRepository } from '../database/repository/choices';
 import { CollectionsRepository } from '../database/repository/collections';
-import { SolvedRecordsRepository } from '../database/repository/solveRecords';
+import { SolveRecordsRepository } from '../database/repository/solveRecords';
 import { ISets, IProblems, IChoices } from '../interface/ISets';
 import { insertIntoObject, timestampToLocaleTime } from '../utils/custom';
 import { MoreThan } from 'typeorm';
@@ -16,7 +16,7 @@ export class SetService {
     @InjectRepository() private setsRepo: SetsRepository,
     @InjectRepository() private problemsRepo: ProblemsRepository,
     @InjectRepository() private choicesRepo: ChoicesRepository,
-    @InjectRepository() private recordsRepo: SolvedRecordsRepository,
+    @InjectRepository() private recordsRepo: SolveRecordsRepository,
     @InjectRepository() private collectionRepo: CollectionsRepository
   ) {}
 
