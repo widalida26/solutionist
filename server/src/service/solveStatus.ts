@@ -2,7 +2,7 @@ import errorGenerator from '../error/errorGenerator';
 import { Service } from 'typedi';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 import { solveStatusRepository } from '../database/repository/solveStatus';
-import { SolvedRecordsRepository } from '../database/repository/solveRecords';
+import { SolveRecordsRepository } from '../database/repository/solveRecords';
 import { ProblemsRepository } from '../database/repository/problems';
 import { ChoicesRepository } from '../database/repository/choices';
 import { ISolve } from '../interface/ISets';
@@ -12,7 +12,7 @@ import { emptyObjectValueCk } from 'src/utils/custom';
 export class StatusService {
   constructor(
     @InjectRepository() private statusRepo: solveStatusRepository,
-    @InjectRepository() private recrodRepo: SolvedRecordsRepository,
+    @InjectRepository() private recrodRepo: SolveRecordsRepository,
     @InjectRepository() private problemsRepo: ProblemsRepository,
     @InjectRepository() private choicesRepo: ChoicesRepository
   ) {}

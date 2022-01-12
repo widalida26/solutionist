@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import Container from 'typedi';
 import { ISolve } from '../../interface/ISets';
-import { StatusService } from '../../service/solvedStatus';
+import { StatusService } from '../../service/solveStatus';
 import errorGenerator from '../../error/errorGenerator';
 import { emptyObjectCk } from '../../utils/custom';
 

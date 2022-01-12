@@ -5,7 +5,7 @@ import { SetsRepository } from '../database/repository/sets';
 import { ProblemsRepository } from '../database/repository/problems';
 import { ChoicesRepository } from '../database/repository/choices';
 import { CollectionsRepository } from '../database/repository/collections';
-import { SolvedRecordsRepository } from '../database/repository/solveRecords';
+import { SolveRecordsRepository } from '../database/repository/solveRecords';
 import { ISets, IProblems, IChoices } from '../interface/ISets';
 import { insertIntoObject, timestampToLocaleTime } from '../utils/custom';
 import { MoreThan } from 'typeorm';
@@ -16,7 +16,7 @@ export class SetService {
     @InjectRepository() private setsRepo: SetsRepository,
     @InjectRepository() private problemsRepo: ProblemsRepository,
     @InjectRepository() private choicesRepo: ChoicesRepository,
-    @InjectRepository() private recordsRepo: SolvedRecordsRepository,
+    @InjectRepository() private recordsRepo: SolveRecordsRepository,
     @InjectRepository() private collectionRepo: CollectionsRepository
   ) {}
 
@@ -26,20 +26,11 @@ export class SetService {
     return {};
   }
 
-  async SetSelector(setId: number, userId: number) {
+  async SetSelector(setId: number) {
     // 세트 검색
     const set = await this.setsRepo.findSet(setId);
     // 세트 검색에 실패하가나 유효하지 않은 경우
-    if (!set || !set.collection) {
-      errorGenerator({ statusCode: 500 });
-    }
-
-    // solveRecords 테이블에 삽입
-    const recordId = await this.recordsRepo
-      .save({ setId, userId })
-      .then((result) => (result ? result.id : null));
-    // solvedRecords 삽입에 성공한 경우
-    if (!recordId) {
+    if (!set || !set['collection']) {
       errorGenerator({ statusCode: 500 });
     }
 
@@ -58,11 +49,10 @@ export class SetService {
     return {
       setId: setId,
       collectionId: set.collectionId,
-      username: set.collection.creator ? set.collection.creator.username : null,
+      username: set['collection'].creator ? set['collection'].creator.username : null,
       title: set.title,
       description: set.description,
-      createdAt: timestampToLocaleTime(String(set.collection.createdAt)),
-      recordId,
+      createdAt: timestampToLocaleTime(String(set['collection'].createdAt)),
       solvedUserNumber,
       problems: set.problem,
     };

@@ -5,20 +5,19 @@ import OxIcon from '../icons/Ox';
 import ListIcon from '../icons/List';
 import SurveyIcon from '../icons/Survey';
 import TrashIcon from '../icons/Trash';
-import DecreaseIcon from '../icons/Decrease';
-import IncreaseIcon from '../icons/Increase';
 import CheckIcon from '../icons/Check';
 import OIcon from '../icons/O';
 import XIcon from '../icons/X';
-import CheckBoldIcon from '../icons/CheckBold';
 
 const ProblemContainer = styled.div`
+  margin: 0.25rem 0;
   display: grid;
-  grid-template-rows: auto auto auto;
-  grid-template-columns: 25% 37.5% 12.5% 25%;
+  grid-template-rows: auto auto auto auto;
+  grid-template-columns: 25% 1fr auto 25%;
   grid-template-areas:
     'number question icons .'
     'number choice choice .'
+    'number counter counter .'
     'number explanation explanation .';
 
   @media all and (max-width: 1023px) {
@@ -26,13 +25,14 @@ const ProblemContainer = styled.div`
   }
   @media all and (max-width: 767px) {
     margin: 0 1rem;
-    grid-template-rows: auto auto auto auto;
+    grid-template-rows: auto auto auto auto auto;
     grid-template-columns: 2fr 1fr 1fr;
     grid-template-areas:
-      'number icons icons '
+      'number icons icons'
       'question question question'
-      'choice choice choice '
-      'explanation explanation explanation ';
+      'choice choice choice'
+      'counter counter counter'
+      'explanation explanation explanation';
   }
 `;
 const ProblemNum = styled.div`
@@ -53,7 +53,7 @@ const ProblemNum = styled.div`
 const Question = styled.textarea`
   grid-area: question;
   height: 24px;
-  margin-top: 1rem;
+  margin: 1rem 0.5rem 0 0;
   line-height: 120%;
   word-wrap: break-word;
   word-break: break-word;
@@ -61,23 +61,25 @@ const Question = styled.textarea`
   font-family: 'GongGothicMedium', sans-serif;
   resize: none;
   @media all and (max-width: 767px) {
-    margin-top: 0.5rem;
+    /* margin-top: 0.5rem; */
+    height: 19px;
+    font-size: 1rem;
   }
 `;
 const IconContainer = styled.div`
   display: flex;
   justify-content: flex-end;
-  align-items: center;
+  align-items: flex-start;
   grid-area: icons;
   margin-top: 1rem;
 `;
 const Icon = styled.div`
-  width: 1.75rem;
-  height: 1.75rem;
+  width: 1.5rem;
+  height: 1.5rem;
   margin: 0 0.25rem;
   svg {
-    width: 1.75rem;
-    height: 1.75rem;
+    width: 1.5rem;
+    height: 1.5rem;
   }
   :hover {
     svg {
@@ -90,35 +92,29 @@ const Icon = styled.div`
     }
   }
 `;
-const ChoicesFlex = styled.div`
-  grid-area: choice;
-  display: flex;
-  justify-content: space-between;
-`;
 const ChoicesContainer = styled.ol`
-  flex: 1;
-  margin-right: 1rem;
-  li {
-    margin-top: 0.25rem;
-  }
-  li:first-child {
-    margin-top: 0;
-  }
+  grid-area: choice;
+  margin-top: 0.5rem;
 `;
 const Choice = styled.li`
   display: flex;
   align-items: center;
   border-bottom: 1px solid var(--warm-grey);
   color: var(--warm-grey);
+  background-color: ${(props) => props.backgroundColor};
 `;
 const ChoiceNum = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  align-self: end;
+  margin-top: 0.5rem;
+  align-self: start;
   width: 2rem;
   margin-bottom: 0.25rem;
-  font-size: 1.25rem;
+  font-size: 1rem;
+  font-family: 'GowunDodum-Regular', sans-serif;
+  font-weight: ${(props) => props.fontWeight};
+  color: ${(props) => props.color};
 `;
 const ChoiceContent = styled.textarea`
   flex: 1;
@@ -132,33 +128,48 @@ const ChoiceContent = styled.textarea`
   word-break: break-word;
   resize: none;
 `;
-const CheckContainer = styled.div`
+const Counter = styled.div`
+  display: flex;
+  justify-content: center;
+  grid-area: counter;
+  width: 100%;
+`;
+const Plus = styled.div`
+  width: 2rem;
+  height: 2rem;
+  margin-left: 1rem;
+  background-color: var(--warm-grey-50);
+  border-radius: 1rem;
+  margin-top: 1rem;
+  p {
+    margin: 0.5rem 0;
+    text-align: center;
+    color: white;
+  }
+`;
+const Minus = styled.div`
+  width: 2rem;
+  height: 2rem;
+  border-radius: 1rem;
+  margin-top: 1rem;
+  background-color: var(--red-50);
+
+  p {
+    margin: 0.5rem 0;
+    text-align: center;
+    color: white;
+  }
+`;
+
+const Check = styled.div`
   display: flex;
   height: 1.5rem;
   width: 1.5rem;
   margin-right: 0.5rem;
-  align-self: end;
-  :hover {
-    svg {
-      fill: var(--vibrant-green);
-    }
-  }
+  margin-bottom: 0.5rem;
   svg {
-    align-self: end;
+    align-self: start;
   }
-`;
-const CounterContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 70px;
-  color: var(--warm-grey);
-  font-size: 1.25rem;
-`;
-const Counter = styled.div`
-  width: auto;
-  margin: 0 1.5rem;
 `;
 const ExplanationContainer = styled.div`
   grid-area: explanation;
@@ -178,7 +189,7 @@ const Explanation = styled.textarea`
   word-break: break-word;
   resize: none;
 `;
-const OxContainer = styled.div`
+const OxChoices = styled.div`
   display: flex;
   justify-content: space-evenly;
   grid-area: choice;
@@ -209,13 +220,6 @@ const OxCard = styled.div`
     svg {
       margin: 1.5rem;
     }
-  }
-`;
-const CountController = styled.div`
-  height: 1.5rem;
-  width: 1.5rem;
-  svg {
-    height: 1.5rem;
   }
 `;
 
@@ -258,9 +262,9 @@ const MakeProblem = ({ problem, data, setData, idx, navRefs }) => {
 
   const handleToggle = () => {
     const problems = [...data.problems];
-    if (problem.isOx) {
-      problems[idx].isOx = false;
-    } else problems[idx].isOx = true;
+    if (problem.isOX) {
+      problems[idx].isOX = false;
+    } else problems[idx].isOX = true;
 
     setData({ ...data, problems });
   };
@@ -283,7 +287,7 @@ const MakeProblem = ({ problem, data, setData, idx, navRefs }) => {
       <ProblemNum font_size={idx + 1 > 99 ? '6rem' : '8rem'}>
         <p>{idx + 1}</p>
       </ProblemNum>
-      {problem.isOx ? (
+      {problem.isOX ? (
         <>
           <Question
             placeholder="문제를 입력해주세요."
@@ -306,7 +310,7 @@ const MakeProblem = ({ problem, data, setData, idx, navRefs }) => {
               <TrashIcon fill="var(--warm-grey)" />
             </Icon>
           </IconContainer>
-          <OxContainer>
+          <OxChoices>
             <OxCard onClick={handleClick} id="O">
               <OIcon
                 id="O"
@@ -319,7 +323,7 @@ const MakeProblem = ({ problem, data, setData, idx, navRefs }) => {
                 fill={problem.answer === 2 ? 'var(--orangey-yellow)' : 'var(--warm-grey)'}
               />
             </OxCard>
-          </OxContainer>
+          </OxChoices>
           <ExplanationContainer>
             <Explanation
               placeholder="해설"
@@ -352,41 +356,51 @@ const MakeProblem = ({ problem, data, setData, idx, navRefs }) => {
               <TrashIcon fill="var(--warm-grey)" />
             </Icon>
           </IconContainer>
-          <ChoicesFlex>
-            <ChoicesContainer>
-              {problem.choices.map((choice, idx) => (
-                <Choice key={`choice ${idx + 1}`}>
-                  <ChoiceNum>{`${idx + 1}.`}</ChoiceNum>
-                  <ChoiceContent
-                    placeholder={`${idx + 1}번 보기`}
-                    onChange={handleChange}
-                    value={choice.content}
-                    id={`c${idx}`}
-                    onInput={autoGrow}
+          <ChoicesContainer>
+            {problem.choices.map((choice, idx) => (
+              <Choice
+                backgroundColor={
+                  choice.index === problem.answer ? 'var(--orangey-yellow-50)' : ''
+                }
+                key={`choice ${idx + 1}`}
+              >
+                <ChoiceNum
+                  color={choice.index === problem.answer ? 'black' : ''}
+                  fontWeight={choice.index === problem.answer ? 'bold' : 'initial'}
+                >{`${idx + 1}.`}</ChoiceNum>
+                <ChoiceContent
+                  placeholder={`${idx + 1}번 보기`}
+                  onChange={handleChange}
+                  value={choice.content}
+                  id={`c${idx}`}
+                  onInput={autoGrow}
+                />
+                <Check onClick={handleClick} id={`a${idx}`}>
+                  <CheckIcon
+                    idx={`${idx}`}
+                    fill={choice.index === problem.answer ? 'black' : 'var(--warm-grey)'}
                   />
-                  <CheckContainer onClick={handleClick} id={`a${idx}`}>
-                    <CheckIcon
-                      idx={`${idx}`}
-                      fill={
-                        choice.index === problem.answer
-                          ? 'var(--vibrant-green)'
-                          : 'var(--warm-grey)'
-                      }
-                    />
-                  </CheckContainer>
-                </Choice>
-              ))}
-            </ChoicesContainer>
-            <CounterContainer>
+                </Check>
+              </Choice>
+            ))}
+          </ChoicesContainer>
+          {/* <CounterContainer>
               <CountController onClick={handleClick} id="decrease">
-                <DecreaseIcon id="decrease" fill="var(--warm-grey)" />
+              <DecreaseIcon id="decrease" fill="var(--warm-grey)" />
               </CountController>
               <Counter>{problem.choices.length}</Counter>
               <CountController onClick={handleClick} id="increase">
-                <IncreaseIcon id="increase" fill="var(--warm-grey)" />
+              <IncreaseIcon id="increase" fill="var(--warm-grey)" />
               </CountController>
-            </CounterContainer>
-          </ChoicesFlex>
+            </CounterContainer> */}
+          <Counter>
+            <Minus onClick={handleClick} id="decrease">
+              <p id="decrease">-</p>
+            </Minus>
+            <Plus onClick={handleClick} id="increase">
+              <p id="increase">+</p>
+            </Plus>
+          </Counter>
           <ExplanationContainer>
             <Explanation
               placeholder="해설"
