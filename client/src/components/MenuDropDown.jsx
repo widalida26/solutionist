@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { logout } from '../api/SettingAPI';
@@ -91,10 +91,20 @@ const MenuDropDown = ({ handleDropDown, onlogoutAction }) => {
   }));
   const { email, username, profileImage } = userInfo;
 
+  // * 프로필 기본 이미지 적용 useRef
+  const imgRef = useRef(null);
+
   return (
     <DropDownContainer>
       <ImageContainer>
-        <img src={`${profileImage}`} />
+        <img
+          src={`${profileImage}`}
+          ref={imgRef}
+          onError={() => {
+            return (imgRef.current.src =
+              'https://i.pinimg.com/236x/2f/ec/a4/2feca4c9330929232091f910dbff7f87.jpg');
+          }}
+        />
       </ImageContainer>
       <Username>{username}</Username>
       <Email>{email}</Email>
