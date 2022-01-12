@@ -15,7 +15,6 @@ export class SetService {
     @InjectRepository() private setsRepo: SetsRepository,
     @InjectRepository() private problemsRepo: ProblemsRepository,
     @InjectRepository() private choicesRepo: ChoicesRepository,
-    @InjectRepository() private recordsRepo: SolveRecordsRepository,
     @InjectRepository() private collectionRepo: CollectionsRepository
   ) {}
 

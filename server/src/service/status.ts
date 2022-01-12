@@ -55,7 +55,17 @@ export class StatusService {
       .then((result) => result.id);
 
     // 선택 비율 집계
-    const counted = await this.statusRepo.countByChoice(solveInfo.problemId);
+    const selectionRate = await this.selectionRateCalculator(maxIdx, solveInfo.problemId);
+
+    return {
+      id,
+      ...selectionRate,
+    };
+  }
+
+  async selectionRateCalculator(maxIdx: number, problemId: number) {
+    // problemId에 해당하는 solveStatus 레코드 카운트
+    const counted = await this.statusRepo.countByChoice(problemId);
 
     // 퍼센트 계산
     const selectionRate = [];
@@ -65,7 +75,6 @@ export class StatusService {
     }
 
     return {
-      id,
       selectionRate,
     };
   }
