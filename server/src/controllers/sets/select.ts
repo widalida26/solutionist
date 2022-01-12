@@ -17,7 +17,7 @@ const select = async (req: Request, res: Response) => {
   const setServiceInstance: SetService = Container.get(SetService);
 
   // 세트 선택
-  const selectedSet = await setServiceInstance.SetSelector(Number(setId));
+  const selectedSet = await setServiceInstance.setSelector(Number(setId));
 
   res.status(200).json({
     ...selectedSet,

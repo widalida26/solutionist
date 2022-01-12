@@ -1,10 +1,7 @@
 import { Request, Response } from 'express';
 import Container from 'typedi';
-import { IRate } from '../../interface/ISets';
-import { RecordsService } from '../../service/solveRecords';
+import { RecordsService } from '../../service/records';
 import errorGenerator from '../../error/errorGenerator';
-import { emptyObjectCk } from '../../utils/custom';
-import { record } from '.';
 
 const submit = async (req: Request, res: Response) => {
   const recordId = Number(req.params['recordId']);
@@ -19,7 +16,7 @@ const submit = async (req: Request, res: Response) => {
   const recordsServiceInstance: RecordsService = Container.get(RecordsService);
 
   // 전체 정답률 집계
-  const submmitedId = await recordsServiceInstance.RecordSubmitter(recordId, userRate);
+  const submmitedId = await recordsServiceInstance.recordSubmitter(recordId, userRate);
 
   res.status(201).json({
     id: submmitedId,

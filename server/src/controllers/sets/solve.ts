@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import Container from 'typedi';
 import { ISolve } from '../../interface/ISets';
-import { StatusService } from '../../service/solveStatus';
+import { StatusService } from '../../service/status';
 import errorGenerator from '../../error/errorGenerator';
 import { emptyObjectCk } from '../../utils/custom';
 
@@ -18,7 +18,7 @@ const solve = async (req: Request, res: Response) => {
   const statusServiceInstance: StatusService = Container.get(StatusService);
 
   // 문제 풀이 기록 삽입
-  const solveResponse = await statusServiceInstance.ProblemSolver(solveDTO);
+  const solveResponse = await statusServiceInstance.problemSolver(solveDTO);
 
   res.status(201).json(solveResponse);
 };

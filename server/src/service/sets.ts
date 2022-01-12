@@ -21,12 +21,12 @@ export class SetService {
   ) {}
 
   // 타이틀로 세트 검색
-  async SetFinder(title: string) {
+  async setFinder(title: string) {
     const foundSets = await this.setsRepo.findSetsByTitle(title);
     return {};
   }
 
-  async SetSelector(setId: number) {
+  async setSelector(setId: number) {
     // 세트 검색
     const set = await this.setsRepo.findSet(setId);
     // 세트 검색에 실패하가나 유효하지 않은 경우

@@ -13,7 +13,7 @@ export class RecordsService {
     @InjectRepository() private setsRepo: SetsRepository
   ) {}
 
-  async RecordMaker(setId: number, userId: number): Promise<number> {
+  async recordMaker(setId: number, userId: number): Promise<number> {
     // 해당하는 세트가 없는 경우
     await this.setsRepo.findOne(setId).then((result) => {
       if (!result) {
@@ -31,7 +31,7 @@ export class RecordsService {
     return recordId;
   }
 
-  async RecordSubmitter(recordId: number, userRate: number) {
+  async recordSubmitter(recordId: number, userRate: number) {
     // userRate가 유효하지 않을 경우
     if (userRate < 0 || userRate > 100 || !Number(userRate)) {
       errorGenerator({ statusCode: 400 });

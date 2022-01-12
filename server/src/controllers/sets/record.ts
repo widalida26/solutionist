@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import Container from 'typedi';
-import { RecordsService } from '../../service/solveRecords';
+import { RecordsService } from '../../service/records';
 import errorGenerator from '../../error/errorGenerator';
 import { v4 } from 'uuid';
 
@@ -20,7 +20,7 @@ const record = async (req: Request, res: Response) => {
   const recordsServiceInstance: RecordsService = Container.get(RecordsService);
 
   // 세트 선택
-  const recordId = await recordsServiceInstance.RecordMaker(setId, userId);
+  const recordId = await recordsServiceInstance.recordMaker(setId, userId);
 
   res.status(201).json({
     solver,

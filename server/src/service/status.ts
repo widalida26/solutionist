@@ -6,7 +6,7 @@ import { SolveRecordsRepository } from '../database/repository/solveRecords';
 import { ProblemsRepository } from '../database/repository/problems';
 import { ChoicesRepository } from '../database/repository/choices';
 import { ISolve } from '../interface/ISets';
-import { emptyObjectValueCk } from 'src/utils/custom';
+import { emptyObjectValueCk } from '../utils/custom';
 
 @Service()
 export class StatusService {
@@ -17,7 +17,7 @@ export class StatusService {
     @InjectRepository() private choicesRepo: ChoicesRepository
   ) {}
 
-  async ProblemSolver(solveInfo: ISolve) {
+  async problemSolver(solveInfo: ISolve) {
     // 필요한 정보가 누락된 경우
     if (emptyObjectValueCk(solveInfo)) {
       errorGenerator({ statusCode: 400 });
@@ -69,4 +69,6 @@ export class StatusService {
       selectionRate,
     };
   }
+
+  async getStatics(recordId: number, solver: string) {}
 }
