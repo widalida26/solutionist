@@ -92,12 +92,11 @@ const ButtonContainer = styled.div`
       color: black;
     }
   }
-
   @media all and (max-width: 1023px) {
-    grid-template-columns: 25% 60% 15%;
+    width: 60%;
+    margin: 0 15% 0 25%;
   }
   @media all and (max-width: 767px) {
-    grid-template-columns: 1rem 90% 5%;
     width: calc(100% - 2rem);
     margin: 0 1rem;
     font-size: 3rem;
@@ -132,7 +131,7 @@ const Sidebar = styled.div`
     font-size: 0.75rem;
   }
 `;
-const ProblemQuestion = styled.div`
+const SidebarContent = styled.div`
   margin-bottom: 0.25rem;
   display: flex;
   * {
@@ -170,7 +169,7 @@ const Make = () => {
           question: '',
           answer: '',
           explanation: '',
-          isOx: false,
+          isOX: false,
           choices: [
             { index: 1, content: '' },
             { index: 2, content: '' },
@@ -252,7 +251,7 @@ const Make = () => {
         <SideRelative>
           <Sidebar>
             {data.problems.map((problem, idx) => (
-              <ProblemQuestion
+              <SidebarContent
                 onClick={handleNav}
                 id={idx}
                 key={`#Q${idx + 1}`}
@@ -260,7 +259,7 @@ const Make = () => {
               >
                 <div id={idx}>{idx + 1}</div>
                 <div id={idx}>{problem.question}</div>
-              </ProblemQuestion>
+              </SidebarContent>
             ))}
           </Sidebar>
         </SideRelative>
