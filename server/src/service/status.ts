@@ -3,7 +3,6 @@ import { Service } from 'typedi';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 import { solveStatusRepository } from '../database/repository/solveStatus';
 import { SolveRecordsRepository } from '../database/repository/solveRecords';
-import { ProblemsRepository } from '../database/repository/problems';
 import { ChoicesRepository } from '../database/repository/choices';
 import { SelectionRateRepository } from 'src/database/repository/selectionRate';
 import { ISolve } from '../interface/ISets';
@@ -41,8 +40,9 @@ export class StatusService {
       .then((result) => result.id);
 
     // 선택 비율 집계
-    const selectionRate = await this.getSelectionRate(maxIdx, solveInfo.problemId);
+    const selectionRate = await this.calcSelectionRate(maxIdx, solveInfo.problemId);
 
+    // 선택 비율 저장
     selectionRate.map(async (rate) => {
       await this.rateRepo.save({
         recordId: solveInfo.recordId,
@@ -74,7 +74,7 @@ export class StatusService {
     });
   }
 
-  async getSelectionRate(maxIdx: number, problemId: number) {
+  async calcSelectionRate(maxIdx: number, problemId: number) {
     // problemId에 해당하는 solveStatus 레코드 카운트
     const counted = await this.statusRepo.countByChoice(problemId);
 
@@ -89,6 +89,22 @@ export class StatusService {
   }
 
   async getUserChoices(recordId: number) {
+    // const dt = await this.rateRepo
+    //   .createQueryBuilder('rate')
+    //   .select('rate.id')
+    //   .groupBy('rate.statusId')
+    //   .getRawMany();
+
+    const dt = await this.statusRepo
+      .createQueryBuilder('status')
+      .innerJoin('status.sRate', 'sRate')
+      .select('sRate.rate')
+      //.where('status.recordId')
+      .where(`sRate.recordId = ${recordId}`)
+      .getRawMany();
+
+    console.log(dt);
+
     return await this.statusRepo.find({ recordId }).then((result) => {
       // 문제 기록이 없을 때
       if (!result) {

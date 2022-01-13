@@ -38,5 +38,5 @@ export class solveRecords {
   @OneToMany(() => selectionRate, (rate) => rate.record, {
     cascade: true,
   })
-  rate: selectionRate;
+  sRate: selectionRate[];
 }

@@ -14,7 +14,7 @@ export class selectionRate {
   statusId: number;
 
   @Column()
-  selectionRate: number;
+  rate: number;
 
   @ManyToOne(() => solveRecords, (record) => record.id, {
     onDelete: 'CASCADE',
