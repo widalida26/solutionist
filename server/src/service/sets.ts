@@ -5,7 +5,6 @@ import { SetsRepository } from '../database/repository/sets';
 import { ProblemsRepository } from '../database/repository/problems';
 import { ChoicesRepository } from '../database/repository/choices';
 import { CollectionsRepository } from '../database/repository/collections';
-import { SolveRecordsRepository } from '../database/repository/solveRecords';
 import { ISets, IProblems, IChoices } from '../interface/ISets';
 import { insertIntoObject, timestampToLocaleTime } from '../utils/custom';
 
