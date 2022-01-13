@@ -9,6 +9,7 @@
 # production
 /build
 /dist
+/dummy
 
 # misc
 .DS_Store
@@ -19,7 +20,6 @@
 .env.test.local
 .env.production.local
 .gitmessage.txt
-/dummy
 
 npm-debug.log*
 yarn-debug.log*
