@@ -29,7 +29,6 @@ export class SolveStatusRepository extends Repository<solveStatus> {
       .andWhere(`status.problemId = ${problemId}`)
       .getCount()
       .then((result) => {
-        console.log(result);
         return result > 0;
       });
   }
