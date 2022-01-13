@@ -6,7 +6,7 @@ import { SolveRecordsRepository } from '../database/repository/solveRecords';
 import { ProblemsRepository } from '../database/repository/problems';
 import { ChoicesRepository } from '../database/repository/choices';
 import { ISolve } from '../interface/ISets';
-import { emptyObjectValueCk } from '../utils/custom';
+import { CheckEmptyObjectValue } from '../utils/custom';
 
 @Service()
 export class StatusService {
@@ -19,7 +19,7 @@ export class StatusService {
 
   async solveProblem(solveInfo: ISolve) {
     // 필요한 정보가 누락된 경우
-    if (emptyObjectValueCk(solveInfo)) {
+    if (CheckEmptyObjectValue(solveInfo)) {
       errorGenerator({ statusCode: 400 });
     }
 
