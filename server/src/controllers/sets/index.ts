@@ -5,5 +5,6 @@ import create from './create';
 import modify from './modify';
 import solve from './solve';
 import submit from './submit';
+import statics from './statics';
 
-export { search, select, record, create, modify, solve, submit };
+export { search, select, record, create, modify, solve, submit, statics };

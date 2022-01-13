@@ -25,4 +25,13 @@ export class solveStatusRepository extends Repository<solveStatus> {
         return cntInfo;
       });
   }
+
+  async checkDuplicate(recordId: number, problemId: number): Promise<boolean> {
+    return await this.createQueryBuilder('status')
+      .innerJoinAndSelect('status.record', 'records')
+      .where(`records.id = ${recordId}`)
+      .andWhere(`status.problemId = ${problemId}`)
+      .getCount()
+      .then((result) => result > 0);
+  }
 }
