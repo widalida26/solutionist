@@ -25,8 +25,22 @@ export function changeProfileImage(file) {
 export function changeUsername(state) {
   console.log(state);
   return axios.patch(
-    `${process.env.SERVER_URL}myPage/changeUsername`,
+    `${process.env.SERVER_URL}users/username`,
     { state },
+    {
+      headers: {
+        'Content-Type': `application/json`,
+      },
+      withCredentials: true,
+    }
+  );
+}
+
+export function changePassword(password, newPassword, newPasswordConfirm) {
+  console.log(password, newPassword, newPasswordConfirm);
+  return axios.patch(
+    `${process.env.SERVER_URL}users/password`,
+    { password, newPassword, newPasswordConfirm },
     {
       headers: {
         'Content-Type': `application/json`,
