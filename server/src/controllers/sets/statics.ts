@@ -15,8 +15,8 @@ const statics = async (req: Request, res: Response) => {
   // solveStatus 테이블 이용을 위한 statusService 인스턴스
   const statusServiceInstance: StatusService = Container.get(StatusService);
 
-  // 통계 집계
-  await statusServiceInstance.getStatics(recordId, solver);
+  // 유저들의 선택지 반환
+  await statusServiceInstance.getUserChoices(recordId, solver);
 
   res.send();
 };

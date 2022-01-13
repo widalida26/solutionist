@@ -81,5 +81,8 @@ export class StatusService {
     };
   }
 
-  async getStatics(recordId: number, solver: string) {}
+  async getUserChoices(recordId: number, solver: string) {
+    const dt = this.statusRepo.find({ recordId });
+    console.log(dt);
+  }
 }
