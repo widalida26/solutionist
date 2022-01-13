@@ -3,8 +3,8 @@ import { Service } from 'typedi';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 import { solveStatusRepository } from '../database/repository/solveStatus';
 import { SolveRecordsRepository } from '../database/repository/solveRecords';
-import { ProblemsRepository } from '../database/repository/problems';
 import { ChoicesRepository } from '../database/repository/choices';
+import { SelectionRateRepository } from '../database/repository/selectionRate';
 import { ISolve } from '../interface/ISets';
 import { CheckEmptyObjectValue } from '../utils/custom';
 
@@ -13,7 +13,8 @@ export class StatusService {
   constructor(
     @InjectRepository() private statusRepo: solveStatusRepository,
     @InjectRepository() private recordRepo: SolveRecordsRepository,
-    @InjectRepository() private choicesRepo: ChoicesRepository
+    @InjectRepository() private choicesRepo: ChoicesRepository,
+    @InjectRepository() private rateRepo: SelectionRateRepository
   ) {}
 
   async solveProblem(solveInfo: ISolve) {
@@ -39,11 +40,20 @@ export class StatusService {
       .then((result) => result.id);
 
     // 선택 비율 집계
-    const selectionRate = await this.getSelectionRate(maxIdx, solveInfo.problemId);
+    const selectionRate = await this.calcSelectionRate(maxIdx, solveInfo.problemId);
+
+    // 선택 비율 저장
+    selectionRate.map(async (rate) => {
+      await this.rateRepo.save({
+        recordId: solveInfo.recordId,
+        statusId: id,
+        rate: rate,
+      });
+    });
 
     return {
       id,
-      ...selectionRate,
+      selectionRate,
     };
   }
 
@@ -64,7 +74,7 @@ export class StatusService {
     });
   }
 
-  async getSelectionRate(maxIdx: number, problemId: number) {
+  async calcSelectionRate(maxIdx: number, problemId: number) {
     // problemId에 해당하는 solveStatus 레코드 카운트
     const counted = await this.statusRepo.countByChoice(problemId);
 
@@ -75,20 +85,31 @@ export class StatusService {
       selectionRate.push((cnt / counted.total) * 100);
     }
 
-    return {
-      selectionRate,
-    };
+    return selectionRate;
   }
 
   async getUserChoices(recordId: number) {
-    return await this.statusRepo.find({ recordId }).then((result) => {
-      // 문제 기록이 없을 때
-      if (!result) {
-        errorGenerator({ statusCode: 500 });
-      }
-      return result.map((el) => {
-        return { problemId: el.problemId, choice: el.choice };
+    return await this.statusRepo
+      .createQueryBuilder('status')
+      .innerJoinAndSelect('status.rate', 'rate')
+      .where(`status.recordId=${recordId}`)
+      .getMany()
+      .then((result) => {
+        // 문제 기록이 없을 때
+        if (!result) {
+          errorGenerator({ statusCode: 500 });
+        }
+        return result.map((el) => {
+          // 선택 비율
+          const selectionRate = el.rate.map((e) => {
+            return e.rate;
+          });
+          return {
+            problemId: el.problemId,
+            choice: el.choice,
+            selectionRate,
+          };
+        });
       });
-    });
   }
 }
