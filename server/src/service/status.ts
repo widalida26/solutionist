@@ -4,7 +4,7 @@ import { InjectRepository } from 'typeorm-typedi-extensions';
 import { solveStatusRepository } from '../database/repository/solveStatus';
 import { SolveRecordsRepository } from '../database/repository/solveRecords';
 import { ChoicesRepository } from '../database/repository/choices';
-import { SelectionRateRepository } from 'src/database/repository/selectionRate';
+import { SelectionRateRepository } from '../database/repository/selectionRate';
 import { ISolve } from '../interface/ISets';
 import { CheckEmptyObjectValue } from '../utils/custom';
 
@@ -91,26 +91,25 @@ export class StatusService {
   async getUserChoices(recordId: number) {
     return await this.statusRepo
       .createQueryBuilder('status')
-      .leftJoinAndSelect('status.sRate', 'sRate')
-      .where(`status.recordId = ${recordId}`)
+      .innerJoinAndSelect('status.rate', 'rate')
+      .where(`status.recordId=${recordId}`)
       .getMany()
       .then((result) => {
-        console.log('result', result);
         // 문제 기록이 없을 때
         if (!result) {
           errorGenerator({ statusCode: 500 });
         }
-        // return result.map((el) => {
-        //   // 선택 비율
-        //   const selectionRate = el.sRate.map((e) => {
-        //     return e.rate;
-        //   });
-        //   return {
-        //     problemId: el.problemId,
-        //     choice: el.choice,
-        //     selectionRate,
-        //   };
-        // });
+        return result.map((el) => {
+          // 선택 비율
+          const selectionRate = el.rate.map((e) => {
+            return e.rate;
+          });
+          return {
+            problemId: el.problemId,
+            choice: el.choice,
+            selectionRate,
+          };
+        });
       });
   }
 }

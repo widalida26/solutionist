@@ -4,11 +4,13 @@ import { RecordsService } from '../../service/records';
 import errorGenerator from '../../error/errorGenerator';
 
 const submit = async (req: Request, res: Response) => {
+  console.log('submit');
   const recordId = Number(req.params['recordId']);
   const answerRate = req.body['answerRate'];
 
   // 데이터가 누락되거나 유효하지 않을 경우
   if (!recordId || answerRate == null) {
+    console.log('aa');
     errorGenerator({ statusCode: 400 });
   }
 

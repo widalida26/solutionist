@@ -33,10 +33,10 @@ export class solveRecords {
   @OneToMany(() => solveStatus, (status) => status.record, {
     cascade: true,
   })
-  status: solveStatus;
+  status: solveStatus[];
 
   @OneToMany(() => selectionRate, (rate) => rate.record, {
     cascade: true,
   })
-  sRate: selectionRate[];
+  rate: selectionRate[];
 }

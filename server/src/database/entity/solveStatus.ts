@@ -28,10 +28,10 @@ export class solveStatus {
   @ManyToOne(() => solveRecords, (record) => record.id, {
     onDelete: 'CASCADE',
   })
-  record: solveRecords;
+  record: solveRecords[];
 
-  @OneToMany(() => selectionRate, (rate) => rate.record, {
+  @OneToMany(() => selectionRate, (rate) => rate.status, {
     cascade: true,
   })
-  sRate: selectionRate[];
+  rate: selectionRate[];
 }
