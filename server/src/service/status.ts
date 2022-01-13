@@ -13,7 +13,6 @@ export class StatusService {
   constructor(
     @InjectRepository() private statusRepo: solveStatusRepository,
     @InjectRepository() private recordRepo: SolveRecordsRepository,
-    @InjectRepository() private problemsRepo: ProblemsRepository,
     @InjectRepository() private choicesRepo: ChoicesRepository
   ) {}
 
@@ -81,5 +80,15 @@ export class StatusService {
     };
   }
 
-  async getStatics(recordId: number, solver: string) {}
+  async getUserChoices(recordId: number) {
+    return await this.statusRepo.find({ recordId }).then((result) => {
+      // 문제 기록이 없을 때
+      if (!result) {
+        errorGenerator({ statusCode: 500 });
+      }
+      return result.map((el) => {
+        return { problemId: el.problemId, choice: el.choice };
+      });
+    });
+  }
 }
