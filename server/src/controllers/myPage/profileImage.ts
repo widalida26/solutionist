@@ -10,6 +10,7 @@ const image = async (req: Request, res: Response) => {
   interface MulterRequest extends Request {
     file: any;
   }
+  console.log(111);
   try {
     const image = (req as MulterRequest).file.location;
     if (image === undefined) {
@@ -22,11 +23,12 @@ const image = async (req: Request, res: Response) => {
       secretAccessKey: process.env.BUCKET_SECRET_KEY,
       region: process.env.BUCKET_REGION,
     });
-    const s3ImageName = findUser.profileImage.substring(
-      findUser.profileImage.lastIndexOf('/') + 1
-    );
 
-    if (findUser !== null) {
+    if (findUser.profileImage !== null) {
+      console.log(222, findUser);
+      const s3ImageName = findUser.profileImage.substring(
+        findUser.profileImage.lastIndexOf('/') + 1
+      );
       s3.deleteObject(
         {
           Bucket: 'solutionist',
@@ -39,6 +41,7 @@ const image = async (req: Request, res: Response) => {
       );
     }
 
+    console.log(333);
     await getConnection()
       .createQueryBuilder()
       .update(users)
@@ -46,9 +49,10 @@ const image = async (req: Request, res: Response) => {
       .where('id = :id', { id: findUser.id })
       .execute();
 
-    return res.status(200).send('ok');
+    return res.status(200).send('successfully profile image changed');
   } catch (err) {
     console.log(err);
+    return res.status(500).send('internal server error');
   }
 };
 

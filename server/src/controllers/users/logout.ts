@@ -5,7 +5,6 @@ import { getRepository, getConnection } from 'typeorm';
 
 const logout = async (req: Request, res: Response) => {
   try {
-    console.log('out');
     res.clearCookie('accessToken');
     return res.status(200).send('successfully logout');
   } catch (err) {
