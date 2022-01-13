@@ -47,7 +47,7 @@ export class StatusService {
       await this.rateRepo.save({
         recordId: solveInfo.recordId,
         statusId: id,
-        selectionRate: rate,
+        rate: rate,
       });
     });
 
@@ -89,30 +89,28 @@ export class StatusService {
   }
 
   async getUserChoices(recordId: number) {
-    // const dt = await this.rateRepo
-    //   .createQueryBuilder('rate')
-    //   .select('rate.id')
-    //   .groupBy('rate.statusId')
-    //   .getRawMany();
-
-    const dt = await this.statusRepo
+    return await this.statusRepo
       .createQueryBuilder('status')
-      .innerJoin('status.sRate', 'sRate')
-      .select('sRate.rate')
-      //.where('status.recordId')
-      .where(`sRate.recordId = ${recordId}`)
-      .getRawMany();
-
-    console.log(dt);
-
-    return await this.statusRepo.find({ recordId }).then((result) => {
-      // 문제 기록이 없을 때
-      if (!result) {
-        errorGenerator({ statusCode: 500 });
-      }
-      return result.map((el) => {
-        return { problemId: el.problemId, choice: el.choice };
+      .leftJoinAndSelect('status.sRate', 'sRate')
+      .where(`status.recordId = ${recordId}`)
+      .getMany()
+      .then((result) => {
+        console.log('result', result);
+        // 문제 기록이 없을 때
+        if (!result) {
+          errorGenerator({ statusCode: 500 });
+        }
+        // return result.map((el) => {
+        //   // 선택 비율
+        //   const selectionRate = el.sRate.map((e) => {
+        //     return e.rate;
+        //   });
+        //   return {
+        //     problemId: el.problemId,
+        //     choice: el.choice,
+        //     selectionRate,
+        //   };
+        // });
       });
-    });
   }
 }
