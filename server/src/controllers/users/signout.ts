@@ -6,7 +6,7 @@ import { getRepository, getConnection } from 'typeorm';
 const signout = async (req: Request, res: Response) => {
   try {
     const { id, email } = res.locals.userInfo;
-
+    res.clearCookie('accessToken');
     const removeUser = await getConnection()
       .createQueryBuilder()
       .delete()
@@ -23,7 +23,7 @@ const signout = async (req: Request, res: Response) => {
     //   await connection.manager.remove(removeUser);
     // }).catch(error => console.log(error));
 
-    return res.clearCookie('accessToken').status(200).send('successfully signed out');
+    return res.status(200).send('successfully signed out');
   } catch (err) {
     console.log(err);
     return res.status(500).send('internal server error');
