@@ -54,10 +54,12 @@ const SettingContainer = styled.div`
     grid-area: six;
   }
 
-  button:last-child {
-    grid-area: ${(props) => (props.oAuth ? props.oAuth : 'seven')};
-    // TODO : check
-    /* font-size: ${(props) => (props.fontSize ? props.fontSize : '1rem')}; */
+  .grid-five {
+    grid-area: five;
+  }
+
+  .grid-seven {
+    grid-area: seven;
   }
 `;
 
@@ -229,13 +231,14 @@ const Setting = () => {
   // * 회원 탈퇴
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const onlogoutAction = () => dispatch(logoutAction());
+  const onLogoutAction = () => dispatch(logoutAction());
+  const onUpdateUserInfoAction = (data) => dispatch(updateUserInfoAction(data));
 
   const handleSignOut = () => {
     signOut()
       .then(() => {
         console.log('회원 탈퇴 성공');
-        onlogoutAction();
+        onLogoutAction();
         navigate('/');
       })
       .catch((err) => {
@@ -254,7 +257,13 @@ const Setting = () => {
     const sendAPICall = async () => {
       try {
         const data = await changeProfileImage(file);
-        console.log(data);
+        const updateUserInfo = {
+          username: username,
+          email: email,
+          profileImage: data.data.data,
+          type: type,
+        };
+        onUpdateUserInfoAction(updateUserInfo);
         // TODO : data(res)의 image를 userinfo state(리덕스)에 반영하기
       } catch (err) {
         console.log('changeProfileImage err:', err);
@@ -281,14 +290,13 @@ const Setting = () => {
     setValiNameMsg('');
   };
 
+  console.log(userInfo);
   const handleSubmitNewUsername = () => {
-    // console.log('클릭');
-    // axios
     changeUsername(changeInfo.newUsername)
       .then((res) => {
-        console.log('changeUsername 요청 성공, res:', res);
-        //
-        // onUpdateUserInfoAction(res.data.data);
+        onUpdateUserInfoAction(res.data.data);
+        setIsAfterUsernameEdit(true);
+        setAfterValiNameMsg('Username 변경이 완료되었습니다!');
       })
       .catch((err) => {
         const errCode = err.response.status || 500;
@@ -300,15 +308,10 @@ const Setting = () => {
         console.log('changeUsername 에러캐치', err);
       });
     setIsUsernameEdit(false);
-    setIsAfterUsernameEdit(true); // 테스트 후 then 안으로
-    setAfterValiNameMsg('Username 변경이 완료되었습니다!'); // 테스트 후 then 안으로
   };
 
   // * 비밀번호 변경
-  // TODO : 함수 작성
   const handleSubmitNewPassword = () => {
-    // console.log('클릭');
-    // axios
     changePassword(changeInfo.password, changeInfo.newPassword)
       .then((res) => {
         console.log('changePassword 요청 성공, res:', res);
@@ -316,9 +319,9 @@ const Setting = () => {
       })
       .catch((err) => {
         const errCode = err.response.status || 500;
-        if (errCode === 409) {
-          setValiPwMsg('변경 전과 같은 비밀번호입니다.');
-        } else {
+        if (errCode === 400) {
+          setValiPwMsg('변경 전 비밀번호를 잘못 입력했습니다.');
+        } else if (errCode === 409) {
           setValiPwMsg('비밀번호 변경을 실패했습니다!');
           // TODO : 현재 비밀번호 불일치 에러코드 반영
         }
@@ -478,8 +481,8 @@ const Setting = () => {
           </EditContainer>
           <Blank />
         </div>
-        {type === 'google' ? '' : <LeftSide>비밀번호 변경</LeftSide>}
-        {type === 'google' ? (
+        {type === 'google' || type === 'kakao' ? '' : <LeftSide>비밀번호 변경</LeftSide>}
+        {type === 'google' || type === 'kakao' ? (
           ''
         ) : (
           <div>
@@ -519,15 +522,15 @@ const Setting = () => {
           </div>
         )}
         <LeftSide>계정 관리</LeftSide>
-        {type === 'google' ? (
-          <StyledButton oAuth={'five'} onClick={handleSignOut}>
+        {type === 'google' || type === 'kakao' ? (
+          <StyledButton className="grid-five" onClick={handleSignOut}>
             회원 탈퇴
           </StyledButton>
         ) : (
-          <StyledButton onClick={handleSignOut}>회원 탈퇴</StyledButton>
+          <StyledButton className="grid-seven" onClick={handleSignOut}>
+            회원 탈퇴
+          </StyledButton>
         )}
-        {/* // TODO : check */}
-        {/* {type === 'google' ? '' : <LeftSide>비밀번호 변경</LeftSide>} */}
       </SettingContainer>
     </MainContainer>
   );

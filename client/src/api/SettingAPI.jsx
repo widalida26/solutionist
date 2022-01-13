@@ -22,11 +22,11 @@ export function changeProfileImage(file) {
   }
 }
 
-export function changeUsername(state) {
-  console.log(state);
+export function changeUsername(newUsername) {
+  console.log(newUsername);
   return axios.patch(
     `${process.env.SERVER_URL}myPage/username`,
-    { state },
+    { newUsername },
     {
       headers: {
         'Content-Type': `application/json`,
@@ -37,7 +37,7 @@ export function changeUsername(state) {
 }
 
 export function changePassword(password, newPassword) {
-  console.log(password, newPassword, newPasswordConfirm);
+  // console.log(password, newPassword);
   return axios.patch(
     `${process.env.SERVER_URL}myPage/password`,
     { password, newPassword },
