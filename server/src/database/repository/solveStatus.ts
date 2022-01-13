@@ -1,31 +1,27 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { solveStatus } from '../entity/solveStatus';
-import { ISelect } from '../../interface/ISets';
-import { convertRawObject } from '../../utils/custom';
 
 @EntityRepository(solveStatus)
-export class solveStatusRepository extends Repository<solveStatus> {
+export class SolveStatusRepository extends Repository<solveStatus> {
   // 보기 선택 카운트
-  async countByChoice(problemId: number): Promise<ISelect> {
+  async countByChoice(problemId: number) {
     return await this.createQueryBuilder('status')
       .select('status.choice AS choice')
       .addSelect('COUNT(*) AS cnt')
       .where({ problemId })
       .groupBy('status.choice')
-      .getRawMany()
-      .then((reuslt) => {
-        const cntInfo = { total: 0, info: {} };
-        reuslt.forEach((el) => {
-          let map = convertRawObject(el);
-          // 문제 번호 : 숫자 형태의 Map으로 변환
-          let cnt = Number(map['cnt']);
-          cntInfo.info[map['choice']] = cnt;
-          cntInfo.total += cnt;
-        });
-        return cntInfo;
-      });
+      .getRawMany();
   }
 
+  // 해당 레코드에서 보기 선택 비율 조회
+  async getSelectionRateByRecord(recordId: number) {
+    return this.createQueryBuilder('status')
+      .innerJoinAndSelect('status.sRec', 'rate')
+      .where(`status.recordId=${recordId}`)
+      .getMany();
+  }
+
+  // 기록 데이터 중복 확인
   async checkDuplicate(recordId: number, problemId: number): Promise<boolean> {
     return await this.createQueryBuilder('status')
       .innerJoinAndSelect('status.record', 'records')
