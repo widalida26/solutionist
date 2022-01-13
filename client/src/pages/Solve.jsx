@@ -416,15 +416,17 @@ const Solve = () => {
       }
     });
     axios
-      .patch(`${process.env.SERVER_URL}solvedRecords/${setInfo.recordId}`, {
+      .patch(`${process.env.SERVER_URL}solveRecords/${setInfo.recordId}`, {
         answerRate: (count / set.problems.length) * 100,
       })
       .then(() => {
-        window.location.href = '/myset';
+        window.location.href = `/result/${set.setId}/${setInfo.solver}`;
       });
   };
+  console.log(set.setId);
+  console.log(setInfo.solver);
   const handleStart = () => {
-    axios.post(`${process.env.SERVER_URL}solveSets`, { setId }).then((res) => {
+    axios.post(`${process.env.SERVER_URL}solveRecords`, { setId }).then((res) => {
       setIsSolving(true);
       setSetInfo(res.data);
     });
