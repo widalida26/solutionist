@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
 import { problems } from './problems';
 import { solveRecords } from './solveRecords';
+import { selectionRate } from './selectionRate';
 
 @Entity()
 export class solveStatus {
@@ -27,5 +28,10 @@ export class solveStatus {
   @ManyToOne(() => solveRecords, (record) => record.id, {
     onDelete: 'CASCADE',
   })
-  record: solveRecords;
+  record: solveRecords[];
+
+  @OneToMany(() => selectionRate, (rate) => rate.status, {
+    cascade: true,
+  })
+  rate: selectionRate[];
 }

@@ -16,7 +16,9 @@ useContainer(Container);
 
 // db connection
 createConnection()
-  .then(async (connection) => {})
+  .then(async (connection) => {
+    console.log('DB connection complete');
+  })
   .catch((error) => console.log(error));
 
 const port = 4000;
@@ -70,4 +72,5 @@ app.listen(port, () => {
       process.env.SERVER_SWAGGER ? 'on' : 'off'
     }`
   );
+  console.log(new Date());
 });
