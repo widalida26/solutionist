@@ -1,4 +1,4 @@
-export const CheckEmptyObject = (obj: Object): boolean => {
+export const checkEmptyObject = (obj: Object): boolean => {
   if (Object.keys(obj).length === 0) {
     return true;
   } else {
@@ -6,7 +6,7 @@ export const CheckEmptyObject = (obj: Object): boolean => {
   }
 };
 
-export const CheckEmptyObjectValue = (obj: Object): boolean => {
+export const checkEmptyObjectValue = (obj: Object): boolean => {
   return Object.values(obj).some((val) => val === null || val === '');
 };
 

@@ -4,7 +4,7 @@ import { ISets } from '../../interface/ISets';
 import { IUsers } from '../../interface/IUsers';
 import { SetService } from '../../service/sets';
 import errorGenerator from '../../error/errorGenerator';
-import { CheckEmptyObject } from '../../utils/custom';
+import { checkEmptyObject } from '../../utils/custom';
 
 const modify = async (req: Request, res: Response) => {
   // 토큰 인증에 실패했을 경우 = 유저 정보가 없을 경우 => null 값 할당
@@ -12,7 +12,7 @@ const modify = async (req: Request, res: Response) => {
   const setDTO: ISets = req.body;
 
   // 데이터가 누락됐을 경우
-  if (CheckEmptyObject(setDTO)) {
+  if (checkEmptyObject(setDTO)) {
     errorGenerator({ statusCode: 400 });
   }
 
