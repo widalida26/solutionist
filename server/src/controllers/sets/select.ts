@@ -5,6 +5,7 @@ import { RecordsService } from '../../service/records';
 import errorGenerator from '../../error/errorGenerator';
 
 const select = async (req: Request, res: Response) => {
+  console.log('선택');
   const setId = Number(req.params['setId']);
 
   // setId가 유효하지 않을 경우
