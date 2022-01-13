@@ -2,23 +2,41 @@ import { Request, Response } from 'express';
 import { users } from '../../database/entity/users';
 import { getRepository, getConnection } from 'typeorm';
 import 'dotenv/config';
+import cryptos from '../../utils/crypto';
 
 const modifyPassword = async (req: Request, res: Response) => {
   try {
+    console.log('hello');
     const { email } = res.locals.userInfo;
 
     const info = getRepository(users);
     const findUser = await info.findOne({ where: { email: email } });
 
-    const { newPassword } = req.body;
+    const { newPassword, password } = req.body;
 
-    if (newPassword === findUser.password) {
+    console.log(password, newPassword);
+
+    const saltBase = findUser.salt;
+    const salt = Buffer.from(saltBase, 'base64');
+    const dbpw = cryptos.encrypt(password, salt);
+    const dbnewpw = cryptos.encrypt(newPassword, salt);
+
+    console.log(dbpw, dbnewpw);
+    console.log(findUser.password);
+
+    if (dbpw !== findUser.password) {
+      return res.status(400).send('wrong password');
+    }
+
+    if (dbnewpw === findUser.password) {
       return res.status(409).send('duplicate information');
     }
+
+    console.log('good');
     await getConnection()
       .createQueryBuilder()
       .update(users)
-      .set({ password: newPassword })
+      .set({ password: dbnewpw })
       .where('id = :id', { id: findUser.id })
       .execute();
 
