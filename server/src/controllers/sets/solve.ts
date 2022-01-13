@@ -18,7 +18,7 @@ const solve = async (req: Request, res: Response) => {
   const statusServiceInstance: StatusService = Container.get(StatusService);
 
   // 문제 풀이 기록 삽입
-  const solveResponse = await statusServiceInstance.problemSolver(solveDTO);
+  const solveResponse = await statusServiceInstance.solveProblem(solveDTO);
 
   res.status(201).json(solveResponse);
 };

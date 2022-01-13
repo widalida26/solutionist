@@ -19,12 +19,12 @@ export class SetService {
   ) {}
 
   // 타이틀로 세트 검색
-  async setFinder(title: string) {
+  async findSet(title: string) {
     const foundSets = await this.setsRepo.findSetsByTitle(title);
     return {};
   }
 
-  async setSelector(setId: number) {
+  async selectSet(setId: number) {
     // 세트 검색
     const set = await this.setsRepo.findSet(setId);
     // 세트 검색에 실패하가나 유효하지 않은 경우
@@ -44,7 +44,7 @@ export class SetService {
   }
 
   // 세트 생성 => collection 테이블에 추가
-  async setCreator(set: ISets, creatorId: number) {
+  async createSet(set: ISets, creatorId: number) {
     // collection 생성
     set.collectionId = await this.collectionRepo
       .save({ id: null, creatorId })
@@ -56,7 +56,7 @@ export class SetService {
     }
 
     // 세트 제작
-    const madeSet = await this.setMaker(set);
+    const madeSet = await this.makeSet(set);
 
     // 생성 정보 세팅
     return {
@@ -66,7 +66,7 @@ export class SetService {
   }
 
   // 세트 수정 => sets 테이블에만 추가
-  async setModifier(set: ISets) {
+  async modifySet(set: ISets) {
     // collection의 생성 일자 검색
     const collectionCreatedAt = await this.setsRepo.findCollectionCreatedAt(
       set.collectionId
@@ -77,7 +77,7 @@ export class SetService {
     }
 
     // 세트 제작
-    const madeSet = await this.setMaker(set);
+    const madeSet = await this.makeSet(set);
     // 수정 정보 세팅
     return {
       title: madeSet.title,
@@ -87,7 +87,7 @@ export class SetService {
   }
 
   // 세트 삽입
-  async setMaker(set: ISets) {
+  async makeSet(set: ISets) {
     // 세트 타이틀이 누락된 경우
     if (!set.title) {
       errorGenerator({ statusCode: 400 });

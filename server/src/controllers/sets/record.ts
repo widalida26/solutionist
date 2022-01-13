@@ -20,7 +20,7 @@ const record = async (req: Request, res: Response) => {
   const recordsServiceInstance: RecordsService = Container.get(RecordsService);
 
   // 세트 선택
-  const recordId = await recordsServiceInstance.recordMaker(setId, userId);
+  const recordId = await recordsServiceInstance.makeRecord(setId, userId);
 
   res.status(201).json({
     solver,

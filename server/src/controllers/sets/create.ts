@@ -30,7 +30,7 @@ const create = async (req: Request, res: Response) => {
   setDTO.editorId = null;
 
   // 세트 생성
-  const setInfo = await setsServiceInstance.setCreator(setDTO, userInfo.id);
+  const setInfo = await setsServiceInstance.createSet(setDTO, userInfo.id);
 
   res.status(201).json({
     username: userInfo.username,

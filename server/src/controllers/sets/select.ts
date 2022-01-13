@@ -15,11 +15,11 @@ const select = async (req: Request, res: Response) => {
   // sets 테이블 이용을 위한 setService 인스턴스
   const setServiceInstance: SetService = Container.get(SetService);
   // 세트 선택
-  const selectedSet = await setServiceInstance.setSelector(Number(setId));
+  const selectedSet = await setServiceInstance.selectSet(Number(setId));
 
   // solveRecords 테이블 이용을 위한 recordsService 인스턴스
   const recordsServiceInstance: RecordsService = Container.get(RecordsService);
-  const solvedUserNumber = await recordsServiceInstance.recordCounter(setId);
+  const solvedUserNumber = await recordsServiceInstance.countRecord(setId);
 
   res.status(200).json({
     solvedUserNumber,

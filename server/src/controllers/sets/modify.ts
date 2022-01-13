@@ -27,7 +27,7 @@ const modify = async (req: Request, res: Response) => {
   setDTO.editorId = userInfo.id;
 
   //   // 세트 생성
-  const setInfo = await setServiceInstance.setModifier(setDTO);
+  const setInfo = await setServiceInstance.modifySet(setDTO);
 
   res.status(201).json({
     username: userInfo.username,

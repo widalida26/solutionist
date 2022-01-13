@@ -17,7 +17,7 @@ export class StatusService {
     @InjectRepository() private choicesRepo: ChoicesRepository
   ) {}
 
-  async problemSolver(solveInfo: ISolve) {
+  async solveProblem(solveInfo: ISolve) {
     // 필요한 정보가 누락된 경우
     if (emptyObjectValueCk(solveInfo)) {
       errorGenerator({ statusCode: 400 });
@@ -40,7 +40,7 @@ export class StatusService {
       .then((result) => result.id);
 
     // 선택 비율 집계
-    const selectionRate = await this.selectionRateCalculator(maxIdx, solveInfo.problemId);
+    const selectionRate = await this.getSelectionRate(maxIdx, solveInfo.problemId);
 
     return {
       id,
@@ -65,7 +65,7 @@ export class StatusService {
     });
   }
 
-  async selectionRateCalculator(maxIdx: number, problemId: number) {
+  async getSelectionRate(maxIdx: number, problemId: number) {
     // problemId에 해당하는 solveStatus 레코드 카운트
     const counted = await this.statusRepo.countByChoice(problemId);
 
