@@ -423,8 +423,6 @@ const Solve = () => {
         window.location.href = `/result/${set.setId}/${setInfo.solver}`;
       });
   };
-  console.log(set.setId);
-  console.log(setInfo.solver);
   const handleStart = () => {
     axios.post(`${process.env.SERVER_URL}solveRecords`, { setId }).then((res) => {
       setIsSolving(true);
