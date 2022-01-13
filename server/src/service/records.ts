@@ -51,4 +51,8 @@ export class RecordsService {
       },
     });
   }
+
+  async getTotalAnswerRate(recordId: number) {
+    return await this.recordRepo.getAvgAnswerRate(recordId);
+  }
 }
