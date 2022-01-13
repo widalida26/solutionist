@@ -16,8 +16,10 @@ const statics = async (req: Request, res: Response) => {
   const statusServiceInstance: StatusService = Container.get(StatusService);
 
   // 유저들의 선택지 반환
-  await statusServiceInstance.getUserChoices(recordId, solver);
+  const userChoices = await statusServiceInstance.getUserChoices(recordId);
 
-  res.send();
+  res.status(200).json({
+    userChoices,
+  });
 };
 export default statics;
