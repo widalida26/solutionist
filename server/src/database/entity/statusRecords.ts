@@ -3,7 +3,7 @@ import { solveRecords } from './solveRecords';
 import { solveStatus } from './solveStatus';
 
 @Entity()
-export class selectionRate {
+export class statusRecords {
   @PrimaryGeneratedColumn()
   id: number;
 
