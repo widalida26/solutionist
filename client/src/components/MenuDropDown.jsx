@@ -46,7 +46,6 @@ const ImageContainer = styled.div`
     outline: none;
     display: block;
     border-radius: 50%;
-    cursor: pointer;
   }
 `;
 const Username = styled.div`

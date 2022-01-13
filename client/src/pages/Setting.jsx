@@ -24,6 +24,41 @@ const SettingContainer = styled.div`
   display: grid;
   grid-template-rows: 4fr;
   grid-template-columns: 1fr 56.6% 1fr;
+  grid-template-areas:
+    '. one .'
+    'two three .'
+    'four five .'
+    'six seven .';
+
+  div:first-child {
+    grid-area: one;
+  }
+
+  div:nth-child(2) {
+    grid-area: two;
+  }
+
+  div:nth-child(3) {
+    grid-area: three;
+  }
+
+  div:nth-child(4) {
+    grid-area: four;
+  }
+
+  div:nth-child(5) {
+    grid-area: five;
+  }
+
+  div:nth-child(6) {
+    grid-area: six;
+  }
+
+  button:last-child {
+    grid-area: ${(props) => (props.oAuth ? props.oAuth : 'seven')};
+    // TODO : check
+    /* font-size: ${(props) => (props.fontSize ? props.fontSize : '1rem')}; */
+  }
 `;
 
 const Title = styled.div`
@@ -187,9 +222,9 @@ const Setting = () => {
   const { userInfo } = useSelector((state) => ({
     userInfo: state.loginModal.userInfo,
   }));
-  const { email, username, profileImage } = userInfo;
+  const { username, email, profileImage, type } = userInfo;
 
-  // console.log(profileImage);
+  console.log(type);
 
   // * 회원 탈퇴
   const navigate = useNavigate();
@@ -302,12 +337,14 @@ const Setting = () => {
     isNewPasswordConfirm: false,
   });
 
+  const [isNotDupliPw, setIsNotDupliPw] = useState(false);
+
   const { isNewUsername, isPassword, isNewPassword, isNewPasswordConfirm } = valiInfo;
 
   const [valiNameMsg, setValiNameMsg] = useState('');
   const [valiPwMsg, setValiPwMsg] = useState('');
 
-  console.log(changeInfo, valiInfo);
+  console.log(changeInfo, valiInfo, isNotDupliPw);
 
   // newUsername 유효성 검사
   const handleChangeNewUsername = useCallback(
@@ -362,6 +399,15 @@ const Setting = () => {
     [changeInfo]
   );
 
+  const handleCheckDupliPw = useCallback(() => {
+    if (changeInfo.password === changeInfo.newPassword) {
+      setValiPwMsg('현재 비밀번호와 입력하신 새 비밀번호가 같습니다.');
+      setIsNotDupliPw(false);
+    } else {
+      setIsNotDupliPw(true);
+    }
+  }, [changeInfo]);
+
   // newPasswordConfirm 유효성 검사
   const handleChangeNewPasswordConfirm = useCallback(
     (e) => {
@@ -381,12 +427,10 @@ const Setting = () => {
   return (
     <MainContainer>
       <SettingContainer>
-        <div />
         <Title>
           설정
           <Blank />
         </Title>
-        <div />
         <LeftSide>개인정보 수정</LeftSide>
         <div>
           <EditContainer>
@@ -419,7 +463,7 @@ const Setting = () => {
                       }
                     />
                   </Nickname>
-                  {valiNameMsg ? <div>{valiNameMsg}</div> : ''}
+                  {valiNameMsg ? <p>{valiNameMsg}</p> : ''}
                 </>
               ) : (
                 <Nickname>
@@ -437,46 +481,56 @@ const Setting = () => {
           </EditContainer>
           <Blank />
         </div>
-        <div />
-        <LeftSide>비밀번호 변경</LeftSide>
-        <div>
-          <EditContainer>
-            <PasswordContainer>
-              <StyledInput
-                type="password"
-                placeholder="현재 비밀번호"
-                onChange={handleChangePassword}
-              />
-              <StyledInput
-                type="password"
-                placeholder="새 비밀번호"
-                onChange={handleChangeNewPassword}
-              />
-              <StyledInput
-                type="password"
-                placeholder="새 비밀번호 확인"
-                onChange={handleChangeNewPasswordConfirm}
-              />
-            </PasswordContainer>
-          </EditContainer>
-          <ChangePwContainer>
-            <StyledButton
-              onClick={() =>
-                !(isPassword && isNewPassword && isNewPasswordConfirm)
-                  ? setValiPwMsg('채우지 않았거나 유효하지 않은 입력이 있어요.')
-                  : handleSubmitNewPassword()
-              }
-            >
-              비밀번호 변경
-            </StyledButton>
-            <p>{valiPwMsg}</p>
-          </ChangePwContainer>
-          <Blank />
-        </div>
-        <div />
+        {type === 'google' ? '' : <LeftSide>비밀번호 변경</LeftSide>}
+        {type === 'google' ? (
+          ''
+        ) : (
+          <div>
+            <EditContainer>
+              <PasswordContainer>
+                <StyledInput
+                  type="password"
+                  placeholder="현재 비밀번호"
+                  onChange={handleChangePassword}
+                />
+                <StyledInput
+                  onBlur={handleCheckDupliPw}
+                  type="password"
+                  placeholder="새 비밀번호"
+                  onChange={handleChangeNewPassword}
+                />
+                <StyledInput
+                  type="password"
+                  placeholder="새 비밀번호 확인"
+                  onChange={handleChangeNewPasswordConfirm}
+                />
+              </PasswordContainer>
+            </EditContainer>
+            <ChangePwContainer>
+              <StyledButton
+                onClick={() =>
+                  !(isPassword && isNewPassword && isNewPasswordConfirm && isNotDupliPw)
+                    ? setValiPwMsg('채우지 않았거나 유효하지 않은 입력이 있어요.')
+                    : handleSubmitNewPassword()
+                }
+              >
+                비밀번호 변경
+              </StyledButton>
+              <p>{valiPwMsg}</p>
+            </ChangePwContainer>
+            <Blank />
+          </div>
+        )}
         <LeftSide>계정 관리</LeftSide>
-        <StyledButton onClick={handleSignOut}>회원 탈퇴</StyledButton>
-        <div />
+        {type === 'google' ? (
+          <StyledButton oAuth={'five'} onClick={handleSignOut}>
+            회원 탈퇴
+          </StyledButton>
+        ) : (
+          <StyledButton onClick={handleSignOut}>회원 탈퇴</StyledButton>
+        )}
+        {/* // TODO : check */}
+        {/* {type === 'google' ? '' : <LeftSide>비밀번호 변경</LeftSide>} */}
       </SettingContainer>
     </MainContainer>
   );
