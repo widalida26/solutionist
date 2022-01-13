@@ -49,7 +49,10 @@ const image = async (req: Request, res: Response) => {
       .where('id = :id', { id: findUser.id })
       .execute();
 
-    return res.status(200).send('successfully profile image changed');
+    console.log(555, image);
+    return res
+      .status(200)
+      .json({ data: image, message: 'successfully profile image changed' });
   } catch (err) {
     console.log(err);
     return res.status(500).send('internal server error');
