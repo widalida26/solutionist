@@ -3,7 +3,6 @@ import Container from 'typedi';
 import { RecordsService } from '../../service/records';
 import { StatusService } from '../../service/status';
 import errorGenerator from '../../error/errorGenerator';
-import { record } from '.';
 
 const statics = async (req: Request, res: Response) => {
   const recordId = Number(req.params['recordId']);
