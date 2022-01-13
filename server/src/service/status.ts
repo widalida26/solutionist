@@ -77,8 +77,6 @@ export class StatusService {
   async calcSelectionRate(maxIdx: number, problemId: number) {
     // problemId에 해당하는 solveStatus 레코드 카운트
     const counted = await this.statusRepo.countByChoice(problemId).then((reuslt) => {
-      console.log('여기???');
-      console.log(reuslt);
       const cntInfo = { total: 0, info: {} };
       reuslt.forEach((el) => {
         let map = convertRawObject(el);
@@ -87,8 +85,6 @@ export class StatusService {
         cntInfo.info[map['choice']] = cnt;
         cntInfo.total += cnt;
       });
-
-      console.log(counted);
       return cntInfo;
     });
 

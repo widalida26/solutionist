@@ -4,7 +4,6 @@ import { RecordsService } from '../../service/records';
 import errorGenerator from '../../error/errorGenerator';
 
 const submit = async (req: Request, res: Response) => {
-  console.log('submit');
   const recordId = Number(req.params['recordId']);
   const answerRate = req.body['answerRate'];
 
