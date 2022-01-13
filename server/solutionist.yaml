@@ -517,14 +517,14 @@ paths:
               properties:
                 setId:
                   type: number
-                userRate:
+                answerRate:
                   type: number
               required:
                 - setId
-                - userRate
+                - answerRate
               example:
                 setId: 1
-                userRate: 50
+                answerRate: 50
         required: true
       responses:
         '201':

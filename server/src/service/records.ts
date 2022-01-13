@@ -30,14 +30,14 @@ export class RecordsService {
     return recordId;
   }
 
-  async submitRecord(recordId: number, userRate: number) {
-    // userRate가 유효하지 않을 경우
-    if (userRate < 0 || userRate > 100 || !Number(userRate)) {
+  async submitRecord(recordId: number, answerRate: number) {
+    // answerRate가 유효하지 않을 경우
+    if (answerRate < 0 || answerRate > 100 || !Number(answerRate)) {
       errorGenerator({ statusCode: 400 });
     }
 
     // id에 해당하는 레코드 있는지 확인
-    await this.recordRepo.save({ id: recordId, answerRate: userRate });
+    await this.recordRepo.save({ id: recordId, answerRate: answerRate });
 
     return recordId;
   }
