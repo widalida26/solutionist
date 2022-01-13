@@ -300,7 +300,7 @@ const LoginModal = ({
   // TODO : 인풋창 벗어날 때 API 요청(onBlur), 성공시 아무것도 안함, 실패시 에러메시지 빨갛게 표시
   const [isDupli, setIsDupli] = useState(false);
 
-  const checkDupli = () => {
+  const handleCheckDupliEmail = () => {
     dupliEmail(signupInfo)
       .then(() => {
         setIsDupli(false);
@@ -551,7 +551,7 @@ const LoginModal = ({
                     <InputBox marginBottom={'5.7%'}>
                       <label>Email</label>
                       <input
-                        onBlur={checkDupli}
+                        onBlur={handleCheckDupliEmail}
                         onChange={onChangeEmail}
                         placeholder="kimcoding@gmail.com"
                       ></input>

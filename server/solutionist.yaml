@@ -340,7 +340,7 @@ paths:
                   message:
                     type: string
                     default: internal server error
-  /users/username:
+  /myPage/username:
     patch:
       tags:
         - myInfo
@@ -389,7 +389,7 @@ paths:
                   message:
                     type: string
                     default: internal server error
-  /users/password:
+  /myPage/password:
     patch:
       tags:
         - myInfo

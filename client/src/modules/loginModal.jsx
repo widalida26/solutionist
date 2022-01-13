@@ -20,11 +20,10 @@ const initialState = {
   isLoginModalOn: false,
   isLogin: false,
   userInfo: {
+    username: undefined,
     email: undefined,
     profileImage: undefined,
-    id: undefined,
-    role: undefined,
-    username: undefined,
+    type: undefined,
   },
 };
 
@@ -44,11 +43,10 @@ const loginModal = (state = initialState, action) => {
       return (state = {
         ...state,
         userInfo: {
+          username: action.payload.username,
           email: action.payload.email,
           profileImage: action.payload.profileImage,
-          id: action.payload.id,
-          role: action.payload.role,
-          username: action.payload.username,
+          type: action.payload.type,
         },
       });
     default:

@@ -9,8 +9,5 @@ export class ChoicesRepository extends Repository<choices> {
       .select('MAX(choices.index)', 'max')
       .getRawOne()
       .then((result) => convertRawObject(result)['max']);
-    // const query = this.createQueryBuilder('choices');
-    // query.select('MAX(choices.index)', 'max');
-    // return await query.getRawOne().then((result) => convertRawObject(result)['max']);
   }
 }
