@@ -14,15 +14,6 @@ const signout = async (req: Request, res: Response) => {
       .where('id = :id OR email = :email', { id: id, email: email })
       .execute();
 
-    // createConnection().then(async (connection) => {
-    //   console.log(555);
-    //   const removeUser = await connection.manager.findOne(users, {
-    //     where: { id: id, email: email },
-    //   });
-    //   console.log(444);
-    //   await connection.manager.remove(removeUser);
-    // }).catch(error => console.log(error));
-
     return res.status(200).send('successfully signed out');
   } catch (err) {
     console.log(err);
