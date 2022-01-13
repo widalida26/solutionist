@@ -464,6 +464,7 @@ const LoginModal = ({
           // onUpdateUserInfoAction(res.data.data);
           console.log('카카오 로그인 성공');
           onloginAction();
+          navigate('/');
         });
       }
     } else {
@@ -477,6 +478,7 @@ const LoginModal = ({
           onUpdateUserInfoAction(res.data.data);
           console.log('구글 로그인 성공');
           onloginAction();
+          navigate('/');
         });
       }
     }

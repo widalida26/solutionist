@@ -287,6 +287,7 @@ const Setting = () => {
     changeUsername(changeInfo.newUsername)
       .then((res) => {
         console.log('changeUsername 요청 성공, res:', res);
+        //
         // onUpdateUserInfoAction(res.data.data);
       })
       .catch((err) => {
@@ -308,11 +309,7 @@ const Setting = () => {
   const handleSubmitNewPassword = () => {
     // console.log('클릭');
     // axios
-    changePassword(
-      changeInfo.password,
-      changeInfo.newPassword,
-      changeInfo.newPasswordConfirm
-    )
+    changePassword(changeInfo.password, changeInfo.newPassword)
       .then((res) => {
         console.log('changePassword 요청 성공, res:', res);
         setValiPwMsg('비밀번호 변경이 완료되었습니다! :)');

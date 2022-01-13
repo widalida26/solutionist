@@ -36,11 +36,11 @@ export function changeUsername(state) {
   );
 }
 
-export function changePassword(password, newPassword, newPasswordConfirm) {
+export function changePassword(password, newPassword) {
   console.log(password, newPassword, newPasswordConfirm);
   return axios.patch(
     `${process.env.SERVER_URL}myPage/password`,
-    { password, newPassword, newPasswordConfirm },
+    { password, newPassword },
     {
       headers: {
         'Content-Type': `application/json`,
