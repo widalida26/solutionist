@@ -64,6 +64,7 @@ app.listen(port, () => {
   // console.log('secret', process.env.SECRET_KEY);
   // console.log('google id', process.env.GOOGLE_CLIENT_ID);
   // console.log('google secret', process.env.GOOGLE_CLIENT_SECRET);
+  console.log(new Date());
   console.log(
     `server is listening on ${port} \nswagger hub ${
       process.env.SERVER_SWAGGER ? 'on' : 'off'
