@@ -5,6 +5,7 @@ import { solveStatusRepository } from '../database/repository/solveStatus';
 import { SolveRecordsRepository } from '../database/repository/solveRecords';
 import { ProblemsRepository } from '../database/repository/problems';
 import { ChoicesRepository } from '../database/repository/choices';
+import { SelectionRateRepository } from 'src/database/repository/selectionRate';
 import { ISolve } from '../interface/ISets';
 import { CheckEmptyObjectValue } from '../utils/custom';
 
@@ -13,7 +14,8 @@ export class StatusService {
   constructor(
     @InjectRepository() private statusRepo: solveStatusRepository,
     @InjectRepository() private recordRepo: SolveRecordsRepository,
-    @InjectRepository() private choicesRepo: ChoicesRepository
+    @InjectRepository() private choicesRepo: ChoicesRepository,
+    @InjectRepository() private rateRepo: SelectionRateRepository
   ) {}
 
   async solveProblem(solveInfo: ISolve) {
@@ -41,9 +43,17 @@ export class StatusService {
     // 선택 비율 집계
     const selectionRate = await this.getSelectionRate(maxIdx, solveInfo.problemId);
 
+    selectionRate.map(async (rate) => {
+      await this.rateRepo.save({
+        recordId: solveInfo.recordId,
+        statusId: id,
+        selectionRate: rate,
+      });
+    });
+
     return {
       id,
-      ...selectionRate,
+      selectionRate,
     };
   }
 
@@ -75,9 +85,7 @@ export class StatusService {
       selectionRate.push((cnt / counted.total) * 100);
     }
 
-    return {
-      selectionRate,
-    };
+    return selectionRate;
   }
 
   async getUserChoices(recordId: number) {

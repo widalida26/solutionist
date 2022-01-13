@@ -11,10 +11,10 @@ export class selectionRate {
   recordId: number;
 
   @Column()
-  index: number;
+  statusId: number;
 
   @Column()
-  content: string;
+  selectionRate: number;
 
   @ManyToOne(() => solveRecords, (record) => record.id, {
     onDelete: 'CASCADE',
