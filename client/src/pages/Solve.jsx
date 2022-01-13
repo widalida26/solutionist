@@ -217,7 +217,7 @@ const ChartIcon = styled.div`
   text-align: right;
   font-size: 3rem;
   margin-right: 1.5rem;
-  color: ${(props) => (props.color ? 'var(--orangey-yellow)' : 'var(--warm-grey-50)')};
+  color: ${(props) => (props.isStat ? 'var(--orangey-yellow)' : 'var(--warm-grey-50)')};
   :hover {
     color: ${(props) =>
       props.color ? 'var(--orangey-yellow)' : 'var(--orangey-yellow-50)'};
@@ -230,7 +230,7 @@ const ChartIcon = styled.div`
 `;
 const ChartContainer = styled.div`
   grid-area: stats;
-  display: ${(props) => (props.display ? 'grid' : 'none')};
+  display: ${(props) => (props.isStat ? 'grid' : 'none')};
   grid-template-columns: auto 1fr auto;
   grid-template-rows: ${(props) => (props.rows ? `repeat(${props.rows}, auto)` : 'auto')};
   grid-gap: 0.5rem 1rem;
@@ -239,19 +239,12 @@ const ChartContainer = styled.div`
 const ChartStatNum = styled.div`
   text-align: right;
 `;
-const ChartContainerOx = styled.div`
-  grid-area: stat;
-  display: flex;
-  justify-content: center;
-  margin-top: 2rem;
-  div:first-child {
-    justify-content: flex-end;
-  }
-`;
 const ChartBox = styled.div`
   text-align: right;
   height: 100%;
-  width: ${(props) => (props.width ? `${props.width}%` : '')};
+  border-left: 1px solid
+    ${(props) => (props.backgroundColor ? props.backgroundColor : 'var(--warm-grey-50)')};
+  width: ${(props) => (props.width ? `${props.width}%` : '0%')};
   background-color: ${(props) =>
     props.backgroundColor ? props.backgroundColor : 'var(--warm-grey-50)'};
 `;
@@ -347,33 +340,38 @@ const Solve = () => {
   const { setId } = useParams();
   const [data, setData] = useState([]);
   const [curIdx, setCurIdx] = useState(0);
-  const { index, question, answer, explanation, isOX, choice } = set.problems[curIdx];
+  const { index, question, answer, explanation, isOX, choice, id } = set.problems[curIdx];
   const [isChecked, setIsChecked] = useState([]);
-  const [stats, setStats] = useState([
-    [90, 100, 70, 85],
-    [30, 70],
-  ]);
+  const [stats, setStats] = useState([]);
   const [isStat, setIsStat] = useState(false);
+  const [isSolving, setIsSolving] = useState(false);
+  const [setInfo, setSetInfo] = useState({});
 
   useEffect(() => {
-    axios.get(`${process.env.SERVER_URL}sets/${setId}`).then((res) => setSet(res.data));
+    axios.get(`${process.env.SERVER_URL}sets/${setId}`).then((res) => {
+      setSet(res.data);
+      const newStat = [];
+      res.data.problems.map((el) => {
+        newStat.push(Array(el.choice.length).fill(0));
+      });
+      setStats([...newStat]);
+    });
   }, []);
-  console.log(set);
 
   const handleClick = (e) => {
     console.log(e.target.id);
     const newData = [...data];
     if (e.target.id[0] === 'O') {
-      newData[curIdx] = { problemId: curIdx + 1, choice: 1 };
+      newData[curIdx] = { problemId: id, choice: 1 };
       setData(newData);
     } else if (e.target.id[0] === 'X') {
-      newData[curIdx] = { problemId: curIdx + 1, choice: 2 };
+      newData[curIdx] = { problemId: id, choice: 2 };
       setData(newData);
     }
 
     if (e.target.id[0] === 'a') {
       newData[curIdx] = {
-        problemId: curIdx + 1,
+        problemId: id,
         choice: Number(e.target.id[1]) + 1,
       };
       setData(newData);
@@ -387,7 +385,17 @@ const Solve = () => {
 
     newIsCheck[curIdx] = true;
     setIsChecked(newIsCheck);
-    axios.post(`${process.env.SERVER_URL}solveStatus`, data);
+    axios
+      .post(`${process.env.SERVER_URL}solveStatus`, {
+        ...data[curIdx],
+        recordId: setInfo.recordId,
+        solver: setInfo.solver,
+      })
+      .then((res) => {
+        const newStats = [...stats];
+        newStats[curIdx] = res.data.selectionRate;
+        setStats(newStats);
+      });
   };
 
   const handlePrev = () => {
@@ -401,290 +409,327 @@ const Solve = () => {
     }
   };
   const handleSubmit = () => {
-    console.log('submit');
+    let count = 0;
+    set.problems.map((problem, idx) => {
+      if (problem.answer === data[idx].choice) {
+        count++;
+      }
+    });
+    axios
+      .patch(`${process.env.SERVER_URL}solveRecords/${setInfo.recordId}`, {
+        answerRate: (count / set.problems.length) * 100,
+      })
+      .then(() => {
+        window.location.href = `/result/${set.setId}/${setInfo.solver}`;
+      });
+  };
+  console.log(set.setId);
+  console.log(setInfo.solver);
+  const handleStart = () => {
+    axios.post(`${process.env.SERVER_URL}solveRecords`, { setId }).then((res) => {
+      setIsSolving(true);
+      setSetInfo(res.data);
+    });
   };
 
   return (
     <SolveContainer>
-      <Title>{set.title}</Title>
-      <Desc>{set.description}</Desc>
-      <Divider />
-      <SidebarContainer>
-        <SideRelative>
-          <Sidebar>
-            {set.problems.map((problem, idx) => (
-              <SidebarContent
-                color={
-                  data[idx] && isChecked[idx]
-                    ? data[idx].choice === set.problems[idx].answer
-                      ? 'var(--vibrant-green)'
-                      : 'var(--red)'
-                    : 'var(--warm-grey)'
-                }
-                weight={curIdx === idx ? 'bold' : 'normal'}
-                onClick={() => setCurIdx(idx)}
-              >
-                <div id={idx}>{idx + 1}</div>
-                <div id={idx}>{problem.question}</div>
-              </SidebarContent>
-            ))}
-          </Sidebar>
-        </SideRelative>
-      </SidebarContainer>
-      <ProblemContainer>
-        {isChecked[curIdx] ? (
-          <>
-            <ProblemNum
-              font_size={curIdx + 1 > 99 ? '6rem' : '8rem'}
-              color={
-                data[curIdx]
-                  ? data[curIdx].choice === answer
-                    ? 'var(--vibrant-green-50)'
-                    : 'var(--red-50)'
-                  : 'var(--orangey-yellow-50)'
-              }
-            >
-              {index}
-            </ProblemNum>
-            <Question>{question}</Question>
-            <ChoicesContainer>
-              {isOX ? (
-                <>
-                  <OxChoices>
-                    <OxCard id="O">
-                      <OIcon
-                        id="O"
-                        fill={
-                          data[curIdx]
-                            ? data[curIdx].choice === answer
-                              ? data[curIdx].choice === 1
-                                ? 'var(--vibrant-green-50)'
-                                : 'var(--warm-grey)'
-                              : data[curIdx].choice === 1
-                              ? 'var(--red-50)'
-                              : answer === 1
-                              ? 'var(--vibrant-green-50)'
-                              : 'var(--orangey-yellow-50)'
-                            : 'var(--warm-grey)'
-                        }
-                      />
-                    </OxCard>
-                    <OxCard id="X">
-                      <XIcon
-                        id="X"
-                        fill={
-                          data[curIdx]
-                            ? data[curIdx].choice === answer
-                              ? data[curIdx].choice === 2
-                                ? 'var(--vibrant-green-50)'
-                                : 'var(--warm-grey)'
-                              : data[curIdx].choice === 2
-                              ? 'var(--red-50)'
-                              : answer === 2
-                              ? 'var(--vibrant-green-50)'
-                              : 'var(--orangey-yellow-50)'
-                            : 'var(--warm-grey)'
-                        }
-                      />
-                    </OxCard>
-                  </OxChoices>
-                </>
-              ) : (
-                <>
-                  {choice.map((choice, idx) => (
-                    <Choice
-                      key={`choice ${idx + 1}`}
-                      backgroundColor={
-                        data[curIdx]
-                          ? data[curIdx].choice === answer
-                            ? data[curIdx].choice === idx + 1
-                              ? 'var(--vibrant-green-50)'
-                              : ''
-                            : data[curIdx].choice === idx + 1
-                            ? 'var(--red-50)'
-                            : answer === idx + 1
-                            ? 'var(--vibrant-green-50)'
-                            : ''
-                          : ''
-                      }
-                    >
-                      <ChoiceNum
-                        fontWeight={
-                          data[curIdx]
-                            ? data[curIdx].choice === answer
-                              ? data[curIdx].choice === idx + 1
-                                ? 'bold'
-                                : 'normal'
-                              : data[curIdx].choice === idx + 1
-                              ? 'bold'
-                              : answer === idx + 1
-                              ? 'bold'
-                              : 'normal'
-                            : 'normal'
-                        }
-                        color={
-                          data[curIdx]
-                            ? data[curIdx].choice === answer
-                              ? data[curIdx].choice === idx + 1
-                                ? 'black'
-                                : ''
-                              : data[curIdx].choice === idx + 1
-                              ? 'black'
-                              : answer === idx + 1
-                              ? 'black'
-                              : ''
-                            : ''
-                        }
-                      >{`${idx + 1}.`}</ChoiceNum>
-                      <ChoiceContent>{choice.content}</ChoiceContent>
-                    </Choice>
-                  ))}
-                </>
-              )}
-            </ChoicesContainer>
-            <ChartIcon onClick={() => setIsStat(!isStat)} color={isStat}>
-              <FaChartBar />
-            </ChartIcon>
-            <ChartContainer rows={choice.length + 1} display={isStat}>
-              <div></div>
-              <div>정답률 {stats[curIdx][answer - 1]}%</div>
-              <div>비율</div>
-              {choice.map((choice, idx) => (
-                <>
+      {!isSolving ? (
+        <>
+          <Title>{set.title}</Title>
+          <Desc>{set.description}</Desc>
+          <div>by set.creator</div>
+          <div>at {set.createdAt}</div>
+          <div>{set.solvedUserNumber}명 풀이 완료</div>
+          <Divider />
+          <div>
+            <FaCaretSquareRight onClick={handleStart} />
+          </div>
+        </>
+      ) : (
+        <>
+          <Title>{set.title}</Title>
+          <Desc>{set.description}</Desc>
+          <Divider />
+          <SidebarContainer>
+            <SideRelative>
+              <Sidebar>
+                {set.problems.map((problem, idx) => (
+                  <SidebarContent
+                    key={`sidebar${idx}`}
+                    color={
+                      data[idx] && isChecked[idx]
+                        ? data[idx].choice === set.problems[idx].answer
+                          ? 'var(--vibrant-green)'
+                          : 'var(--red)'
+                        : 'var(--warm-grey)'
+                    }
+                    weight={curIdx === idx ? 'bold' : 'normal'}
+                    onClick={() => setCurIdx(idx)}
+                  >
+                    <div id={idx}>{idx + 1}</div>
+                    <div id={idx}>{problem.question}</div>
+                  </SidebarContent>
+                ))}
+              </Sidebar>
+            </SideRelative>
+          </SidebarContainer>
+          <ProblemContainer>
+            {isChecked[curIdx] ? (
+              <>
+                <ProblemNum
+                  font_size={curIdx + 1 > 99 ? '6rem' : '8rem'}
+                  color={
+                    data[curIdx]
+                      ? data[curIdx].choice === answer
+                        ? 'var(--vibrant-green-50)'
+                        : 'var(--red-50)'
+                      : 'var(--orangey-yellow-50)'
+                  }
+                >
+                  {index}
+                </ProblemNum>
+                <Question>{question}</Question>
+                <ChoicesContainer>
                   {isOX ? (
-                    idx === 0 ? (
-                      <div>O</div>
-                    ) : (
-                      <div>X</div>
-                    )
+                    <>
+                      <OxChoices>
+                        <OxCard id="O">
+                          <OIcon
+                            id="O"
+                            fill={
+                              data[curIdx]
+                                ? data[curIdx].choice === answer
+                                  ? data[curIdx].choice === 1
+                                    ? 'var(--vibrant-green-50)'
+                                    : 'var(--warm-grey)'
+                                  : data[curIdx].choice === 1
+                                  ? 'var(--red-50)'
+                                  : answer === 1
+                                  ? 'var(--vibrant-green-50)'
+                                  : 'var(--orangey-yellow-50)'
+                                : 'var(--warm-grey)'
+                            }
+                          />
+                        </OxCard>
+                        <OxCard id="X">
+                          <XIcon
+                            id="X"
+                            fill={
+                              data[curIdx]
+                                ? data[curIdx].choice === answer
+                                  ? data[curIdx].choice === 2
+                                    ? 'var(--vibrant-green-50)'
+                                    : 'var(--warm-grey)'
+                                  : data[curIdx].choice === 2
+                                  ? 'var(--red-50)'
+                                  : answer === 2
+                                  ? 'var(--vibrant-green-50)'
+                                  : 'var(--orangey-yellow-50)'
+                                : 'var(--warm-grey)'
+                            }
+                          />
+                        </OxCard>
+                      </OxChoices>
+                    </>
                   ) : (
-                    <div>{choice.index}.</div>
-                  )}
-
-                  <div>
-                    <ChartBox
-                      width={stats[curIdx][idx]}
-                      backgroundColor={
-                        data[curIdx]
-                          ? data[curIdx].choice === answer
-                            ? data[curIdx].choice === idx + 1
-                              ? 'var(--vibrant-green-50)'
+                    <>
+                      {choice.map((choice, idx) => (
+                        <Choice
+                          key={`choiceChecked ${idx + 1}`}
+                          backgroundColor={
+                            data[curIdx]
+                              ? data[curIdx].choice === answer
+                                ? data[curIdx].choice === idx + 1
+                                  ? 'var(--vibrant-green-50)'
+                                  : ''
+                                : data[curIdx].choice === idx + 1
+                                ? 'var(--red-50)'
+                                : answer === idx + 1
+                                ? 'var(--vibrant-green-50)'
+                                : ''
                               : ''
-                            : data[curIdx].choice === idx + 1
-                            ? 'var(--red-50)'
-                            : answer === idx + 1
-                            ? 'var(--vibrant-green-50)'
-                            : ''
-                          : ''
-                      }
-                    />
-                  </div>
-                  <ChartStatNum>{stats[curIdx][idx]}%</ChartStatNum>
-                </>
-              ))}
-            </ChartContainer>
-            <ExplanationContainer>
-              {explanation ? <Explanation>{explanation}</Explanation> : ''}
-            </ExplanationContainer>
-          </>
-        ) : (
-          <>
-            <ProblemNum
-              font_size={curIdx + 1 > 99 ? '6rem' : '8rem'}
-              color="var(--orangey-yellow-50)"
-            >
-              {index}
-            </ProblemNum>
-            <Question>{question}</Question>
-            <ChoicesContainer>
-              {isOX ? (
-                <>
-                  <OxChoices>
-                    <OxCard onClick={handleClick} id="O">
-                      <OIcon
-                        id="O"
-                        fill={
-                          data[curIdx]
-                            ? data[curIdx].choice === 1
-                              ? 'var(--orangey-yellow)'
-                              : 'var(--warm-grey)'
-                            : 'var(--warm-grey)'
-                        }
-                      />
-                    </OxCard>
-                    <OxCard onClick={handleClick} id="X">
-                      <XIcon
-                        id="X"
-                        fill={
-                          data[curIdx]
-                            ? data[curIdx].choice === 2
-                              ? 'var(--orangey-yellow)'
-                              : 'var(--warm-grey)'
-                            : 'var(--warm-grey)'
-                        }
-                      />
-                    </OxCard>
-                  </OxChoices>
-                </>
-              ) : (
-                <>
+                          }
+                        >
+                          <ChoiceNum
+                            fontWeight={
+                              data[curIdx]
+                                ? data[curIdx].choice === answer
+                                  ? data[curIdx].choice === idx + 1
+                                    ? 'bold'
+                                    : 'normal'
+                                  : data[curIdx].choice === idx + 1
+                                  ? 'bold'
+                                  : answer === idx + 1
+                                  ? 'bold'
+                                  : 'normal'
+                                : 'normal'
+                            }
+                            color={
+                              data[curIdx]
+                                ? data[curIdx].choice === answer
+                                  ? data[curIdx].choice === idx + 1
+                                    ? 'black'
+                                    : ''
+                                  : data[curIdx].choice === idx + 1
+                                  ? 'black'
+                                  : answer === idx + 1
+                                  ? 'black'
+                                  : ''
+                                : ''
+                            }
+                          >{`${idx + 1}.`}</ChoiceNum>
+                          <ChoiceContent>{choice.content}</ChoiceContent>
+                        </Choice>
+                      ))}
+                    </>
+                  )}
+                </ChoicesContainer>
+                <ChartIcon onClick={() => setIsStat(!isStat)} isStat={isStat}>
+                  <FaChartBar />
+                </ChartIcon>
+                <ChartContainer rows={choice.length + 1} isStat={isStat}>
+                  <div></div>
+                  <div>정답률 {Math.round(stats[curIdx][answer - 1])}%</div>
+                  <div>비율</div>
                   {choice.map((choice, idx) => (
-                    <Choice
-                      onClick={handleClick}
-                      key={`choice ${idx + 1}`}
-                      id={`a${idx}`}
-                      backgroundColor={
-                        data[curIdx]
-                          ? data[curIdx].choice === idx + 1
-                            ? 'var(--orangey-yellow-50)'
-                            : 'none'
-                          : 'none'
-                      }
-                    >
-                      <ChoiceNum
-                        id={`a${idx}`}
-                        color={
-                          data[curIdx]
-                            ? data[curIdx].choice === idx + 1
-                              ? 'black'
-                              : 'var(--warm-grey)'
-                            : 'var(--warm-grey)'
-                        }
-                        fontWeight={
-                          data[curIdx]
-                            ? data[curIdx].choice === idx + 1
-                              ? 'bold'
-                              : 'normal'
-                            : 'normal'
-                        }
-                      >{`${idx + 1}.`}</ChoiceNum>
-                      <ChoiceContent id={`a${idx}`}>{choice.content} </ChoiceContent>
-                    </Choice>
+                    <>
+                      {isOX ? (
+                        idx === 0 ? (
+                          <div>O</div>
+                        ) : (
+                          <div>X</div>
+                        )
+                      ) : (
+                        <div>{choice.index}.</div>
+                      )}
+
+                      <div>
+                        <ChartBox
+                          width={stats[curIdx][idx]}
+                          backgroundColor={
+                            data[curIdx]
+                              ? data[curIdx].choice === answer
+                                ? data[curIdx].choice === idx + 1
+                                  ? 'var(--vibrant-green-50)'
+                                  : ''
+                                : data[curIdx].choice === idx + 1
+                                ? 'var(--red-50)'
+                                : answer === idx + 1
+                                ? 'var(--vibrant-green-50)'
+                                : ''
+                              : ''
+                          }
+                        />
+                      </div>
+                      <ChartStatNum>{Math.round(stats[curIdx][idx])}%</ChartStatNum>
+                    </>
                   ))}
-                </>
-              )}
-            </ChoicesContainer>
-          </>
-        )}
-      </ProblemContainer>
-      <Divider />
-      <ButtonContainer>
-        {curIdx === 0 ? (
-          <div></div>
-        ) : (
-          <div>
-            <FaCaretSquareLeft onClick={handlePrev} />
-          </div>
-        )}
-        <div onClick={handleCheck}>check </div>
-        {curIdx === set.problems.length - 1 ? (
-          <div onClick={handleSubmit}>submit</div>
-        ) : (
-          <div>
-            <FaCaretSquareRight onClick={handleNext} />
-          </div>
-        )}
-      </ButtonContainer>
+                </ChartContainer>
+                <ExplanationContainer>
+                  {explanation ? <Explanation>{explanation}</Explanation> : ''}
+                </ExplanationContainer>
+              </>
+            ) : (
+              <>
+                <ProblemNum
+                  font_size={curIdx + 1 > 99 ? '6rem' : '8rem'}
+                  color="var(--orangey-yellow-50)"
+                >
+                  {index}
+                </ProblemNum>
+                <Question>{question}</Question>
+                <ChoicesContainer>
+                  {isOX ? (
+                    <>
+                      <OxChoices>
+                        <OxCard onClick={handleClick} id="O">
+                          <OIcon
+                            id="O"
+                            fill={
+                              data[curIdx]
+                                ? data[curIdx].choice === 1
+                                  ? 'var(--orangey-yellow)'
+                                  : 'var(--warm-grey)'
+                                : 'var(--warm-grey)'
+                            }
+                          />
+                        </OxCard>
+                        <OxCard onClick={handleClick} id="X">
+                          <XIcon
+                            id="X"
+                            fill={
+                              data[curIdx]
+                                ? data[curIdx].choice === 2
+                                  ? 'var(--orangey-yellow)'
+                                  : 'var(--warm-grey)'
+                                : 'var(--warm-grey)'
+                            }
+                          />
+                        </OxCard>
+                      </OxChoices>
+                    </>
+                  ) : (
+                    <>
+                      {choice.map((choice, idx) => (
+                        <Choice
+                          onClick={handleClick}
+                          key={`choice ${idx + 1}`}
+                          id={`a${idx}`}
+                          backgroundColor={
+                            data[curIdx]
+                              ? data[curIdx].choice === idx + 1
+                                ? 'var(--orangey-yellow-50)'
+                                : 'none'
+                              : 'none'
+                          }
+                        >
+                          <ChoiceNum
+                            id={`a${idx}`}
+                            color={
+                              data[curIdx]
+                                ? data[curIdx].choice === idx + 1
+                                  ? 'black'
+                                  : 'var(--warm-grey)'
+                                : 'var(--warm-grey)'
+                            }
+                            fontWeight={
+                              data[curIdx]
+                                ? data[curIdx].choice === idx + 1
+                                  ? 'bold'
+                                  : 'normal'
+                                : 'normal'
+                            }
+                          >{`${idx + 1}.`}</ChoiceNum>
+                          <ChoiceContent id={`a${idx}`}>{choice.content} </ChoiceContent>
+                        </Choice>
+                      ))}
+                    </>
+                  )}
+                </ChoicesContainer>
+              </>
+            )}
+          </ProblemContainer>
+          <Divider />
+          <ButtonContainer>
+            {curIdx === 0 ? (
+              <div></div>
+            ) : (
+              <div>
+                <FaCaretSquareLeft onClick={handlePrev} />
+              </div>
+            )}
+            <div onClick={handleCheck}>check </div>
+            {curIdx === set.problems.length - 1 ? (
+              <div onClick={handleSubmit}>submit</div>
+            ) : (
+              <div>
+                <FaCaretSquareRight onClick={handleNext} />
+              </div>
+            )}
+          </ButtonContainer>
+        </>
+      )}
     </SolveContainer>
   );
 };

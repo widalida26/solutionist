@@ -231,12 +231,12 @@ const MakeProblem = ({ problem, data, setData, idx, navRefs }) => {
 
   const handleClick = (e) => {
     console.log(e.target.id);
-    const choices = [...problem.choices];
+    const choice = [...problem.choice];
 
-    if (e.target.id[0] === 'i' && choices.length < 10) {
-      choices.push({ index: choices.length + 1, content: '' });
-    } else if (e.target.id[0] === 'd' && choices.length > 2) {
-      choices.pop();
+    if (e.target.id[0] === 'i' && choice.length < 10) {
+      choice.push({ index: choice.length + 1, content: '' });
+    } else if (e.target.id[0] === 'd' && choice.length > 2) {
+      choice.pop();
     }
 
     const problems = [...data.problems];
@@ -254,7 +254,7 @@ const MakeProblem = ({ problem, data, setData, idx, navRefs }) => {
     if (e.target.id[0] === 't') {
       problems.splice(idx, 1);
     } else {
-      problems.splice(idx, 1, { ...problem, choices });
+      problems.splice(idx, 1, { ...problem, choice });
     }
 
     setData({ ...data, problems });
@@ -271,12 +271,12 @@ const MakeProblem = ({ problem, data, setData, idx, navRefs }) => {
 
   const handleChange = (e) => {
     const problems = [...data.problems];
-    const choices = [...problem.choices];
+    const choice = [...problem.choice];
     if (e.target.id[0] === 'q') problems[idx].question = e.target.value;
     else if (e.target.id[0] === 'e') problems[idx].explanation = e.target.value;
     else if (e.target.id[0] === 'c') {
-      choices[e.target.id[1]].content = e.target.value;
-      problems.splice(idx, 1, { ...problem, choices });
+      choice[e.target.id[1]].content = e.target.value;
+      problems.splice(idx, 1, { ...problem, choice });
     }
 
     setData({ ...data, problems });
@@ -357,7 +357,7 @@ const MakeProblem = ({ problem, data, setData, idx, navRefs }) => {
             </Icon>
           </IconContainer>
           <ChoicesContainer>
-            {problem.choices.map((choice, idx) => (
+            {problem.choice.map((choice, idx) => (
               <Choice
                 backgroundColor={
                   choice.index === problem.answer ? 'var(--orangey-yellow-50)' : ''

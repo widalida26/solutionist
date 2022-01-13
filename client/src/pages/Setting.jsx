@@ -2,7 +2,12 @@ import React, { useRef, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { device } from '../styles/Breakpoints';
 import { MdEdit, MdCheck } from 'react-icons/md';
-import { signOut, changeProfileImage, changeUsername } from '../api/SettingAPI';
+import {
+  signOut,
+  changeProfileImage,
+  changeUsername,
+  changePassword,
+} from '../api/SettingAPI';
 import { useNavigate } from 'react-router-dom';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,6 +24,41 @@ const SettingContainer = styled.div`
   display: grid;
   grid-template-rows: 4fr;
   grid-template-columns: 1fr 56.6% 1fr;
+  grid-template-areas:
+    '. one .'
+    'two three .'
+    'four five .'
+    'six seven .';
+
+  div:first-child {
+    grid-area: one;
+  }
+
+  div:nth-child(2) {
+    grid-area: two;
+  }
+
+  div:nth-child(3) {
+    grid-area: three;
+  }
+
+  div:nth-child(4) {
+    grid-area: four;
+  }
+
+  div:nth-child(5) {
+    grid-area: five;
+  }
+
+  div:nth-child(6) {
+    grid-area: six;
+  }
+
+  button:last-child {
+    grid-area: ${(props) => (props.oAuth ? props.oAuth : 'seven')};
+    // TODO : check
+    /* font-size: ${(props) => (props.fontSize ? props.fontSize : '1rem')}; */
+  }
 `;
 
 const Title = styled.div`
@@ -182,9 +222,9 @@ const Setting = () => {
   const { userInfo } = useSelector((state) => ({
     userInfo: state.loginModal.userInfo,
   }));
-  const { email, username, profileImage } = userInfo;
+  const { username, email, profileImage, type } = userInfo;
 
-  // console.log(profileImage);
+  console.log(type);
 
   // * 회원 탈퇴
   const navigate = useNavigate();
@@ -226,7 +266,7 @@ const Setting = () => {
   // * username 변경
   const [isUsernameEdit, setIsUsernameEdit] = useState(false);
   const [isAfterUsernameEdit, setIsAfterUsernameEdit] = useState(false);
-  const [newUsername, setNewUsername] = useState('');
+  const [afterValiNameMsg, setAfterValiNameMsg] = useState('');
 
   const [changeInfo, setChangeInfo] = useState({
     newUsername: '',
@@ -238,26 +278,56 @@ const Setting = () => {
   const handleEditUsername = () => {
     setIsUsernameEdit(true);
     setIsAfterUsernameEdit(false);
-    setValiErrMessage({ ...valiErrMessage, ErrNewUsername: '' });
+    setValiNameMsg('');
   };
 
   const handleSubmitNewUsername = () => {
     // console.log('클릭');
     // axios
-    changeUsername(newUsername)
+    changeUsername(changeInfo.newUsername)
       .then((res) => {
         console.log('changeUsername 요청 성공, res:', res);
         // onUpdateUserInfoAction(res.data.data);
       })
       .catch((err) => {
-        console.log('changeUsername 실패', err);
+        const errCode = err.response.status || 500;
+        if (errCode === 409) {
+          setAfterValiNameMsg('변경 전과 같은 Username입니다.');
+        } else {
+          setAfterValiNameMsg('Username 변경을 실패했습니다!');
+        }
+        console.log('changeUsername 에러캐치', err);
       });
     setIsUsernameEdit(false);
     setIsAfterUsernameEdit(true); // 테스트 후 then 안으로
+    setAfterValiNameMsg('Username 변경이 완료되었습니다!'); // 테스트 후 then 안으로
   };
 
   // * 비밀번호 변경
   // TODO : 함수 작성
+  const handleSubmitNewPassword = () => {
+    // console.log('클릭');
+    // axios
+    changePassword(
+      changeInfo.password,
+      changeInfo.newPassword,
+      changeInfo.newPasswordConfirm
+    )
+      .then((res) => {
+        console.log('changePassword 요청 성공, res:', res);
+        setValiPwMsg('비밀번호 변경이 완료되었습니다! :)');
+      })
+      .catch((err) => {
+        const errCode = err.response.status || 500;
+        if (errCode === 409) {
+          setValiPwMsg('변경 전과 같은 비밀번호입니다.');
+        } else {
+          setValiPwMsg('비밀번호 변경을 실패했습니다!');
+          // TODO : 현재 비밀번호 불일치 에러코드 반영
+        }
+        console.log('changePassword 에러캐치', err);
+      });
+  };
 
   // * 유효성 검사
   const [valiInfo, setValiInfo] = useState({
@@ -267,21 +337,24 @@ const Setting = () => {
     isNewPasswordConfirm: false,
   });
 
+  const [isNotDupliPw, setIsNotDupliPw] = useState(false);
+
   const { isNewUsername, isPassword, isNewPassword, isNewPasswordConfirm } = valiInfo;
 
-  const [valiErrMessage, setValiErrMessage] = useState('');
+  const [valiNameMsg, setValiNameMsg] = useState('');
+  const [valiPwMsg, setValiPwMsg] = useState('');
 
-  console.log(changeInfo, valiInfo, valiErrMessage);
+  console.log(changeInfo, valiInfo, isNotDupliPw);
 
   // newUsername 유효성 검사
   const handleChangeNewUsername = useCallback(
     (e) => {
       setChangeInfo({ ...changeInfo, newUsername: e.target.value });
       if (e.target.value.length < 3 || e.target.value.length > 10) {
-        setValiErrMessage('이름을 3글자 이상 10글자 이하로 입력해주세요.');
+        setValiNameMsg('이름을 3글자 이상 10글자 이하로 입력해주세요.');
         setValiInfo({ ...valiInfo, isNewUsername: false });
       } else {
-        setValiErrMessage('올바른 이름 형식입니다 :)');
+        setValiNameMsg('올바른 이름 형식입니다 :)');
         setValiInfo({ ...valiInfo, isNewUsername: true });
       }
     },
@@ -295,12 +368,12 @@ const Setting = () => {
       const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
       const passwordCurrent = e.target.value;
       if (!passwordRegex.test(passwordCurrent)) {
-        setValiErrMessage(`숫자+영문자+특수문자 조합으로
+        setValiPwMsg(`숫자+영문자+특수문자 조합으로
           8자리 이상인 현재 비밀번호를 입력해주세요!
           `);
         setValiInfo({ ...valiInfo, isPassword: false });
       } else {
-        setValiErrMessage('현재 비밀번호를 입력하셨습니다 :)');
+        setValiPwMsg('현재 비밀번호를 입력하셨습니다 :)');
         setValiInfo({ ...valiInfo, isPassword: true });
       }
     },
@@ -314,17 +387,26 @@ const Setting = () => {
       const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
       const passwordCurrent = e.target.value;
       if (!passwordRegex.test(passwordCurrent)) {
-        setValiErrMessage(`숫자+영문자+특수문자 조합으로
+        setValiPwMsg(`숫자+영문자+특수문자 조합으로
           8자리 이상인 새 비밀번호를 입력해주세요!
           사용 가능한 특수문자는 !@#$%^*+=- 입니다.`);
         setValiInfo({ ...valiInfo, isNewPassword: false });
       } else {
-        setValiErrMessage('안전한 새 비밀번호예요 :)');
+        setValiPwMsg('안전한 새 비밀번호예요 :)');
         setValiInfo({ ...valiInfo, isNewPassword: true });
       }
     },
     [changeInfo]
   );
+
+  const handleCheckDupliPw = useCallback(() => {
+    if (changeInfo.password === changeInfo.newPassword) {
+      setValiPwMsg('현재 비밀번호와 입력하신 새 비밀번호가 같습니다.');
+      setIsNotDupliPw(false);
+    } else {
+      setIsNotDupliPw(true);
+    }
+  }, [changeInfo]);
 
   // newPasswordConfirm 유효성 검사
   const handleChangeNewPasswordConfirm = useCallback(
@@ -332,11 +414,11 @@ const Setting = () => {
       setChangeInfo({ ...changeInfo, newPasswordConfirm: e.target.value });
       const passwordConfirmCurrent = e.target.value;
       if (changeInfo.newPassword === passwordConfirmCurrent) {
-        setValiErrMessage('새 비밀번호를 똑같이 입력했어요 :)');
-        setValiInfo({ ...valiInfo, isNewPasswordConfirm: false });
-      } else {
-        setValiErrMessage('새로 입력한 비밀번호가 달라요. 다시 확인해주세요!');
+        setValiPwMsg('새 비밀번호를 똑같이 입력했어요 :)');
         setValiInfo({ ...valiInfo, isNewPasswordConfirm: true });
+      } else {
+        setValiPwMsg('새로 입력한 비밀번호가 달라요. 다시 확인해주세요!');
+        setValiInfo({ ...valiInfo, isNewPasswordConfirm: false });
       }
     },
     [changeInfo]
@@ -345,12 +427,10 @@ const Setting = () => {
   return (
     <MainContainer>
       <SettingContainer>
-        <div />
         <Title>
           설정
           <Blank />
         </Title>
-        <div />
         <LeftSide>개인정보 수정</LeftSide>
         <div>
           <EditContainer>
@@ -378,20 +458,12 @@ const Setting = () => {
                     <MdCheck
                       onClick={() =>
                         !isNewUsername
-                          ? setValiErrMessage({
-                              ...valiErrMessage,
-                              ErrNewUsername:
-                                '채우지 않았거나 유효하지 않은 입력이 있어요.',
-                            })
+                          ? setValiNameMsg('채우지 않았거나 유효하지 않은 입력이 있어요.')
                           : handleSubmitNewUsername()
                       }
                     />
                   </Nickname>
-                  {valiErrMessage.ErrNewUsername ? (
-                    <div>{valiErrMessage.ErrNewUsername}</div>
-                  ) : (
-                    ''
-                  )}
+                  {valiNameMsg ? <p>{valiNameMsg}</p> : ''}
                 </>
               ) : (
                 <Nickname>
@@ -400,7 +472,7 @@ const Setting = () => {
                 </Nickname>
               )}
               {isAfterUsernameEdit ? (
-                <p style={{ color: 'red' }}>Username 변경이 완료되었습니다!</p>
+                <p style={{ color: 'red' }}>{afterValiNameMsg}</p>
               ) : (
                 ''
               )}
@@ -409,29 +481,56 @@ const Setting = () => {
           </EditContainer>
           <Blank />
         </div>
-        <div />
-        <LeftSide>비밀번호 변경</LeftSide>
-        <div>
-          <EditContainer>
-            <PasswordContainer>
-              <StyledInput placeholder="현재 비밀번호" onChange={handleChangePassword} />
-              <StyledInput placeholder="새 비밀번호" onChange={handleChangeNewPassword} />
-              <StyledInput
-                placeholder="새 비밀번호 확인"
-                onChange={handleChangeNewPasswordConfirm}
-              />
-            </PasswordContainer>
-          </EditContainer>
-          <ChangePwContainer>
-            <StyledButton>비밀번호 변경</StyledButton>
-            <p>{valiErrMessage}</p>
-          </ChangePwContainer>
-          <Blank />
-        </div>
-        <div />
+        {type === 'google' ? '' : <LeftSide>비밀번호 변경</LeftSide>}
+        {type === 'google' ? (
+          ''
+        ) : (
+          <div>
+            <EditContainer>
+              <PasswordContainer>
+                <StyledInput
+                  type="password"
+                  placeholder="현재 비밀번호"
+                  onChange={handleChangePassword}
+                />
+                <StyledInput
+                  onBlur={handleCheckDupliPw}
+                  type="password"
+                  placeholder="새 비밀번호"
+                  onChange={handleChangeNewPassword}
+                />
+                <StyledInput
+                  type="password"
+                  placeholder="새 비밀번호 확인"
+                  onChange={handleChangeNewPasswordConfirm}
+                />
+              </PasswordContainer>
+            </EditContainer>
+            <ChangePwContainer>
+              <StyledButton
+                onClick={() =>
+                  !(isPassword && isNewPassword && isNewPasswordConfirm && isNotDupliPw)
+                    ? setValiPwMsg('채우지 않았거나 유효하지 않은 입력이 있어요.')
+                    : handleSubmitNewPassword()
+                }
+              >
+                비밀번호 변경
+              </StyledButton>
+              <p>{valiPwMsg}</p>
+            </ChangePwContainer>
+            <Blank />
+          </div>
+        )}
         <LeftSide>계정 관리</LeftSide>
-        <StyledButton onClick={handleSignOut}>회원 탈퇴</StyledButton>
-        <div />
+        {type === 'google' ? (
+          <StyledButton oAuth={'five'} onClick={handleSignOut}>
+            회원 탈퇴
+          </StyledButton>
+        ) : (
+          <StyledButton onClick={handleSignOut}>회원 탈퇴</StyledButton>
+        )}
+        {/* // TODO : check */}
+        {/* {type === 'google' ? '' : <LeftSide>비밀번호 변경</LeftSide>} */}
       </SettingContainer>
     </MainContainer>
   );

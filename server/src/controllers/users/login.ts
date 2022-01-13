@@ -36,13 +36,13 @@ const login = async (req: Request, res: Response) => {
       username: userpw.username,
       email: userpw.email,
       profileImage: userpw.profileImage,
-      role: userpw.role,
+      type: userpw.type,
     };
     jwtToken.sendAccessToken(res, accessToken);
     console.log(111, accessToken);
     return res.status(200).json({ data: { payload }, message: 'ok' });
   } catch (err) {
-    console.log(err);
+    console.log(res.status);
     return res.status(500).send('internal server error');
     // return res.status(500).send('internal server error');
   }

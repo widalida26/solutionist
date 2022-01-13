@@ -7,7 +7,6 @@ const jwtToken = {
     const period: string = process.env.EXPIRATION_PERIOD
       ? process.env.EXPIRATION_PERIOD
       : '1h';
-    console.log('ACCESS_SECRET', process.env.ACCESS_SECRET);
     return sign({ data: data }, process.env.ACCESS_SECRET, { expiresIn: period });
   },
   isAuthorized: (data: any) => {
@@ -28,6 +27,7 @@ const jwtToken = {
       httpOnly: true,
       // sameSite: 'none',
       // secure: true,
+      maxAge: 1000 * 60 * 60,
     });
   },
 };

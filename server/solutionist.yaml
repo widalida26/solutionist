@@ -10,10 +10,10 @@ servers:
 tags:
   - name: users
     description: Operations about user
-  - name: search && sets
-    description: Operations about sets
   - name: myInfo
     description: Operations about myInfo
+  - name: search && sets
+    description: Operations about sets
 paths:
   /users/signup:
     post:
@@ -127,14 +127,14 @@ paths:
                   message:
                     type: string
                     default: internal server error
-  /users/google:
+  /users/kakao:
     post:
       tags:
         - users
-      summary: login google
-      description: login google
+      summary: login kakao
+      description: login kakao
       responses:
-        '200':
+        '201':
           description: ok
           content:
             application/json:
@@ -154,7 +154,22 @@ paths:
                   username: 'messi'
                   email: 'messi@google.com'
                   profileImage: 'http://image.com'
-
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: internal server error
+  /users/google:
+    post:
+      tags:
+        - users
+      summary: login google
+      description: login google
+      responses:
         '201':
           description: create
           content:
@@ -211,6 +226,207 @@ paths:
                   message:
                     type: string
                     default: internal server error
+  /users/logout:
+    post:
+      tags:
+        - users
+      summary: logout
+      description: logout
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: successfully logout
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: internal server error
+  /users/email/{email}:
+    get:
+      tags:
+        - users
+      summary: email
+      description: email
+      parameters:
+        - in: path
+          name: email # Note the name is the same as in the path
+          required: true
+          schema:
+            type: string
+          description: The user ID
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: email duplicate check passed
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: duplicate information
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: internal server error
+  /myPage/profileImage:
+    patch:
+      tags:
+        - myInfo
+      summary: profileImage modify
+      description: profileImage modify
+      security:
+        - cookieAuth: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                # 'file' will be the field name in this multipart request
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: successfully profile image changed
+        '401':
+          description: invalid user
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: invalid user
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: internal server error
+  /users/username:
+    patch:
+      tags:
+        - myInfo
+      summary: modify username
+      description: modify username
+      security:
+        - cookieAuth: []
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                newUsername:
+                  type: string
+              required:
+                - newUsername
+            example:
+              newUsername: Ronaldo
+        required: true
+      responses:
+        '201':
+          description: create
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: successfully user name changed
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: duplicate information
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: internal server error
+  /users/password:
+    patch:
+      tags:
+        - myInfo
+      summary: modify password
+      description: modify password
+      security:
+        - cookieAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                newPassword:
+                  type: string
+              required:
+                - newPassword
+        required: true
+      responses:
+        '201':
+          description: create
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: successfully user name changed
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: duplicate information
   /collections:
     post:
       tags:
@@ -482,6 +698,8 @@ paths:
                     type: string
                   selectionRate:
                     type: array
+                    items:
+                      type: object
                 example:
                   id: 1
                   username: 'kimcoding@naver.com'
@@ -556,7 +774,6 @@ paths:
                   message:
                     type: string
                     default: internal server error
-
 components:
   securitySchemes:
     cookieAuth:

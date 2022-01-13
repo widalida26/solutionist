@@ -170,7 +170,7 @@ const Make = () => {
           answer: '',
           explanation: '',
           isOX: false,
-          choices: [
+          choice: [
             { index: 1, content: '' },
             { index: 2, content: '' },
           ],
