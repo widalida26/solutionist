@@ -1,25 +1,28 @@
 import { Request, Response } from 'express';
 import Container from 'typedi';
 import { SetService } from '../../service/sets';
+import { RecordsService } from '../../service/records';
 import errorGenerator from '../../error/errorGenerator';
-import { v4 } from 'uuid';
 
 const select = async (req: Request, res: Response) => {
-  // 토큰 인증에 실패했을 경우 = 유저 정보가 없을 경우 => null 값 할당
-  const { setId } = req.params;
+  const setId = Number(req.params['setId']);
 
   // setId가 유효하지 않을 경우
-  if (!Number(setId)) {
+  if (!setId) {
     errorGenerator({ statusCode: 400 });
   }
 
   // sets 테이블 이용을 위한 setService 인스턴스
   const setServiceInstance: SetService = Container.get(SetService);
-
   // 세트 선택
-  const selectedSet = await setServiceInstance.SetSelector(Number(setId));
+  const selectedSet = await setServiceInstance.selectSet(Number(setId));
+
+  // solveRecords 테이블 이용을 위한 recordsService 인스턴스
+  const recordsServiceInstance: RecordsService = Container.get(RecordsService);
+  const solvedUserNumber = await recordsServiceInstance.countRecord(setId);
 
   res.status(200).json({
+    solvedUserNumber,
     ...selectedSet,
   });
 };

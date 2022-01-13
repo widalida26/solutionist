@@ -38,7 +38,7 @@ export interface ISolve {
 
 export interface IRate {
   recordId: number;
-  userRate: number;
+  answerRate: number;
   totalRate: number;
 }
 
