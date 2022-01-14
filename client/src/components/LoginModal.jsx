@@ -6,6 +6,7 @@ import { RiKakaoTalkFill } from 'react-icons/ri';
 import { FaTimesCircle } from 'react-icons/fa';
 import { useState, useEffect, useCallback } from 'react';
 import { device } from '../styles/Breakpoints';
+import { useNavigate } from 'react-router-dom';
 import {
   postLogin,
   signUp,
@@ -226,6 +227,7 @@ const LoginModal = ({
     setErrorMessage('');
     setToggle(!toggle);
   };
+  const navigate = useNavigate();
 
   // * 로그인 기능
   const [loginInfo, setLoginInfo] = useState({
@@ -236,12 +238,7 @@ const LoginModal = ({
 
   const handleInputValue = (target) => (e) => {
     setLoginInfo({ ...loginInfo, [target]: e.target.value });
-    // console.log(loginInfo);
   };
-
-  // const [userInfo, setUserInfo] = useState({});
-  // console.log('로그인 후 유저인포', userInfo);
-  // console.log('로그인 후 isLogin', isLogin);
 
   const handleLogin = () => {
     if (!loginInfo.email || !loginInfo.password) {
@@ -251,8 +248,6 @@ const LoginModal = ({
         .then((res) => {
           // TODO : res redux에 저장
           onUpdateUserInfoAction(res.data.data.payload);
-          // console.log('login 성공', res.data.data.payload);
-          // setUserInfo(res.data.data.payload);
           onModalOffAction();
           onloginAction();
         })
@@ -430,17 +425,6 @@ const LoginModal = ({
     );
   };
 
-  // * 구글 Oauth 리디렉션 코드 post로 보내기 => 카카오 확인 후 삭제
-  // let authorizationCode;
-  // useEffect(() => {
-  //   const url = new URL(window.location.href);
-  //   authorizationCode = url.href.split('=')[2] || undefined;
-  //   if (authorizationCode) {
-  //     authorizationCode = authorizationCode.split('&')[0] + '&';
-  //     signUpGoogle(authorizationCode, onloginAction, onModalOffAction);
-  //   }
-  // }, [authorizationCode]);
-
   // * 카카오 Oauth
   const handleSignKakao = () => {
     window.location.assign(
@@ -452,19 +436,22 @@ const LoginModal = ({
   let authorizationCode;
   useEffect(() => {
     const url = new URL(window.location.href);
-    // console.log(url.href.split('=')[0].split('/')[3]);
     if (url.href.split('=')[0].split('/')[3] === '?code') {
-      // 카카오(API 테스트 확인)
+      // 카카오
       authorizationCode = url.href.split('=')[1] || undefined;
       if (authorizationCode) {
         authorizationCode = authorizationCode.split('&')[0] + '&';
         console.log(authorizationCode);
         onModalOffAction();
-        signUpKakao(authorizationCode).then((res) => {
-          // onUpdateUserInfoAction(res.data.data);
-          console.log('카카오 로그인 성공');
-          onloginAction();
-        });
+        signUpKakao(authorizationCode)
+          .then((res) => {
+            onUpdateUserInfoAction(res.data.data);
+            console.log('카카오 로그인 성공');
+          })
+          .then(() => {
+            onloginAction();
+            navigate('/');
+          });
       }
     } else {
       // 구글
@@ -473,11 +460,15 @@ const LoginModal = ({
         authorizationCode = authorizationCode.split('&')[0] + '&';
         console.log(authorizationCode);
         onModalOffAction();
-        signUpGoogle(authorizationCode).then((res) => {
-          onUpdateUserInfoAction(res.data.data);
-          console.log('구글 로그인 성공');
-          onloginAction();
-        });
+        signUpGoogle(authorizationCode)
+          .then((res) => {
+            onUpdateUserInfoAction(res.data.data);
+            console.log('구글 로그인 성공');
+          })
+          .then(() => {
+            onloginAction();
+            navigate('/');
+          });
       }
     }
   }, [authorizationCode]);

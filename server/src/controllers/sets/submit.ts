@@ -8,8 +8,13 @@ const submit = async (req: Request, res: Response) => {
   const answerRate = req.body['answerRate'];
 
   // 데이터가 누락되거나 유효하지 않을 경우
-  if (!recordId || !answerRate) {
+  if (!recordId || answerRate == null) {
     errorGenerator({ statusCode: 400 });
+  }
+
+  // 정답률을 집계할 수 없는 경우 => 모든 문제가 설문
+  if (answerRate === -1) {
+    res.status(204).json({ recordId });
   }
 
   // solveRecords 테이블 이용을 위한 recordsService 인스턴스

@@ -1,24 +1,25 @@
 import errorGenerator from '../error/errorGenerator';
 import { Service } from 'typedi';
 import { InjectRepository } from 'typeorm-typedi-extensions';
-import { solveStatusRepository } from '../database/repository/solveStatus';
+import { SolveStatusRepository } from '../database/repository/solveStatus';
 import { SolveRecordsRepository } from '../database/repository/solveRecords';
-import { ProblemsRepository } from '../database/repository/problems';
 import { ChoicesRepository } from '../database/repository/choices';
+import { StatusRecordsRepository } from '../database/repository/statusRecords';
 import { ISolve } from '../interface/ISets';
-import { CheckEmptyObjectValue } from '../utils/custom';
+import { checkEmptyObjectValue, convertRawObject } from '../utils/custom';
 
 @Service()
 export class StatusService {
   constructor(
-    @InjectRepository() private statusRepo: solveStatusRepository,
+    @InjectRepository() private statusRepo: SolveStatusRepository,
     @InjectRepository() private recordRepo: SolveRecordsRepository,
-    @InjectRepository() private choicesRepo: ChoicesRepository
+    @InjectRepository() private choicesRepo: ChoicesRepository,
+    @InjectRepository() private srRepo: StatusRecordsRepository
   ) {}
 
   async solveProblem(solveInfo: ISolve) {
     // 필요한 정보가 누락된 경우
-    if (CheckEmptyObjectValue(solveInfo)) {
+    if (checkEmptyObjectValue(solveInfo)) {
       errorGenerator({ statusCode: 400 });
     }
 
@@ -39,11 +40,20 @@ export class StatusService {
       .then((result) => result.id);
 
     // 선택 비율 집계
-    const selectionRate = await this.getSelectionRate(maxIdx, solveInfo.problemId);
+    const selectionRate = await this.calcSelectionRate(maxIdx, solveInfo.problemId);
+
+    // 선택 비율 저장
+    selectionRate.map(async (rate) => {
+      await this.srRepo.save({
+        recordId: solveInfo.recordId,
+        statusId: id,
+        rate: rate,
+      });
+    });
 
     return {
       id,
-      ...selectionRate,
+      selectionRate,
     };
   }
 
@@ -64,9 +74,19 @@ export class StatusService {
     });
   }
 
-  async getSelectionRate(maxIdx: number, problemId: number) {
+  async calcSelectionRate(maxIdx: number, problemId: number) {
     // problemId에 해당하는 solveStatus 레코드 카운트
-    const counted = await this.statusRepo.countByChoice(problemId);
+    const counted = await this.statusRepo.countByChoice(problemId).then((reuslt) => {
+      const cntInfo = { total: 0, info: {} };
+      reuslt.forEach((el) => {
+        let map = convertRawObject(el);
+        // 문제 번호 : 숫자 형태의 Map으로 변환
+        let cnt = Number(map['cnt']);
+        cntInfo.info[map['choice']] = cnt;
+        cntInfo.total += cnt;
+      });
+      return cntInfo;
+    });
 
     // 퍼센트 계산
     const selectionRate = [];
@@ -75,19 +95,25 @@ export class StatusService {
       selectionRate.push((cnt / counted.total) * 100);
     }
 
-    return {
-      selectionRate,
-    };
+    return selectionRate;
   }
 
   async getUserChoices(recordId: number) {
-    return await this.statusRepo.find({ recordId }).then((result) => {
+    return await this.statusRepo.getSelectionRateByRecord(recordId).then((result) => {
       // 문제 기록이 없을 때
       if (!result) {
         errorGenerator({ statusCode: 500 });
       }
       return result.map((el) => {
-        return { problemId: el.problemId, choice: el.choice };
+        // 선택 비율
+        const selectionRate = el.sRec.map((e) => {
+          return e.rate;
+        });
+        return {
+          problemId: el.problemId,
+          choice: el.choice,
+          selectionRate,
+        };
       });
     });
   }
