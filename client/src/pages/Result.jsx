@@ -1,15 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 
 import ResultProblem from '../components/ResultProblem';
 import { FaPlusSquare, FaSave } from 'react-icons/fa';
+import { useParams } from 'react-router-dom';
 
 const MakeContainer = styled.div`
   position: relative;
-  height: calc(100% - 190px);
-  padding: 60px 0;
+  height: calc(100% - 4rem - 70px);
+  padding: 2rem 0;
   overflow: scroll;
 
   *::placeholder {
@@ -19,64 +19,81 @@ const MakeContainer = styled.div`
 const Title = styled.div`
   display: flex;
   align-items: center;
-  width: 56.6%;
-  height: 72px;
-  margin: 0 0 0 21.7%;
+  width: 50%;
+  margin: 0 25% 0 25%;
   line-height: 120%;
-  font-size: 3.75rem;
+  font-size: 2rem;
   font-family: 'GongGothicMedium', sans-serif;
   word-wrap: break-word;
   word-break: break-word;
+
+  @media all and (max-width: 1023px) {
+    width: 60%;
+    margin: 0 15% 0 25%;
+  }
+  @media all and (max-width: 767px) {
+    width: calc(100% - 2rem);
+    margin: 0 1rem;
+    font-size: 1.5rem;
+    height: 29px;
+  }
 `;
 const Desc = styled.div`
   display: flex;
   align-items: center;
-  width: 56.6%;
-  height: 42px;
-  margin: 30px 21.7% 0;
+  width: 50%;
+  margin: 0.5rem 25%;
   line-height: 120%;
-  font-size: 2rem;
+  font-size: 1.25rem;
   font-family: 'GowunDodum-Regular', sans-serif;
   word-wrap: break-word;
   word-break: break-word;
-`;
-const Blank = styled.div`
-  width: 56.6%;
-  height: 2rem;
-  margin: 0 21.7%;
-  border-bottom: 2px solid var(--orangey-yellow);
-  font-size: 2rem;
-  font-family: 'GowunDodum-Regular', sans-serif;
-  word-wrap: break-word;
-  word-break: break-word;
-  resize: none;
-`;
-const Button = styled.div`
-  display: grid;
-  grid-template-rows: 1fr;
-  grid-template-columns: 1fr 56.6% 1fr;
-  color: var(--warm-grey);
-  font-size: 5rem;
-  opacity: 0.5;
-  svg {
-    margin: 1rem;
-    :hover {
-      color: black;
-    }
+
+  @media all and (max-width: 1023px) {
+    width: 60%;
+    margin: 0.5rem 15% 0.5rem 25%;
+  }
+  @media all and (max-width: 767px) {
+    width: calc(100% - 2rem);
+    margin: 0.5rem 1rem;
+    font-size: 1rem;
+    height: 21px;
   }
 `;
-const SideNavContainer = styled.div`
+const Divider = styled.div`
+  width: 50%;
+  height: 2px;
+  margin: 0 25%;
+  background-color: var(--orangey-yellow);
+
+  @media all and (max-width: 1023px) {
+    width: 60%;
+    margin: 0 15% 0 25%;
+  }
+  @media all and (max-width: 767px) {
+    width: calc(100% - 2rem);
+    margin: 0 1rem;
+  }
+`;
+
+const SidebarContainer = styled.div`
   position: sticky;
   float: 0;
   top: 3rem;
   display: grid;
   grid-template-rows: 1fr;
-  grid-template-columns: 1fr 56.6% 1fr;
+  grid-template-columns: 1fr 50% 1fr;
+  grid-template-areas: '. . sidebar';
+
+  @media all and (max-width: 1023px) {
+    display: none;
+  }
 `;
 const SideRelative = styled.div`
+  grid-area: sidebar;
   position: relative;
 `;
-const SideNav = styled.div`
+const Sidebar = styled.div`
   position: absolute;
   left: 0;
   margin-left: 1rem;
@@ -84,10 +101,11 @@ const SideNav = styled.div`
   border-left: 2px dashed var(--warm-grey);
   color: var(--warm-grey);
   div {
+    font-size: 0.75rem;
   }
 `;
-const ProblemQuestion = styled.div`
-  margin-bottom: 0.5rem;
+const SidebarContent = styled.div`
+  margin-bottom: 0.25rem;
   display: flex;
   * {
     font-size: 1rem;
@@ -99,116 +117,31 @@ const ProblemQuestion = styled.div`
     margin-right: 0.5rem;
   }
 `;
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
 
-const Make = () => {
-  const dummy = {
-    title: '세상에서 시리즈',
-    description: 'Global 합니다',
-    problems: [
-      {
-        index: 1,
-        question: '세상에서 가장 높은 빌딩은?',
-        answer: 3,
-        explanation: '부르즈 칼리파..였나?',
-        isOx: false,
-        choices: [
-          {
-            index: 1,
-            content: '63빌딩',
-          },
-          {
-            index: 2,
-            content: '에펠탑',
-          },
-          {
-            index: 3,
-            content: '아랍의 어떤 빌딩',
-          },
-          {
-            index: 4,
-            content: '자유의 여신상',
-          },
-        ],
-      },
-      {
-        index: 2,
-        question: '에베레스트는 지구에서 가장 높다',
-        answer: 1,
-        explanation: '그렇습니다',
-        isOx: true,
-        choices: [
-          {
-            index: 1,
-            content: '',
-          },
-          {
-            index: 2,
-            content: '',
-          },
-        ],
-      },
-    ],
-  };
-  const { setId } = useParams();
-  const [data, setData] = useState(dummy);
-
+const Result = () => {
+  const { setId, recordId } = useParams();
+  const [set, setSet] = useState({
+    title: '',
+    description: '',
+    problems: [],
+  });
   const [curPos, setCurPos] = useState(0);
-
   const makeRef = useRef(null);
   const navRefs = useRef([0]);
+  const [data, setData] = useState([]);
 
-  const handleChange = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
-  };
-
-  const addProblem = () => {
-    setData({
-      ...data,
-      problems: [
-        ...data.problems,
-        {
-          index: data.problems.length + 1,
-          question: '',
-          answer: '',
-          explanation: '',
-          isOx: false,
-          choices: [
-            { index: 1, content: '' },
-            { index: 2, content: '' },
-          ],
-        },
-      ],
+  useEffect(() => {
+    axios.get(`${process.env.SERVER_URL}sets/${setId}`).then((res) => {
+      setSet(res.data);
     });
-  };
 
-  const autoGrow = (e) => {
-    e.target.style.height = '1px';
-    e.target.style.height = e.target.scrollHeight + 'px';
-  };
-
-  const handleSave = () => {
-    if (data.title === '') {
-      return console.log('세트 제목을 입력하세요');
-    }
-
-    for (let problem of data.problems) {
-      if (problem.question === '') {
-        return console.log('문제를 입력해주세요');
-      }
-
-      if (problem.answer === '') {
-        return console.log('답을 정해주세요');
-      }
-    }
-    return axios.post(`${process.env.SERVER_URL}collections`, data);
-  };
+    axios.get(`${process.env.SERVER_URL}solveRecords/${recordId}`).then((res) => {
+      res.data.userChoices.sort((a, b) => a.problemId - b.problemId);
+      setData(res.data);
+    });
+  }, []);
 
   const handleNav = (e) => {
-    console.log(navRefs.current);
     navRefs.current[e.target.id].scrollIntoView({ behavior: 'smooth' });
   };
 
@@ -227,7 +160,7 @@ const Make = () => {
         }
       });
     setQpos(arr);
-  }, [data]);
+  }, [set]);
 
   const handleScroll = (e) => {
     for (let i = 0; i < Qpos.length; i++) {
@@ -237,20 +170,38 @@ const Make = () => {
     }
   };
 
-  console.log(data);
+  // console.log(set);
+  // console.log(data);
+  let count = 0;
+  set.problems.map((problem, idx) => {
+    if (data.userChoices) {
+      if (problem.answer === data.userChoices[idx].choice) {
+        count++;
+      }
+    }
+  });
 
   return (
     <MakeContainer onScroll={handleScroll} ref={makeRef}>
-      <Title name="title">{data.title}</Title>
-      <Desc name="description">{data.description}</Desc>
-      <Blank />
-      <SideNavContainer>
-        <div></div>
-        <div></div>
+      <Title> {set.title} </Title>
+      <Desc>{set.description}</Desc>
+      <div>
+        <div>내 정답률</div>
+        <div>
+          {Math.round(
+            (count / set.problems.filter((el) => el.answer !== 0).length) * 100
+          )}
+          %
+        </div>
+        <div>전체 평균 정답률</div>
+        <div>{Math.round(data.totalRate)}%</div>
+      </div>
+      <Divider />
+      <SidebarContainer>
         <SideRelative>
-          <SideNav>
-            {data.problems.map((problem, idx) => (
-              <ProblemQuestion
+          <Sidebar>
+            {set.problems.map((problem, idx) => (
+              <SidebarContent
                 onClick={handleNav}
                 id={idx}
                 key={`#Q${idx + 1}`}
@@ -258,29 +209,26 @@ const Make = () => {
               >
                 <div id={idx}>{idx + 1}</div>
                 <div id={idx}>{problem.question}</div>
-              </ProblemQuestion>
+              </SidebarContent>
             ))}
-          </SideNav>
+          </Sidebar>
         </SideRelative>
-      </SideNavContainer>
-      {data.problems.map((problem, idx) => (
-        <ResultProblem
-          key={problem.index}
-          problem={problem}
-          idx={idx}
-          navRefs={navRefs}
-        />
+      </SidebarContainer>
+      {set.problems.map((problem, idx) => (
+        <>
+          <ResultProblem
+            key={problem.index}
+            problem={problem}
+            set={set}
+            idx={idx}
+            navRefs={navRefs}
+            data={data}
+          />
+          <Divider />
+        </>
       ))}
-      <Button>
-        <div></div>
-        <ButtonContainer>
-          <FaPlusSquare onClick={addProblem} />
-          <FaSave onClick={handleSave} />
-        </ButtonContainer>
-        <div></div>
-      </Button>
     </MakeContainer>
   );
 };
 
-export default Make;
+export default Result;
