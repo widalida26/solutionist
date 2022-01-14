@@ -45,4 +45,10 @@ export class sets {
     cascade: true,
   })
   problem: problems[];
+
+  @ManyToOne(() => sets, (set) => set.children)
+  parent: sets;
+
+  @OneToMany(() => sets, (set) => set.parent)
+  children: sets[];
 }
