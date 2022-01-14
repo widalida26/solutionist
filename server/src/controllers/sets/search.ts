@@ -14,7 +14,7 @@ const search = async (req: Request, res: Response) => {
   // sets 테이블 이용을 위한 setService 인스턴스
   const setServiceInstance: SetService = Container.get(SetService);
 
-  await setServiceInstance.findSet(searchWord.toString());
+  await setServiceInstance.searchSet(searchWord.toString());
 
   res.end();
 };
