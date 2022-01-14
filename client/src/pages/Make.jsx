@@ -7,7 +7,7 @@ import { FaPlusSquare, FaSave } from 'react-icons/fa';
 
 const MakeContainer = styled.div`
   position: relative;
-  height: calc(100% - 4rem);
+  height: calc(100% - 4rem - 70px);
   padding: 2rem 0;
   overflow: scroll;
 
