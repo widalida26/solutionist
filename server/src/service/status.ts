@@ -4,7 +4,6 @@ import { InjectRepository } from 'typeorm-typedi-extensions';
 import { SolveStatusRepository } from '../database/repository/solveStatus';
 import { SolveRecordsRepository } from '../database/repository/solveRecords';
 import { ChoicesRepository } from '../database/repository/choices';
-import { StatusRecordsRepository } from '../database/repository/statusRecords';
 import { ISolve } from '../interface/ISets';
 import { checkEmptyObjectValue, convertRawObject } from '../utils/custom';
 
@@ -13,8 +12,7 @@ export class StatusService {
   constructor(
     @InjectRepository() private statusRepo: SolveStatusRepository,
     @InjectRepository() private recordRepo: SolveRecordsRepository,
-    @InjectRepository() private choicesRepo: ChoicesRepository,
-    @InjectRepository() private srRepo: StatusRecordsRepository
+    @InjectRepository() private choicesRepo: ChoicesRepository
   ) {}
 
   async solveProblem(solveInfo: ISolve) {
@@ -43,10 +41,7 @@ export class StatusService {
     const selectionRate = await this.calcSelectionRate(maxIdx, solveInfo.problemId);
 
     // 선택 비율 저장
-    const rateToSave = selectionRate.map((rate) => {
-      return { recordId: solveInfo.recordId, statusId: id, rate: rate };
-    });
-    await this.srRepo.save(rateToSave);
+    await this.choicesRepo.updateSelectionRate(solveInfo.problemId, selectionRate);
 
     return {
       id,
@@ -98,10 +93,7 @@ export class StatusService {
   async getUserChoices(recordId: number) {
     return await this.statusRepo.getSelectionRateByRecord(recordId).then((result) => {
       return result.map((el) => {
-        // 선택 비율
-        const selectionRate = el.sRec.map((e) => {
-          return e.rate;
-        });
+        const selectionRate = el.problem.choice.map((e) => e.selectionRate);
         return {
           problemId: el.problemId,
           choice: el.choice,
