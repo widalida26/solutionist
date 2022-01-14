@@ -12,6 +12,7 @@ import Setting from './pages/Setting';
 import styled from 'styled-components';
 import Result from './pages/Result';
 import Edit from './pages/Edit';
+import Search from './pages/Search';
 
 const BG = styled.div`
   background-color: var(--very-light-pink);
@@ -34,6 +35,7 @@ const App = () => {
         <Route path="/setting" element={<Setting />} />
         <Route path="/result/:setId/:recordId" element={<Result />} />
         <Route path="/edit/:setId" element={<Edit />} />
+        <Route path="/search" element={<Search />} />
       </Routes>
       <LoginModalContainer />
     </BG>

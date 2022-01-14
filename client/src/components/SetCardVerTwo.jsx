@@ -10,7 +10,11 @@ import DecreaseIcon from '../icons/Decrease';
 import TrashIcon from '../icons/Trash';
 
 import UpdateIcon from '../icons/Update';
+import KakaoIcon from '../icons/Kakao';
 import { GrDocumentUpdate } from 'react-icons/gr';
+import { RiKakaoTalkLine } from 'react-icons/ri';
+import { HiOutlineClipboardCopy } from 'react-icons/hi';
+import { Link } from 'react-router-dom';
 
 const anim = keyframes`
   from{
@@ -22,6 +26,8 @@ const anim = keyframes`
 const CardContainer = styled.div`
   position: relative;
   perspective: 1000px;
+
+  display: ${(props) => (props.$display ? 'none' : '')};
 `;
 const CardFront = styled.div`
   width: 100%;
@@ -117,11 +123,31 @@ const Menu = styled.li`
   }
 `;
 
+const StyledLink = styled(Link)`
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex: 1;
+  margin: auto;
+  color: white;
+`;
+
 const SetCard = () => {
   const [isFlipped, setIsFlipped] = useState(false);
 
+  const [isHidden, setIsHidden] = useState(false);
+  const handleHidden = () => {
+    setIsHidden(true);
+  };
+
+  const [isShare, setIsShare] = useState(false);
+  const handleShare = () => {
+    setIsShare(!isShare);
+  };
+
   return (
-    <CardContainer>
+    <CardContainer $display={isHidden}>
       <CardFront isFlipped={isFlipped} onClick={() => setIsFlipped(true)}>
         <InfoContainer>
           <SetInfo>
@@ -150,18 +176,35 @@ const SetCard = () => {
         <InfoContainer>
           <MenuContainer>
             <Menu>
-              <EditIcon fill="white" /> 풀기 // TODO : /solve 로 이동
+              <StyledLink to="/solve">
+                <EditIcon fill="white" /> 풀기
+                {/* // TODO : /solve 로 이동 */}
+              </StyledLink>
             </Menu>
             <Menu>
-              <UpdateIcon fill="none" stroke="white" strokeWidth="2" /> 수정
-              {/* <GrDocumentUpdate /> */}
-              // TODO : /edit 로 이동
+              <StyledLink to="/edit">
+                <UpdateIcon fill="none" stroke="white" strokeWidth="2" /> 수정
+                {/* <GrDocumentUpdate /> */}
+                {/* // TODO : /edit 로 이동 */}
+              </StyledLink>
             </Menu>
-            <Menu>
-              <ShareIcon fill="white" /> 공유 // TODO : 클립보드 & 카카오 공유 선택
+            <Menu onClick={handleShare}>
+              {isShare ? (
+                <>
+                  <HiOutlineClipboardCopy />
+                  <KakaoIcon fill="white" strokeWidth="0" />
+                  {/* // ! 크기가 뭔가 안크다... */}
+                </>
+              ) : (
+                <>
+                  <ShareIcon fill="white" /> 공유
+                </>
+              )}
+              {/* // TODO : 클립보드 & 카카오 공유 선택 */}
             </Menu>
-            <Menu>
-              <TrashIcon fill="white" /> 삭제 // TODO : display:none? 안보이게 처리
+            <Menu onClick={handleHidden}>
+              <TrashIcon fill="white" /> 삭제
+              {/* // TODO : display:none? 안보이게 처리 */}
             </Menu>
           </MenuContainer>
           <Icon onClick={() => setIsFlipped(false)}>
