@@ -123,7 +123,8 @@ export class SetService {
       var choicesToSave = []; // db에 삽입될 형태의 보기 배열
       // 보기 배열에 problemId 값 삽입
       savedProblems.forEach((problem) => {
-        const choices = problem['choices'];
+        console.log(problem);
+        const choices = problem['choice'];
         // 보기가 배열 형태일 경우에만 저장
         if (Array.isArray(choices)) {
           // 문제 배열에 setId 값 삽입 후 모든 보기의 배열을 하나로 병합
