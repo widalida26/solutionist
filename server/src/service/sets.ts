@@ -17,6 +17,11 @@ export class SetService {
     @InjectRepository() private collectionRepo: CollectionsRepository
   ) {}
 
+  async findSetsId(userId: number) {
+    const findSetsId = await this.setsRepo.findMyCollection(userId);
+    return findSetsId;
+  }
+
   // 타이틀로 세트 검색
   async findSet(title: string) {
     const foundSets = await this.setsRepo.findSetsByTitle(title);

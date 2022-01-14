@@ -2,6 +2,8 @@ import { EntityRepository, Repository, getManager } from 'typeorm';
 import { sets } from '../entity/sets';
 import { users } from '../entity/users';
 import { convertRawObject } from '../../utils/custom';
+import { solveRecords } from '../entity/solveRecords';
+import { count } from 'console';
 
 @EntityRepository(sets)
 export class SetsRepository extends Repository<sets> {
@@ -75,4 +77,25 @@ export class SetsRepository extends Repository<sets> {
   //     }
   //   });
   // }
+  async findMyCollection(userId: number) {
+    const dt = await this.createQueryBuilder('sets')
+      .select([
+        'sets.id as id',
+        'users.username as username',
+        'sets.title as title',
+        'sets.description as descriptoin',
+        'sets.createdAt as createdAt',
+      ])
+      .addSelect(
+        `count(case when solveRecords.answerRate > -1 then 1 end) as solvedUserNumber`
+      )
+      .addSelect(
+        `avg(case when solveRecords.answerRate > -1 then solveRecords.answerRate end) as  averageScore`
+      )
+      .innerJoin(users, 'users', 'sets.editorId = users.id')
+      .innerJoin(solveRecords, 'solveRecords', `sets.id = solveRecords.setId`)
+      .groupBy(`solveRecords.setId`)
+      .getRawMany();
+    return dt;
+  }
 }
