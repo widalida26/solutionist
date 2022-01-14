@@ -17,7 +17,6 @@ const MakeContainer = styled.div`
   }
 `;
 const Title = styled.div`
-  display: flex;
   align-items: center;
   width: 50%;
   margin: 0 25% 0 25%;
@@ -39,7 +38,6 @@ const Title = styled.div`
   }
 `;
 const Desc = styled.div`
-  display: flex;
   align-items: center;
   width: 50%;
   margin: 0.5rem 25%;
@@ -60,6 +58,35 @@ const Desc = styled.div`
     height: 21px;
   }
 `;
+const Rate = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 50%;
+  margin: 1rem 25%;
+  font-size: 1.25rem;
+  font-family: 'GowunDodum-Regular', sans-serif;
+  text-align: right;
+  word-wrap: break-word;
+  word-break: break-word;
+  > div > div:last-child {
+    font-size: 5rem;
+    color: var(--warm-grey);
+  }
+
+  @media all and (max-width: 1023px) {
+    width: 60%;
+    margin: 1rem 15% 1rem 25%;
+  }
+  @media all and (max-width: 767px) {
+    width: calc(100% - 2rem);
+    margin: 1rem 1rem;
+    font-size: 1rem;
+    > div > div:last-child {
+      font-size: 3rem;
+    }
+  }
+`;
 const Divider = styled.div`
   width: 50%;
   height: 2px;
@@ -75,7 +102,6 @@ const Divider = styled.div`
     margin: 0 1rem;
   }
 `;
-
 const SidebarContainer = styled.div`
   position: sticky;
   float: 0;
@@ -171,8 +197,9 @@ const Result = () => {
   };
 
   // console.log(set);
-  // console.log(data);
+  console.log(data);
   let count = 0;
+  let total = set.problems.filter((el) => el.answer !== 0).length;
   set.problems.map((problem, idx) => {
     if (data.userChoices) {
       if (problem.answer === data.userChoices[idx].choice) {
@@ -185,17 +212,20 @@ const Result = () => {
     <MakeContainer onScroll={handleScroll} ref={makeRef}>
       <Title> {set.title} </Title>
       <Desc>{set.description}</Desc>
-      <div>
-        <div>내 정답률</div>
-        <div>
-          {Math.round(
-            (count / set.problems.filter((el) => el.answer !== 0).length) * 100
-          )}
-          %
-        </div>
-        <div>전체 평균 정답률</div>
-        <div>{Math.round(data.totalRate)}%</div>
-      </div>
+      {total ? (
+        <Rate>
+          <div>
+            <div>내 정답률</div>
+            <div>{Math.round((count / total) * 100)}%</div>
+          </div>
+          <div>
+            <div>전체 평균</div>
+            <div>{Math.round(data.totalRate)}%</div>
+          </div>
+        </Rate>
+      ) : (
+        ''
+      )}
       <Divider />
       <SidebarContainer>
         <SideRelative>

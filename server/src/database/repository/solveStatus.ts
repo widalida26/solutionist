@@ -16,9 +16,9 @@ export class SolveStatusRepository extends Repository<solveStatus> {
   // 해당 레코드에서 보기 선택 비율 조회
   async getSelectionRateByRecord(recordId: number) {
     return this.createQueryBuilder('status')
-      .innerJoinAndSelect('status.sRec', 'rate')
+      .innerJoinAndSelect('status.problem', 'problems')
+      .innerJoinAndSelect('problems.choice', 'choices')
       .where(`status.recordId=${recordId}`)
-      .orderBy('status.problemId', 'ASC')
       .getMany();
   }
 
