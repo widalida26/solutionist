@@ -17,6 +17,7 @@ const BG = styled.div`
   background-color: var(--very-light-pink);
   width: 100vw;
   height: 100vh;
+  /* height: auto; */
   overflow: scroll;
 `;
 
