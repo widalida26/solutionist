@@ -14,6 +14,9 @@ export class statusRecords {
   statusId: number;
 
   @Column()
+  setId: number;
+
+  @Column()
   rate: number;
 
   @ManyToOne(() => solveRecords, (record) => record.id, {
