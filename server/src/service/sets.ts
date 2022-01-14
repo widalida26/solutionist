@@ -150,9 +150,4 @@ export class SetService {
 
     return savedSet;
   }
-
-  // 세트 삭제
-  // async setRemover(id: number): Promise<number> {
-  //   return await this.setsRepo.getRemovedUser(id);
-  // }
 }
