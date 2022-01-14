@@ -6,7 +6,7 @@ import { SolveRecordsRepository } from '../database/repository/solveRecords';
 import { SetsRepository } from '../database/repository/sets';
 
 @Service()
-export class RecordService {
+export class CollectionsService {
   constructor(
     @InjectRepository() private recordRepo: SolveRecordsRepository,
     @InjectRepository() private setsRepo: SetsRepository

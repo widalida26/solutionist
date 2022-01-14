@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import Container from 'typedi';
 import { SetService } from '../../service/sets';
-import { RecordsService } from '../../service/records';
+import { RecordService } from '../../service/records';
 import errorGenerator from '../../error/errorGenerator';
 
 const select = async (req: Request, res: Response) => {
@@ -19,7 +19,7 @@ const select = async (req: Request, res: Response) => {
   const selectedSet = await setServiceInstance.selectSet(Number(setId));
 
   // solveRecords 테이블 이용을 위한 recordsService 인스턴스
-  const recordsServiceInstance: RecordsService = Container.get(RecordsService);
+  const recordsServiceInstance: RecordService = Container.get(RecordService);
   const solvedUserNumber = await recordsServiceInstance.countRecord(setId);
 
   res.status(200).json({
