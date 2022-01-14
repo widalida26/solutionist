@@ -1,1 +1,0 @@
-{"version":3,"file":"1641541012748-CreateCollections.js","sourceRoot":"","sources":["../../../../src/database/migration/1641541012748-CreateCollections.ts"],"names":[],"mappings":";;;;;;;;;;AAEA,MAAa,8BAA8B;IAC5B,EAAE,CAAC,WAAwB;;YACtC,8EAA8E;QAChF,CAAC;KAAA;IACY,IAAI,CAAC,WAAwB;8DAAkB,CAAC;KAAA;CAC9D;AALD,wEAKC"}
