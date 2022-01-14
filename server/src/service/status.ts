@@ -42,20 +42,11 @@ export class StatusService {
     // 선택 비율 집계
     const selectionRate = await this.calcSelectionRate(maxIdx, solveInfo.problemId);
 
+    // 선택 비율 저장
     const rateToSave = selectionRate.map((rate) => {
       return { recordId: solveInfo.recordId, statusId: id, rate: rate };
     });
-
     await this.srRepo.save(rateToSave);
-    // 선택 비율 저장
-    // selectionRate.map(async (rate) => {
-    //   console.log(rate);
-    //   await this.srRepo.save({
-    //     recordId: solveInfo.recordId,
-    //     statusId: id,
-    //     rate: rate,
-    //   });
-    // });
 
     return {
       id,
