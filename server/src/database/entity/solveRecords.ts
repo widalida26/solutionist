@@ -2,7 +2,6 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from 'ty
 import { sets } from './sets';
 import { users } from './users';
 import { solveStatus } from './solveStatus';
-import { statusRecords } from './statusRecords';
 
 @Entity()
 export class solveRecords {
@@ -34,9 +33,4 @@ export class solveRecords {
     cascade: true,
   })
   status: solveStatus[];
-
-  @OneToMany(() => statusRecords, (rate) => rate.record, {
-    cascade: true,
-  })
-  sRec: statusRecords[];
 }
