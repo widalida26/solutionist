@@ -1,1 +1,0 @@
-{"version":3,"file":"1641899778482-CreateSolveRecords.js","sourceRoot":"","sources":["../../../../src/database/migration/1641899778482-CreateSolveRecords.ts"],"names":[],"mappings":";;;;;;;;;;AAEA,MAAa,+BAA+B;IAC7B,EAAE,CAAC,WAAwB;;YACtC,MAAM,WAAW,CAAC,KAAK,CAAC,mDAAmD,CAAC,CAAC;QAC/E,CAAC;KAAA;IAEY,IAAI,CAAC,WAAwB;8DAAkB,CAAC;KAAA;CAC9D;AAND,0EAMC"}
