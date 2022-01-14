@@ -1,12 +1,10 @@
 import { Request, Response } from 'express';
 import Container from 'typedi';
-
-import { SetService } from '../../service/sets';
+import { CollectionService } from '../../service/collections';
 import errorGenerator from '../../error/errorGenerator';
-import { checkEmptyObject } from '../../utils/custom';
 
 const remove = async (req: Request, res: Response) => {
-  const collectionId = req.query['collectionId'];
+  const collectionId = Number(req.params['collectionId']);
 
   // 쿼리 값이 부적합할 경우
   if (!collectionId) {
@@ -14,10 +12,10 @@ const remove = async (req: Request, res: Response) => {
   }
 
   // sets 테이블 이용을 위한 setService 인스턴스
-  const setServiceInstance: SetService = Container.get(SetService);
-  // collection
-  setServiceInstance;
+  const collectionServiceInstance: CollectionService = Container.get(CollectionService);
+  // collection 삭제
+  await collectionServiceInstance.removeCollection(collectionId);
 
-  res.status(201).json({ id: collectionId });
+  res.status(200).json({ id: collectionId });
 };
 export default remove;
