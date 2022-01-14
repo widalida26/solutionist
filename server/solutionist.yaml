@@ -457,7 +457,7 @@ paths:
                         type: integer
                       isOX:
                         type: boolean
-                choices:
+                choice:
                   type: array
                   items:
                     type: object
@@ -477,7 +477,7 @@ paths:
                     answer: 1
                     explanation: thats it
                     isOX: false
-                    choices:
+                    choice:
                       - index: 1
                         content: a
                       - index: 2
@@ -487,7 +487,7 @@ paths:
                     answer: 1
                     explanation: thats it
                     isOX: false
-                    choices:
+                    choice:
                       - index: 1
                         content: a
                       - index: 2
@@ -543,7 +543,7 @@ paths:
               type: object
               properties:
                 collectionId:
-                  type: number
+                  type: integer
                 title:
                   type: string
                 description:
@@ -563,7 +563,7 @@ paths:
                         type: integer
                       isOX:
                         type: boolean
-                choices:
+                choice:
                   type: array
                   items:
                     type: object
@@ -585,7 +585,7 @@ paths:
                     answer: 1
                     explanation: thats it
                     isOX: false
-                    choices:
+                    choice:
                       - index: 1
                         content: a
                       - index: 2
@@ -595,7 +595,7 @@ paths:
                     answer: 1
                     explanation: thats it
                     isOX: false
-                    choices:
+                    choice:
                       - index: 1
                         content: a
                       - index: 2
@@ -659,31 +659,11 @@ paths:
                   message:
                     type: string
                     default: internal server error
-  /solveStatus:
-    post:
+  /sets:{setId}:
+    get:
       tags:
         - search && sets
-      summary: solve set
-      requestBody:
-        content:
-          'application/json':
-            schema:
-              type: object
-              properties:
-                solver:
-                  type: string
-                problemId:
-                  type: number
-                choice:
-                  type: number
-              required:
-                - problemId
-                - choice
-              example:
-                solver: 'kimcoding@naver.com'
-                title: 1
-                choice: 2
-        required: true
+      summary: select set
       responses:
         '201':
           description: Created
@@ -692,18 +672,83 @@ paths:
               schema:
                 type: object
                 properties:
-                  id:
-                    type: number
-                  solver:
+                  setId:
+                    type: integer
+                  collectionId:
+                    type: integer
+                  creator:
                     type: string
-                  selectionRate:
+                  title:
+                    type: string
+                  description:
+                    type: string
+                  solvedUserNumber:
+                    type: integer
+                  createdAt:
+                    type: string
+                  problems:
                     type: array
                     items:
                       type: object
+                      properties:
+                        id:
+                          type: integer
+                        index:
+                          type: integer
+                        question:
+                          type: string
+                        answer:
+                          type: integer
+                        explanation:
+                          type: integer
+                        isOX:
+                          type: boolean
+                  choice:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        index:
+                          type: integer
+                        content:
+                          type: string
                 example:
-                  id: 1
-                  username: 'kimcoding@naver.com'
-                  selectionRate: ['10', '20', '30', '40']
+                  setId: 1
+                  collectionId: 2
+                  creator: kimcoding
+                  title: easy questions
+                  description: very easy
+                  solvedUserNumber: 100
+                  createdAt: 2022. 1. 11. 오후 3:00:41
+                  problems:
+                    - id: 1
+                      index: 1
+                      question: what is it
+                      answer: 1
+                      explanation: thats it
+                      isOX: false
+                      choice:
+                        - id: 1
+                          index: 1
+                          content: a
+                        - id: 2
+                          index: 2
+                          content: b
+                    - id: 2
+                      index: 2
+                      question: what is it
+                      answer: 1
+                      explanation: thats it
+                      isOX: false
+                      choice:
+                        - id: 1
+                          index: 1
+                          content: a
+                        - id: 2
+                          index: 2
+                          content: b
         '400':
           description: Bad Request
           content:
@@ -722,8 +767,63 @@ paths:
                   message:
                     type: string
                     default: internal server error
-  /solvedSets:
+  /solveStatus:
     post:
+      tags:
+        - search && sets
+      summary: solve set
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                solver:
+                  type: string
+                recordId:
+                  type: integer
+                problemId:
+                  type: integer
+                choice:
+                  type: integer
+              required:
+                - solver
+                - recordId
+                - problemId
+                - choice
+              example:
+                solver: 'kimcoding@naver.com'
+                recordId: 1
+                problemId: 2
+                choice: 3
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalRate:
+                    type: float
+                  userChoices:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        - problemId: 1
+                          choice: 2
+                          selectionRate:
+                          type: array
+                          items:
+                            type: float
+                example:
+                  id: 1
+                  selectionRate: ['10', '20', '30', '40']
+
+  /solvedRecords/{recordId}:
+    patch:
       tags:
         - search && sets
       summary: submit set
@@ -733,15 +833,11 @@ paths:
             schema:
               type: object
               properties:
-                setId:
-                  type: number
                 answerRate:
-                  type: number
+                  type: integer
               required:
-                - setId
                 - answerRate
               example:
-                setId: 1
                 answerRate: 50
         required: true
       responses:
@@ -753,11 +849,63 @@ paths:
                 type: object
                 properties:
                   id:
-                    type: number
+                    type: integer
                 example:
                   id: 1
         '400':
-          description: Bad Request
+          description:
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: insufficient information
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                properties:
+                  message:
+                    type: string
+                    default: internal server error
+  /solveRecords/{recordId}:
+    get:
+      tags:
+        - search && sets
+      summary: set statics
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalRate:
+                    type: integer
+                  userChoices:
+                    type: array
+                    itmes:
+                      type: object
+                      properties:
+                        - problemId:
+                            type: integer
+                          choice:
+                            type: integer
+                          selectionRate:
+                            type: array
+                            items:
+                              type: float
+                example:
+                  totalRate: 50
+                  userChoices:
+                    - problemId: 1
+                      choice: 2
+                      selectionRate: [10, 20, 30, 40]
+        '400':
+          description:
           content:
             application/json:
               schema:
