@@ -27,7 +27,7 @@ export class StatusService {
     await this.verifyStatusToSave(solveInfo.recordId, solveInfo.problemId);
 
     // choice가 유효한지 확인 => 0 이하거나 가장 마지막 index보다 크면 안됨
-    const maxIdx = await this.choicesRepo.getLastChoice();
+    const maxIdx = await this.choicesRepo.getLastChoice(solveInfo.problemId);
     if (solveInfo.choice <= 0 || solveInfo.choice > maxIdx) {
       errorGenerator({ statusCode: 400 });
     }
@@ -42,14 +42,20 @@ export class StatusService {
     // 선택 비율 집계
     const selectionRate = await this.calcSelectionRate(maxIdx, solveInfo.problemId);
 
-    // 선택 비율 저장
-    selectionRate.map(async (rate) => {
-      await this.srRepo.save({
-        recordId: solveInfo.recordId,
-        statusId: id,
-        rate: rate,
-      });
+    const rateToSave = selectionRate.map((rate) => {
+      return { recordId: solveInfo.recordId, statusId: id, rate: rate };
     });
+
+    await this.srRepo.save(rateToSave);
+    // 선택 비율 저장
+    // selectionRate.map(async (rate) => {
+    //   console.log(rate);
+    //   await this.srRepo.save({
+    //     recordId: solveInfo.recordId,
+    //     statusId: id,
+    //     rate: rate,
+    //   });
+    // });
 
     return {
       id,
@@ -76,9 +82,9 @@ export class StatusService {
 
   async calcSelectionRate(maxIdx: number, problemId: number) {
     // problemId에 해당하는 solveStatus 레코드 카운트
-    const counted = await this.statusRepo.countByChoice(problemId).then((reuslt) => {
+    const counted = await this.statusRepo.countByChoice(problemId).then((result) => {
       const cntInfo = { total: 0, info: {} };
-      reuslt.forEach((el) => {
+      result.forEach((el) => {
         let map = convertRawObject(el);
         // 문제 번호 : 숫자 형태의 Map으로 변환
         let cnt = Number(map['cnt']);
@@ -100,10 +106,6 @@ export class StatusService {
 
   async getUserChoices(recordId: number) {
     return await this.statusRepo.getSelectionRateByRecord(recordId).then((result) => {
-      // 문제 기록이 없을 때
-      if (!result) {
-        errorGenerator({ statusCode: 500 });
-      }
       return result.map((el) => {
         // 선택 비율
         const selectionRate = el.sRec.map((e) => {

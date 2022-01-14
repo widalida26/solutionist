@@ -18,6 +18,7 @@ export class SolveStatusRepository extends Repository<solveStatus> {
     return this.createQueryBuilder('status')
       .innerJoinAndSelect('status.sRec', 'rate')
       .where(`status.recordId=${recordId}`)
+      .orderBy('status.problemId', 'ASC')
       .getMany();
   }
 
