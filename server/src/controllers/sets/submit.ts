@@ -7,7 +7,6 @@ const submit = async (req: Request, res: Response) => {
   const recordId = Number(req.params['recordId']);
   const answerRate = req.body['answerRate'];
 
-  console.log(answerRate);
   // 데이터가 누락되거나 유효하지 않을 경우
   if (!recordId || answerRate == null) {
     errorGenerator({ statusCode: 400 });
