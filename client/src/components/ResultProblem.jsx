@@ -6,7 +6,7 @@ import OIcon from '../icons/O';
 import XIcon from '../icons/X';
 
 const ProblemContainer = styled.div`
-  margin: 0.25rem 0;
+  margin: 1rem 0;
   display: grid;
   grid-template-rows: auto auto auto auto;
   grid-template-columns: 25% 1fr 25%;
@@ -181,7 +181,7 @@ const ChartBox = styled.div`
     props.backgroundColor ? props.backgroundColor : 'var(--warm-grey-50)'};
 `;
 
-const ResultProblem = ({ set, idx, problem, navRefs, data }) => {
+const ResultProblem = ({ idx, problem, navRefs, data }) => {
   const curIdx = idx;
   const index = idx + 1;
   const [isStat, setIsStat] = useState(false);
@@ -191,8 +191,8 @@ const ResultProblem = ({ set, idx, problem, navRefs, data }) => {
       <ProblemNum
         font_size={curIdx + 1 > 99 ? '6rem' : '8rem'}
         color={
-          set[curIdx]
-            ? set[curIdx].choice === problem.answer
+          data.userChoices && problem.answer
+            ? data.userChoices[curIdx].choice === problem.answer
               ? 'var(--vibrant-green-50)'
               : 'var(--red-50)'
             : 'var(--orangey-yellow-50)'
@@ -209,7 +209,7 @@ const ResultProblem = ({ set, idx, problem, navRefs, data }) => {
                 <OIcon
                   id="O"
                   fill={
-                    data.userChoices
+                    data.userChoices && problem.answer // 답이 있는 경우
                       ? data.userChoices[curIdx].choice === problem.answer
                         ? data.userChoices[curIdx].choice === 1
                           ? 'var(--vibrant-green-50)'
@@ -219,6 +219,10 @@ const ResultProblem = ({ set, idx, problem, navRefs, data }) => {
                         : problem.answer === 1
                         ? 'var(--vibrant-green-50)'
                         : 'var(--orangey-yellow-50)'
+                      : data.userChoices && problem.answer === 0
+                      ? data.userChoices[curIdx].choice === 1
+                        ? 'var(--orangey-yellow)'
+                        : 'var(--warm-grey)'
                       : 'var(--warm-grey)'
                   }
                 />
@@ -227,7 +231,7 @@ const ResultProblem = ({ set, idx, problem, navRefs, data }) => {
                 <XIcon
                   id="X"
                   fill={
-                    data.userChoices
+                    data.userChoices && problem.answer // 답이 있는 경우
                       ? data.userChoices[curIdx].choice === problem.answer
                         ? data.userChoices[curIdx].choice === 2
                           ? 'var(--vibrant-green-50)'
@@ -237,6 +241,10 @@ const ResultProblem = ({ set, idx, problem, navRefs, data }) => {
                         : problem.answer === 2
                         ? 'var(--vibrant-green-50)'
                         : 'var(--orangey-yellow-50)'
+                      : data.userChoices && problem.answer === 0
+                      ? data.userChoices[curIdx].choice === 2
+                        ? 'var(--orangey-yellow)'
+                        : 'var(--warm-grey)'
                       : 'var(--warm-grey)'
                   }
                 />
@@ -249,15 +257,19 @@ const ResultProblem = ({ set, idx, problem, navRefs, data }) => {
               <Choice
                 key={`choiceChecked ${idx + 1}`}
                 backgroundColor={
-                  data.userChoices
-                    ? data.userChoices[curIdx].choice === problem.answer
+                  data.userChoices && problem.answer // 답이 있는 경우
+                    ? data.userChoices[curIdx].choice === problem.answer // 정답인 경우
                       ? data.userChoices[curIdx].choice === idx + 1
-                        ? 'var(--vibrant-green-50)'
-                        : ''
-                      : data.userChoices[curIdx].choice === idx + 1
-                      ? 'var(--red-50)'
+                        ? 'var(--vibrant-green-50)' // 선택 답은 초록
+                        : '' // 아닌건 투명
+                      : data.userChoices[curIdx].choice === idx + 1 // 오답인 경우
+                      ? 'var(--red-50)' // 선택은 빨강
                       : problem.answer === idx + 1
-                      ? 'var(--vibrant-green-50)'
+                      ? 'var(--vibrant-green-50)' // 정답은 초록
+                      : '' // 아닌건 투명
+                    : data.userChoices && problem.answer === 0
+                    ? data.userChoices[curIdx].choice === idx + 1
+                      ? 'var(--orangey-yellow-50)'
                       : ''
                     : ''
                 }
@@ -295,7 +307,7 @@ const ResultProblem = ({ set, idx, problem, navRefs, data }) => {
             ))}
           </>
         )}
-      </ChoicesContainer>{' '}
+      </ChoicesContainer>
       <ChartIcon onClick={() => setIsStat(!isStat)} isStat={isStat}>
         <FaChartBar />
       </ChartIcon>
@@ -320,7 +332,7 @@ const ResultProblem = ({ set, idx, problem, navRefs, data }) => {
             <ChartBox
               width={data.userChoices ? data.userChoices[curIdx].selectionRate[idx] : ''}
               backgroundColor={
-                data.userChoices
+                data.userChoices && problem.answer // 답이 있는 경우
                   ? data.userChoices[curIdx].choice === problem.answer
                     ? data.userChoices[curIdx].choice === idx + 1
                       ? 'var(--vibrant-green-50)'

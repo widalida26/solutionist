@@ -410,16 +410,21 @@ const Solve = () => {
   };
   const handleSubmit = () => {
     let count = 0;
+    let total = set.problems.filter((el) => el.answer !== 0).length;
+
     set.problems.map((problem, idx) => {
       if (problem.answer === userChoices[idx].choice) {
         count++;
       }
     });
+
     axios
       .patch(`${process.env.SERVER_URL}solveRecords/${setInfo.recordId}`, {
-        answerRate: Math.round(
-          (count / set.problems.filter((el) => el.answer !== 0).length) * 100
-        ),
+        answerRate: !total
+          ? -1
+          : Math.round(
+              (count / set.problems.filter((el) => el.answer !== 0).length) * 100
+            ),
       })
       .then(() => {
         window.location.href = `/result/${set.setId}/${setInfo.recordId}`;
