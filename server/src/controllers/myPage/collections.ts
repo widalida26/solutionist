@@ -11,8 +11,8 @@ const made = async (req: Request, res: Response) => {
   const findSet = await setsServiceInstance.findSetsId(userInfo.id);
   // const test = await recordsServiceInstance.countRecord(setId);
 
-  console.log(333, { daata: { ...findSet } });
-  res.json({ data: { ...findSet } });
+  console.log(333, { findSet });
+  res.json({ findSet });
 
   // console.log(111, test);
 };
