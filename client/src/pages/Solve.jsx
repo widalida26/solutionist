@@ -338,9 +338,9 @@ const Solve = () => {
     ],
   });
   const { setId } = useParams();
-  const [data, setData] = useState([]);
+  const [userChoices, setUserChoices] = useState([]);
   const [curIdx, setCurIdx] = useState(0);
-  const { index, question, answer, explanation, isOX, choice, id } = set.problems[curIdx];
+  const { id, index, question, answer, explanation, isOX, choice } = set.problems[curIdx];
   const [isChecked, setIsChecked] = useState([]);
   const [stats, setStats] = useState([]);
   const [isStat, setIsStat] = useState(false);
@@ -359,14 +359,13 @@ const Solve = () => {
   }, []);
 
   const handleClick = (e) => {
-    console.log(e.target.id);
-    const newData = [...data];
+    const newData = [...userChoices];
     if (e.target.id[0] === 'O') {
       newData[curIdx] = { problemId: id, choice: 1 };
-      setData(newData);
+      setUserChoices(newData);
     } else if (e.target.id[0] === 'X') {
       newData[curIdx] = { problemId: id, choice: 2 };
-      setData(newData);
+      setUserChoices(newData);
     }
 
     if (e.target.id[0] === 'a') {
@@ -374,20 +373,21 @@ const Solve = () => {
         problemId: id,
         choice: Number(e.target.id[1]) + 1,
       };
-      setData(newData);
+      setUserChoices(newData);
     }
   };
 
   const handleCheck = () => {
-    if (!data[curIdx]) return console.log('답을 입력해주세요');
+    if (!userChoices[curIdx]) return console.log('답을 입력해주세요');
 
     const newIsCheck = [...isChecked];
 
     newIsCheck[curIdx] = true;
     setIsChecked(newIsCheck);
+
     axios
       .post(`${process.env.SERVER_URL}solveStatus`, {
-        ...data[curIdx],
+        ...userChoices[curIdx],
         recordId: setInfo.recordId,
         solver: setInfo.solver,
       })
@@ -411,20 +411,20 @@ const Solve = () => {
   const handleSubmit = () => {
     let count = 0;
     set.problems.map((problem, idx) => {
-      if (problem.answer === data[idx].choice) {
+      if (problem.answer === userChoices[idx].choice) {
         count++;
       }
     });
     axios
       .patch(`${process.env.SERVER_URL}solveRecords/${setInfo.recordId}`, {
-        answerRate: (count / set.problems.length) * 100,
+        answerRate: Math.round(
+          (count / set.problems.filter((el) => el.answer !== 0).length) * 100
+        ),
       })
       .then(() => {
-        window.location.href = `/result/${set.setId}/${setInfo.solver}`;
+        window.location.href = `/result/${set.setId}/${setInfo.recordId}`;
       });
   };
-  console.log(set.setId);
-  console.log(setInfo.solver);
   const handleStart = () => {
     axios.post(`${process.env.SERVER_URL}solveRecords`, { setId }).then((res) => {
       setIsSolving(true);
@@ -458,8 +458,8 @@ const Solve = () => {
                   <SidebarContent
                     key={`sidebar${idx}`}
                     color={
-                      data[idx] && isChecked[idx]
-                        ? data[idx].choice === set.problems[idx].answer
+                      userChoices[idx] && isChecked[idx]
+                        ? userChoices[idx].choice === set.problems[idx].answer
                           ? 'var(--vibrant-green)'
                           : 'var(--red)'
                         : 'var(--warm-grey)'
@@ -480,8 +480,8 @@ const Solve = () => {
                 <ProblemNum
                   font_size={curIdx + 1 > 99 ? '6rem' : '8rem'}
                   color={
-                    data[curIdx]
-                      ? data[curIdx].choice === answer
+                    userChoices[curIdx]
+                      ? userChoices[curIdx].choice === answer
                         ? 'var(--vibrant-green-50)'
                         : 'var(--red-50)'
                       : 'var(--orangey-yellow-50)'
@@ -498,12 +498,12 @@ const Solve = () => {
                           <OIcon
                             id="O"
                             fill={
-                              data[curIdx]
-                                ? data[curIdx].choice === answer
-                                  ? data[curIdx].choice === 1
+                              userChoices[curIdx]
+                                ? userChoices[curIdx].choice === answer
+                                  ? userChoices[curIdx].choice === 1
                                     ? 'var(--vibrant-green-50)'
                                     : 'var(--warm-grey)'
-                                  : data[curIdx].choice === 1
+                                  : userChoices[curIdx].choice === 1
                                   ? 'var(--red-50)'
                                   : answer === 1
                                   ? 'var(--vibrant-green-50)'
@@ -516,12 +516,12 @@ const Solve = () => {
                           <XIcon
                             id="X"
                             fill={
-                              data[curIdx]
-                                ? data[curIdx].choice === answer
-                                  ? data[curIdx].choice === 2
+                              userChoices[curIdx]
+                                ? userChoices[curIdx].choice === answer
+                                  ? userChoices[curIdx].choice === 2
                                     ? 'var(--vibrant-green-50)'
                                     : 'var(--warm-grey)'
-                                  : data[curIdx].choice === 2
+                                  : userChoices[curIdx].choice === 2
                                   ? 'var(--red-50)'
                                   : answer === 2
                                   ? 'var(--vibrant-green-50)'
@@ -538,12 +538,12 @@ const Solve = () => {
                         <Choice
                           key={`choiceChecked ${idx + 1}`}
                           backgroundColor={
-                            data[curIdx]
-                              ? data[curIdx].choice === answer
-                                ? data[curIdx].choice === idx + 1
+                            userChoices[curIdx]
+                              ? userChoices[curIdx].choice === answer
+                                ? userChoices[curIdx].choice === idx + 1
                                   ? 'var(--vibrant-green-50)'
                                   : ''
-                                : data[curIdx].choice === idx + 1
+                                : userChoices[curIdx].choice === idx + 1
                                 ? 'var(--red-50)'
                                 : answer === idx + 1
                                 ? 'var(--vibrant-green-50)'
@@ -553,12 +553,12 @@ const Solve = () => {
                         >
                           <ChoiceNum
                             fontWeight={
-                              data[curIdx]
-                                ? data[curIdx].choice === answer
-                                  ? data[curIdx].choice === idx + 1
+                              userChoices[curIdx]
+                                ? userChoices[curIdx].choice === answer
+                                  ? userChoices[curIdx].choice === idx + 1
                                     ? 'bold'
                                     : 'normal'
-                                  : data[curIdx].choice === idx + 1
+                                  : userChoices[curIdx].choice === idx + 1
                                   ? 'bold'
                                   : answer === idx + 1
                                   ? 'bold'
@@ -566,12 +566,12 @@ const Solve = () => {
                                 : 'normal'
                             }
                             color={
-                              data[curIdx]
-                                ? data[curIdx].choice === answer
-                                  ? data[curIdx].choice === idx + 1
+                              userChoices[curIdx]
+                                ? userChoices[curIdx].choice === answer
+                                  ? userChoices[curIdx].choice === idx + 1
                                     ? 'black'
                                     : ''
-                                  : data[curIdx].choice === idx + 1
+                                  : userChoices[curIdx].choice === idx + 1
                                   ? 'black'
                                   : answer === idx + 1
                                   ? 'black'
@@ -608,12 +608,12 @@ const Solve = () => {
                         <ChartBox
                           width={stats[curIdx][idx]}
                           backgroundColor={
-                            data[curIdx]
-                              ? data[curIdx].choice === answer
-                                ? data[curIdx].choice === idx + 1
+                            userChoices[curIdx]
+                              ? userChoices[curIdx].choice === answer
+                                ? userChoices[curIdx].choice === idx + 1
                                   ? 'var(--vibrant-green-50)'
                                   : ''
-                                : data[curIdx].choice === idx + 1
+                                : userChoices[curIdx].choice === idx + 1
                                 ? 'var(--red-50)'
                                 : answer === idx + 1
                                 ? 'var(--vibrant-green-50)'
@@ -647,8 +647,8 @@ const Solve = () => {
                           <OIcon
                             id="O"
                             fill={
-                              data[curIdx]
-                                ? data[curIdx].choice === 1
+                              userChoices[curIdx]
+                                ? userChoices[curIdx].choice === 1
                                   ? 'var(--orangey-yellow)'
                                   : 'var(--warm-grey)'
                                 : 'var(--warm-grey)'
@@ -659,8 +659,8 @@ const Solve = () => {
                           <XIcon
                             id="X"
                             fill={
-                              data[curIdx]
-                                ? data[curIdx].choice === 2
+                              userChoices[curIdx]
+                                ? userChoices[curIdx].choice === 2
                                   ? 'var(--orangey-yellow)'
                                   : 'var(--warm-grey)'
                                 : 'var(--warm-grey)'
@@ -677,8 +677,8 @@ const Solve = () => {
                           key={`choice ${idx + 1}`}
                           id={`a${idx}`}
                           backgroundColor={
-                            data[curIdx]
-                              ? data[curIdx].choice === idx + 1
+                            userChoices[curIdx]
+                              ? userChoices[curIdx].choice === idx + 1
                                 ? 'var(--orangey-yellow-50)'
                                 : 'none'
                               : 'none'
@@ -687,15 +687,15 @@ const Solve = () => {
                           <ChoiceNum
                             id={`a${idx}`}
                             color={
-                              data[curIdx]
-                                ? data[curIdx].choice === idx + 1
+                              userChoices[curIdx]
+                                ? userChoices[curIdx].choice === idx + 1
                                   ? 'black'
                                   : 'var(--warm-grey)'
                                 : 'var(--warm-grey)'
                             }
                             fontWeight={
-                              data[curIdx]
-                                ? data[curIdx].choice === idx + 1
+                              userChoices[curIdx]
+                                ? userChoices[curIdx].choice === idx + 1
                                   ? 'bold'
                                   : 'normal'
                                 : 'normal'

@@ -1,221 +1,225 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-import OxIcon from '../icons/Ox';
-import ListIcon from '../icons/List';
-import SurveyIcon from '../icons/Survey';
-import TrashIcon from '../icons/Trash';
-import DecreaseIcon from '../icons/Decrease';
-import IncreaseIcon from '../icons/Increase';
-import CheckIcon from '../icons/Check';
+import { FaChartBar } from 'react-icons/fa';
 import OIcon from '../icons/O';
 import XIcon from '../icons/X';
-import CheckBoldIcon from '../icons/CheckBold';
 
 const ProblemContainer = styled.div`
+  margin: 0.25rem 0;
   display: grid;
-  grid-template-rows: 1fr;
-  grid-template-columns: 1fr 56.6% 1fr;
+  grid-template-rows: auto auto auto auto;
+  grid-template-columns: 25% 1fr 25%;
+  grid-template-areas:
+    'number question  .'
+    'number choice .'
+    'statIcon stats .'
+    'statIcon explanation .';
+
+  @media all and (max-width: 1023px) {
+    grid-template-columns: 25% 60% 15%;
+  }
+  @media all and (max-width: 767px) {
+    margin: 0 1rem;
+    grid-template-rows: auto auto auto auto auto auto;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      'number statIcon'
+      'question question'
+      'choice choice'
+      'counter counter'
+      'stats stats'
+      'explanation explanation';
+  }
 `;
 const ProblemNum = styled.div`
+  grid-area: number;
   text-align: end;
-  margin-right: 1rem;
-  color: var(--orangey-yellow);
+  color: ${(props) => props.color};
   font-size: ${(props) => props.font_size};
-  opacity: 0.5;
+  margin-right: 1rem;
+
+  @media all and (max-width: 767px) {
+    font-size: 2rem;
+    text-align: start;
+    margin-top: 1rem;
+  }
 `;
-const Problem = styled.div`
-  display: grid;
-  grid-template-rows: repeat(3, auto);
-  grid-template-columns: 3fr 1fr;
-  grid-template-areas:
-    'question icons'
-    'list list-count'
-    'explanation explanation';
-`;
-const ProblemOx = styled.div`
-  display: grid;
-  grid-template-rows: repeat(3, auto);
-  grid-template-columns: 3fr 1fr;
-  grid-template-areas:
-    'question icons'
-    'list list'
-    'explanation explanation';
-`;
+
 const Question = styled.div`
   grid-area: question;
-  height: 48px;
-  margin: 2rem 0 1rem 1rem;
-  line-height: 120%;
+  margin: 1rem 0.5rem 0 0;
+  height: auto;
+  line-height: 125%;
   word-wrap: break-word;
   word-break: break-word;
-  font-size: 2.5rem;
+  font-size: 1.25rem;
   font-family: 'GongGothicMedium', sans-serif;
-`;
-const IconContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  grid-area: icons;
-  margin-top: 2rem;
-`;
-const Icon = styled.div`
-  margin: 0.5rem 1rem auto 0;
-  :hover {
-    svg {
-      fill: black;
-    }
-  }
-  :focus {
-    svg {
-      fill: var(--orangey-yellow);
-    }
+  @media all and (max-width: 767px) {
+    font-size: 1rem;
   }
 `;
-const ListContainer = styled.ol`
-  grid-area: list;
+const ChoicesContainer = styled.ol`
+  grid-area: choice;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
 `;
-const List = styled.li`
+const Choice = styled.li`
   display: flex;
-  margin-top: 1rem;
-  margin-left: 1rem;
   align-items: center;
   border-bottom: 1px solid var(--warm-grey);
   color: var(--warm-grey);
+  background-color: ${(props) => props.backgroundColor};
 `;
-const ListNum = styled.div`
+const ChoiceNum = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 2.5rem;
-  height: 3.5rem;
-  align-self: end;
-  font-size: 2rem;
+  margin-top: 0.5rem;
+  align-self: start;
+  width: 2rem;
+  font-size: 1rem;
+  font-family: 'GowunDodum-Regular', sans-serif;
+  font-weight: ${(props) => props.fontWeight};
+  color: ${(props) => props.color};
 `;
-const ListContent = styled.div`
+const ChoiceContent = styled.div`
   flex: 1;
   width: 100%;
-  height: 40px;
-  margin: 0.5rem 0 0.5rem 1rem;
+  margin: 0.25rem 0.5rem 0.25rem 0;
+  padding: 0.25rem 0;
   color: black;
-  font-size: 1.75rem;
+  font-size: 1rem;
   font-family: 'GowunDodum-Regular', sans-serif;
   word-wrap: break-word;
   word-break: break-word;
-`;
-const ListCheck = styled.div`
-  display: flex;
-  width: 2rem;
-  height: 3.5rem;
-  margin-right: 0.5rem;
-  align-self: end;
-  :hover {
-    svg {
-      fill: var(--vibrant-green);
-    }
-  }
-  svg {
-    margin-bottom: 0.5rem;
-    align-self: end;
-  }
-`;
-const ListCount = styled.div`
-  grid-area: list-count;
-`;
-const CounterContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 3.5rem;
-  margin-top: 1rem;
-  color: var(--warm-grey);
-  font-size: 2rem;
-`;
-const Counter = styled.div`
-  width: auto;
-  margin: 0 1.5rem;
 `;
 const ExplanationContainer = styled.div`
   grid-area: explanation;
-  margin-top: 2.5rem;
-  padding-bottom: 2.5rem;
-  border-bottom: 2px solid var(--orangey-yellow);
 `;
 const Explanation = styled.div`
-  height: 67px;
-  width: calc(100% - 6rem - 2px);
-  margin: 0 1rem;
-  padding: 1rem 2rem;
-  border: 1px solid var(--warm-grey);
+  width: calc(100% - 1.5rem - 2px);
+  margin: 0 0 1rem 0;
+  padding: 0.5rem 0.75rem;
+  border: 1px dashed var(--warm-grey);
   border-radius: 10px;
   background-color: white;
   color: var(--warm-grey);
-  font-size: 1.5rem;
+  font-size: 0.75rem;
   font-family: 'GowunDodum-Regular', sans-serif;
   word-wrap: break-word;
   word-break: break-word;
 `;
-const OxContainer = styled.div`
+const OxChoices = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-evenly;
+  grid-area: choice;
   margin-top: 1rem;
 `;
 const OxCard = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 12rem;
-  height: 12rem;
-  margin: 0 4.2%;
-  padding: 8%;
+  width: 35%;
+  height: 100%;
+  max-width: 12rem;
+  max-height: 12rem;
   background-color: white;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.16);
   border-radius: 10px;
   svg {
     height: 100%;
     width: 100%;
-    :hover {
-      fill: var(--orangey-yellow);
+    margin: 2rem;
+  }
+  @media all and (max-width: 767px) {
+    max-width: 10rem;
+    max-height: 10rem;
+    svg {
+      margin: 1.5rem;
     }
   }
 `;
-const CountController = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+const ChartContainer = styled.div`
+  grid-area: stats;
+  display: ${(props) => (props.isStat ? 'flex' : 'none')};
+  flex-direction: column;
+  grid-gap: 0.25rem;
+  margin-bottom: 1rem;
+`;
+const ChartLine = styled.div`
+  display: grid;
+  grid-template-columns: 2rem 1fr 3rem;
+  grid-gap: 1rem;
+
+  div:last-child {
+    text-align: right;
+  }
+`;
+const ChartIcon = styled.div`
+  grid-area: statIcon;
+  text-align: right;
+  font-size: 3rem;
+  margin-right: 1.5rem;
+  color: ${(props) => (props.isStat ? 'var(--orangey-yellow)' : 'var(--warm-grey-50)')};
+
+  @media all and (max-width: 767px) {
+    font-size: 1.75rem;
+    margin-top: 1rem;
+    margin-right: 0;
+  }
+`;
+const ChartStatNum = styled.div`
+  text-align: right;
+`;
+const ChartBox = styled.div`
   height: 100%;
+  border-left: 2px solid
+    ${(props) => (props.backgroundColor ? props.backgroundColor : 'var(--warm-grey-50)')};
+  width: ${(props) => (props.width ? `${props.width}%` : '0%')};
+  background-color: ${(props) =>
+    props.backgroundColor ? props.backgroundColor : 'var(--warm-grey-50)'};
 `;
 
-const ResultProblem = ({ problem, idx, navRefs }) => {
+const ResultProblem = ({ set, idx, problem, navRefs, data }) => {
+  const curIdx = idx;
+  const index = idx + 1;
+  const [isStat, setIsStat] = useState(false);
+
   return (
     <ProblemContainer ref={(el) => (navRefs.current[idx] = el)}>
-      <ProblemNum font_size={idx + 1 > 99 ? '8rem' : '12rem'}>
-        <p>{idx + 1}</p>
+      <ProblemNum
+        font_size={curIdx + 1 > 99 ? '6rem' : '8rem'}
+        color={
+          set[curIdx]
+            ? set[curIdx].choice === problem.answer
+              ? 'var(--vibrant-green-50)'
+              : 'var(--red-50)'
+            : 'var(--orangey-yellow-50)'
+        }
+      >
+        {index}
       </ProblemNum>
-      {problem.isOx ? (
-        <ProblemOx>
-          <Question id="question">{problem.question}</Question>
-          <IconContainer>
-            <Icon id="survey" answer={problem.answer === 0}>
-              <SurveyIcon
-                fill="var(--warm-grey)"
-                fill={problem.answer === 0 ? 'var(--orangey-yellow)' : 'var(--warm-grey)'}
-              />
-            </Icon>
-            <Icon>
-              <ListIcon fill="var(--warm-grey)" />
-            </Icon>
-            <Icon id="trash">
-              <TrashIcon fill="var(--warm-grey)" />
-            </Icon>
-          </IconContainer>
-          <ListContainer>
-            <OxContainer>
+      <Question>{problem.question}</Question>
+      <ChoicesContainer>
+        {problem.isOX ? (
+          <>
+            <OxChoices>
               <OxCard id="O">
                 <OIcon
                   id="O"
                   fill={
-                    problem.answer === 1 ? 'var(--orangey-yellow)' : 'var(--warm-grey)'
+                    data.userChoices
+                      ? data.userChoices[curIdx].choice === problem.answer
+                        ? data.userChoices[curIdx].choice === 1
+                          ? 'var(--vibrant-green-50)'
+                          : 'var(--warm-grey)'
+                        : data.userChoices[curIdx].choice === 1
+                        ? 'var(--red-50)'
+                        : problem.answer === 1
+                        ? 'var(--vibrant-green-50)'
+                        : 'var(--orangey-yellow-50)'
+                      : 'var(--warm-grey)'
                   }
                 />
               </OxCard>
@@ -223,57 +227,124 @@ const ResultProblem = ({ problem, idx, navRefs }) => {
                 <XIcon
                   id="X"
                   fill={
-                    problem.answer === 2 ? 'var(--orangey-yellow)' : 'var(--warm-grey)'
+                    data.userChoices
+                      ? data.userChoices[curIdx].choice === problem.answer
+                        ? data.userChoices[curIdx].choice === 2
+                          ? 'var(--vibrant-green-50)'
+                          : 'var(--warm-grey)'
+                        : data.userChoices[curIdx].choice === 2
+                        ? 'var(--red-50)'
+                        : problem.answer === 2
+                        ? 'var(--vibrant-green-50)'
+                        : 'var(--orangey-yellow-50)'
+                      : 'var(--warm-grey)'
                   }
                 />
               </OxCard>
-            </OxContainer>
-          </ListContainer>
-          <ExplanationContainer>
-            <Explanation>{problem.explanation}</Explanation>
-          </ExplanationContainer>
-        </ProblemOx>
-      ) : (
-        <Problem>
-          <Question id="question">{problem.question}</Question>
-          <IconContainer>
-            <Icon id="survey">
-              <SurveyIcon
-                id="survey"
-                fill={problem.answer === 0 ? 'var(--orangey-yellow)' : 'var(--warm-grey)'}
-              />
-            </Icon>
-            <Icon>
-              <OxIcon fill="var(--warm-grey)" />
-            </Icon>
-            <Icon id="trash">
-              <TrashIcon fill="var(--warm-grey)" />
-            </Icon>
-          </IconContainer>
-          <ListContainer>
-            {problem.choices.map((choice, idx) => (
-              <List key={`choice ${idx + 1}`}>
-                <ListNum>{`${idx + 1}.`}</ListNum>
-                <ListContent id={`c${idx}`}>{choice.content}</ListContent>
-                <ListCheck id={`a${idx}`}>
-                  <CheckIcon
-                    idx={`${idx}`}
-                    fill={
-                      choice.index === problem.answer
-                        ? 'var(--vibrant-green)'
-                        : 'var(--warm-grey)'
-                    }
-                  />
-                </ListCheck>
-              </List>
+            </OxChoices>
+          </>
+        ) : (
+          <>
+            {problem.choice.map((choice, idx) => (
+              <Choice
+                key={`choiceChecked ${idx + 1}`}
+                backgroundColor={
+                  data.userChoices
+                    ? data.userChoices[curIdx].choice === problem.answer
+                      ? data.userChoices[curIdx].choice === idx + 1
+                        ? 'var(--vibrant-green-50)'
+                        : ''
+                      : data.userChoices[curIdx].choice === idx + 1
+                      ? 'var(--red-50)'
+                      : problem.answer === idx + 1
+                      ? 'var(--vibrant-green-50)'
+                      : ''
+                    : ''
+                }
+              >
+                <ChoiceNum
+                  fontWeight={
+                    data.userChoices
+                      ? data.userChoices[curIdx].choice === problem.answer
+                        ? data.userChoices[curIdx].choice === idx + 1
+                          ? 'bold'
+                          : 'normal'
+                        : data.userChoices[curIdx].choice === idx + 1
+                        ? 'bold'
+                        : problem.answer === idx + 1
+                        ? 'bold'
+                        : 'normal'
+                      : 'normal'
+                  }
+                  color={
+                    data.userChoices
+                      ? data.userChoices[curIdx].choice === problem.answer
+                        ? data.userChoices[curIdx].choice === idx + 1
+                          ? 'black'
+                          : ''
+                        : data.userChoices[curIdx].choice === idx + 1
+                        ? 'black'
+                        : problem.answer === idx + 1
+                        ? 'black'
+                        : ''
+                      : ''
+                  }
+                >{`${idx + 1}.`}</ChoiceNum>
+                <ChoiceContent>{choice.content}</ChoiceContent>
+              </Choice>
             ))}
-          </ListContainer>
-          <ListCount></ListCount>
-          <ExplanationContainer>
-            <Explanation id="explanation">{problem.explanation}</Explanation>
-          </ExplanationContainer>
-        </Problem>
-      )}
+          </>
+        )}
+      </ChoicesContainer>{' '}
+      <ChartIcon onClick={() => setIsStat(!isStat)} isStat={isStat}>
+        <FaChartBar />
+      </ChartIcon>
+      <ChartContainer rows={problem.choice.length + 1} isStat={isStat}>
+        <ChartLine>
+          <div>보기</div>
+          <div></div>
+          <div>비율</div>
+        </ChartLine>
+        {problem.choice.map((choice, idx) => (
+          <ChartLine>
+            {problem.isOX ? (
+              idx === 0 ? (
+                <div>O</div>
+              ) : (
+                <div>X</div>
+              )
+            ) : (
+              <div>{choice.index}.</div>
+            )}
+
+            <ChartBox
+              width={data.userChoices ? data.userChoices[curIdx].selectionRate[idx] : ''}
+              backgroundColor={
+                data.userChoices
+                  ? data.userChoices[curIdx].choice === problem.answer
+                    ? data.userChoices[curIdx].choice === idx + 1
+                      ? 'var(--vibrant-green-50)'
+                      : ''
+                    : data.userChoices[curIdx].choice === idx + 1
+                    ? 'var(--red-50)'
+                    : problem.answer === idx + 1
+                    ? 'var(--vibrant-green-50)'
+                    : ''
+                  : ''
+              }
+            />
+            <ChartStatNum>
+              {data.userChoices
+                ? Math.round(data.userChoices[curIdx].selectionRate[idx])
+                : 0}
+              %
+            </ChartStatNum>
+          </ChartLine>
+        ))}
+      </ChartContainer>
+      <ExplanationContainer>
+        {problem.explanation ? <Explanation>{problem.explanation}</Explanation> : ''}
+      </ExplanationContainer>
     </ProblemContainer>
   );
 };

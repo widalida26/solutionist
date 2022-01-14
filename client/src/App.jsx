@@ -31,7 +31,7 @@ const App = () => {
         <Route path="/myset" element={<MySet />} />
         <Route path="/solve" element={<Solve />} />
         <Route path="/setting" element={<Setting />} />
-        <Route path="/result/:setId" element={<Result />} />
+        <Route path="/result/:setId/:recordId" element={<Result />} />
         <Route path="/edit/:setId" element={<Edit />} />
       </Routes>
       <LoginModalContainer />
