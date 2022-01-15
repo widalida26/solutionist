@@ -5,7 +5,7 @@ module.exports = {
   username: process.env.RDS_USERNAME,
   password: process.env.RDS_PASSWORD,
   database: process.env.RDS_DATABASE,
-  synchronize: true,
+  synchronize: false,
   logging: true,
   autoLoadEntities: true,
   timezone: 'UTC',

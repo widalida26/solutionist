@@ -22,6 +22,7 @@ const modifyUsername = async (req: Request, res: Response) => {
 
     const playload = {
       username: newUsername,
+      profileImage: profileImage,
     };
 
     return res
