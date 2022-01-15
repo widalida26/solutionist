@@ -10,7 +10,6 @@ const solveRecords = async (req: Request, res: Response) => {
 
   const findSet = await setsServiceInstance.findSolveSetsId(userInfo.id);
 
-  console.log(333, { findSet });
   res.json({ findSet });
 };
 
