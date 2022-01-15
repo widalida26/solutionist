@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import SetCard from '../components/SetCard';
@@ -29,7 +29,7 @@ const CardsContainer = styled.div`
   grid-area: cards;
 
   div:nth-child(n + 5) {
-    display: none;
+    display: ${(props) => (props.$display ? 'none' : '')};
   }
 `;
 
@@ -48,13 +48,23 @@ const Divider = styled.div`
 `;
 
 const MySet = () => {
+  const [isMadeHidden, setIsMadeHidden] = useState(true);
+  const handleMadeHidden = () => {
+    setIsMadeHidden(!isMadeHidden);
+  };
+
+  const [isSolvedHidden, setIsSolvedHidden] = useState(true);
+  const handleSolvedHidden = () => {
+    setIsSolvedHidden(!isSolvedHidden);
+  };
+
   return (
     <>
       <SetsContainer>
         {/* 상단 이동 버튼 테스트 */}
         <MoveTopButton />
         <Header>내가 만든 세트</Header>
-        <CardsContainer>
+        <CardsContainer $display={isMadeHidden}>
           <SetCardVerTwo />
           <SetCardVerTwo />
           <SetCardVerTwo />
@@ -66,13 +76,13 @@ const MySet = () => {
           <SetCardVerTwo />
         </CardsContainer>
       </SetsContainer>
-      <ShowBox>
-        <p>Show More</p>
+      <ShowBox onClick={handleMadeHidden}>
+        {isMadeHidden ? <p>Show More</p> : <p>Show less</p>}
       </ShowBox>
       <Divider />
       <SetsContainer>
         <Header>내가 푼 세트</Header>
-        <CardsContainer>
+        <CardsContainer $display={isSolvedHidden}>
           <SetCardVerTwo />
           <SetCardVerTwo />
           <SetCardVerTwo />
@@ -84,8 +94,8 @@ const MySet = () => {
           <SetCardVerTwo />
         </CardsContainer>
       </SetsContainer>
-      <ShowBox>
-        <p>Show More</p>
+      <ShowBox onClick={handleSolvedHidden}>
+        {isSolvedHidden ? <p>Show More</p> : <p>Show less</p>}
       </ShowBox>
     </>
   );
