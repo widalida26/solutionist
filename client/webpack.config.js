@@ -80,6 +80,7 @@ module.exports = () => {
         'process.env.REDIRECT_URI': JSON.stringify(process.env.REDIRECT_URI),
         'process.env.GOOGLE_CLIENT_ID': JSON.stringify(process.env.GOOGLE_CLIENT_ID),
         'process.env.KAKAO_CLIENT_ID': JSON.stringify(process.env.KAKAO_CLIENT_ID),
+        'process.env.KAKAO_JS_KEY': JSON.stringify(process.env.KAKAO_JS_KEY),
       }),
     ],
   };

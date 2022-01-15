@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 import SetCard from '../components/SetCard';
+import SetCardVerTwo from '../components/SetCardVerTwo';
 import MoveTopButton from '../components/MoveTopButton';
 
 const SetsContainer = styled.div`
@@ -44,6 +45,7 @@ const MySet = () => {
         <MoveTopButton />
         <Header>내가 만든 세트</Header>
         <CardsContainer>
+          <SetCardVerTwo></SetCardVerTwo>
           <SetCard></SetCard>
           <SetCard></SetCard>
           <SetCard></SetCard>
