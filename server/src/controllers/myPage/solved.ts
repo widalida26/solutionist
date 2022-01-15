@@ -8,13 +8,10 @@ const solveRecords = async (req: Request, res: Response) => {
 
   const setsServiceInstance: SetService = Container.get(SetService);
 
-  const findSet = await setsServiceInstance.findSetsId(userInfo.id);
-  // const test = await recordsServiceInstance.countRecord(setId);
+  const findSet = await setsServiceInstance.findSolveSetsId(userInfo.id);
 
   console.log(333, { findSet });
   res.json({ findSet });
-
-  // console.log(111, test);
 };
 
 export default solveRecords;

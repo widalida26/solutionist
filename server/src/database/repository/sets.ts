@@ -78,6 +78,7 @@ export class SetsRepository extends Repository<sets> {
   //     }
   //   });
   // }
+  //내가 만든 문제
   async findMyCollection(userId: number) {
     const dt = await this.createQueryBuilder('sets')
       .select([
@@ -95,16 +96,19 @@ export class SetsRepository extends Repository<sets> {
       )
       .innerJoin(users, 'users', 'sets.editorId = users.id')
       .innerJoin(solveRecords, 'solveRecords', `sets.id = solveRecords.setId`)
-      .where(`users.id = solveRecords.userId`)
+      .innerJoin(collections, 'collections', `sets.collectionId = collections.id`)
+      .where(`collections.creatorId = :creatorId`, { creatorId: userId })
+      .andWhere('sets.editorId = :editorId', { editorId: userId })
       .groupBy(`solveRecords.setId`)
       .getRawMany();
     return dt;
   }
-
+  //내가 푼 문제
   async findSolveSet(userId: number) {
     const dt = await this.createQueryBuilder('sets')
       .select([
-        'sets.id as id',
+        'solveRecords.setId as id',
+        'solveRecords.id as recordId',
         'users.username as username',
         'sets.title as title',
         'sets.description as descriptoin',
@@ -116,12 +120,21 @@ export class SetsRepository extends Repository<sets> {
       .addSelect(
         `avg(case when solveRecords.answerRate > -1 then solveRecords.answerRate end) as  averageScore`
       )
-      .innerJoin(users, 'users', 'sets.editorId = users.id')
+
       .innerJoin(solveRecords, 'solveRecords', `sets.id = solveRecords.setId`)
-      .innerJoin(collections, 'collections', `sets.collectionId = collections.id`)
-      .where(`collections.creatorId = sets.editorId`)
+      .innerJoin(users, 'users', 'solveRecords.userId = users.id')
+      .where('solveRecords.userId = :userId', { userId: userId })
       .groupBy(`solveRecords.setId`)
       .getRawMany();
     return dt;
   }
 }
+
+// .innerJoin('sets.editor','users')
+// .innerJoin('sets.')
+// .innerJoin(users, 'users', 'sets.editorId = users.id')
+// .innerJoin(solveRecords, 'solveRecords', `sets.id = solveRecords.setId`)
+// .where(`users.id = :id`, { id: userId })
+// .andWhere('solveRecords.userId = :userId', { userId: userId })
+// .groupBy(`solveRecords.setId`)
+// .getRawMany();
