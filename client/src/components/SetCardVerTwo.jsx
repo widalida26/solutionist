@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 
 import SubmenuIcon from '../icons/Submenu';
@@ -15,6 +15,7 @@ import { GrDocumentUpdate } from 'react-icons/gr';
 import { RiKakaoTalkLine } from 'react-icons/ri';
 import { HiOutlineClipboardCopy } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 const anim = keyframes`
   from{
@@ -146,6 +147,38 @@ const SetCard = () => {
     setIsShare(!isShare);
   };
 
+  // TODO : 동작은 하는데 알림이 없음 ex)클립보드에 저장 완료 메시지
+  const solveUrl = `http://localhost:9000/solve`;
+
+  // * 카카오 공유하기
+  useEffect(() => {
+    window.Kakao.init(`${process.env.KAKAO_JS_KEY}`);
+  }, []);
+
+  const shareKakao = () => {
+    console.log('카카오 공유 버튼');
+    Kakao.Link.sendDefault({
+      objectType: 'feed',
+      content: {
+        title: 'Solutionist 문제 풀기',
+        description: 'Username님이 공유하신 문제로 이동합니다.',
+        imageUrl:
+          'https://user-images.githubusercontent.com/73838733/149615624-3d540181-ce17-4bda-8bfe-2c382525e44a.png',
+        link: {
+          mobileWebUrl: 'https://solutionist.site/solve',
+        },
+      },
+      buttons: [
+        {
+          title: '웹으로 이동',
+          link: {
+            mobileWebUrl: 'https://solutionist.site/solve',
+          },
+        },
+      ],
+    });
+  };
+
   return (
     <CardContainer $display={isHidden}>
       <CardFront isFlipped={isFlipped} onClick={() => setIsFlipped(true)}>
@@ -191,9 +224,12 @@ const SetCard = () => {
             <Menu onClick={handleShare}>
               {isShare ? (
                 <>
-                  <HiOutlineClipboardCopy />
-                  <KakaoIcon fill="white" strokeWidth="0" />
+                  <CopyToClipboard text={solveUrl}>
+                    <HiOutlineClipboardCopy />
+                  </CopyToClipboard>
+                  {/* <KakaoIcon  fill="white" strokeWidth="0" /> */}
                   {/* // ! 크기가 뭔가 안크다... */}
+                  <RiKakaoTalkLine onClick={shareKakao} />
                 </>
               ) : (
                 <>
