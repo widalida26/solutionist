@@ -10,6 +10,7 @@ import {
 import { collections } from './collections';
 import { users } from './users';
 import { problems } from './problems';
+import { solveRecords } from './solveRecords';
 
 @Entity()
 export class sets {
@@ -45,4 +46,9 @@ export class sets {
     cascade: true,
   })
   problem: problems[];
+
+  @OneToMany(() => solveRecords, (record) => record.set, {
+    cascade: true,
+  })
+  record: solveRecords[];
 }
