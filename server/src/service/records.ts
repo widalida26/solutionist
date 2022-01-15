@@ -32,7 +32,7 @@ export class RecordsService {
 
   async submitRecord(recordId: number, answerRate: number) {
     // answerRate가 유효하지 않을 경우
-    if (answerRate < 0 || answerRate > 100 || !Number(answerRate)) {
+    if (answerRate < 0 || answerRate > 100) {
       errorGenerator({ statusCode: 400 });
     }
 
@@ -50,5 +50,9 @@ export class RecordsService {
         answerRate: MoreThan(-1),
       },
     });
+  }
+
+  async getTotalAnswerRate(recordId: number) {
+    return await this.recordRepo.getAvgAnswerRate(recordId);
   }
 }

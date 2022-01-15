@@ -23,26 +23,6 @@ export class SetsRepository extends Repository<sets> {
       .getRawMany();
     console.log(dt);
   }
-  // await this.createQueryBuilder('sets');
-  // collection 아이디로 groupby한 다음 가장 최신의 set를 가져와야 함
-  // return await this.createQueryBuilder('sets')
-  //   .leftJoin('sets.creator', 'users')
-  //   .select([
-  //     'sets.id',
-
-  //     'users.username',
-  //   ])
-  //   .where('sets.title like :title', { title: '%' + title + '%' })
-  //   .getMany()
-  //   .then((result) => {
-  //     console.log('result', result);
-  //     return result.map((el) => {
-  //       //console.log(el);
-  //       //el['username'] = el.creator ? el.creator.username : null;
-  //       //delete el.creator;
-  //       //return el;
-  //     });
-  //   });
 
   // setId로 세트 검색
   async findSet(id: number) {

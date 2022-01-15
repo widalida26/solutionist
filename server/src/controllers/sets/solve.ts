@@ -3,14 +3,14 @@ import Container from 'typedi';
 import { ISolve } from '../../interface/ISets';
 import { StatusService } from '../../service/status';
 import errorGenerator from '../../error/errorGenerator';
-import { CheckEmptyObject } from '../../utils/custom';
+import { checkEmptyObject } from '../../utils/custom';
 
 const solve = async (req: Request, res: Response) => {
   // 토큰 인증에 실패했을 경우 = 유저 정보가 없을 경우 => 빈 객체 할당
   const solveDTO: ISolve = req.body;
 
   // 데이터가 누락됐을 경우
-  if (CheckEmptyObject(solveDTO)) {
+  if (checkEmptyObject(solveDTO)) {
     errorGenerator({ statusCode: 400 });
   }
 

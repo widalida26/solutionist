@@ -22,9 +22,6 @@ const modifyUsername = async (req: Request, res: Response) => {
 
     const playload = {
       username: newUsername,
-      email: email,
-      profileImage: profileImage,
-      type: type,
     };
 
     return res

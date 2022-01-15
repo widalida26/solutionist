@@ -4,13 +4,23 @@ import { convertRawObject } from '../../utils/custom';
 
 @EntityRepository(choices)
 export class ChoicesRepository extends Repository<choices> {
-  async getLastChoice() {
+  async getLastChoice(problemId: number) {
     return this.createQueryBuilder('choices')
       .select('MAX(choices.index)', 'max')
+      .where(`problemId=${problemId}`)
       .getRawOne()
-      .then((result) => convertRawObject(result)['max']);
-    // const query = this.createQueryBuilder('choices');
-    // query.select('MAX(choices.index)', 'max');
-    // return await query.getRawOne().then((result) => convertRawObject(result)['max']);
+      .then((result) => {
+        return convertRawObject(result)['max'];
+      });
+  }
+
+  async updateSelectionRate(problemId: number, selectionRate: number[]) {
+    const choicesToSave = await this.find({ problemId }).then((result) => {
+      return result.map((el, idx) => {
+        el.selectionRate = selectionRate[idx];
+        return el;
+      });
+    });
+    await this.save(choicesToSave);
   }
 }

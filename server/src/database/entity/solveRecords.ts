@@ -32,5 +32,5 @@ export class solveRecords {
   @OneToMany(() => solveStatus, (status) => status.record, {
     cascade: true,
   })
-  status: solveStatus;
+  status: solveStatus[];
 }

@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
 import { problems } from './problems';
 import { solveRecords } from './solveRecords';
 
@@ -27,5 +27,5 @@ export class solveStatus {
   @ManyToOne(() => solveRecords, (record) => record.id, {
     onDelete: 'CASCADE',
   })
-  record: solveRecords;
+  record: solveRecords[];
 }

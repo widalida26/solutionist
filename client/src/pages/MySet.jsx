@@ -2,6 +2,8 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 import SetCard from '../components/SetCard';
+import SetCardVerTwo from '../components/SetCardVerTwo';
+import MoveTopButton from '../components/MoveTopButton';
 
 const SetsContainer = styled.div`
   display: grid;
@@ -39,8 +41,11 @@ const MySet = () => {
   return (
     <>
       <SetsContainer>
+        {/* 상단 이동 버튼 테스트 */}
+        <MoveTopButton />
         <Header>내가 만든 세트</Header>
         <CardsContainer>
+          <SetCardVerTwo></SetCardVerTwo>
           <SetCard></SetCard>
           <SetCard></SetCard>
           <SetCard></SetCard>
