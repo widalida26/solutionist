@@ -1,3 +1,5 @@
+// ================양방향 키 사용 안함================
+
 import crypto from 'crypto';
 import 'dotenv/config';
 
