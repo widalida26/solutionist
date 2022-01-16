@@ -68,6 +68,7 @@ const kakaoOauth = async (req: Request, res: Response) => {
     }
     const secondFind = await findUser();
     const payload = {
+      id: secondFind.id,
       username: secondFind.username,
       email: secondFind.email,
       type: secondFind.type,
