@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 
 import MenuDropDownContainer from '../containers/MenuDropDownContainer';
+import { useNavigate } from 'react-router-dom';
 
 const UnderlineFadeIn = keyframes`
   from {
@@ -145,6 +146,15 @@ const Nav = ({ onLoginModalOnAction, isLogin }) => {
     else setIsDropDown(true);
   };
 
+  // * keyword로 URI 이동
+  const navigate = useNavigate();
+
+  const handleSearch = (event) => {
+    console.log('핸들서치 작동?');
+    event.preventDefault();
+    navigate(`/search?title=${keyword}`);
+  };
+
   return (
     <NavContainer>
       <NavGrid>
@@ -168,7 +178,11 @@ const Nav = ({ onLoginModalOnAction, isLogin }) => {
           />
           <SearchIconContainer>
             <Link to="/search">
-              <img src="/assets/icons/search.svg" alt="search-icon" />
+              <img
+                src="/assets/icons/search.svg"
+                alt="search-icon"
+                onClick={handleSearch}
+              />
             </Link>
           </SearchIconContainer>
         </SearchContainer>

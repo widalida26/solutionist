@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import SetCard from '../components/SetCard';
 import SetCardVerTwo from '../components/SetCardVerTwo';
 import MoveTopButton from '../components/MoveTopButton';
+import Footer from '../components/Footer';
+
+import { getMySetsMade, getMySetsSolved } from '../api/SearchSetAPI';
 
 const SetsContainer = styled.div`
   display: grid;
@@ -58,6 +61,32 @@ const MySet = () => {
     setIsSolvedHidden(!isSolvedHidden);
   };
 
+  // * 내가 만든 세트 API 통신
+  const [mySetsMade, setMySetsMade] = useState({});
+
+  useEffect(() => {
+    setMySetsMade({});
+    const sendAPICall = async () => {
+      const data = await getMySetsMade();
+      console.log(data);
+      // setMySetsMade(data);
+    };
+    sendAPICall();
+  }, []);
+
+  // * 내가 푼 세트 API 통신
+  const [mySetsSolved, setMySetsSolved] = useState({});
+
+  useEffect(() => {
+    setMySetsSolved({});
+    const sendAPICall = async () => {
+      const data = await getMySetsSolved();
+      console.log(data);
+      // setMySetsSolved(data);
+    };
+    sendAPICall();
+  }, []);
+
   return (
     <>
       <SetsContainer>
@@ -97,6 +126,7 @@ const MySet = () => {
       <ShowBox onClick={handleSolvedHidden}>
         {isSolvedHidden ? <p>Show More</p> : <p>Show less</p>}
       </ShowBox>
+      <Footer />
     </>
   );
 };
