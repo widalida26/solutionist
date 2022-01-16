@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { users } from '../../database/entity/users';
 import { getRepository, getConnection } from 'typeorm';
 import 'dotenv/config';
+import bcrypt from 'bcrypt';
 import cryptos from '../../utils/crypto';
 
 const modifyPassword = async (req: Request, res: Response) => {
@@ -16,19 +17,23 @@ const modifyPassword = async (req: Request, res: Response) => {
 
     console.log(password, newPassword);
 
-    const saltBase = findUser.salt;
-    const salt = Buffer.from(saltBase, 'base64');
-    const dbpw = cryptos.encrypt(password, salt);
-    const dbnewpw = cryptos.encrypt(newPassword, salt);
+    // const saltBase = findUser.salt;
+    // const salt = Buffer.from(saltBase, 'base64');
+    // const dbpw = cryptos.encrypt(password, salt);
+    // const dbnewpw = cryptos.encrypt(newPassword, salt);
 
-    console.log(dbpw, dbnewpw);
-    console.log(findUser.password);
+    const salt = findUser.password;
+    const dbpw = await bcrypt.compare(password, salt);
+    const newDbPw = await bcrypt.hash(newPassword, 10);
+    const checkPw = await bcrypt.compare(newPassword, salt);
 
-    if (dbpw !== findUser.password) {
+    if (!dbpw) {
+      console.log('?');
       return res.status(400).send('wrong password');
     }
 
-    if (dbnewpw === findUser.password) {
+    if (checkPw) {
+      console.log('??');
       return res.status(409).send('duplicate information');
     }
 
@@ -36,7 +41,7 @@ const modifyPassword = async (req: Request, res: Response) => {
     await getConnection()
       .createQueryBuilder()
       .update(users)
-      .set({ password: dbnewpw })
+      .set({ password: newDbPw })
       .where('id = :id', { id: findUser.id })
       .execute();
 

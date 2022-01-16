@@ -3,6 +3,7 @@ import cryptos from '../../utils/crypto';
 import { users } from '../../database/entity/users';
 import { getRepository } from 'typeorm';
 import jwtToken from '../../utils/tokenFunctions/index';
+import bcrypt from 'bcrypt';
 
 const login = async (req: Request, res: Response) => {
   try {
@@ -18,25 +19,30 @@ const login = async (req: Request, res: Response) => {
     if (!user) {
       return res.status(401).send('Email not found');
     }
-    const saltBase = user.salt;
-    const salt = Buffer.from(saltBase, 'base64');
-    const dbpw = cryptos.encrypt(password, salt);
+    // const saltBase = user.salt;
+    // const salt = Buffer.from(saltBase, 'base64');
+    // const dbpw = cryptos.encrypt(password, salt);
 
-    const userpw = await info.findOne({ where: { email: email, password: dbpw } });
-    if (!userpw) {
+    const salt = user.password;
+
+    // async/await 사용
+    const dbpw = await bcrypt.compare(password, salt);
+
+    console.log(333, dbpw);
+    if (dbpw === false) {
       return res.status(401).send('password mismatch');
     }
 
-    delete userpw.password;
-    delete userpw.salt;
-    const userInfo = JSON.stringify(userpw);
+    delete user.password;
+    delete user.salt;
+    const userInfo = JSON.stringify(user);
     const accessToken = jwtToken.accessToken(userInfo);
     const payload = {
-      id: userpw.id,
-      username: userpw.username,
-      email: userpw.email,
-      profileImage: userpw.profileImage,
-      type: userpw.type,
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      profileImage: user.profileImage,
+      type: user.type,
     };
     jwtToken.sendAccessToken(res, accessToken);
     console.log(111, accessToken);

@@ -16,6 +16,15 @@ export class SetService {
     @InjectRepository() private choicesRepo: ChoicesRepository,
     @InjectRepository() private collectionRepo: CollectionsRepository
   ) {}
+  async findSetsId(userId: number) {
+    const find = await this.setsRepo.findMyCollection(userId);
+    return find;
+  }
+
+  async findSolveSetsId(userId: number) {
+    const find = await this.setsRepo.findSolveSet(userId);
+    return find;
+  }
 
   // 타이틀로 세트 검색
   async findSet(title: string) {
