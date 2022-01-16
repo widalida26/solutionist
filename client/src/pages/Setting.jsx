@@ -16,7 +16,7 @@ import { logoutAction, updateUserInfoAction } from '../modules/loginModal';
 const MainContainer = styled.div`
   /* position: relative; */
   /* height: calc(100% - 190px); */
-  padding: 60px 0;
+  padding: 2rem 0;
   overflow: scroll;
 `;
 
@@ -64,21 +64,21 @@ const SettingContainer = styled.div`
 `;
 
 const Title = styled.div`
-  font-size: 3.75rem;
+  font-size: 2.5rem;
 `;
 
 const LeftSide = styled.div`
   display: flex;
   justify-content: flex-end;
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   margin-right: 5.9%;
 `;
 
 const Blank = styled.div`
   width: 100%;
-  margin: 5.9% 0;
+  margin: 3.7% 0;
   border-bottom: 2px solid var(--orangey-yellow);
-  font-size: 2rem;
+  height: 2px;
   font-family: 'GowunDodum-Regular', sans-serif;
   word-wrap: break-word;
   word-break: break-word;
@@ -94,7 +94,7 @@ const ChangePwContainer = styled.div`
   align-items: center;
   gap: 1rem;
   p {
-    font-size: 1.66rem;
+    font-size: 1.5rem;
   }
 `;
 
@@ -105,23 +105,26 @@ const PersonalInfo = styled.div`
   padding: 5%;
   > p {
     /* margin-top: 10%; */
-    font-size: 1.75rem;
+    font-size: 1.5rem;
+  }
+  > span {
+    font-size: 2rem;
   }
 `;
 
 const Nickname = styled.div`
   display: flex;
   > span {
-    font-size: 3rem;
+    font-size: 2rem;
   }
   > svg {
-    font-size: 3rem;
+    font-size: 2rem;
   }
 `;
 
 const ImageContainer = styled.div`
-  width: 250px;
-  height: 250px;
+  width: 200px;
+  height: 200px;
   background-color: var(--warm-grey);
   border-radius: 50%;
   display: flex;
@@ -129,8 +132,8 @@ const ImageContainer = styled.div`
   align-items: center;
 
   input {
-    width: 250px;
-    height: 250px;
+    width: 200px;
+    height: 200px;
     outline: none;
     display: block;
     border-radius: 50%;
@@ -142,8 +145,8 @@ const ImageContainer = styled.div`
 
   label {
     position: inherit;
-    width: 250px;
-    height: 250px;
+    width: 200px;
+    height: 200px;
     outline: none;
     display: block;
     border-radius: 50%;
@@ -152,8 +155,8 @@ const ImageContainer = styled.div`
 
   img {
     position: inherit;
-    width: 250px;
-    height: 250px;
+    width: 200px;
+    height: 200px;
     outline: none;
     display: block;
     border-radius: 50%;
@@ -163,7 +166,7 @@ const ImageContainer = styled.div`
 
 const StyledInput = styled.input`
   font-family: GowunDodum-Regular;
-  font-size: 1.66rem;
+  font-size: 1.5rem;
   border-bottom: 1px solid var(--warm-grey);
   ::placeholder {
     font-family: GowunDodum-Regular;
@@ -209,7 +212,7 @@ const StyledButton = styled.button`
 
   /* 색상 & 폰트 */
   background-color: #000;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   color: #fbb74a;
 
   &:hover {
@@ -294,7 +297,13 @@ const Setting = () => {
   const handleSubmitNewUsername = () => {
     changeUsername(changeInfo.newUsername)
       .then((res) => {
-        onUpdateUserInfoAction(res.data.data);
+        const updateUserInfo = {
+          username: res.data.data.username,
+          email: email,
+          profileImage: profileImage,
+          type: type,
+        };
+        onUpdateUserInfoAction(updateUserInfo);
         setIsAfterUsernameEdit(true);
         setAfterValiNameMsg('Username 변경이 완료되었습니다!');
       })
@@ -476,7 +485,7 @@ const Setting = () => {
               ) : (
                 ''
               )}
-              <p>{email}</p>
+              <span>{email}</span>
             </PersonalInfo>
           </EditContainer>
           <Blank />
