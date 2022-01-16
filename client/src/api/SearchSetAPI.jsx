@@ -7,7 +7,7 @@ export function searchSets(keyword) {
     // `${process.env.SERVER_URL}sets/search/?title=${keyword}`,
     `${process.env.SERVER_URL}sets/search`,
     {
-      params: keyword,
+      params: { title: keyword },
     }
     // {
     //   headers: {
