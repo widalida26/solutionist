@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import SetCard from '../components/SetCard';
 import SetCardVerTwo from '../components/SetCardVerTwo';
 import MoveTopButton from '../components/MoveTopButton';
+import Footer from '../components/Footer';
 
 import { getMySetsMade, getMySetsSolved } from '../api/SearchSetAPI';
 
@@ -125,6 +126,7 @@ const MySet = () => {
       <ShowBox onClick={handleSolvedHidden}>
         {isSolvedHidden ? <p>Show More</p> : <p>Show less</p>}
       </ShowBox>
+      <Footer />
     </>
   );
 };
