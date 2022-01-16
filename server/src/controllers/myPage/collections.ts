@@ -10,8 +10,7 @@ const made = async (req: Request, res: Response) => {
 
   const findSet = await setsServiceInstance.findSetsId(userInfo.id);
   // const test = await recordsServiceInstance.countRecord(setId);
-
-  res.json({ findSet });
+  return res.status(200).json({ findSet });
 
   // console.log(111, test);
 };

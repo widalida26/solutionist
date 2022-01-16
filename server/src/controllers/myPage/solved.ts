@@ -10,7 +10,7 @@ const solveRecords = async (req: Request, res: Response) => {
 
   const findSet = await setsServiceInstance.findSolveSetsId(userInfo.id);
 
-  res.json({ findSet });
+  return res.status(200).json({ findSet });
 };
 
 export default solveRecords;
