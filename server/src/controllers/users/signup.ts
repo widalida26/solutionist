@@ -3,6 +3,7 @@ import cryptos from '../../utils/crypto';
 import { users } from '../../database/entity/users';
 import { getConnection } from 'typeorm';
 import crypto from 'crypto';
+import bcrypt from 'bcrypt';
 
 const signup = async (req: Request, res: Response) => {
   try {
@@ -14,17 +15,17 @@ const signup = async (req: Request, res: Response) => {
 
     console.log(username, email, password);
 
-    const saltBuffer = crypto.randomBytes(16);
+    const salt = 10;
 
-    const dbpw = cryptos.encrypt(password, saltBuffer);
-    const salt = saltBuffer.toString('base64');
+    // async/await 사용
+    const dbpw = await bcrypt.hash(password, salt);
 
     console.log(dbpw);
     const user = await getConnection()
       .createQueryBuilder()
       .insert()
       .into(users)
-      .values([{ username: username, email: email, password: dbpw, salt: salt }])
+      .values([{ username: username, email: email, password: dbpw }])
       .execute();
     return res.status(200).send('successfully signed in');
   } catch (err) {
