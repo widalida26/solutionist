@@ -12,13 +12,6 @@ export class RecordService {
     @InjectRepository() private setsRepo: SetsRepository
   ) {}
 
-  // record id가 유효한지 확인
-  async findRecord(recordId: number): Promise<boolean> {
-    const foundRecord = await this.recordRepo.findOne({ id: recordId });
-    if (!foundRecord) return false;
-    else return true;
-  }
-
   async makeRecord(setId: number, userId: number): Promise<number> {
     // 해당하는 세트가 없는 경우
     await this.setsRepo.findOne(setId).then((result) => {
@@ -58,5 +51,13 @@ export class RecordService {
 
   async getTotalAnswerRate(recordId: number): Promise<number> {
     return await this.recordRepo.getAvgAnswerRate(recordId);
+  }
+
+  // record id가 유효한지 확인
+  async checkValidRecord(recordId: number): Promise<void> {
+    const foundRecord = await this.recordRepo.findOne({ id: recordId });
+    if (!foundRecord) {
+      errorGenerator({ msg: 'no matching record', statusCode: 400 });
+    }
   }
 }

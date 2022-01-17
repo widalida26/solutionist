@@ -91,15 +91,22 @@ export class StatusService {
   }
 
   async getUserChoices(recordId: number) {
-    return await this.statusRepo.getSelectionRateByRecord(recordId).then((result) => {
-      return result.map((el) => {
-        const selectionRate = el.problem.choice.map((e) => e.selectionRate);
-        return {
-          problemId: el.problemId,
-          choice: el.choice,
-          selectionRate,
-        };
+    const userChoices = await this.statusRepo
+      .getSelectionRateByRecord(recordId)
+      .then((result) => {
+        return result.map((el) => {
+          const selectionRate = el.problem.choice.map((e) => e.selectionRate);
+          return {
+            problemId: el.problemId,
+            choice: el.choice,
+            selectionRate,
+          };
+        });
       });
-    });
+
+    if (userChoices.length === 0) {
+      errorGenerator({ msg: 'no user choices', statusCode: 400 });
+    }
+    return userChoices;
   }
 }
