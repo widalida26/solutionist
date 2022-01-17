@@ -141,6 +141,10 @@ export class SetService {
     return savedSet;
   }
 
+  async findPopular() {
+    return await this.setsRepo.getMostSolvedSet();
+  }
+
   async findVersion(collectionId: number) {
     const sets = await this.setsRepo.getSetByCollectionId(collectionId);
     if (!sets) {

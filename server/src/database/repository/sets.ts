@@ -85,6 +85,41 @@ export class SetsRepository extends Repository<sets> {
       });
   }
 
+  async getMostSolvedSet() {
+    return await this.createQueryBuilder('sets')
+      .select([
+        'sets.id as id',
+        'sets.collectionId as collectionId',
+        'sets.title as title',
+        'sets.description as description',
+        'collections.createdAt as createdAt',
+        'sets.createdAt as updatedAt',
+        'users.username as creator',
+      ])
+      .innerJoin(
+        (qb) =>
+          qb
+            .select('MAX(children.id) as max')
+            .from(sets, 'children')
+            .groupBy('children.collectionId'),
+        'cs'
+      )
+      .leftJoin('sets.record', `solveRecords`)
+      .innerJoin('sets.collection', 'collections')
+      .leftJoin('collections.creator', 'users')
+      .addSelect(
+        `count(case when solveRecords.answerRate > -1 then 1 end) as solvedUserNumber`
+      )
+      .addSelect(
+        `avg(case when solveRecords.answerRate > -1 then solveRecords.answerRate end) as  averageScore`
+      )
+      .groupBy(`sets.id`)
+      .where('cs.max = sets.id')
+      .orderBy('solvedUserNumber', 'DESC')
+      .getRawMany()
+      .then((result) => convertRawObject(result));
+  }
+
   // 내가 만든 문제
   async findMyCollection(userId: number) {
     const dt = await this.createQueryBuilder('sets')

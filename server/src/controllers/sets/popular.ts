@@ -10,9 +10,8 @@ const popular = async (req: Request, res: Response) => {
   const setServiceInstance: SetService = Container.get(SetService);
 
   // 세트 버전 조회
-  //const versions = await setServiceInstance.findVersion(collectionId);
+  const versions = await setServiceInstance.findPopular();
 
-  //res.status(200).json(versions);
-  res.end();
+  res.status(200).json(versions);
 };
 export default popular;
