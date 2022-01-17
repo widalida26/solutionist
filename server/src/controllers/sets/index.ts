@@ -7,5 +7,17 @@ import record from './record';
 import solve from './solve';
 import submit from './submit';
 import statics from './statics';
+import version from './version';
 
-export { create, modify, remove, search, select, record, solve, submit, statics };
+export {
+  create,
+  modify,
+  remove,
+  search,
+  select,
+  record,
+  solve,
+  submit,
+  statics,
+  version,
+};

@@ -9,6 +9,7 @@ import {
   solve,
   submit,
   statics,
+  version,
 } from '../controllers/sets/index';
 import asyncfy from 'express-asyncify';
 import { saveUserInfo, blockUnauthorized } from '../middleware/checkauth';
@@ -24,5 +25,6 @@ setsRouter.post('/solve-records', saveUserInfo, record); //풀이 기록
 setsRouter.post('/solve-status', solve); // 문제 풀기
 setsRouter.patch('/solve-records/:recordId', submit); // 세트 제출
 setsRouter.get('/solve-records/:recordId', statics); // 세트 통계
+setsRouter.get('/collections/:collectionId', version); // 버전 리스트
 
 export default setsRouter;
