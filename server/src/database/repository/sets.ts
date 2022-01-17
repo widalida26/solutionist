@@ -18,6 +18,22 @@ export class SetsRepository extends Repository<sets> {
       .getOne();
   }
 
+  // collectionId로 세트 검색
+  async getSetByCollectionId(collectionId: number) {
+    return await this.createQueryBuilder('sets')
+      .select([
+        'sets.id as id',
+        'users.username as editor',
+        'sets.createdAt as updatedAt',
+        'COUNT(problems.id) as problemCount',
+      ])
+      .leftJoin('sets.editor', 'users')
+      .leftJoin('sets.problem', 'problems')
+      .where(`sets.collectionId = ${collectionId}`)
+      .groupBy('sets.id')
+      .getRawMany();
+  }
+
   // title으로 세트 검색
   async searchByTitle(title: string) {
     return await this.createQueryBuilder('sets')
@@ -52,44 +68,10 @@ export class SetsRepository extends Repository<sets> {
       .andWhere('sets.title like :title', { title: `%${title}%` })
       .getRawMany()
       .then((result) => convertRawObject(result));
-    // .select([
-    //   'sets.id as id',
-    //   'sets.collectionId as collectionId',
-    //   'sets.title as title',
-    //   'sets.description as description',
-    //   'collections.createdAt as createdAt',
-    //   'sets.createdAt as updatedAt',
-    //   'users.username as creator',
-    //   'cs.*',
-    // ])
-    // .innerJoin(
-    //   (qb) =>
-    //     qb
-    //       .select('MAX(children.id) as max')
-    //       .from(sets, 'children')
-    //       .groupBy('children.collectionId'),
-    //   'cs'
-    // )
-    // .innerJoin('sets.collection', 'collections')
-    // .innerJoin(solveRecords, 'solveRecords', `sets.id = solveRecords.setId`)
-    // .innerJoin(users, 'users', 'solveRecords.userId = users.id')
-    // .addSelect(
-    //   `count(case when solveRecords.answerRate > -1 then 1 end) as solvedUserNumber`
-    // )
-    // .addSelect(
-    //   `avg(case when solveRecords.answerRate > -1 then solveRecords.answerRate end) as  averageScore`
-    // )
-    // .groupBy(`sets.id`)
-    // .where('cs.max = sets.id')
-    // //.andWhere('cs.max = solveRecords.setid')
-    // .andWhere('solveRecords.userId = :userId', { userId: 87 })
-    // //.andWhere('sets.title like :title', { title: `%${title}%` })
-    // .getRawMany();
-    // .then((result) => convertRawObject(result));
   }
 
   // collection의 생성 일자 검색
-  async findCollectionCreatedAt(collectionId: number) {
+  async getCollectionCreatedAt(collectionId: number) {
     return await this.createQueryBuilder('sets')
       .select(['collections.createdAt as createdAt'])
       .innerJoin('sets.collection', 'collections')
@@ -101,7 +83,7 @@ export class SetsRepository extends Repository<sets> {
       });
   }
 
-  //내가 만든 문제
+  // 내가 만든 문제
   async findMyCollection(userId: number) {
     const dt = await this.createQueryBuilder('sets')
       .select([

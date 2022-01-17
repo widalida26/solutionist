@@ -1,25 +1,22 @@
 import { Request, Response } from 'express';
 import Container from 'typedi';
-import { ISolve } from '../../interface/ISets';
-import { StatusService } from '../../service/status';
+import { SetService } from '../../service/sets';
 import errorGenerator from '../../error/errorGenerator';
-import { checkEmptyObject } from '../../utils/custom';
 
 const version = async (req: Request, res: Response) => {
-  // 토큰 인증에 실패했을 경우 = 유저 정보가 없을 경우 => 빈 객체 할당
-  const solveDTO: ISolve = req.body;
+  const collectionId = Number(req.params['collectionId']);
 
-  // 데이터가 누락됐을 경우
-  if (checkEmptyObject(solveDTO)) {
-    errorGenerator({ msg: 'null body', statusCode: 400 });
+  // collection id가 유효하지 않을 경우
+  if (!collectionId) {
+    errorGenerator({ msg: 'empty or invalid collection id', statusCode: 400 });
   }
 
-  // solveStatus 테이블 이용을 위한 solveStatus 인스턴스
-  const statusServiceInstance: StatusService = Container.get(StatusService);
+  // sets 테이블 이용을 위한 setService 인스턴스
+  const setServiceInstance: SetService = Container.get(SetService);
 
-  // 문제 풀이 기록 삽입
-  const solveResponse = await statusServiceInstance.solveProblem(solveDTO);
+  // 세트 버전 조회
+  const versions = await setServiceInstance.findVersion(collectionId);
 
-  res.status(201).json(solveResponse);
+  res.status(200).json(versions);
 };
 export default version;

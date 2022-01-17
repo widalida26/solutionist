@@ -16,15 +16,6 @@ export class SetService {
     @InjectRepository() private choicesRepo: ChoicesRepository,
     @InjectRepository() private collectionRepo: CollectionsRepository
   ) {}
-  async findSetsId(userId: number) {
-    const find = await this.setsRepo.findMyCollection(userId);
-    return find;
-  }
-
-  async findSolveSetsId(userId: number) {
-    const find = await this.setsRepo.findSolveSet(userId);
-    return find;
-  }
 
   // 타이틀로 세트 검색
   async searchSet(title: string) {
@@ -36,7 +27,7 @@ export class SetService {
     const set = await this.setsRepo.getSet(setId);
     // 세트 검색에 실패하가나 유효하지 않은 경우
     if (!set || !set['collection']) {
-      errorGenerator({ msg: 'no matching set id', statusCode: 500 });
+      errorGenerator({ msg: 'no matching set id', statusCode: 400 });
     }
 
     return {
@@ -70,7 +61,7 @@ export class SetService {
   // 세트 수정 => sets 테이블에만 추가
   async modifySet(set: ISets) {
     // collection의 생성 일자 검색
-    const collectionCreatedAt = await this.setsRepo.findCollectionCreatedAt(
+    const collectionCreatedAt = await this.setsRepo.getCollectionCreatedAt(
       set.collectionId
     );
     // collection이 없거나 collection에 해당하는 set가 없을 경우
@@ -148,5 +139,23 @@ export class SetService {
     }
 
     return savedSet;
+  }
+
+  async findVersion(collectionId: number) {
+    const sets = await this.setsRepo.getSetByCollectionId(collectionId);
+    if (!sets) {
+      errorGenerator({ msg: 'no matching versions', statusCode: 400 });
+    }
+    return sets;
+  }
+
+  async findSetsId(userId: number) {
+    const find = await this.setsRepo.findMyCollection(userId);
+    return find;
+  }
+
+  async findSolveSetsId(userId: number) {
+    const find = await this.setsRepo.findSolveSet(userId);
+    return find;
   }
 }
