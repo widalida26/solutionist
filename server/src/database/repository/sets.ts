@@ -21,6 +21,15 @@ export class SetsRepository extends Repository<sets> {
   // title으로 세트 검색
   async searchByTitle(title: string) {
     return await this.createQueryBuilder('sets')
+      .select([
+        'sets.id as id',
+        'sets.collectionId as collectionId',
+        'sets.title as title',
+        'sets.description as description',
+        'collections.createdAt as createdAt',
+        'sets.createdAt as updatedAt',
+        'users.username as creator',
+      ])
       .innerJoin(
         (qb) =>
           qb
@@ -29,6 +38,16 @@ export class SetsRepository extends Repository<sets> {
             .groupBy('children.collectionId'),
         'cs'
       )
+      .innerJoin('sets.record', `solveRecords`)
+      .innerJoin('sets.collection', 'collections')
+      .leftJoin('collections.creator', 'users')
+      .addSelect(
+        `count(case when solveRecords.answerRate > -1 then 1 end) as solvedUserNumber`
+      )
+      .addSelect(
+        `avg(case when solveRecords.answerRate > -1 then solveRecords.answerRate end) as  averageScore`
+      )
+      .groupBy(`solveRecords.setId`)
       .where('cs.max = sets.id')
       .andWhere('sets.title like :title', { title: `%${title}%` })
       .getRawMany()
