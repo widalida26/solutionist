@@ -6,7 +6,7 @@ import { CollectionsRepository } from '../database/repository/collections';
 export class CollectionService {
   constructor(@InjectRepository() private collectionRepo: CollectionsRepository) {}
 
-  async removeCollection(collectionId: number) {
+  async removeCollection(collectionId: number): Promise<void> {
     await this.collectionRepo.delete({ id: collectionId });
   }
 }

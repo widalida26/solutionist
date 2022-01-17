@@ -5,7 +5,7 @@ import { convertRawObject } from '../../utils/custom';
 @EntityRepository(solveRecords)
 export class SolveRecordsRepository extends Repository<solveRecords> {
   // 세트 정답률 평균 반환
-  async getAvgAnswerRate(id: number) {
+  async getAvgAnswerRate(id: number): Promise<number> {
     return await this.createQueryBuilder('records')
       .select('AVG(records.answerRate)', 'totalRate')
       .innerJoin(

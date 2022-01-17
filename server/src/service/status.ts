@@ -49,7 +49,7 @@ export class StatusService {
     };
   }
 
-  async verifyStatusToSave(recordId: number, problemId: number) {
+  async verifyStatusToSave(recordId: number, problemId: number): Promise<void> {
     // solveRecords 테이블에 recrodId가 있는지 조회
     await this.recordRepo.findOne({ id: recordId }).then((result) => {
       // solveRecords 테이블에 recrodId가 해당하는 레코드가 없는 경우

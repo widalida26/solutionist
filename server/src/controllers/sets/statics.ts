@@ -12,13 +12,13 @@ const statics = async (req: Request, res: Response) => {
     errorGenerator({ msg: 'empty or invalid record id', statusCode: 400 });
   }
 
+  // solveRecords 테이블 이용을 위한 solveRecords 인스턴스
+  const recordServiceInstance: RecordService = Container.get(RecordService);
   // solveStatus 테이블 이용을 위한 statusService 인스턴스
   const statusServiceInstance: StatusService = Container.get(StatusService);
   // 유저들의 선택지 반환
   const userChoices = await statusServiceInstance.getUserChoices(recordId);
 
-  // solveRecords 테이블 이용을 위한 solveRecords 인스턴스
-  const recordServiceInstance: RecordService = Container.get(RecordService);
   // 해당 세트의 전체 정답률 집계
   const totalRate = await recordServiceInstance.getTotalAnswerRate(recordId);
 
