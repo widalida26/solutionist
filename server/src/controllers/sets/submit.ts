@@ -23,6 +23,9 @@ const submit = async (req: Request, res: Response) => {
   // solveRecords 테이블 이용을 위한 recordsService 인스턴스
   const recordServiceInstance: RecordService = Container.get(RecordService);
 
+  // 유효한 record id인지 확인
+  await recordServiceInstance.checkValidRecord(recordId);
+
   // 전체 정답률 집계
   const submmitedId = await recordServiceInstance.submitRecord(recordId, answerRate);
 

@@ -14,6 +14,8 @@ const statics = async (req: Request, res: Response) => {
 
   // solveRecords 테이블 이용을 위한 solveRecords 인스턴스
   const recordServiceInstance: RecordService = Container.get(RecordService);
+
+  // 유효한 record id인지 확인
   await recordServiceInstance.checkValidRecord(recordId);
 
   // solveStatus 테이블 이용을 위한 statusService 인스턴스
