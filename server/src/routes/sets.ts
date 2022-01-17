@@ -20,9 +20,9 @@ setsRouter.post('/sets', blockUnauthorized, modify); // 세트 수정
 setsRouter.delete('/collections/:collectionId', blockUnauthorized, remove); // 세트 삭제
 setsRouter.get('/sets', search); // 세트 검색
 setsRouter.get('/sets/:setId', select); // 세트 선택
-setsRouter.post('/solveRecords', saveUserInfo, record); //풀이 기록
-setsRouter.post('/solveStatus', solve); // 문제 풀기
-setsRouter.patch('/solveRecords/:recordId', submit); // 세트 제출
-setsRouter.get('/solveRecords/:recordId', statics); // 세트 통계
+setsRouter.post('/solve-records', saveUserInfo, record); //풀이 기록
+setsRouter.post('/solve-status', solve); // 문제 풀기
+setsRouter.patch('/solve-records/:recordId', submit); // 세트 제출
+setsRouter.get('/solve-records/:recordId', statics); // 세트 통계
 
 export default setsRouter;

@@ -9,7 +9,7 @@ const statics = async (req: Request, res: Response) => {
 
   // 데이터가 누락되거나 유효하지 않을 경우
   if (!recordId) {
-    errorGenerator({ statusCode: 400 });
+    errorGenerator({ msg: 'empty or invalid record id', statusCode: 400 });
   }
 
   // solveStatus 테이블 이용을 위한 statusService 인스턴스

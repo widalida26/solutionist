@@ -8,7 +8,7 @@ const remove = async (req: Request, res: Response) => {
 
   // 쿼리 값이 부적합할 경우
   if (!collectionId) {
-    errorGenerator({ statusCode: 400 });
+    errorGenerator({ msg: 'empty or invalid collection id', statusCode: 400 });
   }
 
   // sets 테이블 이용을 위한 setService 인스턴스

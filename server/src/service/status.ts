@@ -18,7 +18,7 @@ export class StatusService {
   async solveProblem(solveInfo: ISolve) {
     // 필요한 정보가 누락된 경우
     if (checkEmptyObjectValue(solveInfo)) {
-      errorGenerator({ statusCode: 400 });
+      errorGenerator({ msg: 'empty or invalid body element', statusCode: 400 });
     }
 
     // 삽입할 데이터 검증
@@ -27,7 +27,7 @@ export class StatusService {
     // choice가 유효한지 확인 => 0 이하거나 가장 마지막 index보다 크면 안됨
     const maxIdx = await this.choicesRepo.getLastChoice(solveInfo.problemId);
     if (solveInfo.choice <= 0 || solveInfo.choice > maxIdx) {
-      errorGenerator({ statusCode: 400 });
+      errorGenerator({ msg: 'invalid choice', statusCode: 400 });
     }
 
     // 풀이 정보 삽입
@@ -54,14 +54,14 @@ export class StatusService {
     await this.recordRepo.findOne({ id: recordId }).then((result) => {
       // solveRecords 테이블에 recrodId가 해당하는 레코드가 없는 경우
       if (!result) {
-        errorGenerator({ statusCode: 400 });
+        errorGenerator({ msg: 'no matching record id', statusCode: 400 });
       }
     });
 
     // 같은 recordId와 problemId를 가진 데이터는 삽입할 수 없음
     await this.statusRepo.checkDuplicate(recordId, problemId).then((result) => {
       if (result) {
-        errorGenerator({ statusCode: 400 });
+        errorGenerator({ msg: 'duplicate solving', statusCode: 400 });
       }
     });
   }

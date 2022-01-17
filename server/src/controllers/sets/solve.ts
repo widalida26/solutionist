@@ -11,7 +11,7 @@ const solve = async (req: Request, res: Response) => {
 
   // 데이터가 누락됐을 경우
   if (checkEmptyObject(solveDTO)) {
-    errorGenerator({ statusCode: 400 });
+    errorGenerator({ msg: 'null body', statusCode: 400 });
   }
 
   // solveStatus 테이블 이용을 위한 solveStatus 인스턴스

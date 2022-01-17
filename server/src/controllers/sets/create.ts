@@ -15,12 +15,12 @@ const create = async (req: Request, res: Response) => {
 
   // 데이터가 누락됐을 경우
   if (checkEmptyObject(setDTO)) {
-    errorGenerator({ statusCode: 400 });
+    errorGenerator({ msg: 'null body', statusCode: 400 });
   }
 
   // 세트 id가 있을 경우 => 중복 생성 방지
   if (setDTO.id) {
-    errorGenerator({ statusCode: 409 });
+    errorGenerator({ msg: 'duplicate set id', statusCode: 409 });
   }
 
   // sets 테이블 이용을 위한 setService 인스턴스

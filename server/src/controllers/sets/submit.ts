@@ -8,8 +8,11 @@ const submit = async (req: Request, res: Response) => {
   const answerRate = req.body['answerRate'];
 
   // 데이터가 누락되거나 유효하지 않을 경우
-  if (!recordId || answerRate == null) {
-    errorGenerator({ statusCode: 400 });
+  if (!recordId) {
+    errorGenerator({ msg: 'empty or invalid record id', statusCode: 400 });
+  }
+  if (answerRate == null) {
+    errorGenerator({ msg: 'empty or invalid answer rate', statusCode: 400 });
   }
 
   // 정답률을 집계할 수 없는 경우 => 모든 문제가 설문

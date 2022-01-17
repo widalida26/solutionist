@@ -16,17 +16,14 @@ export class RecordService {
     // 해당하는 세트가 없는 경우
     await this.setsRepo.findOne(setId).then((result) => {
       if (!result) {
-        errorGenerator({ statusCode: 400 });
+        errorGenerator({ msg: 'no matching set id', statusCode: 400 });
       }
     });
     // solveRecords 테이블에 삽입
     const recordId = await this.recordRepo
       .save({ setId, userId })
       .then((result) => (result ? result.id : null));
-    // solvedRecords 삽입에 실패한 경우
-    if (!recordId) {
-      errorGenerator({ statusCode: 500 });
-    }
+
     return recordId;
   }
 
