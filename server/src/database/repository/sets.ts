@@ -1,31 +1,14 @@
 import { EntityRepository, Repository, getManager } from 'typeorm';
 import { sets } from '../entity/sets';
-import { users } from '../entity/users';
 import { convertRawObject } from '../../utils/custom';
-import { solveRecords } from '../entity/solveRecords';
-import { count } from 'console';
 import { collections } from '../entity/collections';
+import { users } from '../entity/users';
+import { solveRecords } from '../entity/solveRecords';
 
 @EntityRepository(sets)
 export class SetsRepository extends Repository<sets> {
-  // title으로 세트 검색
-  async findSetsByTitle(title: string) {
-    const dt = await this.createQueryBuilder('sets')
-      .select([
-        'sets.id as id',
-        'sets.collectionId as collectionId',
-        'sets.title as title',
-        'sets.description as descriptoin',
-        'sets.createdAt as createdAt',
-      ])
-      .addSelect('users.username as username')
-      .leftJoin(users, 'users', 'sets.creatorId = users.id')
-      .getRawMany();
-    console.log(dt);
-  }
-
   // setId로 세트 검색
-  async findSet(id: number) {
+  async getSet(id: number) {
     return await this.createQueryBuilder('sets')
       .innerJoinAndSelect('sets.collection', 'collections')
       .leftJoinAndSelect('collections.creator', 'users')
@@ -33,6 +16,23 @@ export class SetsRepository extends Repository<sets> {
       .innerJoinAndSelect('problems.choice', 'choices')
       .where(`sets.id = ${id}`)
       .getOne();
+  }
+
+  // title으로 세트 검색
+  async searchByTitle(title: string) {
+    return await this.createQueryBuilder('sets')
+      .innerJoin(
+        (qb) =>
+          qb
+            .select('MAX(children.id) as max')
+            .from(sets, 'children')
+            .groupBy('children.collectionId'),
+        'cs'
+      )
+      .where('cs.max = sets.id')
+      .andWhere('sets.title like :title', { title: `%${title}%` })
+      .getRawMany()
+      .then((result) => convertRawObject(result));
   }
 
   // collection의 생성 일자 검색
@@ -47,17 +47,7 @@ export class SetsRepository extends Repository<sets> {
         else return convertRawObject(result)['createdAt'];
       });
   }
-  //삭제된 세트의 userId 반환
-  // async getRemovedUser(id: number) {
-  //   return await this.findOne(id).then(async (set) => {
-  //     await this.delete(id);
-  //     if (!set) {
-  //       return null;
-  //     } else {
-  //       return set.creatorId;
-  //     }
-  //   });
-  // }
+
   //내가 만든 문제
   async findMyCollection(userId: number) {
     const dt = await this.createQueryBuilder('sets')
@@ -109,12 +99,3 @@ export class SetsRepository extends Repository<sets> {
     return dt;
   }
 }
-
-// .innerJoin('sets.editor','users')
-// .innerJoin('sets.')
-// .innerJoin(users, 'users', 'sets.editorId = users.id')
-// .innerJoin(solveRecords, 'solveRecords', `sets.id = solveRecords.setId`)
-// .where(`users.id = :id`, { id: userId })
-// .andWhere('solveRecords.userId = :userId', { userId: userId })
-// .groupBy(`solveRecords.setId`)
-// .getRawMany();

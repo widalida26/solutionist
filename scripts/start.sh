@@ -1,6 +1,7 @@
 #!/bin/bash
 cd /home/ubuntu/solutionist/server
-authbind --deep tsc
+#authbind --deep tsc
+authbind --deep node --max-old-space-size=8192 node_modules/typescript/bin/tsc
 
 export RDS_USERNAME=$(aws ssm get-parameters --region ap-northeast-2 --names RDS_USERNAME --query Parameters[0].Value | sed 's/"//g')
 export RDS_PASSWORD=$(aws ssm get-parameters --region ap-northeast-2 --names RDS_PASSWORD --query Parameters[0].Value | sed 's/"//g')

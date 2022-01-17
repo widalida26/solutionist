@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import Container from 'typedi';
-import { RecordsService } from '../../service/records';
+import { RecordService } from '../../service/records';
 import errorGenerator from '../../error/errorGenerator';
 
 const submit = async (req: Request, res: Response) => {
@@ -18,10 +18,10 @@ const submit = async (req: Request, res: Response) => {
   }
 
   // solveRecords 테이블 이용을 위한 recordsService 인스턴스
-  const recordsServiceInstance: RecordsService = Container.get(RecordsService);
+  const recordServiceInstance: RecordService = Container.get(RecordService);
 
   // 전체 정답률 집계
-  const submmitedId = await recordsServiceInstance.submitRecord(recordId, answerRate);
+  const submmitedId = await recordServiceInstance.submitRecord(recordId, answerRate);
 
   res.status(201).json({
     id: submmitedId,

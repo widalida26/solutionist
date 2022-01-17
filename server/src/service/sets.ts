@@ -27,14 +27,13 @@ export class SetService {
   }
 
   // 타이틀로 세트 검색
-  async findSet(title: string) {
-    const foundSets = await this.setsRepo.findSetsByTitle(title);
-    return {};
+  async searchSet(title: string) {
+    return await this.setsRepo.searchByTitle(title);
   }
 
   async selectSet(setId: number) {
     // 세트 검색
-    const set = await this.setsRepo.findSet(setId);
+    const set = await this.setsRepo.getSet(setId);
     // 세트 검색에 실패하가나 유효하지 않은 경우
     if (!set || !set['collection']) {
       errorGenerator({ statusCode: 500 });
@@ -160,9 +159,4 @@ export class SetService {
 
     return savedSet;
   }
-
-  // 세트 삭제
-  // async setRemover(id: number): Promise<number> {
-  //   return await this.setsRepo.getRemovedUser(id);
-  // }
 }

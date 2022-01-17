@@ -13,11 +13,13 @@ const modify = async (req: Request, res: Response) => {
 
   // 데이터가 누락됐을 경우
   if (checkEmptyObject(setDTO)) {
+    console.log('누락');
     errorGenerator({ statusCode: 400 });
   }
 
   // 컬렉션 id가 없을 경우
   if (!setDTO.collectionId) {
+    console.log('no collection Id');
     errorGenerator({ statusCode: 400 });
   }
   // sets 테이블 이용을 위한 setService 인스턴스
