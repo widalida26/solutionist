@@ -66,6 +66,7 @@ export class SetsRepository extends Repository<sets> {
       .groupBy(`sets.id`)
       .where('cs.max = sets.id')
       .andWhere('sets.title like :title', { title: `%${title}%` })
+      .orderBy('sets.createdAt', 'DESC')
       .getRawMany()
       .then((result) => convertRawObject(result));
   }
