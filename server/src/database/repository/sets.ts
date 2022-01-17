@@ -29,7 +29,6 @@ export class SetsRepository extends Repository<sets> {
         'collections.createdAt as createdAt',
         'sets.createdAt as updatedAt',
         'users.username as creator',
-        //'sr.solvedUserNumber as solvedUserNumber',
       ])
       .innerJoin(
         (qb) =>
