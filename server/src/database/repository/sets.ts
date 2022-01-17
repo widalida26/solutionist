@@ -47,11 +47,45 @@ export class SetsRepository extends Repository<sets> {
       .addSelect(
         `avg(case when solveRecords.answerRate > -1 then solveRecords.answerRate end) as  averageScore`
       )
-      .groupBy(`sets.Id`)
+      .groupBy(`sets.id`)
       .where('cs.max = sets.id')
       .andWhere('sets.title like :title', { title: `%${title}%` })
       .getRawMany()
       .then((result) => convertRawObject(result));
+    // .select([
+    //   'sets.id as id',
+    //   'sets.collectionId as collectionId',
+    //   'sets.title as title',
+    //   'sets.description as description',
+    //   'collections.createdAt as createdAt',
+    //   'sets.createdAt as updatedAt',
+    //   'users.username as creator',
+    //   'cs.*',
+    // ])
+    // .innerJoin(
+    //   (qb) =>
+    //     qb
+    //       .select('MAX(children.id) as max')
+    //       .from(sets, 'children')
+    //       .groupBy('children.collectionId'),
+    //   'cs'
+    // )
+    // .innerJoin('sets.collection', 'collections')
+    // .innerJoin(solveRecords, 'solveRecords', `sets.id = solveRecords.setId`)
+    // .innerJoin(users, 'users', 'solveRecords.userId = users.id')
+    // .addSelect(
+    //   `count(case when solveRecords.answerRate > -1 then 1 end) as solvedUserNumber`
+    // )
+    // .addSelect(
+    //   `avg(case when solveRecords.answerRate > -1 then solveRecords.answerRate end) as  averageScore`
+    // )
+    // .groupBy(`sets.id`)
+    // .where('cs.max = sets.id')
+    // //.andWhere('cs.max = solveRecords.setid')
+    // .andWhere('solveRecords.userId = :userId', { userId: 87 })
+    // //.andWhere('sets.title like :title', { title: `%${title}%` })
+    // .getRawMany();
+    // .then((result) => convertRawObject(result));
   }
 
   // collection의 생성 일자 검색
