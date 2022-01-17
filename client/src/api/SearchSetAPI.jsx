@@ -7,7 +7,7 @@ export function searchSets(keyword) {
     // `${process.env.SERVER_URL}sets/search/?title=${keyword}`,
     `${process.env.SERVER_URL}sets/search`,
     {
-      params: keyword,
+      params: { title: keyword },
     }
     // {
     //   headers: {
@@ -56,16 +56,16 @@ export function selectSets(state) {
 // TODO : req?, 쿠키 확인?
 export function getMySetsMade() {
   return axios.get(
-    `${process.env.SERVER_URL}collections/something`,
+    `${process.env.SERVER_URL}myPage/collections`,
     {
       // ? nothing
+    },
+    {
+      headers: {
+        'Content-Type': `application/json`,
+      },
+      withCredentials: true,
     }
-    // {
-    //   headers: {
-    //     'Content-Type': `application/json`,
-    //   },
-    //   withCredentials: true,
-    // }
   );
 }
 
@@ -73,15 +73,15 @@ export function getMySetsMade() {
 // TODO : req?, 쿠키 확인?
 export function getMySetsSolved() {
   return axios.get(
-    `${process.env.SERVER_URL}collections/something`,
+    `${process.env.SERVER_URL}myPage/solveRecords`,
     {
       // ? nothing
+    },
+    {
+      headers: {
+        'Content-Type': `application/json`,
+      },
+      withCredentials: true,
     }
-    // {
-    //   headers: {
-    //     'Content-Type': `application/json`,
-    //   },
-    //   withCredentials: true,
-    // }
   );
 }

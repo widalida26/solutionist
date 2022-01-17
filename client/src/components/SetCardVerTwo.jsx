@@ -134,7 +134,7 @@ const StyledLink = styled(Link)`
   color: white;
 `;
 
-const SetCard = () => {
+const SetCardVerTwo = () => {
   const [isFlipped, setIsFlipped] = useState(false);
 
   const [isHidden, setIsHidden] = useState(false);
@@ -180,6 +180,8 @@ const SetCard = () => {
       ],
     });
   };
+
+  // TODO : SetName, SetDesc, 90명, 90점 하드코딩 props로 수정
 
   return (
     <CardContainer $display={isHidden}>
@@ -254,4 +256,4 @@ const SetCard = () => {
   );
 };
 
-export default SetCard;
+export default SetCardVerTwo;
