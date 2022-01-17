@@ -31,6 +31,7 @@ export class SetsRepository extends Repository<sets> {
       .leftJoin('sets.problem', 'problems')
       .where(`sets.collectionId = ${collectionId}`)
       .groupBy('sets.id')
+      .orderBy('sets.createdAt', 'DESC')
       .getRawMany();
   }
 

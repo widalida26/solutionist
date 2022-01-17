@@ -8,6 +8,7 @@ import solve from './solve';
 import submit from './submit';
 import statics from './statics';
 import version from './version';
+import popular from './popular';
 
 export {
   create,
@@ -20,4 +21,5 @@ export {
   submit,
   statics,
   version,
+  popular,
 };

@@ -10,6 +10,7 @@ import {
   submit,
   statics,
   version,
+  popular,
 } from '../controllers/sets/index';
 import asyncfy from 'express-asyncify';
 import { saveUserInfo, blockUnauthorized } from '../middleware/checkauth';
@@ -26,5 +27,6 @@ setsRouter.post('/solve-status', solve); // 문제 풀기
 setsRouter.patch('/solve-records/:recordId', submit); // 세트 제출
 setsRouter.get('/solve-records/:recordId', statics); // 세트 통계
 setsRouter.get('/sets/collections/:collectionId', version); // 버전 리스트
+setsRouter.get('/sets/sort', popular); // 인기 세트
 
 export default setsRouter;
