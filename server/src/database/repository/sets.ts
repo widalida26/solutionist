@@ -29,6 +29,7 @@ export class SetsRepository extends Repository<sets> {
         'collections.createdAt as createdAt',
         'sets.createdAt as updatedAt',
         'users.username as creator',
+        //'sr.solvedUserNumber as solvedUserNumber',
       ])
       .innerJoin(
         (qb) =>
@@ -38,7 +39,7 @@ export class SetsRepository extends Repository<sets> {
             .groupBy('children.collectionId'),
         'cs'
       )
-      .innerJoin('sets.record', `solveRecords`)
+      .leftJoin('sets.record', `solveRecords`)
       .innerJoin('sets.collection', 'collections')
       .leftJoin('collections.creator', 'users')
       .addSelect(
@@ -47,7 +48,7 @@ export class SetsRepository extends Repository<sets> {
       .addSelect(
         `avg(case when solveRecords.answerRate > -1 then solveRecords.answerRate end) as  averageScore`
       )
-      .groupBy(`solveRecords.setId`)
+      .groupBy(`sets.Id`)
       .where('cs.max = sets.id')
       .andWhere('sets.title like :title', { title: `%${title}%` })
       .getRawMany()
@@ -92,6 +93,7 @@ export class SetsRepository extends Repository<sets> {
       .getRawMany();
     return dt;
   }
+
   //내가 푼 문제
   async findSolveSet(userId: number) {
     const dt = await this.createQueryBuilder('sets')
