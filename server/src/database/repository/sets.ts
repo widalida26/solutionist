@@ -7,7 +7,7 @@ import { solveRecords } from '../entity/solveRecords';
 
 @EntityRepository(sets)
 export class SetsRepository extends Repository<sets> {
-  // setId로 세트 검색
+  // set id로 세트 검색
   async getSet(id: number) {
     return await this.createQueryBuilder('sets')
       .innerJoinAndSelect('sets.collection', 'collections')
@@ -18,7 +18,7 @@ export class SetsRepository extends Repository<sets> {
       .getOne();
   }
 
-  // collectionId로 세트 검색
+  // collection id로 세트 검색
   async getSetByCollectionId(collectionId: number) {
     return await this.createQueryBuilder('sets')
       .select([
