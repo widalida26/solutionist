@@ -26,9 +26,6 @@ export class users {
   @Column()
   password: string;
 
-  @Column()
-  salt: string;
-
   @Column({
     nullable: true,
   })
