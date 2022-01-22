@@ -37,6 +37,9 @@ export class users {
   @Column({ default: 'normal' })
   type: string;
 
+  @Column()
+  nodemailer: boolean;
+
   @CreateDateColumn()
   createdAt: Timestamp;
 
