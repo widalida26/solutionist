@@ -10,7 +10,7 @@ import { FaPlusSquare, FaSave } from 'react-icons/fa';
 const MakeContainer = styled.div`
   position: relative;
   height: calc(100% - 4rem - 70px);
-  padding: 1rem 0 2rem;
+  padding: 1rem 0 7rem;
   max-width: 1216px;
   margin: 0 auto;
 
@@ -22,7 +22,7 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   width: 50%;
-  margin: 0 25% 0.5rem 25%;
+  margin: 0 25% 0.5rem;
   font-size: 1rem;
   color: var(--warm-grey);
   user-select: none;
@@ -35,7 +35,7 @@ const Header = styled.div`
 
   @media all and (max-width: 1023px) {
     width: 60%;
-    margin: 0 15% 0.5rem 25%;
+    margin: 0 20% 0.5rem;
   }
   @media all and (max-width: 767px) {
     width: calc(100% - 2rem);
@@ -48,7 +48,7 @@ const Title = styled.textarea`
   align-items: center;
   width: 50%;
   height: 39px;
-  margin: 0 25% 0 25%;
+  margin: 0 25%;
   line-height: 120%;
   font-size: 2rem;
   font-weight: bold;
@@ -58,7 +58,7 @@ const Title = styled.textarea`
 
   @media all and (max-width: 1023px) {
     width: 60%;
-    margin: 0 15% 0 25%;
+    margin: 0 20%;
   }
   @media all and (max-width: 767px) {
     width: calc(100% - 2rem);
@@ -81,7 +81,7 @@ const Desc = styled.textarea`
 
   @media all and (max-width: 1023px) {
     width: 60%;
-    margin: 0.5rem 15% 1rem 25%;
+    margin: 0.5rem 20% 1rem;
   }
   @media all and (max-width: 767px) {
     width: calc(100% - 2rem);
@@ -98,7 +98,7 @@ const Divider = styled.div`
 
   @media all and (max-width: 1023px) {
     width: 60%;
-    margin: 0 15% 0 25%;
+    margin: 0 20%;
   }
   @media all and (max-width: 767px) {
     width: calc(100% - 2rem);
@@ -109,24 +109,55 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
   width: 50%;
-  margin: 0 25% 0 25%;
+  margin: 1rem 25%;
   color: var(--warm-grey);
   font-size: 4rem;
-  opacity: 0.5;
   svg {
-    margin: 1rem 0;
+    opacity: 0.5;
     cursor: pointer;
     :hover {
       color: black;
     }
   }
+  > div {
+    position: relative;
+    div {
+      display: none;
+      > p {
+        position: absolute;
+        width: 100px;
+        padding: 10px;
+        left: -1.75rem;
+        border-radius: 0.5rem;
+        background: var(--black);
+        color: var(--butterscotch);
+        font-weight: bold;
+        font-size: 1rem;
+        text-align: center;
+      }
+      ::after {
+        position: absolute;
+        left: 1.5rem;
+        top: 3.75rem;
+        width: 0px;
+        height: 0px;
+        border-bottom: calc(0.5rem * 1.732) solid black;
+        border-left: 0.5rem solid transparent;
+        border-right: 0.5rem solid transparent;
+        content: '';
+      }
+    }
+  }
+  svg:hover + div {
+    display: block;
+  }
   @media all and (max-width: 1023px) {
     width: 60%;
-    margin: 0 15% 0 25%;
+    margin: 0 20%;
   }
   @media all and (max-width: 767px) {
     width: calc(100% - 2rem);
-    margin: 0 1rem;
+    margin: 0.5rem 1rem 0;
     font-size: 3rem;
   }
 `;
@@ -202,7 +233,7 @@ const Edit = () => {
   });
 
   const { setId } = useParams();
-  const [curPos, setCurPos] = useState(0);
+  const [curPos, setCurPos] = useState(1);
   const makeRef = useRef(null);
   const navRefs = useRef([0]);
 
@@ -266,30 +297,29 @@ const Edit = () => {
     navRefs.current[e.target.id].scrollIntoView({ behavior: 'smooth', block: 'center' });
   };
 
-  const [Qpos, setQpos] = useState([]);
-
-  useEffect(() => {
-    const arr = [0];
-    navRefs.current
-      .map((el) => {
-        if (el) return el.offsetTop;
-      })
-      .reduce((acc, cur) => {
-        if (!isNaN(cur)) {
-          arr.push((cur + acc) / 2);
-          return cur;
-        }
-      });
-    setQpos(arr);
-  }, [data]);
-
-  const handleScroll = (e) => {
-    for (let i = 0; i < Qpos.length; i++) {
-      if (Qpos[i] - 100 < document.scrollingElement.scrollTop) {
-        setCurPos(i);
+  const handleScroll = (pos) => {
+    for (let i = 0; i < pos.length + 1; i++) {
+      if (window.scrollY + window.innerHeight / 2 < pos[i]) {
+        return setCurPos(i - 1);
       }
     }
   };
+
+  const listenerScroll = () => handleScroll(questionPos);
+  const questionPos = [0];
+
+  useEffect(() => {
+    navRefs.current.map((el) => {
+      if (el) {
+        questionPos.push(el.offsetTop);
+      }
+    });
+
+    questionPos.push(document.documentElement.scrollHeight);
+
+    document.addEventListener('scroll', listenerScroll);
+    return () => document.removeEventListener('scroll', listenerScroll);
+  }, [data]);
 
   const [versionOn, setVersionOn] = useState(false);
 
@@ -308,6 +338,7 @@ const Edit = () => {
         <p onClick={() => setVersionOn(!versionOn)}>이전 버전으로 되돌리기</p>
       </Header>
       <Title
+        spellCheck={false}
         placeholder="세트 제목을 입력해주세요."
         value={data.title}
         onChange={handleChange}
@@ -315,6 +346,7 @@ const Edit = () => {
         onInput={autoGrow}
       />
       <Desc
+        spellCheck={false}
         placeholder="세트 설명을 입력해주세요."
         value={data.description}
         onChange={handleChange}
@@ -330,7 +362,7 @@ const Edit = () => {
                 onClick={handleNav}
                 id={idx}
                 key={`#Q${idx + 1}`}
-                weight={curPos === idx ? 'bold' : 'normal'}
+                weight={curPos - 1 === idx ? 'bold' : 'normal'}
               >
                 <div id={idx}>{idx + 1}</div>
                 <div id={idx}>{problem.question}</div>
@@ -354,11 +386,21 @@ const Edit = () => {
         </React.Fragment>
       ))}
       <ButtonContainer>
-        <FaPlusSquare onClick={addProblem} />
+        <div>
+          <FaPlusSquare onClick={addProblem} />
+          <div>
+            <p>문제 추가</p>
+          </div>
+        </div>
         <Message color={message[1]}>
           <p>{message[0]}</p>
         </Message>
-        <FaSave onClick={handleSave} />
+        <div>
+          <FaSave onClick={handleSave} />
+          <div>
+            <p>세트 저장</p>
+          </div>
+        </div>
       </ButtonContainer>
     </MakeContainer>
   );

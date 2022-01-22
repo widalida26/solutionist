@@ -39,6 +39,7 @@ const CardFront = styled.div`
   backface-visibility: hidden;
   transform: ${(props) => (props.isFlipped ? 'rotateY(-180deg)' : '')};
   transition: 1s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  cursor: pointer;
 `;
 const InfoContainer = styled.div`
   display: flex;
@@ -299,17 +300,21 @@ const SetCardVerTwo = ({
             </SetInfo>
             <IconContainer>
               <StatsContainer>
+                {averageScore ? (
+                  <Stat>
+                    <Icon>
+                      <ChartIcon />
+                    </Icon>
+                    <p>{Math.round(averageScore)}점</p>
+                  </Stat>
+                ) : (
+                  ''
+                )}
                 <Stat>
                   <Icon>
                     <UserIcon />
                   </Icon>
                   <p>{solvedUserNumber}명</p>
-                </Stat>
-                <Stat>
-                  <Icon>
-                    <ChartIcon />
-                  </Icon>
-                  <p>{Math.round(averageScore)}점</p>
                 </Stat>
               </StatsContainer>
             </IconContainer>
@@ -330,17 +335,21 @@ const SetCardVerTwo = ({
               </SetInfo>
               <IconContainer>
                 <StatsContainer>
+                  {averageScore ? (
+                    <Stat>
+                      <Icon>
+                        <ChartIcon />
+                      </Icon>
+                      <p>{Math.round(averageScore)}점</p>
+                    </Stat>
+                  ) : (
+                    ''
+                  )}
                   <Stat>
                     <Icon>
                       <UserIcon />
                     </Icon>
-                    <p>{solvedUserNumber}</p>
-                  </Stat>
-                  <Stat>
-                    <Icon>
-                      <ChartIcon />
-                    </Icon>
-                    <p>{Math.round(averageScore)}</p>
+                    <p>{solvedUserNumber}명</p>
                   </Stat>
                 </StatsContainer>
               </IconContainer>

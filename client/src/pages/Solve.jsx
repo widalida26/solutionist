@@ -35,7 +35,7 @@ const Header = styled.div`
   }
   @media all and (max-width: 1023px) {
     width: 60%;
-    margin: 0 15% 0.5rem 25%;
+    margin: 0 auto 0.5rem auto;
   }
   @media all and (max-width: 767px) {
     width: calc(100% - 2rem);
@@ -56,7 +56,7 @@ const Title = styled.div`
 
   @media all and (max-width: 1023px) {
     width: 60%;
-    margin: 0 15% 0 25%;
+    margin: 0 auto;
   }
   @media all and (max-width: 767px) {
     width: calc(100% - 2rem);
@@ -77,7 +77,7 @@ const Desc = styled.div`
 
   @media all and (max-width: 1023px) {
     width: 60%;
-    margin: 0.5rem 15% 1rem 25%;
+    margin: 0.5rem auto 1rem auto;
   }
   @media all and (max-width: 767px) {
     width: calc(100% - 2rem);
@@ -87,7 +87,6 @@ const Desc = styled.div`
 `;
 const Info = styled.div`
   display: flex;
-  flex-direction: column;
   width: 50%;
   margin: 0.5rem 25% 1rem;
   line-height: 120%;
@@ -95,6 +94,7 @@ const Info = styled.div`
   word-wrap: break-word;
   word-break: keep-all;
   resize: none;
+  justify-content: space-between;
   p {
     font-family: 'GowunDodum-Regular', sans-serif;
     margin-bottom: 0.25rem;
@@ -105,11 +105,31 @@ const Info = styled.div`
   }
   @media all and (max-width: 1023px) {
     width: 60%;
-    margin: 0.5rem 15% 1rem 25%;
+    margin: 0.5rem auto 1rem auto;
   }
   @media all and (max-width: 767px) {
     width: calc(100% - 2rem);
     margin: 0.5rem 1rem;
+  }
+`;
+const InfoContent = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+const Start = styled.div`
+  display: flex;
+  font-size: 3rem;
+  align-items: center;
+  opacity: 0.5;
+  cursor: pointer;
+  :hover {
+    opacity: 1;
+  }
+  p {
+    font-size: 1.5rem;
+    margin-right: 1rem;
+    font-family: Noto Sans KR;
+    font-weight: bold;
   }
 `;
 const Divider = styled.div`
@@ -120,7 +140,7 @@ const Divider = styled.div`
 
   @media all and (max-width: 1023px) {
     width: 60%;
-    margin: 0 15% 0 25%;
+    margin: 0 auto;
   }
   @media all and (max-width: 767px) {
     width: calc(100% - 2rem);
@@ -139,7 +159,7 @@ const ProblemContainer = styled.div`
     'statIcon explanation .';
 
   @media all and (max-width: 1023px) {
-    grid-template-columns: 25% 60% 15%;
+    grid-template-columns: 20% 60% 20%;
   }
   @media all and (max-width: 767px) {
     margin: 0 1rem;
@@ -355,7 +375,7 @@ const ButtonContainer = styled.div`
 
   @media all and (max-width: 1023px) {
     width: 60%;
-    margin: 0 15% 0 25%;
+    margin: 0 auto;
   }
   @media all and (max-width: 767px) {
     width: calc(100% - 2rem);
@@ -418,6 +438,26 @@ const SidebarContent = styled.div`
     }
   }
 `;
+const MessageContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 50%;
+  margin: 1rem 25%;
+  color: var(--warm-grey);
+  font-weight: bold;
+  @media all and (max-width: 1023px) {
+    width: 60%;
+    margin: 1rem 20%;
+  }
+  @media all and (max-width: 767px) {
+    width: calc(100% - 2rem);
+    margin: 0.5rem 1rem;
+  }
+`;
+const TutorialContainer = styled.div`
+  width: 100%;
+  overflow: hidden;
+`;
 
 const Solve = () => {
   const [set, setSet] = useState({
@@ -438,6 +478,7 @@ const Solve = () => {
   const [isStat, setIsStat] = useState(false);
   const [isSolving, setIsSolving] = useState(false);
   const [setInfo, setSetInfo] = useState({});
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     axios
@@ -449,6 +490,7 @@ const Solve = () => {
           newStat.push(Array(el.choice.length).fill(0));
         });
         setStats([...newStat]);
+        setIsChecked(Array(res.data.problems.length).fill(0));
       });
   }, []);
 
@@ -472,11 +514,12 @@ const Solve = () => {
   };
 
   const handleCheck = () => {
-    if (!userChoices[curIdx]) return console.log('답을 입력해주세요');
+    if (!userChoices[curIdx]) return setMessage('답을 입력해주세요');
+    if (isChecked[curIdx]) return setMessage('이미 제출된 문제입니다.');
 
     const newIsCheck = [...isChecked];
-
     newIsCheck[curIdx] = true;
+
     setIsChecked(newIsCheck);
 
     axios
@@ -499,38 +542,44 @@ const Solve = () => {
   const handlePrev = () => {
     if (curIdx > 0) {
       setCurIdx(curIdx - 1);
+      setMessage('');
     }
   };
   const handleNext = () => {
     if (curIdx < set.problems.length - 1) {
       setCurIdx(curIdx + 1);
+      setMessage('');
     }
   };
   const handleSubmit = () => {
-    let count = 0;
+    let ansNum = 0;
     let total = set.problems.filter((el) => el.answer !== 0).length;
 
     set.problems.map((problem, idx) => {
-      if (problem.answer === userChoices[idx].choice) {
-        count++;
+      if (problem.answer === userChoices[idx]?.choice) {
+        ansNum++;
       }
     });
 
-    axios
-      .patch(
-        `${process.env.SERVER_URL}solve-records/${setInfo.recordId}`,
-        {
-          answerRate: !total
-            ? -1
-            : Math.round(
-                (count / set.problems.filter((el) => el.answer !== 0).length) * 100
-              ),
-        },
-        { withCredentials: true }
-      )
-      .then(() => {
-        window.location.href = `/result/${set.setId}/${setInfo.recordId}`;
-      });
+    if (isChecked.every((el) => el)) {
+      axios
+        .patch(
+          `${process.env.SERVER_URL}solve-records/${setInfo.recordId}`,
+          {
+            answerRate: !total
+              ? -1
+              : Math.round(
+                  (ansNum / set.problems.filter((el) => el.answer !== 0).length) * 100
+                ),
+          },
+          { withCredentials: true }
+        )
+        .then(() => {
+          window.location.href = `/result/${set.setId}/${setInfo.recordId}`;
+        });
+    } else {
+      setMessage('모든 문제의 답을 제출해주세요.');
+    }
   };
   const handleStart = () => {
     axios
@@ -544,7 +593,14 @@ const Solve = () => {
         setSetInfo(res.data);
       });
   };
-  console.log(set);
+
+  // 튜토리얼 이미지
+  const imagesArr = [
+    '/assets/images/solve_tutorial_1.jpeg',
+    '/assets/images/solve_tutorial_2.jpeg',
+    '/assets/images/solve_tutorial_3.jpeg',
+    '/assets/images/solve_tutorial_4.jpeg',
+  ];
 
   return (
     <SolveContainer>
@@ -556,22 +612,25 @@ const Solve = () => {
           <Title>{set.title}</Title>
           <Desc>{set.description}</Desc>
           <Info>
-            <p>
-              by <span>{set.creator ? set.creator : '익명의 Solutionist'}</span>
-            </p>
-            <p>at {set.createdAt}</p>
-            <p>
-              <span>{set.solvedUserNumber}</span>명 풀이 완료
-            </p>
+            <InfoContent>
+              <p>
+                by <span>{set.creator ? set.creator : '익명의 Solutionist'}</span>
+              </p>
+              <p>at {set.createdAt}</p>
+              <p>
+                <span>{set.solvedUserNumber}</span>명 풀이 완료
+              </p>
+            </InfoContent>
+            <Start>
+              <p>문제 풀기</p>
+              <FaCaretSquareRight onClick={handleStart} />
+            </Start>
           </Info>
           <Divider />
-          <ButtonContainer>
-            <div>
-              <FaCaretSquareRight onClick={handleStart} />
-            </div>
-          </ButtonContainer>
           {/* 튜토리얼 작업 */}
-          {/* <Tutorial /> */}
+          <TutorialContainer>
+            <Tutorial imagesArr={imagesArr} />
+          </TutorialContainer>
         </>
       ) : (
         <>
@@ -873,6 +932,7 @@ const Solve = () => {
           </ButtonContainer>
         </>
       )}
+      <MessageContainer>{message}</MessageContainer>
     </SolveContainer>
   );
 };

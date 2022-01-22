@@ -19,7 +19,7 @@ const SetsContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 75%;
+  width: 60%;
   margin: 0 auto 0.5rem auto;
   font-size: 1rem;
   color: var(--warm-grey);
@@ -51,7 +51,7 @@ const CardsContainer = styled.div`
   flex-wrap: wrap;
   justify-content: space-around;
   max-height: ${(props) =>
-    props.isMadeHidden || props.isSolvedHidden ? '416px' : 'initial'};
+    props.isMadeHidden || props.isSolvedHidden ? '208px' : 'initial'};
   overflow: ${(props) =>
     props.isMadeHidden || props.isSolvedHidden ? 'hidden' : 'initial'};
 `;
@@ -65,24 +65,26 @@ const StyledLink = styled(Link)`
 const ShowBox = styled.section`
   display: flex;
   justify-content: flex-end;
-  width: 75%;
-  margin: 0 12.5%;
+  width: 60%;
+  margin: 0 auto;
 
   @media all and (max-width: 767px) {
-    width: calc(100% - 2rem);
-    margin: 0 auto;
+    width: 90%;
+    margin: 0 5%;
   }
 `;
 
 const Divider = styled.div`
-  width: 75%;
+  width: 60%;
   height: 2px;
-  margin: 1rem 12.5% 0 12.5%;
+  margin: 1rem auto 0 auto;
   background-color: var(--orangey-yellow);
 
   @media all and (max-width: 767px) {
-    width: calc(100% - 2rem);
+    width: 90%;
     margin: 1rem auto 0 auto;
+    /* width: calc(100% - 2rem); */
+    /* margin: 0 5%; */
   }
 `;
 
@@ -130,9 +132,9 @@ const MySet = () => {
   const cardRefSolve = useRef(null);
 
   useEffect(() => {
-    if (cardRefMade.current?.scrollHeight > 416) setShowMade(true);
+    if (cardRefMade.current?.scrollHeight > 208) setShowMade(true);
     else setShowMade(false);
-    if (cardRefSolve.current?.scrollHeight > 416) setshowSolve(true);
+    if (cardRefSolve.current?.scrollHeight > 208) setshowSolve(true);
     else setshowSolve(false);
   });
 
