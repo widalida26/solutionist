@@ -27,7 +27,7 @@ const Section = styled.div`
   align-items: center;
   font-size: 5rem;
   scroll-snap-align: center;
-  justify-content: space-evenly;
+  justify-content: center;
   overflow: hidden;
 
   :nth-child(2n) {
@@ -162,6 +162,7 @@ const ImageContainer = styled.div`
   height: 100%;
   max-width: 600px;
   max-height: 600px;
+  margin: 1rem;
 
   @media all and (orientation: portrait) {
     height: 50vh;
@@ -238,7 +239,7 @@ const Landing = () => {
             <p>풀고 나서 결과를 확인해보세요.</p>
             <p>다른 사람들의 생각도 알 수 있습니다.</p>
           </Content>
-          <Link to="/make">
+          <Link to="/solve/41">
             <Chicken>
               치킨 모의고사 풀러가기 <FaArrowRight size="0.75rem" />
             </Chicken>

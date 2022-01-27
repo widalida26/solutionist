@@ -121,6 +121,7 @@ const Start = styled.div`
   font-size: 3rem;
   align-items: center;
   opacity: 0.5;
+  user-select: none;
   cursor: pointer;
   :hover {
     opacity: 1;
@@ -616,18 +617,16 @@ const Solve = () => {
               <p>
                 by <span>{set.creator ? set.creator : '익명의 Solutionist'}</span>
               </p>
-              <p>at {set.createdAt}</p>
               <p>
                 <span>{set.solvedUserNumber}</span>명 풀이 완료
               </p>
             </InfoContent>
-            <Start>
+            <Start onClick={handleStart}>
               <p>문제 풀기</p>
-              <FaCaretSquareRight onClick={handleStart} />
+              <FaCaretSquareRight />
             </Start>
           </Info>
           <Divider />
-          {/* 튜토리얼 작업 */}
           <TutorialContainer>
             <Tutorial imagesArr={imagesArr} />
           </TutorialContainer>
