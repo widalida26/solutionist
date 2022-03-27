@@ -1,6 +1,6 @@
 
-# Solutionist  
-<a id = "txt" href="https://solutionist.site" target="_blank">✏️🧑🏻‍🎓Solutionist</a>는 문제 아카이브를 만들고, 풀고, 공유할 수 있는 교육 웹서비스입니다.
+# [Solutionist](https://solutionist.site)
+문제 아카이브를 만들고, 풀고, 공유할 수 있는 교육 웹서비스입니다.
 
 
 - 객관식 문제, OX 문제, 설문조사 형식을 지원합니다.  
