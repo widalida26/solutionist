@@ -121,15 +121,5 @@
 
 <br>
 
-### 팀원
-***
-
-|**이름**|포지션|Github|
-|:---:|:---:|:---:|
-|박재민|Front-End|[JAM-PARK](https://github.com/JAM-PARK)|
-|이병찬|Front-End|[jlthepi](https://github.com/jlthepi)|
-|위다빈|Back-End|[widalida26](https://github.com/widalida26)|
-|김동언|Back-End|[inde153](https://github.com/inde153)|
-
 
 
