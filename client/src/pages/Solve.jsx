@@ -6,6 +6,10 @@ import styled from 'styled-components';
 import { FaCaretSquareLeft, FaCaretSquareRight, FaChartBar } from 'react-icons/fa';
 import OIcon from '../icons/O';
 import XIcon from '../icons/X';
+<<<<<<< HEAD
+=======
+import Tutorial from '../components/Tutorial';
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
 
 const SolveContainer = styled.div`
   position: relative;
@@ -34,7 +38,11 @@ const Header = styled.div`
   }
   @media all and (max-width: 1023px) {
     width: 60%;
+<<<<<<< HEAD
     margin: 0 15% 0.5rem 25%;
+=======
+    margin: 0 auto 0.5rem auto;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
   }
   @media all and (max-width: 767px) {
     width: calc(100% - 2rem);
@@ -55,7 +63,11 @@ const Title = styled.div`
 
   @media all and (max-width: 1023px) {
     width: 60%;
+<<<<<<< HEAD
     margin: 0 15% 0 25%;
+=======
+    margin: 0 auto;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
   }
   @media all and (max-width: 767px) {
     width: calc(100% - 2rem);
@@ -76,7 +88,11 @@ const Desc = styled.div`
 
   @media all and (max-width: 1023px) {
     width: 60%;
+<<<<<<< HEAD
     margin: 0.5rem 15% 1rem 25%;
+=======
+    margin: 0.5rem auto 1rem auto;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
   }
   @media all and (max-width: 767px) {
     width: calc(100% - 2rem);
@@ -86,7 +102,10 @@ const Desc = styled.div`
 `;
 const Info = styled.div`
   display: flex;
+<<<<<<< HEAD
   flex-direction: column;
+=======
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
   width: 50%;
   margin: 0.5rem 25% 1rem;
   line-height: 120%;
@@ -94,6 +113,10 @@ const Info = styled.div`
   word-wrap: break-word;
   word-break: keep-all;
   resize: none;
+<<<<<<< HEAD
+=======
+  justify-content: space-between;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
   p {
     font-family: 'GowunDodum-Regular', sans-serif;
     margin-bottom: 0.25rem;
@@ -104,13 +127,41 @@ const Info = styled.div`
   }
   @media all and (max-width: 1023px) {
     width: 60%;
+<<<<<<< HEAD
     margin: 0.5rem 15% 1rem 25%;
+=======
+    margin: 0.5rem auto 1rem auto;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
   }
   @media all and (max-width: 767px) {
     width: calc(100% - 2rem);
     margin: 0.5rem 1rem;
   }
 `;
+<<<<<<< HEAD
+=======
+const InfoContent = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+const Start = styled.div`
+  display: flex;
+  font-size: 3rem;
+  align-items: center;
+  opacity: 0.5;
+  user-select: none;
+  cursor: pointer;
+  :hover {
+    opacity: 1;
+  }
+  p {
+    font-size: 1.5rem;
+    margin-right: 1rem;
+    font-family: Noto Sans KR;
+    font-weight: bold;
+  }
+`;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
 const Divider = styled.div`
   width: 50%;
   height: 2px;
@@ -119,7 +170,11 @@ const Divider = styled.div`
 
   @media all and (max-width: 1023px) {
     width: 60%;
+<<<<<<< HEAD
     margin: 0 15% 0 25%;
+=======
+    margin: 0 auto;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
   }
   @media all and (max-width: 767px) {
     width: calc(100% - 2rem);
@@ -138,7 +193,11 @@ const ProblemContainer = styled.div`
     'statIcon explanation .';
 
   @media all and (max-width: 1023px) {
+<<<<<<< HEAD
     grid-template-columns: 25% 60% 15%;
+=======
+    grid-template-columns: 20% 60% 20%;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
   }
   @media all and (max-width: 767px) {
     margin: 0 1rem;
@@ -354,7 +413,11 @@ const ButtonContainer = styled.div`
 
   @media all and (max-width: 1023px) {
     width: 60%;
+<<<<<<< HEAD
     margin: 0 15% 0 25%;
+=======
+    margin: 0 auto;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
   }
   @media all and (max-width: 767px) {
     width: calc(100% - 2rem);
@@ -403,16 +466,52 @@ const SidebarContent = styled.div`
     width: 100%;
     line-height: 120%;
     user-select: none;
+<<<<<<< HEAD
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     cursor: pointer;
+=======
+    cursor: pointer;
+
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
     :first-child {
       width: auto;
       margin-right: 0.5rem;
     }
+<<<<<<< HEAD
   }
 `;
+=======
+
+    :last-child {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+`;
+const MessageContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 50%;
+  margin: 1rem 25%;
+  color: var(--warm-grey);
+  font-weight: bold;
+  @media all and (max-width: 1023px) {
+    width: 60%;
+    margin: 1rem 20%;
+  }
+  @media all and (max-width: 767px) {
+    width: calc(100% - 2rem);
+    margin: 0.5rem 1rem;
+  }
+`;
+const TutorialContainer = styled.div`
+  width: 100%;
+  overflow: hidden;
+`;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
 
 const Solve = () => {
   const [set, setSet] = useState({
@@ -433,6 +532,10 @@ const Solve = () => {
   const [isStat, setIsStat] = useState(false);
   const [isSolving, setIsSolving] = useState(false);
   const [setInfo, setSetInfo] = useState({});
+<<<<<<< HEAD
+=======
+  const [message, setMessage] = useState('');
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
 
   useEffect(() => {
     axios
@@ -444,6 +547,10 @@ const Solve = () => {
           newStat.push(Array(el.choice.length).fill(0));
         });
         setStats([...newStat]);
+<<<<<<< HEAD
+=======
+        setIsChecked(Array(res.data.problems.length).fill(0));
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
       });
   }, []);
 
@@ -467,11 +574,20 @@ const Solve = () => {
   };
 
   const handleCheck = () => {
+<<<<<<< HEAD
     if (!userChoices[curIdx]) return console.log('답을 입력해주세요');
 
     const newIsCheck = [...isChecked];
 
     newIsCheck[curIdx] = true;
+=======
+    if (!userChoices[curIdx]) return setMessage('답을 입력해주세요');
+    if (isChecked[curIdx]) return setMessage('이미 제출된 문제입니다.');
+
+    const newIsCheck = [...isChecked];
+    newIsCheck[curIdx] = true;
+
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
     setIsChecked(newIsCheck);
 
     axios
@@ -494,11 +610,16 @@ const Solve = () => {
   const handlePrev = () => {
     if (curIdx > 0) {
       setCurIdx(curIdx - 1);
+<<<<<<< HEAD
+=======
+      setMessage('');
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
     }
   };
   const handleNext = () => {
     if (curIdx < set.problems.length - 1) {
       setCurIdx(curIdx + 1);
+<<<<<<< HEAD
     }
   };
   const handleSubmit = () => {
@@ -526,6 +647,40 @@ const Solve = () => {
       .then(() => {
         window.location.href = `/result/${set.setId}/${setInfo.recordId}`;
       });
+=======
+      setMessage('');
+    }
+  };
+  const handleSubmit = () => {
+    let ansNum = 0;
+    let total = set.problems.filter((el) => el.answer !== 0).length;
+
+    set.problems.map((problem, idx) => {
+      if (problem.answer === userChoices[idx]?.choice) {
+        ansNum++;
+      }
+    });
+
+    if (isChecked.every((el) => el)) {
+      axios
+        .patch(
+          `${process.env.SERVER_URL}solve-records/${setInfo.recordId}`,
+          {
+            answerRate: !total
+              ? -1
+              : Math.round(
+                  (ansNum / set.problems.filter((el) => el.answer !== 0).length) * 100
+                ),
+          },
+          { withCredentials: true }
+        )
+        .then(() => {
+          window.location.href = `/result/${set.setId}/${setInfo.recordId}`;
+        });
+    } else {
+      setMessage('모든 문제의 답을 제출해주세요.');
+    }
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
   };
   const handleStart = () => {
     axios
@@ -539,7 +694,18 @@ const Solve = () => {
         setSetInfo(res.data);
       });
   };
+<<<<<<< HEAD
   console.log(set);
+=======
+
+  // 튜토리얼 이미지
+  const imagesArr = [
+    '/assets/images/solve_tutorial_1.jpeg',
+    '/assets/images/solve_tutorial_2.jpeg',
+    '/assets/images/solve_tutorial_3.jpeg',
+    '/assets/images/solve_tutorial_4.jpeg',
+  ];
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
 
   return (
     <SolveContainer>
@@ -551,6 +717,7 @@ const Solve = () => {
           <Title>{set.title}</Title>
           <Desc>{set.description}</Desc>
           <Info>
+<<<<<<< HEAD
             <p>
               by <span>{set.creator ? set.creator : '익명의 Solutionist'}</span>
             </p>
@@ -565,6 +732,25 @@ const Solve = () => {
               <FaCaretSquareRight onClick={handleStart} />
             </div>
           </ButtonContainer>
+=======
+            <InfoContent>
+              <p>
+                by <span>{set.creator ? set.creator : '익명의 Solutionist'}</span>
+              </p>
+              <p>
+                <span>{set.solvedUserNumber}</span>명 풀이 완료
+              </p>
+            </InfoContent>
+            <Start onClick={handleStart}>
+              <p>문제 풀기</p>
+              <FaCaretSquareRight />
+            </Start>
+          </Info>
+          <Divider />
+          <TutorialContainer>
+            <Tutorial imagesArr={imagesArr} />
+          </TutorialContainer>
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
         </>
       ) : (
         <>
@@ -574,7 +760,11 @@ const Solve = () => {
           <SidebarContainer>
             <SideRelative>
               <Sidebar>
+<<<<<<< HEAD
                 {set.problems.map((problem, idx) => (
+=======
+                {set.problems?.map((problem, idx) => (
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
                   <SidebarContent
                     key={`sidebar${idx}`}
                     color={
@@ -666,7 +856,11 @@ const Solve = () => {
                     </>
                   ) : (
                     <>
+<<<<<<< HEAD
                       {choice.map((choice, idx) => (
+=======
+                      {choice?.map((choice, idx) => (
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
                         <Choice
                           key={`choiceChecked ${idx + 1}`}
                           backgroundColor={
@@ -727,7 +921,11 @@ const Solve = () => {
                     <div></div>
                     <div>비율</div>
                   </ChartLine>
+<<<<<<< HEAD
                   {choice.map((choice, idx) => (
+=======
+                  {choice?.map((choice, idx) => (
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
                     <ChartLine key={`p${curIdx}c${idx}`}>
                       {isOX ? (
                         idx === 0 ? (
@@ -866,6 +1064,10 @@ const Solve = () => {
           </ButtonContainer>
         </>
       )}
+<<<<<<< HEAD
+=======
+      <MessageContainer>{message}</MessageContainer>
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
     </SolveContainer>
   );
 };

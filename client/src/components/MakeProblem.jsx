@@ -21,7 +21,11 @@ const ProblemContainer = styled.div`
     'number explanation explanation .';
 
   @media all and (max-width: 1023px) {
+<<<<<<< HEAD
     grid-template-columns: 25% 45% 15% 15%;
+=======
+    grid-template-columns: 20% 45% 15% 20%;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
   }
   @media all and (max-width: 767px) {
     margin: 0 1rem;
@@ -90,6 +94,7 @@ const Icon = styled.div`
       fill: black;
     }
   }
+<<<<<<< HEAD
   :focus {
     svg {
       fill: var(--orangey-yellow);
@@ -97,12 +102,17 @@ const Icon = styled.div`
   }
 
   .arrow_box {
+=======
+
+  > p {
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
     display: none;
     position: relative;
     width: 100px;
     padding: 10px;
     left: -50px;
     top: -70px;
+<<<<<<< HEAD
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
     border-radius: 8px;
@@ -128,6 +138,28 @@ const Icon = styled.div`
   } */
 
   svg:hover + p.arrow_box {
+=======
+    border-radius: 8px;
+    background: var(--black);
+    color: var(--butterscotch);
+    font-weight: bold;
+    font-size: 1rem;
+    text-align: center;
+    ::after {
+      position: absolute;
+      left: 3.25rem;
+      top: 1.9rem;
+      width: 0px;
+      height: 0px;
+      border-top: calc(0.5rem * 1.732) solid black;
+      border-left: 0.5rem solid transparent;
+      border-right: 0.5rem solid transparent;
+      content: '';
+    }
+  }
+
+  svg:hover + p {
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
     display: block;
   }
 `;
@@ -174,6 +206,13 @@ const Counter = styled.div`
   justify-content: center;
   grid-area: counter;
   width: 100%;
+<<<<<<< HEAD
+=======
+  * {
+    font-family: 'Righteous';
+    font-size: 1.5rem;
+  }
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
 `;
 const Plus = styled.div`
   width: 2rem;
@@ -185,7 +224,11 @@ const Plus = styled.div`
   user-select: none;
   cursor: pointer;
   p {
+<<<<<<< HEAD
     margin: 0.5rem 0;
+=======
+    margin: 0.25rem 0;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
     text-align: center;
     color: white;
   }
@@ -200,7 +243,11 @@ const Minus = styled.div`
   cursor: pointer;
 
   p {
+<<<<<<< HEAD
     margin: 0.5rem 0;
+=======
+    margin: 0.25rem 0;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
     text-align: center;
     color: white;
   }
@@ -336,6 +383,10 @@ const MakeProblem = ({ problem, data, setData, idx, navRefs }) => {
       {problem.isOX ? (
         <>
           <Question
+<<<<<<< HEAD
+=======
+            spellCheck={false}
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
             placeholder="문제를 입력해주세요."
             onInput={autoGrow}
             onChange={handleChange}
@@ -348,12 +399,24 @@ const MakeProblem = ({ problem, data, setData, idx, navRefs }) => {
                 fill="var(--warm-grey)"
                 fill={problem.answer === 0 ? 'var(--orangey-yellow)' : 'var(--warm-grey)'}
               />
+<<<<<<< HEAD
             </Icon>
             <Icon onClick={handleToggle}>
               <ListIcon fill="var(--warm-grey)" />
             </Icon>
             <Icon onClick={handleClick} id="trash">
               <TrashIcon fill="var(--warm-grey)" />
+=======
+              <p>정답 없음</p>
+            </Icon>
+            <Icon onClick={handleToggle}>
+              <ListIcon fill="var(--warm-grey)" />
+              <p>다지선다 전환</p>
+            </Icon>
+            <Icon onClick={handleClick} id="trash">
+              <TrashIcon fill="var(--warm-grey)" />
+              <p>문제 삭제</p>
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
             </Icon>
           </IconContainer>
           <OxChoices>
@@ -372,6 +435,10 @@ const MakeProblem = ({ problem, data, setData, idx, navRefs }) => {
           </OxChoices>
           <ExplanationContainer>
             <Explanation
+<<<<<<< HEAD
+=======
+              spellCheck={false}
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
               placeholder="해설"
               onChange={handleChange}
               value={problem.explanation}
@@ -382,6 +449,10 @@ const MakeProblem = ({ problem, data, setData, idx, navRefs }) => {
       ) : (
         <>
           <Question
+<<<<<<< HEAD
+=======
+            spellCheck={false}
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
             placeholder="문제를 입력해주세요."
             onInput={autoGrow}
             onChange={handleChange}
@@ -394,6 +465,7 @@ const MakeProblem = ({ problem, data, setData, idx, navRefs }) => {
                 id="survey"
                 fill={problem.answer === 0 ? 'var(--orangey-yellow)' : 'var(--warm-grey)'}
               />
+<<<<<<< HEAD
             </Icon>
             <Icon onClick={handleToggle}>
               <OxIcon fill="var(--warm-grey)" />
@@ -401,6 +473,17 @@ const MakeProblem = ({ problem, data, setData, idx, navRefs }) => {
             </Icon>
             <Icon onClick={handleClick} id="trash">
               <TrashIcon fill="var(--warm-grey)" />
+=======
+              <p>정답 없음</p>
+            </Icon>
+            <Icon onClick={handleToggle}>
+              <OxIcon fill="var(--warm-grey)" />
+              <p>OX퀴즈 전환</p>
+            </Icon>
+            <Icon onClick={handleClick} id="trash">
+              <TrashIcon fill="var(--warm-grey)" />
+              <p>문제 삭제</p>
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
             </Icon>
           </IconContainer>
           <ChoicesContainer>
@@ -418,6 +501,10 @@ const MakeProblem = ({ problem, data, setData, idx, navRefs }) => {
                   fontWeight={choice.index === problem.answer ? 'bold' : 'initial'}
                 >{`${idx + 1}.`}</ChoiceNum>
                 <ChoiceContent
+<<<<<<< HEAD
+=======
+                  spellCheck={false}
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
                   placeholder={`${idx + 1}번 보기`}
                   onChange={handleChange}
                   value={choice.content}
@@ -433,6 +520,7 @@ const MakeProblem = ({ problem, data, setData, idx, navRefs }) => {
               </Choice>
             ))}
           </ChoicesContainer>
+<<<<<<< HEAD
           {/* <CounterContainer>
               <CountController onClick={handleClick} id="decrease">
               <DecreaseIcon id="decrease" fill="var(--warm-grey)" />
@@ -442,6 +530,8 @@ const MakeProblem = ({ problem, data, setData, idx, navRefs }) => {
               <IncreaseIcon id="increase" fill="var(--warm-grey)" />
               </CountController>
             </CounterContainer> */}
+=======
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
           <Counter>
             <Minus onClick={handleClick} id="decrease">
               <p id="decrease">-</p>
@@ -452,6 +542,10 @@ const MakeProblem = ({ problem, data, setData, idx, navRefs }) => {
           </Counter>
           <ExplanationContainer>
             <Explanation
+<<<<<<< HEAD
+=======
+              spellCheck={false}
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
               placeholder="해설"
               onChange={handleChange}
               value={problem.explanation}

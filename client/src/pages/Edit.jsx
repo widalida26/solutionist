@@ -10,7 +10,11 @@ import { FaPlusSquare, FaSave } from 'react-icons/fa';
 const MakeContainer = styled.div`
   position: relative;
   height: calc(100% - 4rem - 70px);
+<<<<<<< HEAD
   padding: 1rem 0 2rem;
+=======
+  padding: 1rem 0 7rem;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
   max-width: 1216px;
   margin: 0 auto;
 
@@ -22,7 +26,11 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   width: 50%;
+<<<<<<< HEAD
   margin: 0 25% 0.5rem 25%;
+=======
+  margin: 0 25% 0.5rem;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
   font-size: 1rem;
   color: var(--warm-grey);
   user-select: none;
@@ -35,7 +43,11 @@ const Header = styled.div`
 
   @media all and (max-width: 1023px) {
     width: 60%;
+<<<<<<< HEAD
     margin: 0 15% 0.5rem 25%;
+=======
+    margin: 0 20% 0.5rem;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
   }
   @media all and (max-width: 767px) {
     width: calc(100% - 2rem);
@@ -48,7 +60,11 @@ const Title = styled.textarea`
   align-items: center;
   width: 50%;
   height: 39px;
+<<<<<<< HEAD
   margin: 0 25% 0 25%;
+=======
+  margin: 0 25%;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
   line-height: 120%;
   font-size: 2rem;
   font-weight: bold;
@@ -58,7 +74,11 @@ const Title = styled.textarea`
 
   @media all and (max-width: 1023px) {
     width: 60%;
+<<<<<<< HEAD
     margin: 0 15% 0 25%;
+=======
+    margin: 0 20%;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
   }
   @media all and (max-width: 767px) {
     width: calc(100% - 2rem);
@@ -81,7 +101,11 @@ const Desc = styled.textarea`
 
   @media all and (max-width: 1023px) {
     width: 60%;
+<<<<<<< HEAD
     margin: 0.5rem 15% 1rem 25%;
+=======
+    margin: 0.5rem 20% 1rem;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
   }
   @media all and (max-width: 767px) {
     width: calc(100% - 2rem);
@@ -98,7 +122,11 @@ const Divider = styled.div`
 
   @media all and (max-width: 1023px) {
     width: 60%;
+<<<<<<< HEAD
     margin: 0 15% 0 25%;
+=======
+    margin: 0 20%;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
   }
   @media all and (max-width: 767px) {
     width: calc(100% - 2rem);
@@ -109,17 +137,26 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
   width: 50%;
+<<<<<<< HEAD
   margin: 0 25% 0 25%;
   color: var(--warm-grey);
   font-size: 4rem;
   opacity: 0.5;
   svg {
     margin: 1rem 0;
+=======
+  margin: 1rem 25%;
+  color: var(--warm-grey);
+  font-size: 4rem;
+  svg {
+    opacity: 0.5;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
     cursor: pointer;
     :hover {
       color: black;
     }
   }
+<<<<<<< HEAD
   @media all and (max-width: 1023px) {
     width: 60%;
     margin: 0 15% 0 25%;
@@ -127,6 +164,47 @@ const ButtonContainer = styled.div`
   @media all and (max-width: 767px) {
     width: calc(100% - 2rem);
     margin: 0 1rem;
+=======
+  > div {
+    position: relative;
+    div {
+      display: none;
+      > p {
+        position: absolute;
+        width: 100px;
+        padding: 10px;
+        left: -1.75rem;
+        border-radius: 0.5rem;
+        background: var(--black);
+        color: var(--butterscotch);
+        font-weight: bold;
+        font-size: 1rem;
+        text-align: center;
+      }
+      ::after {
+        position: absolute;
+        left: 1.5rem;
+        top: 3.75rem;
+        width: 0px;
+        height: 0px;
+        border-bottom: calc(0.5rem * 1.732) solid black;
+        border-left: 0.5rem solid transparent;
+        border-right: 0.5rem solid transparent;
+        content: '';
+      }
+    }
+  }
+  svg:hover + div {
+    display: block;
+  }
+  @media all and (max-width: 1023px) {
+    width: 60%;
+    margin: 0 20%;
+  }
+  @media all and (max-width: 767px) {
+    width: calc(100% - 2rem);
+    margin: 0.5rem 1rem 0;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
     font-size: 3rem;
   }
 `;
@@ -172,14 +250,25 @@ const SidebarContent = styled.div`
     line-height: 120%;
     user-select: none;
     cursor: pointer;
+<<<<<<< HEAD
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+=======
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
   }
   div:first-child {
     width: auto;
     margin-right: 0.5rem;
   }
+<<<<<<< HEAD
+=======
+  :last-child {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
 `;
 const Message = styled.div`
   display: flex;
@@ -200,7 +289,11 @@ const Edit = () => {
   });
 
   const { setId } = useParams();
+<<<<<<< HEAD
   const [curPos, setCurPos] = useState(0);
+=======
+  const [curPos, setCurPos] = useState(1);
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
   const makeRef = useRef(null);
   const navRefs = useRef([0]);
 
@@ -264,6 +357,7 @@ const Edit = () => {
     navRefs.current[e.target.id].scrollIntoView({ behavior: 'smooth', block: 'center' });
   };
 
+<<<<<<< HEAD
   const [Qpos, setQpos] = useState([]);
 
   useEffect(() => {
@@ -285,10 +379,35 @@ const Edit = () => {
     for (let i = 0; i < Qpos.length; i++) {
       if (Qpos[i] - 100 < document.scrollingElement.scrollTop) {
         setCurPos(i);
+=======
+  const handleScroll = (pos) => {
+    for (let i = 0; i < pos.length + 1; i++) {
+      if (window.scrollY + window.innerHeight / 2 < pos[i]) {
+        return setCurPos(i - 1);
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
       }
     }
   };
 
+<<<<<<< HEAD
+=======
+  const listenerScroll = () => handleScroll(questionPos);
+  const questionPos = [0];
+
+  useEffect(() => {
+    navRefs.current.map((el) => {
+      if (el) {
+        questionPos.push(el.offsetTop);
+      }
+    });
+
+    questionPos.push(document.documentElement.scrollHeight);
+
+    document.addEventListener('scroll', listenerScroll);
+    return () => document.removeEventListener('scroll', listenerScroll);
+  }, [data]);
+
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
   const [versionOn, setVersionOn] = useState(false);
 
   const [message, setMessage] = useState(['+ 버튼을 눌러 문제를 추가해보세요.', '']);
@@ -306,6 +425,10 @@ const Edit = () => {
         <p onClick={() => setVersionOn(!versionOn)}>이전 버전으로 되돌리기</p>
       </Header>
       <Title
+<<<<<<< HEAD
+=======
+        spellCheck={false}
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
         placeholder="세트 제목을 입력해주세요."
         value={data.title}
         onChange={handleChange}
@@ -313,6 +436,10 @@ const Edit = () => {
         onInput={autoGrow}
       />
       <Desc
+<<<<<<< HEAD
+=======
+        spellCheck={false}
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
         placeholder="세트 설명을 입력해주세요."
         value={data.description}
         onChange={handleChange}
@@ -323,12 +450,20 @@ const Edit = () => {
       <SidebarContainer>
         <SideRelative>
           <Sidebar>
+<<<<<<< HEAD
             {data.problems.map((problem, idx) => (
+=======
+            {data.problems?.map((problem, idx) => (
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
               <SidebarContent
                 onClick={handleNav}
                 id={idx}
                 key={`#Q${idx + 1}`}
+<<<<<<< HEAD
                 weight={curPos === idx ? 'bold' : 'normal'}
+=======
+                weight={curPos - 1 === idx ? 'bold' : 'normal'}
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
               >
                 <div id={idx}>{idx + 1}</div>
                 <div id={idx}>{problem.question}</div>
@@ -337,7 +472,11 @@ const Edit = () => {
           </Sidebar>
         </SideRelative>
       </SidebarContainer>
+<<<<<<< HEAD
       {data.problems.map((problem, idx) => (
+=======
+      {data.problems?.map((problem, idx) => (
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
         <React.Fragment key={`p&d${idx}`}>
           <MakeProblem
             key={problem.index}
@@ -352,11 +491,29 @@ const Edit = () => {
         </React.Fragment>
       ))}
       <ButtonContainer>
+<<<<<<< HEAD
         <FaPlusSquare onClick={addProblem} />
         <Message color={message[1]}>
           <p>{message[0]}</p>
         </Message>
         <FaSave onClick={handleSave} />
+=======
+        <div>
+          <FaPlusSquare onClick={addProblem} />
+          <div>
+            <p>문제 추가</p>
+          </div>
+        </div>
+        <Message color={message[1]}>
+          <p>{message[0]}</p>
+        </Message>
+        <div>
+          <FaSave onClick={handleSave} />
+          <div>
+            <p>세트 저장</p>
+          </div>
+        </div>
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
       </ButtonContainer>
     </MakeContainer>
   );

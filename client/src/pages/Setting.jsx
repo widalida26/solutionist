@@ -23,8 +23,12 @@ const MainContainer = styled.div`
 const SettingContainer = styled.div`
   display: grid;
   width: 100%;
+<<<<<<< HEAD
   margin-top: 40px;
   grid-template-columns: 1fr 56.6% 1fr;
+=======
+  grid-template-columns: 1fr 50% 1fr;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
   grid-template-areas:
     '. one .'
     '. two .'
@@ -33,7 +37,10 @@ const SettingContainer = styled.div`
     '. five. ';
 
   div:first-child {
+<<<<<<< HEAD
     font-size: 1.2rem;
+=======
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
     grid-area: one;
   }
 
@@ -58,16 +65,24 @@ const SettingContainer = styled.div`
   }
 
   @media all and (max-width: 1023px) {
+<<<<<<< HEAD
     grid-template-columns: 1fr 56.6% 1fr;
   }
   @media all and (max-width: 767px) {
     grid-template-columns: 2% 96% 2%;
+=======
+    grid-template-columns: 1fr 60% 1fr;
+  }
+  @media all and (max-width: 767px) {
+    grid-template-columns: 1rem 1fr 1rem;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
     margin-top: 0px;
   }
 `;
 
 const Title = styled.div`
   align-self: flex-end;
+<<<<<<< HEAD
   font-family: sans-serif;
   font-style: bold;
   cursor: default;
@@ -77,6 +92,13 @@ const SubTitle = styled.div`
   align-self: flex-end;
   font-family: sans-serif;
   cursor: default;
+=======
+  font-family: Noto Sans KR;
+  font-weight: bold;
+  user-select: none;
+  font-size: 1.5rem;
+  margin: 1rem 0;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
 `;
 
 const LeftSide = styled.div`
@@ -84,10 +106,17 @@ const LeftSide = styled.div`
   display: flex;
   flex: none;
   justify-content: flex-start;
+<<<<<<< HEAD
   font-family: sans-serif;
   font-size: 1.5rem;
   margin-left: 5px;
   cursor: default;
+=======
+  font-family: Noto Sans KR;
+  font-size: 1.2rem;
+  margin-left: 5px;
+  user-select: none;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
 
   @media all and (max-width: 1023px) {
     width: 80px;
@@ -112,6 +141,7 @@ const EditContainer = styled.div`
   justify-content: flex-start;
 `;
 
+<<<<<<< HEAD
 const ChangePwContainer = styled.div`
   display: flex;
   justify-content: right;
@@ -127,6 +157,8 @@ const ChangePwContainer = styled.div`
   }
 `;
 
+=======
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
 const PersonalInfo = styled.div`
   display: flex;
   flex-direction: column;
@@ -134,19 +166,33 @@ const PersonalInfo = styled.div`
   justify-content: center;
   margin-left: 15px;
   > p {
+<<<<<<< HEAD
     /* margin-top: 10%; */
     margin-top: 0.5rem;
     font-size: 0.8rem;
     font-family: sans-serif;
     @media all and (max-width: 767px) {
       font-size: 0.7rem;
+=======
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    font-family: Noto Sans KR;
+    @media all and (max-width: 767px) {
+      font-size: 0.6rem;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
     }
   }
   > span {
     margin-top: 0.5rem;
     font-size: 1rem;
+<<<<<<< HEAD
     font-family: sans-serif;
     cursor: default;
+=======
+    font-family: Noto Sans KR;
+    cursor: default;
+
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
     @media all and (max-width: 767px) {
       margin-top: 0.3rem;
     }
@@ -157,20 +203,47 @@ const Nickname = styled.div`
   display: flex;
 
   > span {
+<<<<<<< HEAD
     font-family: sans-serif;
     font-size: 1.2rem;
     cursor: default;
   }
   > svg {
+=======
+    font-family: Noto Sans KR;
+    font-size: 1.2rem;
+    cursor: default;
+
+    @media all and (max-width: 767px) {
+      font-size: 1rem;
+    }
+  }
+  > svg {
+    margin-top: 0.2rem;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
     margin-left: 5px;
     font-size: 1rem;
     cursor: pointer;
     :hover {
       color: var(--orangey-yellow);
     }
+<<<<<<< HEAD
   }
   > input {
     width: 138px;
+=======
+
+    @media all and (max-width: 767px) {
+      margin-top: 0.1rem;
+    }
+  }
+  > input {
+    width: 170px;
+
+    @media all and (max-width: 767px) {
+      width: 141px;
+    }
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
   }
 
   /* 말풍선 적절한 top 과 margin-left 로 위치조정 */
@@ -265,17 +338,33 @@ const ImageContainer = styled.div`
 `;
 
 const StyledInput = styled.input`
+<<<<<<< HEAD
   font-family: sans-serif;
   font-size: 1rem;
   border-bottom: 1px solid var(--light--gray);
   ::placeholder {
     font-family: sans-serif;
+=======
+  font-family: Noto Sans KR;
+  font-size: 1rem;
+  border-bottom: 1px solid var(--light--gray);
+  ::placeholder {
+    font-family: Noto Sans KR;
+  }
+
+  @media all and (max-width: 767px) {
+    font-size: 0.8rem;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
   }
 `;
 
 const PasswordContainer = styled.div`
   display: grid;
+<<<<<<< HEAD
   font-family: sans-serif;
+=======
+  font-family: Noto Sans KR;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
   grid-template-rows: 3fr;
   grid-template-columns: 20px 1fr;
   grid-gap: 18px 15px;
@@ -291,11 +380,19 @@ const PasswordContainer = styled.div`
   }
   @media all and (max-width: 767px) {
     margin-left: -15px;
+<<<<<<< HEAD
+=======
+    grid-gap: 14px 15px;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
   }
 
   input:first-child {
     grid-area: one;
+<<<<<<< HEAD
     width: 232px;
+=======
+    width: 260px;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
     -webkit-text-security: disc;
 
     @media all and (max-width: 767px) {
@@ -305,7 +402,11 @@ const PasswordContainer = styled.div`
 
   input:nth-child(2) {
     grid-area: two;
+<<<<<<< HEAD
     width: 232px;
+=======
+    width: 260px;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
     -webkit-text-security: disc;
 
     @media all and (max-width: 767px) {
@@ -315,7 +416,11 @@ const PasswordContainer = styled.div`
 
   input:nth-child(3) {
     grid-area: three;
+<<<<<<< HEAD
     width: 232px;
+=======
+    width: 260px;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
     -webkit-text-security: disc;
 
     @media all and (max-width: 767px) {
@@ -324,14 +429,25 @@ const PasswordContainer = styled.div`
   }
 
   p:nth-child(4) {
+<<<<<<< HEAD
     font-size: 0.8rem;
     line-height: 0.9rem;
     font-family: sans-serif;
+=======
+    margin-top: -10px;
+    font-size: 0.8rem;
+    line-height: 0.9rem;
+    font-family: Noto Sans KR;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
     grid-area: four;
     white-space: pre-wrap;
 
     @media all and (max-width: 767px) {
+<<<<<<< HEAD
       font-size: 0.7rem;
+=======
+      font-size: 0.6rem;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
     }
   }
 
@@ -343,7 +459,11 @@ const PasswordContainer = styled.div`
 
 const AccountManagementContainer = styled.div`
   display: grid;
+<<<<<<< HEAD
   font-family: sans-serif;
+=======
+  font-family: Noto Sans KR;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
   grid-template-rows: 3fr;
   grid-template-columns: 20px 1fr;
   grid-gap: 18px 15px;
@@ -374,11 +494,16 @@ const StyledButton = styled.button`
   cursor: pointer;
   padding: 0.5rem 1rem;
   border-radius: 10px;
+<<<<<<< HEAD
+=======
+  box-shadow: 0 0 0 2px inset black;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
   margin-left: -5px;
   width: fit-content;
   height: fit-content;
 
   /* 색상 & 폰트 */
+<<<<<<< HEAD
   color: var(--butterscotch);
   background-color: #000;
   cursor: pointer;
@@ -388,6 +513,18 @@ const StyledButton = styled.button`
 
   &:hover {
     opacity: 0.75;
+=======
+  background-color: var(--butterscotch);
+  cursor: pointer;
+  font-family: Noto Sans KR;
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--black);
+
+  &:hover {
+    background-color: black;
+    color: var(--butterscotch);
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
   }
   @media ${device.tablet} {
     font-size: 1rem;
@@ -400,7 +537,11 @@ const Setting = () => {
   }));
   const { username, email, profileImage, type } = userInfo;
 
+<<<<<<< HEAD
   console.log(type);
+=======
+  // console.log(type);
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
 
   // * 회원 탈퇴
   const navigate = useNavigate();
@@ -483,7 +624,11 @@ const Setting = () => {
         if (errCode === 409) {
           setAfterValiNameMsg('변경 전과 같은 닉네임입니다.');
         } else {
+<<<<<<< HEAD
           setAfterValiNameMsg(' 변경을 실패했습니다!');
+=======
+          setAfterValiNameMsg('변경을 실패했습니다!');
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
         }
         console.log('changeUsername 에러캐치', err);
       });
@@ -531,7 +676,11 @@ const Setting = () => {
     (e) => {
       setChangeInfo({ ...changeInfo, newUsername: e.target.value });
       if (e.target.value.length < 3 || e.target.value.length > 10) {
+<<<<<<< HEAD
         setValiNameMsg('3글자 이상 10글자 이하로 입력하세요');
+=======
+        setValiNameMsg('3글자 이상 10글자 이하로 입력해주세요!');
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
         setValiInfo({ ...valiInfo, isNewUsername: false });
       } else {
         setValiNameMsg('올바른 이름 형식입니다 :)');
@@ -566,7 +715,11 @@ const Setting = () => {
       const passwordCurrent = e.target.value;
       if (!passwordRegex.test(passwordCurrent)) {
         setValiPwMsg(
+<<<<<<< HEAD
           `새 비밀번호를 입력해주세요!\n8자리 이상의 숫자+영문자+특수문자를 입력하세요\n사용 가능한 특수문자: !@#$%^*+=-`
+=======
+          `새 비밀번호를 입력해주세요!\n숫자+영문자+특수문자로 8자리 이상 입력하세요\n사용 가능한 특수문자: !@#$%^*+=-`
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
         );
         setValiInfo({ ...valiInfo, isNewPassword: false });
       } else {
@@ -700,11 +853,15 @@ const Setting = () => {
           <EditContainer>
             <LeftSide>계정관리</LeftSide>
             <AccountManagementContainer>
+<<<<<<< HEAD
               {type === 'google' || type === 'kakao' ? (
                 <StyledButton onClick={handleSignOut}>회원 탈퇴</StyledButton>
               ) : (
                 <StyledButton onClick={handleSignOut}>회원 탈퇴</StyledButton>
               )}
+=======
+              <StyledButton onClick={handleSignOut}>회원 탈퇴</StyledButton>
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
             </AccountManagementContainer>
           </EditContainer>
         </div>

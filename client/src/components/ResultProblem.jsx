@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
+<<<<<<< HEAD
 import { FaChartBar } from 'react-icons/fa';
+=======
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
 import OIcon from '../icons/O';
 import XIcon from '../icons/X';
 
@@ -17,7 +20,11 @@ const ProblemContainer = styled.div`
     'statIcon explanation .';
 
   @media all and (max-width: 1023px) {
+<<<<<<< HEAD
     grid-template-columns: 25% 60% 15%;
+=======
+    grid-template-columns: 20% 60% 20%;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
   }
   @media all and (max-width: 767px) {
     margin: 0 1rem;
@@ -150,7 +157,11 @@ const OxCard = styled.div`
 `;
 const ChartContainer = styled.div`
   grid-area: stats;
+<<<<<<< HEAD
   display: ${(props) => (props.isStat ? 'flex' : 'none')};
+=======
+  display: flex;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
   flex-direction: column;
   grid-gap: 0.25rem;
   margin-bottom: 1rem;
@@ -164,6 +175,7 @@ const ChartLine = styled.div`
     text-align: right;
   }
 `;
+<<<<<<< HEAD
 const ChartIconContainer = styled.div`
   position: relative;
 `;
@@ -179,6 +191,8 @@ const ChartIcon = styled.div`
     position: initial;
   }
 `;
+=======
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
 const ChartStatNum = styled.div`
   text-align: right;
 `;
@@ -208,11 +222,14 @@ const ResultProblem = ({ idx, problem, navRefs, data }) => {
         }
       >
         <p>{index}</p>
+<<<<<<< HEAD
         <ChartIconContainer>
           <ChartIcon onClick={() => setIsStat(!isStat)} isStat={isStat}>
             <FaChartBar />
           </ChartIcon>
         </ChartIconContainer>
+=======
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
       </ProblemNum>
       <Question>{problem.question}</Question>
       <ChoicesContainer>

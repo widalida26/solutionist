@@ -11,12 +11,21 @@ import TrashIcon from '../icons/Trash';
 import UpdateIcon from '../icons/Update';
 import KakaoIcon from '../icons/Kakao';
 import { GrDocumentUpdate } from 'react-icons/gr';
+<<<<<<< HEAD
 import { RiKakaoTalkLine } from 'react-icons/ri';
 import { HiOutlineClipboardCopy } from 'react-icons/hi';
+=======
+import { HiOutlineClipboardCopy } from 'react-icons/hi';
+import { RiKakaoTalkLine, RiClipboardLine } from 'react-icons/ri';
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
 import { VscOutput } from 'react-icons/vsc';
 
 import { Link } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+<<<<<<< HEAD
+=======
+
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
 import { useNavigate } from 'react-router-dom';
 import { deleteSets } from '../api/SearchSetAPI';
 
@@ -38,6 +47,10 @@ const CardFront = styled.div`
   backface-visibility: hidden;
   transform: ${(props) => (props.isFlipped ? 'rotateY(-180deg)' : '')};
   transition: 1s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+<<<<<<< HEAD
+=======
+  cursor: pointer;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
 `;
 const InfoContainer = styled.div`
   display: flex;
@@ -141,6 +154,20 @@ const Menu = styled.li`
   flex: 1;
   margin: auto;
   color: white;
+<<<<<<< HEAD
+=======
+  cursor: pointer;
+
+  > span:hover {
+    color: var(--orangey-yellow);
+    /* fill: var(--orange-yellow); */
+  }
+
+  > svg:hover {
+    color: var(--orangey-yellow);
+    /* fill: var(--orangey-yellow); */
+  }
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
 
   svg {
     width: 1.75rem;
@@ -156,6 +183,20 @@ const StyledLink = styled(Link)`
   flex: 1;
   margin: auto;
   color: white;
+<<<<<<< HEAD
+=======
+  stroke: white;
+
+  > span:hover {
+    color: var(--orangey-yellow);
+    /* fill: var(--orange-yellow); */
+  }
+
+  > svg:hover {
+    color: var(--white);
+    /* fill: var(--orangey-yellow); */
+  }
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
 `;
 
 const SetCardVerTwo = ({
@@ -276,18 +317,34 @@ const SetCardVerTwo = ({
             </SetInfo>
             <IconContainer>
               <StatsContainer>
+<<<<<<< HEAD
+=======
+                {averageScore ? (
+                  <Stat>
+                    <Icon>
+                      <ChartIcon />
+                    </Icon>
+                    <p>{Math.round(averageScore)}점</p>
+                  </Stat>
+                ) : (
+                  ''
+                )}
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
                 <Stat>
                   <Icon>
                     <UserIcon />
                   </Icon>
                   <p>{solvedUserNumber}명</p>
                 </Stat>
+<<<<<<< HEAD
                 <Stat>
                   <Icon>
                     <ChartIcon />
                   </Icon>
                   <p>{Math.round(averageScore)}점</p>
                 </Stat>
+=======
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
               </StatsContainer>
             </IconContainer>
           </InfoContainer>
@@ -307,10 +364,24 @@ const SetCardVerTwo = ({
               </SetInfo>
               <IconContainer>
                 <StatsContainer>
+<<<<<<< HEAD
+=======
+                  {averageScore ? (
+                    <Stat>
+                      <Icon>
+                        <ChartIcon />
+                      </Icon>
+                      <p>{Math.round(averageScore)}점</p>
+                    </Stat>
+                  ) : (
+                    ''
+                  )}
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
                   <Stat>
                     <Icon>
                       <UserIcon />
                     </Icon>
+<<<<<<< HEAD
                     <p>{solvedUserNumber}</p>
                   </Stat>
                   <Stat>
@@ -318,6 +389,9 @@ const SetCardVerTwo = ({
                       <ChartIcon />
                     </Icon>
                     <p>{Math.round(averageScore)}</p>
+=======
+                    <p>{solvedUserNumber}명</p>
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
                   </Stat>
                 </StatsContainer>
               </IconContainer>
@@ -328,14 +402,24 @@ const SetCardVerTwo = ({
               <MenuContainer>
                 <Menu>
                   <StyledLink to={/solve/ + id}>
+<<<<<<< HEAD
                     <EditIcon fill="white" /> 풀기
+=======
+                    <EditIcon fill="white" /> <span>풀기</span>
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
                     {/* // TODO : /solve 로 이동 */}
                   </StyledLink>
                 </Menu>
                 <Menu>
                   <StyledLink to={/edit/ + id}>
+<<<<<<< HEAD
                     <UpdateIcon fill="none" stroke="white" strokeWidth="2" /> 수정
                     {/* <GrDocumentUpdate /> */}
+=======
+                    <UpdateIcon fill="none" stroke="white" strokeWidth="2" />{' '}
+                    <span>수정</span>
+                    {/* <GrDocumentUpdate stroke="#fff" strokeWidth="2" /> 수정 */}
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
                     {/* // TODO : /edit 로 이동 */}
                   </StyledLink>
                 </Menu>
@@ -343,29 +427,46 @@ const SetCardVerTwo = ({
                   {isShare ? (
                     <>
                       <CopyToClipboard text={solveUrl}>
+<<<<<<< HEAD
                         <HiOutlineClipboardCopy />
                       </CopyToClipboard>
                       {/* <KakaoIcon  fill="white" strokeWidth="0" /> */}
                       {/* // ! 크기가 뭔가 안크다... */}
+=======
+                        <RiClipboardLine />
+                      </CopyToClipboard>
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
                       <RiKakaoTalkLine onClick={shareKakao} />
                     </>
                   ) : (
                     <>
+<<<<<<< HEAD
                       <ShareIcon fill="white" /> 공유
+=======
+                      <ShareIcon fill="white" /> <span>공유</span>
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
                     </>
                   )}
                   {/* // TODO : 클립보드 & 카카오 공유 선택 */}
                 </Menu>
                 {isMade && (
                   <Menu onClick={handleDelete}>
+<<<<<<< HEAD
                     <TrashIcon fill="white" /> 삭제
+=======
+                    <TrashIcon fill="white" /> <span>삭제</span>
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
                     {/* // TODO : display:none? 안보이게 처리 */}
                   </Menu>
                 )}
                 {!isMade && (
                   <Menu>
                     <StyledLink to={/result/ + id + '/' + recordId}>
+<<<<<<< HEAD
                       <VscOutput /> 결과
+=======
+                      <VscOutput /> <span>결과</span>
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
                     </StyledLink>
                   </Menu>
                 )}

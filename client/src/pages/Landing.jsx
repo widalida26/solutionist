@@ -21,6 +21,7 @@ const SectionContainer = styled.div`
 `;
 const Section = styled.div`
   padding: 2rem;
+<<<<<<< HEAD
   height: calc(100vh - 7rem);
   display: flex;
   align-items: center;
@@ -28,6 +29,24 @@ const Section = styled.div`
   font-size: 5rem;
   scroll-snap-align: center;
   justify-content: space-evenly;
+=======
+  width: calc(100vw - 4rem);
+  height: calc(100vh - 7rem);
+  display: flex;
+  align-items: center;
+  font-size: 5rem;
+  scroll-snap-align: center;
+  justify-content: center;
+  overflow: hidden;
+
+  :nth-child(2n) {
+    flex-direction: row-reverse;
+    background: white;
+  }
+  img {
+    height: 100%;
+  }
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
 
   :first-child {
     position: relative;
@@ -41,27 +60,40 @@ const Section = styled.div`
       content: '';
       width: 100%;
       height: 100%;
+<<<<<<< HEAD
       background-image: url('assets/images/LandingBG.png');
+=======
+      background-image: url('/assets/images/LandingBG.png');
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
       background-size: cover;
       opacity: 0.1;
       z-index: 0;
       position: absolute;
     }
   }
+<<<<<<< HEAD
   flex-direction: row-reverse;
   @media all and (max-width: 1023px) {
     flex-direction: column;
     justify-content: center;
+=======
+
+  @media all and (orientation: portrait) {
+    flex-direction: column-reverse;
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
     :nth-child(2n) {
       flex-direction: column-reverse;
     }
   }
+<<<<<<< HEAD
   :nth-child(2n) {
     background: white;
   }
   img {
     height: 100%;
   }
+=======
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
 `;
 
 const HeaderContainer = styled.div`
@@ -72,7 +104,10 @@ const HeaderContainer = styled.div`
 const Header = styled.div`
   font-size: 2rem;
   margin-bottom: 2rem;
+<<<<<<< HEAD
   /* animation: ${FadeIn} 1s ease; */
+=======
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
   p {
     font-size: 1.75rem;
     word-wrap: break-word;
@@ -90,6 +125,21 @@ const Header = styled.div`
     margin-top: 0.25rem;
     height: 3rem;
   }
+<<<<<<< HEAD
+=======
+  @media all and (max-width: 767px) {
+    p {
+      font-size: 1.5rem;
+      :nth-child(2) {
+        font-size: 2.5rem;
+      }
+    }
+    img {
+      margin-top: 0.25rem;
+      height: 2.5rem;
+    }
+  }
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
 `;
 const HeaderContent = styled.div`
   font-size: 1rem;
@@ -110,6 +160,13 @@ const TextContainer = styled.div`
     margin: 0;
     width: 100%;
   }
+<<<<<<< HEAD
+=======
+  @media all and (max-width: 767px) {
+    font-size: 0.75rem;
+    width: auto;
+  }
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
 `;
 const Subheader = styled.div`
   font-size: 3rem;
@@ -127,6 +184,12 @@ const Subheader = styled.div`
     font-size: 1.25rem;
     font-family: 'Noto Sans KR', sans-serif;
   }
+<<<<<<< HEAD
+=======
+  @media all and (max-width: 767px) {
+    font-size: 2rem;
+  }
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
 `;
 const Content = styled.div`
   p {
@@ -138,12 +201,23 @@ const Content = styled.div`
   }
 `;
 const ImageContainer = styled.div`
+<<<<<<< HEAD
   flex: 2;
+=======
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
   z-index: 1;
   height: 100%;
   max-width: 600px;
   max-height: 600px;
+<<<<<<< HEAD
 
+=======
+  margin: 1rem;
+
+  @media all and (orientation: portrait) {
+    height: 50vh;
+  }
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
   img {
     width: 100%;
     height: 100%;
@@ -190,21 +264,34 @@ const Landing = () => {
   return (
     <SectionContainer ref={(el) => (secRef.current[0] = el)} onWheel={handleWheel}>
       <Section ref={(el) => (secRef.current[1] = el)}>
+<<<<<<< HEAD
         <ImageContainer>
           <img src="assets/images/Section1.png" />
         </ImageContainer>
+=======
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
         <HeaderContainer>
           <Header>
             <p>다 함께 만들어가는</p>
             <p>문제 아카이브</p>
             <div>
+<<<<<<< HEAD
               <img src="assets/images/LandingLOGO.png" />
+=======
+              <img src="/assets/images/LandingLOGO.png" />
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
             </div>
           </Header>
           <HeaderContent>
             <p>쉽게 문제를 만들고, 풀고, 공유해보세요.</p>
           </HeaderContent>
         </HeaderContainer>
+<<<<<<< HEAD
+=======
+        <ImageContainer>
+          <img style={{ margin: '0 0 0 1rem' }} src="/assets/images/Section1.png" />
+        </ImageContainer>
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
       </Section>
       <Section ref={(el) => (secRef.current[2] = el)}>
         <TextContainer>
@@ -216,13 +303,18 @@ const Landing = () => {
             <p>풀고 나서 결과를 확인해보세요.</p>
             <p>다른 사람들의 생각도 알 수 있습니다.</p>
           </Content>
+<<<<<<< HEAD
           <Link to="/make">
+=======
+          <Link to="/solve/41">
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
             <Chicken>
               치킨 모의고사 풀러가기 <FaArrowRight size="0.75rem" />
             </Chicken>
           </Link>
         </TextContainer>
         <ImageContainer>
+<<<<<<< HEAD
           <img src="assets/images/Section2.gif" />
         </ImageContainer>
       </Section>
@@ -230,6 +322,12 @@ const Landing = () => {
         <ImageContainer>
           <img src="assets/images/Section3.gif" />
         </ImageContainer>
+=======
+          <img src="/assets/images/Section2.gif" />
+        </ImageContainer>
+      </Section>
+      <Section ref={(el) => (secRef.current[3] = el)}>
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
         <TextContainer>
           <Subheader>
             <div>원하는 문제가 없을땐...</div>
@@ -246,6 +344,12 @@ const Landing = () => {
             </Chicken>
           </Link>
         </TextContainer>
+<<<<<<< HEAD
+=======
+        <ImageContainer>
+          <img src="/assets/images/Section3.gif" />
+        </ImageContainer>
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
       </Section>
       <Section ref={(el) => (secRef.current[4] = el)}>
         <TextContainer>
@@ -259,6 +363,7 @@ const Landing = () => {
           </Content>
         </TextContainer>
         <ImageContainer>
+<<<<<<< HEAD
           <img src="assets/images/Section4.gif" />
         </ImageContainer>
       </Section>
@@ -270,6 +375,16 @@ const Landing = () => {
           <Subheader>
             <p>모두 다 함께</p>
             <p>문제를 만들수 있어요.</p>
+=======
+          <img src="/assets/images/Section4.gif" />
+        </ImageContainer>
+      </Section>
+      <Section ref={(el) => (secRef.current[5] = el)}>
+        <TextContainer>
+          <Subheader>
+            <p>모두 다 함께</p>
+            <p>문제를 만들 수 있어요.</p>
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
           </Subheader>
           <Content>
             <p>이미 작성 되어있는 문제 모음에</p>
@@ -282,6 +397,12 @@ const Landing = () => {
             </Chicken>
           </Link>
         </TextContainer>
+<<<<<<< HEAD
+=======
+        <ImageContainer>
+          <img src="/assets/images/Section5.gif" />
+        </ImageContainer>
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
       </Section>
       <Last ref={(el) => (secRef.current[6] = el)}>
         <Footer />

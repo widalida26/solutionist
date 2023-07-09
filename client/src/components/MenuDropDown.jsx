@@ -29,6 +29,12 @@ const DropDownContainer = styled.div`
   div {
     font-family: 'GowunDodum-Regular', sans-serif;
   }
+<<<<<<< HEAD
+=======
+  @media all and (min-width: 1216px) {
+    right: calc(50vw - 608px);
+  }
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
 `;
 
 const ImageContainer = styled.div`

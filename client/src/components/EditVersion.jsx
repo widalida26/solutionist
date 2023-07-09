@@ -21,6 +21,12 @@ const ContainerAbsolute = styled.div`
   right: 0;
   margin-left: auto;
   z-index: 900;
+<<<<<<< HEAD
+=======
+  @media all and (min-width: 1216px) {
+    width: calc(100vw - 50vw + 608px);
+  }
+>>>>>>> b3809381a7caab4437f8421609f8f37e712d8ab9
 `;
 const Container = styled.div`
   display: ${(props) => (props.versionOn ? 'flex' : 'none')};
